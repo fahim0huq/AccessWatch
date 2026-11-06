@@ -1,0 +1,648 @@
+{
+  "event": "mozambique_flood_2026",
+  "synthetic_demo": false,
+  "generated": "2026-11-05T14:24:31",
+  "cards": [
+    {
+      "rank": 1,
+      "pocket_id": "P01",
+      "title": "West of Guija",
+      "location": {
+        "lat": -24.499538,
+        "lon": 33.017258,
+        "nearest_place": "Guija",
+        "direction_from_place": "west"
+      },
+      "population": 12853,
+      "population_note": "estimate",
+      "access_status": "cut_off",
+      "access_mode": "boat",
+      "boat_leg_km": 0.56,
+      "lost_services": [
+        {
+          "service": "clinic",
+          "previous_minutes": 5
+        },
+        {
+          "service": "market",
+          "previous_minutes": 5
+        },
+        {
+          "service": "shelter",
+          "previous_minutes": 9
+        },
+        {
+          "service": "aid_depot_link",
+          "previous_minutes": null
+        }
+      ],
+      "limited_services": [],
+      "service_access": {
+        "clinic": "no",
+        "market": "no",
+        "shelter": "no",
+        "aid_depot": "no"
+      },
+      "routes": {
+        "safest": {
+          "distance_km": 5.53,
+          "time_min": 11.0,
+          "max_depth_class": "deep",
+          "risk_level": "high",
+          "risk_score": 3.31,
+          "uncertain_bridges": 5
+        },
+        "shortest": {
+          "distance_km": 5.53,
+          "time_min": 11.0,
+          "max_depth_class": "deep",
+          "risk_level": "high",
+          "risk_score": 3.31,
+          "uncertain_bridges": 5
+        }
+      },
+      "max_depth_class": "deep",
+      "risk_level": "high",
+      "confidence": "low",
+      "verification_required": true,
+      "verify_notes": [
+        "Verify 5 bridge(s) on the route on the ground first - radar cannot see their condition.",
+        "Low confidence: at least one exit road may not really be blocked (uncertain depth or bridge).",
+        "The boat route follows the flooded roads (an approximation): check currents, debris and the actual landing point.",
+        "The aid depot was AUTO-SELECTED, not a real depot: routes and priority are illustrative until the real depot is set.",
+        "Depth classes are estimates from a 30 m surface model; population is a modelled estimate; confirm with local responders."
+      ],
+      "short_water_crossing": false,
+      "depot_auto_selected": true,
+      "priority_score": 0.8,
+      "priority_terms": {
+        "pop_norm": 1.0,
+        "service_loss_norm": 0.8,
+        "difficulty_norm": 1.0
+      },
+      "summary": "12,853 people (estimate) west of Guija. Lost: clinic (previously ~5 min), food market / shop (previously ~5 min), shelter (previously ~9 min), link to the aid depot. Access needed: boat - 0.6 km by boat in total, first crossing after 1.5 km by road. Safest route 5.5 km (~11 min), max depth deep, risk high. Confidence low.",
+      "alert_text": "ACCESSWATCH #1 P01: ~12,853 ppl west of Guija. Need: BOAT (0.6 km by water). Route 5.5 km, risk high, conf low. VERIFY ON THE GROUND.",
+      "data": {
+        "nisar_before": "2026-01-05",
+        "nisar_after": "2026-01-17",
+        "synthetic_demo": false
+      },
+      "stability": 1.0,
+      "worst_case_mode": "boat"
+    },
+    {
+      "rank": 2,
+      "pocket_id": "P08",
+      "title": "North-west of Guija",
+      "location": {
+        "lat": -24.495545,
+        "lon": 33.015314,
+        "nearest_place": "Guija",
+        "direction_from_place": "north-west"
+      },
+      "population": 22,
+      "population_note": "estimate",
+      "access_status": "cut_off",
+      "access_mode": "boat",
+      "boat_leg_km": 0.56,
+      "lost_services": [
+        {
+          "service": "clinic",
+          "previous_minutes": 6
+        },
+        {
+          "service": "market",
+          "previous_minutes": 6
+        },
+        {
+          "service": "shelter",
+          "previous_minutes": 9
+        },
+        {
+          "service": "aid_depot_link",
+          "previous_minutes": null
+        }
+      ],
+      "limited_services": [],
+      "service_access": {
+        "clinic": "no",
+        "market": "no",
+        "shelter": "no",
+        "aid_depot": "no"
+      },
+      "routes": {
+        "safest": {
+          "distance_km": 5.54,
+          "time_min": 12.0,
+          "max_depth_class": "deep",
+          "risk_level": "high",
+          "risk_score": 3.34,
+          "uncertain_bridges": 5
+        },
+        "shortest": {
+          "distance_km": 5.54,
+          "time_min": 12.0,
+          "max_depth_class": "deep",
+          "risk_level": "high",
+          "risk_score": 3.34,
+          "uncertain_bridges": 5
+        }
+      },
+      "max_depth_class": "deep",
+      "risk_level": "high",
+      "confidence": "high",
+      "verification_required": true,
+      "verify_notes": [
+        "Verify 5 bridge(s) on the route on the ground first - radar cannot see their condition.",
+        "The boat route follows the flooded roads (an approximation): check currents, debris and the actual landing point.",
+        "The aid depot was AUTO-SELECTED, not a real depot: routes and priority are illustrative until the real depot is set.",
+        "Depth classes are estimates from a 30 m surface model; population is a modelled estimate; confirm with local responders."
+      ],
+      "short_water_crossing": false,
+      "depot_auto_selected": true,
+      "priority_score": 0.0016,
+      "priority_terms": {
+        "pop_norm": 0.002,
+        "service_loss_norm": 0.8,
+        "difficulty_norm": 1.0
+      },
+      "summary": "22 people (estimate) north-west of Guija. Lost: clinic (previously ~6 min), food market / shop (previously ~6 min), shelter (previously ~9 min), link to the aid depot. Access needed: boat - 0.6 km by boat in total, first crossing after 1.5 km by road. Safest route 5.5 km (~12 min), max depth deep, risk high. Confidence high.",
+      "alert_text": "ACCESSWATCH #2 P08: ~22 ppl north-west of Guija. Need: BOAT (0.6 km by water). Route 5.5 km, risk high, conf high. VERIFY ON THE GROUND.",
+      "data": {
+        "nisar_before": "2026-01-05",
+        "nisar_after": "2026-01-17",
+        "synthetic_demo": false
+      },
+      "stability": 1.0,
+      "worst_case_mode": "boat"
+    },
+    {
+      "rank": 3,
+      "pocket_id": "P06",
+      "title": "South-west of Guija",
+      "location": {
+        "lat": -24.508309,
+        "lon": 33.021413,
+        "nearest_place": "Guija",
+        "direction_from_place": "south-west"
+      },
+      "population": 26,
+      "population_note": "estimate",
+      "access_status": "cut_off",
+      "access_mode": "boat",
+      "boat_leg_km": 0.65,
+      "lost_services": [
+        {
+          "service": "clinic",
+          "previous_minutes": 8
+        },
+        {
+          "service": "market",
+          "previous_minutes": 8
+        },
+        {
+          "service": "shelter",
+          "previous_minutes": 12
+        },
+        {
+          "service": "aid_depot_link",
+          "previous_minutes": null
+        }
+      ],
+      "limited_services": [],
+      "service_access": {
+        "clinic": "no",
+        "market": "no",
+        "shelter": "no",
+        "aid_depot": "no"
+      },
+      "routes": {
+        "safest": {
+          "distance_km": 6.99,
+          "time_min": 17.0,
+          "max_depth_class": "deep",
+          "risk_level": "high",
+          "risk_score": 3.44,
+          "uncertain_bridges": 5
+        },
+        "shortest": {
+          "distance_km": 6.95,
+          "time_min": 17.0,
+          "max_depth_class": "deep",
+          "risk_level": "high",
+          "risk_score": 3.46,
+          "uncertain_bridges": 5
+        }
+      },
+      "max_depth_class": "deep",
+      "risk_level": "high",
+      "confidence": "high",
+      "verification_required": true,
+      "verify_notes": [
+        "Sensitivity test: this pocket disappears or changes when the flood extent / depth is slightly off - verify it first.",
+        "Verify 5 bridge(s) on the route on the ground first - radar cannot see their condition.",
+        "The boat route follows the flooded roads (an approximation): check currents, debris and the actual landing point.",
+        "The aid depot was AUTO-SELECTED, not a real depot: routes and priority are illustrative until the real depot is set.",
+        "The shortest road route (7.0 km) crosses deep water - avoid it.",
+        "Depth classes are estimates from a 30 m surface model; population is a modelled estimate; confirm with local responders."
+      ],
+      "short_water_crossing": false,
+      "depot_auto_selected": true,
+      "priority_score": 0.0016,
+      "priority_terms": {
+        "pop_norm": 0.002,
+        "service_loss_norm": 0.8,
+        "difficulty_norm": 1.0
+      },
+      "summary": "26 people (estimate) south-west of Guija. Lost: clinic (previously ~8 min), food market / shop (previously ~8 min), shelter (previously ~12 min), link to the aid depot. Access needed: boat - 0.7 km by boat in total, first crossing after 1.5 km by road. Safest route 7.0 km (~17 min), max depth deep, risk high. Confidence high.",
+      "alert_text": "ACCESSWATCH #3 P06: ~26 ppl south-west of Guija. Need: BOAT (0.7 km by water). Route 7.0 km, risk high, conf high. VERIFY ON THE GROUND.",
+      "data": {
+        "nisar_before": "2026-01-05",
+        "nisar_after": "2026-01-17",
+        "synthetic_demo": false
+      },
+      "stability": 0.67,
+      "worst_case_mode": "boat"
+    },
+    {
+      "rank": 4,
+      "pocket_id": "P05",
+      "title": "West of Guija",
+      "location": {
+        "lat": -24.502269,
+        "lon": 33.017003,
+        "nearest_place": "Guija",
+        "direction_from_place": "west"
+      },
+      "population": 29,
+      "population_note": "estimate",
+      "access_status": "cut_off",
+      "access_mode": "boat",
+      "boat_leg_km": 0.56,
+      "lost_services": [
+        {
+          "service": "clinic",
+          "previous_minutes": 6
+        },
+        {
+          "service": "market",
+          "previous_minutes": 6
+        },
+        {
+          "service": "shelter",
+          "previous_minutes": 10
+        },
+        {
+          "service": "aid_depot_link",
+          "previous_minutes": null
+        }
+      ],
+      "limited_services": [],
+      "service_access": {
+        "clinic": "no",
+        "market": "no",
+        "shelter": "no",
+        "aid_depot": "no"
+      },
+      "routes": {
+        "safest": {
+          "distance_km": 5.94,
+          "time_min": 14.0,
+          "max_depth_class": "deep",
+          "risk_level": "high",
+          "risk_score": 3.34,
+          "uncertain_bridges": 5
+        },
+        "shortest": {
+          "distance_km": 5.83,
+          "time_min": 13.0,
+          "max_depth_class": "deep",
+          "risk_level": "high",
+          "risk_score": 3.36,
+          "uncertain_bridges": 5
+        }
+      },
+      "max_depth_class": "deep",
+      "risk_level": "high",
+      "confidence": "high",
+      "verification_required": true,
+      "verify_notes": [
+        "Verify 5 bridge(s) on the route on the ground first - radar cannot see their condition.",
+        "The boat route follows the flooded roads (an approximation): check currents, debris and the actual landing point.",
+        "The aid depot was AUTO-SELECTED, not a real depot: routes and priority are illustrative until the real depot is set.",
+        "The shortest road route (5.8 km) crosses deep water - avoid it.",
+        "Depth classes are estimates from a 30 m surface model; population is a modelled estimate; confirm with local responders."
+      ],
+      "short_water_crossing": false,
+      "depot_auto_selected": true,
+      "priority_score": 0.0016,
+      "priority_terms": {
+        "pop_norm": 0.002,
+        "service_loss_norm": 0.8,
+        "difficulty_norm": 1.0
+      },
+      "summary": "29 people (estimate) west of Guija. Lost: clinic (previously ~6 min), food market / shop (previously ~6 min), shelter (previously ~10 min), link to the aid depot. Access needed: boat - 0.6 km by boat in total, first crossing after 1.5 km by road. Safest route 5.9 km (~14 min), max depth deep, risk high. Confidence high.",
+      "alert_text": "ACCESSWATCH #4 P05: ~29 ppl west of Guija. Need: BOAT (0.6 km by water). Route 5.9 km, risk high, conf high. VERIFY ON THE GROUND.",
+      "data": {
+        "nisar_before": "2026-01-05",
+        "nisar_after": "2026-01-17",
+        "synthetic_demo": false
+      },
+      "stability": 1.0,
+      "worst_case_mode": "boat"
+    },
+    {
+      "rank": 5,
+      "pocket_id": "P02",
+      "title": "3 km south of Ch\u00f3kw\u00e8",
+      "location": {
+        "lat": -24.552386,
+        "lon": 32.999644,
+        "nearest_place": "Ch\u00f3kw\u00e8",
+        "direction_from_place": "south"
+      },
+      "population": 52,
+      "population_note": "estimate",
+      "access_status": "difficult",
+      "access_mode": "high_clearance_truck",
+      "boat_leg_km": 0.0,
+      "lost_services": [],
+      "limited_services": [
+        "clinic",
+        "market",
+        "shelter",
+        "aid_depot_link"
+      ],
+      "service_access": {
+        "clinic": "difficult",
+        "market": "difficult",
+        "shelter": "difficult",
+        "aid_depot": "difficult"
+      },
+      "routes": {
+        "safest": {
+          "distance_km": 2.71,
+          "time_min": 6.0,
+          "max_depth_class": "medium",
+          "risk_level": "medium",
+          "risk_score": 0.03,
+          "uncertain_bridges": 0
+        },
+        "shortest": {
+          "distance_km": 2.71,
+          "time_min": 6.0,
+          "max_depth_class": "medium",
+          "risk_level": "medium",
+          "risk_score": 0.03,
+          "uncertain_bridges": 0
+        }
+      },
+      "max_depth_class": "medium",
+      "risk_level": "medium",
+      "confidence": "high",
+      "verification_required": true,
+      "verify_notes": [
+        "Sensitivity test: this pocket disappears or changes when the flood extent / depth is slightly off - verify it first.",
+        "The aid depot was AUTO-SELECTED, not a real depot: routes and priority are illustrative until the real depot is set.",
+        "Depth classes are estimates from a 30 m surface model; population is a modelled estimate; confirm with local responders."
+      ],
+      "short_water_crossing": false,
+      "depot_auto_selected": true,
+      "priority_score": 0.0008,
+      "priority_terms": {
+        "pop_norm": 0.004,
+        "service_loss_norm": 0.4,
+        "difficulty_norm": 0.525
+      },
+      "summary": "52 people (estimate) 3 km south of Ch\u00f3kw\u00e8. Lost: nothing fully lost. Access needed: high-clearance truck (or on foot with care). Safest route 2.7 km (~6 min), max depth medium, risk medium. Confidence high.",
+      "alert_text": "ACCESSWATCH #5 P02: ~52 ppl 3 km south of Ch\u00f3kw\u00e8. Need: HIGH CLEARANCE TRUCK. Route 2.7 km, risk medium, conf high. VERIFY ON THE GROUND.",
+      "data": {
+        "nisar_before": "2026-01-05",
+        "nisar_after": "2026-01-17",
+        "synthetic_demo": false
+      },
+      "stability": 0.67,
+      "worst_case_mode": "high_clearance_truck"
+    },
+    {
+      "rank": 6,
+      "pocket_id": "P03",
+      "title": "South of Ch\u00f3kw\u00e8",
+      "location": {
+        "lat": -24.549576,
+        "lon": 33.009203,
+        "nearest_place": "Ch\u00f3kw\u00e8",
+        "direction_from_place": "south"
+      },
+      "population": 37,
+      "population_note": "estimate",
+      "access_status": "difficult",
+      "access_mode": "high_clearance_truck",
+      "boat_leg_km": 0.0,
+      "lost_services": [],
+      "limited_services": [
+        "clinic",
+        "market",
+        "shelter",
+        "aid_depot_link"
+      ],
+      "service_access": {
+        "clinic": "difficult",
+        "market": "difficult",
+        "shelter": "difficult",
+        "aid_depot": "difficult"
+      },
+      "routes": {
+        "safest": {
+          "distance_km": 4.99,
+          "time_min": 28.0,
+          "max_depth_class": "medium",
+          "risk_level": "medium",
+          "risk_score": 0.94,
+          "uncertain_bridges": 1
+        },
+        "shortest": {
+          "distance_km": 4.99,
+          "time_min": 28.0,
+          "max_depth_class": "medium",
+          "risk_level": "medium",
+          "risk_score": 0.94,
+          "uncertain_bridges": 1
+        }
+      },
+      "max_depth_class": "medium",
+      "risk_level": "medium",
+      "confidence": "high",
+      "verification_required": true,
+      "verify_notes": [
+        "Sensitivity test: this pocket disappears or changes when the flood extent / depth is slightly off - verify it first.",
+        "Verify 1 bridge(s) on the route on the ground first - radar cannot see their condition.",
+        "The aid depot was AUTO-SELECTED, not a real depot: routes and priority are illustrative until the real depot is set.",
+        "Depth classes are estimates from a 30 m surface model; population is a modelled estimate; confirm with local responders."
+      ],
+      "short_water_crossing": false,
+      "depot_auto_selected": true,
+      "priority_score": 0.0006,
+      "priority_terms": {
+        "pop_norm": 0.003,
+        "service_loss_norm": 0.4,
+        "difficulty_norm": 0.525
+      },
+      "summary": "37 people (estimate) south of Ch\u00f3kw\u00e8. Lost: nothing fully lost. Access needed: high-clearance truck (or on foot with care). Safest route 5.0 km (~28 min), max depth medium, risk medium. Confidence high.",
+      "alert_text": "ACCESSWATCH #6 P03: ~37 ppl south of Ch\u00f3kw\u00e8. Need: HIGH CLEARANCE TRUCK. Route 5.0 km, risk medium, conf high. VERIFY ON THE GROUND.",
+      "data": {
+        "nisar_before": "2026-01-05",
+        "nisar_after": "2026-01-17",
+        "synthetic_demo": false
+      },
+      "stability": 0.67,
+      "worst_case_mode": "high_clearance_truck"
+    },
+    {
+      "rank": 7,
+      "pocket_id": "P04",
+      "title": "South-east of Ch\u00f3kw\u00e8",
+      "location": {
+        "lat": -24.540385,
+        "lon": 33.015796,
+        "nearest_place": "Ch\u00f3kw\u00e8",
+        "direction_from_place": "south-east"
+      },
+      "population": 29,
+      "population_note": "estimate",
+      "access_status": "difficult",
+      "access_mode": "high_clearance_truck",
+      "boat_leg_km": 0.0,
+      "lost_services": [],
+      "limited_services": [
+        "clinic",
+        "market",
+        "shelter",
+        "aid_depot_link"
+      ],
+      "service_access": {
+        "clinic": "difficult",
+        "market": "difficult",
+        "shelter": "difficult",
+        "aid_depot": "difficult"
+      },
+      "routes": {
+        "safest": {
+          "distance_km": 3.77,
+          "time_min": 20.0,
+          "max_depth_class": "medium",
+          "risk_level": "medium",
+          "risk_score": 0.84,
+          "uncertain_bridges": 1
+        },
+        "shortest": {
+          "distance_km": 3.77,
+          "time_min": 20.0,
+          "max_depth_class": "medium",
+          "risk_level": "medium",
+          "risk_score": 0.84,
+          "uncertain_bridges": 1
+        }
+      },
+      "max_depth_class": "medium",
+      "risk_level": "medium",
+      "confidence": "high",
+      "verification_required": true,
+      "verify_notes": [
+        "Verify 1 bridge(s) on the route on the ground first - radar cannot see their condition.",
+        "The aid depot was AUTO-SELECTED, not a real depot: routes and priority are illustrative until the real depot is set.",
+        "Depth classes are estimates from a 30 m surface model; population is a modelled estimate; confirm with local responders."
+      ],
+      "short_water_crossing": false,
+      "depot_auto_selected": true,
+      "priority_score": 0.0004,
+      "priority_terms": {
+        "pop_norm": 0.002,
+        "service_loss_norm": 0.4,
+        "difficulty_norm": 0.525
+      },
+      "summary": "29 people (estimate) south-east of Ch\u00f3kw\u00e8. Lost: nothing fully lost. Access needed: high-clearance truck (or on foot with care). Safest route 3.8 km (~20 min), max depth medium, risk medium. Confidence high.",
+      "alert_text": "ACCESSWATCH #7 P04: ~29 ppl south-east of Ch\u00f3kw\u00e8. Need: HIGH CLEARANCE TRUCK. Route 3.8 km, risk medium, conf high. VERIFY ON THE GROUND.",
+      "data": {
+        "nisar_before": "2026-01-05",
+        "nisar_after": "2026-01-17",
+        "synthetic_demo": false
+      },
+      "stability": 1.0,
+      "worst_case_mode": "high_clearance_truck"
+    },
+    {
+      "rank": 8,
+      "pocket_id": "P07",
+      "title": "South-east of Ch\u00f3kw\u00e8",
+      "location": {
+        "lat": -24.533091,
+        "lon": 33.014365,
+        "nearest_place": "Ch\u00f3kw\u00e8",
+        "direction_from_place": "south-east"
+      },
+      "population": 24,
+      "population_note": "estimate",
+      "access_status": "difficult",
+      "access_mode": "high_clearance_truck",
+      "boat_leg_km": 0.0,
+      "lost_services": [],
+      "limited_services": [
+        "clinic",
+        "market",
+        "shelter",
+        "aid_depot_link"
+      ],
+      "service_access": {
+        "clinic": "difficult",
+        "market": "difficult",
+        "shelter": "difficult",
+        "aid_depot": "difficult"
+      },
+      "routes": {
+        "safest": {
+          "distance_km": 2.87,
+          "time_min": 14.0,
+          "max_depth_class": "medium",
+          "risk_level": "medium",
+          "risk_score": 0.76,
+          "uncertain_bridges": 1
+        },
+        "shortest": {
+          "distance_km": 2.87,
+          "time_min": 14.0,
+          "max_depth_class": "medium",
+          "risk_level": "medium",
+          "risk_score": 0.76,
+          "uncertain_bridges": 1
+        }
+      },
+      "max_depth_class": "medium",
+      "risk_level": "medium",
+      "confidence": "high",
+      "verification_required": true,
+      "verify_notes": [
+        "Verify 1 bridge(s) on the route on the ground first - radar cannot see their condition.",
+        "The aid depot was AUTO-SELECTED, not a real depot: routes and priority are illustrative until the real depot is set.",
+        "Depth classes are estimates from a 30 m surface model; population is a modelled estimate; confirm with local responders."
+      ],
+      "short_water_crossing": false,
+      "depot_auto_selected": true,
+      "priority_score": 0.0004,
+      "priority_terms": {
+        "pop_norm": 0.002,
+        "service_loss_norm": 0.4,
+        "difficulty_norm": 0.525
+      },
+      "summary": "24 people (estimate) south-east of Ch\u00f3kw\u00e8. Lost: nothing fully lost. Access needed: high-clearance truck (or on foot with care). Safest route 2.9 km (~14 min), max depth medium, risk medium. Confidence high.",
+      "alert_text": "ACCESSWATCH #8 P07: ~24 ppl south-east of Ch\u00f3kw\u00e8. Need: HIGH CLEARANCE TRUCK. Route 2.9 km, risk medium, conf high. VERIFY ON THE GROUND.",
+      "data": {
+        "nisar_before": "2026-01-05",
+        "nisar_after": "2026-01-17",
+        "synthetic_demo": false
+      },
+      "stability": 1.0,
+      "worst_case_mode": "high_clearance_truck"
+    }
+  ]
+}

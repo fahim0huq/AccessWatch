@@ -22,3 +22,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# --- AccessWatch data & secrets (added) ---
+# Raw working folder: notebook runs, caches, EMS zips (hundreds of MB, some >100 MB)
+Data/
+*.zip
+*.ipynb
+preview_map.html
+*.h5
+# Secrets
+.env
+*.key
+firebase-adminsdk*.json
+google-services.json
+GoogleService-Info.plist
+# Flutter build output
+accesswatch_mobile/build/
+accesswatch_mobile/.dart_tool/

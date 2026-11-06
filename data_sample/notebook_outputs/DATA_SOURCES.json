@@ -1,0 +1,75 @@
+{
+  "NISAR GCOV": {
+    "url": "https://search.asf.alaska.edu/",
+    "docs": "https://nisar-docs.asf.alaska.edu/",
+    "scenes": {
+      "before": "NISAR_L2_PR_GCOV_009_114_A_165_4005_DHDH_A_20260105T034232_20260105T034253_X05010_N_P_J_001",
+      "after": "NISAR_L2_PR_GCOV_010_114_A_165_4005_DHDH_A_20260117T034232_20260117T034254_X05010_N_P_J_001"
+    },
+    "maturity": "BETA (pre-calibration)",
+    "crid": "X05010"
+  },
+  "Copernicus DEM GLO-30": {
+    "url": "https://registry.opendata.aws/copernicus-dem/",
+    "note": "surface model; FABDEM recommended for depth"
+  },
+  "JRC Global Surface Water v1.5": {
+    "url": "https://global-surface-water.appspot.com/"
+  },
+  "OpenStreetMap": {
+    "url": "https://www.openstreetmap.org/copyright",
+    "downloaded": "2026-11-05T14:24:38"
+  },
+  "WorldPop R2025A 100 m": {
+    "doi": "10.5258/SOTON/WP00839",
+    "licence": "CC BY 4.0"
+  },
+  "Validation reference": {
+    "name": "OPERA DSWx-S1 (C-band)",
+    "doi": "10.5067/OPDSWS1-L3V1",
+    "better_alternative": "https://mapping.emergency.copernicus.eu/activations/EMSR857/"
+  },
+  "Aid depot": "AUTO-SELECTED (illustrative only)",
+  "validation_reference": {
+    "layer": "EMSR857_AOI01_DEL_PRODUCT_observedEventA_v1.json",
+    "date": null,
+    "gap_days": null,
+    "chosen_by": "product order (dates not stored in the files)"
+  },
+  "classifier_refinement": {
+    "adopted": true,
+    "tested": true,
+    "threshold_map": {
+      "IoU": 0.677,
+      "F1": 0.807,
+      "precision": 0.948,
+      "recall": 0.703
+    },
+    "classifier_cv": {
+      "IoU": 0.821,
+      "F1": 0.901,
+      "precision": 0.901,
+      "recall": 0.902
+    },
+    "cutoff": 0.45,
+    "labelled_px": 128276,
+    "outside_mapped_area": "threshold map (the classifier predicted far more flood outside the mapped area than the threshold map)",
+    "block_km": 1.5,
+    "iou_gain": 0.144,
+    "iou_above_trivial": 0.314
+  },
+  "quality_flags": [
+    "NISAR scenes are BETA (pre-calibration)",
+    "aid depot is auto-selected, routes and priority are illustrative",
+    "validation map chosen by product order, not date: confirm its acquisition date against the NISAR 'after' scene",
+    "flood map = classifier calibrated to the EMSR857 delineation (spatial-CV IoU 0.821 vs 0.677 for the threshold map): valid for this event and area, retrain with a new reference for another flood"
+  ],
+  "flood_method": {
+    "water_threshold_db": -14.875,
+    "hysteresis": true,
+    "seed_margin_db": 1.5,
+    "grow_px": 6,
+    "dem_median_px": 3,
+    "high_confidence_share": 0.856
+  }
+}

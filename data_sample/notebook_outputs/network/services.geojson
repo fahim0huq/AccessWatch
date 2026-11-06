@@ -1,0 +1,26 @@
+{
+"type": "FeatureCollection",
+"name": "services",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "type": "market", "name": "Mercado central de chokwe", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 32.9983342, -24.5271406 ] } },
+{ "type": "Feature", "properties": { "type": "market", "name": "", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 33.0005074, -24.5306351 ] } },
+{ "type": "Feature", "properties": { "type": "clinic", "name": "Centro de Saude 3 Bairro", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 32.9973816, -24.5332527 ] } },
+{ "type": "Feature", "properties": { "type": "clinic", "name": "Hospital Rural de Chokwe", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 33.0054376, -24.5354251 ] } },
+{ "type": "Feature", "properties": { "type": "clinic", "name": "centro de saúde da cidade de chokwe", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 33.0059288, -24.5348679 ] } },
+{ "type": "Feature", "properties": { "type": "clinic", "name": "hospital rural de chokwe", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 33.0066544, -24.5329945 ] } },
+{ "type": "Feature", "properties": { "type": "market", "name": "armazém", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 32.9990315, -24.529022 ] } },
+{ "type": "Feature", "properties": { "type": "market", "name": "Mercado senta baixo", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 32.9965362, -24.5298398 ] } },
+{ "type": "Feature", "properties": { "type": "market", "name": "Mercado municipal de ntomeni", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 32.9843924, -24.5287148 ] } },
+{ "type": "Feature", "properties": { "type": "market", "name": "Mercado municipal", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 32.9808607, -24.517404 ] } },
+{ "type": "Feature", "properties": { "type": "market", "name": "Mercado informal do 5 bairro", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 32.9982338, -24.5408827 ] } },
+{ "type": "Feature", "properties": { "type": "market", "name": "Mercado hangane", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 32.9925406, -24.5355151 ] } },
+{ "type": "Feature", "properties": { "type": "market", "name": "Mercado de soweto", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 32.9682117, -24.51299 ] } },
+{ "type": "Feature", "properties": { "type": "shelter", "name": "", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 32.982645, -24.527465 ] } },
+{ "type": "Feature", "properties": { "type": "clinic", "name": "hospital de carmelo", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 33.0036591, -24.5287772 ] } },
+{ "type": "Feature", "properties": { "type": "market", "name": "Mercado central de chokwe", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 32.9980021, -24.5274281 ] } },
+{ "type": "Feature", "properties": { "type": "market", "name": "GALP", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 32.99959368098574, -24.531577268637893 ] } },
+{ "type": "Feature", "properties": { "type": "clinic", "name": "Hospital Rural de Chókwè", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 33.005507252176983, -24.535528462557703 ] } },
+{ "type": "Feature", "properties": { "type": "clinic", "name": "hospital de carmelo", "on_network": true }, "geometry": { "type": "Point", "coordinates": [ 33.003809110367932, -24.528479537659269 ] } }
+]
+}

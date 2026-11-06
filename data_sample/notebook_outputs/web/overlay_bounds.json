@@ -1,0 +1,25 @@
+{
+  "crs": "EPSG:4326",
+  "folium_bounds_south_west_north_east": [
+    [
+      -24.590089100164782,
+      32.92987096935846
+    ],
+    [
+      -24.489820279274777,
+      33.02995131502123
+    ]
+  ],
+  "legend": {
+    "flood_overlay.png": {
+      "1": "new flood",
+      "2": "permanent water"
+    },
+    "depth_overlay.png": {
+      "1": "shallow",
+      "2": "medium",
+      "3": "deep",
+      "4": "unknown"
+    }
+  }
+}
