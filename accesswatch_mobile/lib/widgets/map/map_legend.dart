@@ -7,6 +7,7 @@ import '../../l10n/app_localizations.dart';
 import '../../state/providers.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
+import '../../utils/trust_text.dart';
 import '../mission_card_sections.dart' show depthColor;
 import 'feature_layers.dart' show riskColor, serviceIcon;
 
@@ -77,7 +78,9 @@ Widget _line(Color color, {bool dashed = false}) =>
     CustomPaint(size: const Size(22, 10), painter: _LinePainter(color, dashed));
 
 class MapLegend extends ConsumerWidget {
-  const MapLegend({super.key});
+  final double width;
+
+  const MapLegend({super.key, this.width = 240});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -85,7 +88,7 @@ class MapLegend extends ConsumerWidget {
     final fmt = Fmt.of(context);
     final limits = ref.watch(loadedBundleProvider).manifest.depthClasses;
     return Container(
-      width: 240,
+      width: width,
       padding: const EdgeInsets.all(12),
       decoration: _panel(),
       child: SingleChildScrollView(
@@ -147,7 +150,7 @@ class CompareLegend extends ConsumerWidget {
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
-                  l.compareNotIndependent,
+                  l.calibrationNote(manifest, ref.watch(loadedBundleProvider).quality, fmt),
                   style: const TextStyle(color: AppColors.warning, fontSize: 11, fontWeight: FontWeight.bold),
                 ),
               ),

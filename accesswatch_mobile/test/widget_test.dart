@@ -91,7 +91,8 @@ void main() {
     await openTab(tester, en.tabInfo);
     expect(find.text(en.dateNisarBefore('Jan 5, 2026')), findsOneWidget);
     expect(find.text(en.dateEmsImage('Jan 18, 2026')), findsOneWidget);
-    expect(find.text('• OpenStreetMap'), findsOneWidget);
+    await scrollTo(tester, find.text('OpenStreetMap'));
+    expect(find.text('OpenStreetMap'), findsOneWidget);
   });
 
   testWidgets('Portuguese changes text and number format', (tester) async {

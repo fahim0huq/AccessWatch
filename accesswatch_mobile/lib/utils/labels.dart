@@ -95,6 +95,7 @@ extension BundleLabels on AppLocalizations {
         QualityFlag.depotAutoSelected => warnShortDepotAutoSelected,
         QualityFlag.validationChosenByProductOrder => warnShortValidationProductOrder,
         QualityFlag.classifierCalibratedOnEms => warnShortClassifierCalibrated,
+        QualityFlag.depotAssumed => warnShortDepotAssumed,
       };
 
   String warningFull(QualityFlag flag, Manifest manifest, Quality quality, Fmt fmt) => switch (flag) {
@@ -104,6 +105,7 @@ extension BundleLabels on AppLocalizations {
           warnValidationProductOrder(fmt.oneDecimal(manifest.dates.emsHoursAfterNisar)),
         QualityFlag.classifierCalibratedOnEms =>
           warnClassifierCalibrated(fmt.score(quality.classifierCvIou), fmt.score(quality.thresholdMapIou)),
+        QualityFlag.depotAssumed => warnDepotAssumed,
       };
 
   /// Known events get a translated name; any other shows its id from the data.

@@ -124,6 +124,10 @@ class Quality(unittest.TestCase):
         self.assertTrue(doc["flags"]["depot_auto_selected"])
         self.assertFalse(doc["flags"]["classifier_calibrated_on_ems"])
 
+    def test_depot_assumed_is_recognised_and_off_unless_flagged(self):
+        self.assertFalse(quality.parse_flags([])["depot_assumed"])
+        self.assertTrue(quality.parse_flags(["aid depot location is assumed (no depot given)"])["depot_assumed"])
+
     def test_rank_inversions(self):
         p = [{"pocket_id": a, "rank": r, "population": n, "service_loss_norm": .8, "difficulty_norm": 1.0}
              for a, r, n in (("A", 1, 10), ("B", 2, 30), ("C", 3, 5))]

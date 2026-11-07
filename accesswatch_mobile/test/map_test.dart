@@ -264,7 +264,9 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(OverlayImageLayer), findsOneWidget);
       expect(find.byType(DepthZonesLayer), findsNothing);
-      expect(find.text(en.compareNotIndependent), findsOneWidget);
+      // Plain words, with the three scores read from the data.
+      expect(find.text(en.compareNotIndependent('0.80', '0.82', '0.68')), findsOneWidget);
+      expect(find.text(en.compareEmsDate('Jan 18, 2026', '35.2')), findsOneWidget);
       expect(find.text(en.compareBoth('23.4')), findsOneWidget);
       expect(find.text(en.osmAttribution), findsOneWidget);
     });

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:accesswatch_mobile/data/mission_ranking.dart';
 import 'package:accesswatch_mobile/data/verify_notes.dart';
 import 'package:accesswatch_mobile/state/mission_state.dart';
 import 'package:accesswatch_mobile/state/providers.dart';
@@ -24,6 +25,8 @@ void main() {
     expect(c.read(localeProvider), isNull);
     expect(c.read(textScaleProvider), 1.0);
     expect(c.read(verifyChecksProvider), isEmpty);
+    expect(c.read(priorityWeightsProvider).isPublished, isTrue);
+    expect(c.read(safetyAcceptedProvider), isFalse);
   });
 
   test('saved values come back after a restart', () async {
@@ -32,6 +35,8 @@ void main() {
     first.read(textScaleProvider.notifier).state = 1.75;
     first.read(verifyChecksProvider.notifier).set('P06', VerifyNoteKind.bridges, true);
     first.read(verifyChecksProvider.notifier).set('P06', VerifyNoteKind.unstable, true);
+    first.read(priorityWeightsProvider.notifier).state = const PriorityWeights(people: 1.75, difficulty: 0.25);
+    first.read(safetyAcceptedProvider.notifier).state = true;
     final prefs = first.read(sharedPreferencesProvider);
 
     // A "restart": a new container over what was written.
@@ -40,6 +45,9 @@ void main() {
     expect(second.read(localeProvider), const Locale('pt'));
     expect(second.read(textScaleProvider), 1.75);
     expect(second.read(verifyChecksProvider)['P06'], {VerifyNoteKind.bridges, VerifyNoteKind.unstable});
+    final weights = second.read(priorityWeightsProvider);
+    expect((weights.people, weights.serviceLoss, weights.difficulty), (1.75, 1.0, 0.25));
+    expect(second.read(safetyAcceptedProvider), isTrue);
   });
 
   test('going back to the device language removes the saved one', () async {

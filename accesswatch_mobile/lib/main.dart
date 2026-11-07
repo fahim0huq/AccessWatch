@@ -26,7 +26,7 @@ class AccessWatchApp extends ConsumerStatefulWidget {
 }
 
 class _AccessWatchAppState extends ConsumerState<AccessWatchApp> {
-  late final GoRouter _router = createRouter();
+  late final GoRouter _router = createRouter(safetyAccepted: () => ref.read(safetyAcceptedProvider));
 
   @override
   void dispose() {

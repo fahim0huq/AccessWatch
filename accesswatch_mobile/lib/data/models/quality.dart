@@ -63,9 +63,12 @@ class QualityNotes {
 /// One entry of `sources` that names a data source (not a method or a note).
 class DataSource {
   final String name;
-  final String? url, doi, licence;
 
-  const DataSource(this.name, {this.url, this.doi, this.licence});
+  /// Links exactly as the data gives them; never built by the app.
+  final String? url, docs;
+  final String? doi, licence;
+
+  const DataSource(this.name, {this.url, this.docs, this.doi, this.licence});
 }
 
 class Quality {
@@ -123,6 +126,29 @@ class Quality {
   /// Flood map against the EMS reference (not independent: see the flags).
   double get floodVsReferenceIou => _score(report, const ['flood_vs_reference', 'IoU']);
 
+  double _reportScore(List<String> path) => _score(report, path);
+
+  /// Flood map against the EMS map: IoU, F1, precision, recall.
+  ({double iou, double f1, double precision, double recall}) get floodVsReference => (
+        iou: _reportScore(const ['flood_vs_reference', 'IoU']),
+        f1: _reportScore(const ['flood_vs_reference', 'F1']),
+        precision: _reportScore(const ['flood_vs_reference', 'precision']),
+        recall: _reportScore(const ['flood_vs_reference', 'recall']),
+      );
+
+  /// How many pockets the validation report says have a safest route unlike the shortest.
+  int get reportSafestDiffers => _reportScore(const ['safest_vs_shortest', 'pockets_where_safest_differs']).round();
+
+  /// Share of pockets that survive every sensitivity scenario.
+  double get stablePocketShare => _reportScore(const ['sensitivity', 'share_of_pockets_stable_in_all_scenarios']);
+
+  double get buildingsNearRoadPercent => _reportScore(const ['data_quality', 'buildings_within_150m_of_a_road_%']);
+
+  int get disconnectedRoadFragments => _reportScore(const ['data_quality', 'disconnected_fragments']).round();
+
+  /// The notebook's limits, in English. The app shows its own translated wording.
+  List<String> get limitations => (report['limitations'] as List<dynamic>? ?? const []).cast<String>();
+
   String? get nisarMaturity => (sources['NISAR GCOV'] as Map<String, dynamic>?)?['maturity'] as String?;
 
   List<DataSource> get dataSources => [
@@ -131,6 +157,7 @@ class Quality {
             DataSource(
               e.key,
               url: (e.value as Map<String, dynamic>)['url'] as String?,
+              docs: (e.value as Map<String, dynamic>)['docs'] as String?,
               doi: (e.value as Map<String, dynamic>)['doi'] as String?,
               licence: (e.value as Map<String, dynamic>)['licence'] as String?,
             ),

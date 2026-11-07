@@ -335,12 +335,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get back => 'Voltar';
 
   @override
-  String get systemHonestyBrief => 'SISTEMA E TRANSPARÊNCIA';
-
-  @override
-  String get appTitle => 'AccessWatch Mobile';
-
-  @override
   String get appSubtitle => 'Análise de acesso em cheias por radar de satélite';
 
   @override
@@ -387,16 +381,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String dateEmsImage(String date) {
     return 'Imagem EMS: $date';
   }
-
-  @override
-  String get howDepthEstimated => 'COMO A PROFUNDIDADE É ESTIMADA';
-
-  @override
-  String get depthDescription =>
-      'O radar mostra onde está a água, não a sua profundidade. As classes de profundidade são estimadas a partir do limite da cheia e de um modelo de elevação da superfície, pelo que são apenas indicativas.';
-
-  @override
-  String get waterDepthSummary => 'RESUMO DA PROFUNDIDADE DA ÁGUA';
 
   @override
   String get dataSources => 'FONTES DE DADOS E ATRIBUIÇÃO';
@@ -549,8 +533,13 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get compareNotIndependent =>
-      'Não é uma verificação independente: o nosso mapa de cheia foi calibrado neste mapa EMS.';
+  String compareNotIndependent(
+    String agreement,
+    String crossValidation,
+    String physicsOnly,
+  ) {
+    return 'Não é uma verificação independente: o nosso mapa de cheia foi calibrado neste mapa EMS, por isso a concordância com ele (IoU $agreement; $crossValidation na validação cruzada espacial) diz pouco sobre a exatidão noutros lugares. O mapa só com física, feito sem o EMS, concorda menos (IoU $physicsOnly) e é o mais conservador: marca menos cheia.';
+  }
 
   @override
   String compareEmsDate(String date, String hours) {
@@ -965,4 +954,184 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get locationNotNow => 'Agora não';
+
+  @override
+  String get warnShortDepotAssumed =>
+      'A localização do depósito de ajuda é presumida';
+
+  @override
+  String get warnDepotAssumed =>
+      'A localização do depósito de ajuda é presumida, não confirmada. As rotas e as prioridades dependem dela: confirme o depósito real antes de agir.';
+
+  @override
+  String get trustTitle => 'DADOS E CONFIANÇA';
+
+  @override
+  String dateEmsGap(String hours) {
+    return 'A imagem EMS foi obtida $hours horas depois da cena NISAR \"depois\", pelo que a água pode ter mudado entretanto.';
+  }
+
+  @override
+  String get knownIssuesTitle => 'PROBLEMAS CONHECIDOS NESTES DADOS';
+
+  @override
+  String get knownIssuesNone => 'Os dados não registam problemas conhecidos.';
+
+  @override
+  String issueRankInversion(String higher, String lower) {
+    return '$higher fica acima de $lower, embora $lower tenha mais pessoas: os seus termos de prioridade são iguais depois de arredondados.';
+  }
+
+  @override
+  String issueSafestCount(String report, String routes) {
+    return 'O relatório de validação diz que a rota mais segura difere da mais curta em $report bolsão(ões), mas os dados das rotas mostram $routes.';
+  }
+
+  @override
+  String issueRoadsOutsideCoverage(String count, String dry) {
+    return '$count troços de estrada saem da cobertura do radar; $dry deles estão marcados como secos, o que pode só significar que o radar não os viu.';
+  }
+
+  @override
+  String issuePocketOutsideCoverage(String pct, String pocket) {
+    return '$pct% do bolsão $pocket fica fora da cobertura do radar.';
+  }
+
+  @override
+  String issueClinicDuplicates(String records, String pairs) {
+    return 'Os $records registos de clínicas incluem $pairs pares a menos de 100 m, por isso algumas podem ser a mesma clínica contada duas vezes.';
+  }
+
+  @override
+  String get validationTitle => 'CONCORDÂNCIA DO MAPA DE CHEIA';
+
+  @override
+  String get scoreIou => 'Concordância com o EMS (IoU)';
+
+  @override
+  String get scoreF1 => 'Pontuação F1';
+
+  @override
+  String get scorePrecision => 'Precisão (cheia que marcamos e o EMS também)';
+
+  @override
+  String get scoreRecall => 'Sensibilidade (cheia do EMS que também marcamos)';
+
+  @override
+  String get scoreCrossValidation => 'Validação cruzada espacial (IoU)';
+
+  @override
+  String get scorePhysicsOnly => 'Mapa só com física vs EMS (IoU)';
+
+  @override
+  String get scoreStablePockets =>
+      'Bolsões que se mantêm em todos os cenários de teste';
+
+  @override
+  String validationReference(String layer) {
+    return 'Mapa de referência: $layer';
+  }
+
+  @override
+  String get limitsTitle => 'LIMITAÇÕES, EM PALAVRAS SIMPLES';
+
+  @override
+  String get limitDepth =>
+      'O radar mostra onde está a água, não a sua profundidade. A profundidade é estimada a partir de um modelo de superfície, pelo que as classes são uma orientação, não medições.';
+
+  @override
+  String get limitRadar =>
+      'O radar encontra bem a água aberta, mas pode não ver água debaixo de árvores ou entre edifícios.';
+
+  @override
+  String limitRoads(String pct, String fragments) {
+    return 'As estradas vêm do OpenStreetMap: $pct% dos edifícios estão a menos de 150 m de uma estrada mapeada, e $fragments pequenos troços desligados foram deixados de fora.';
+  }
+
+  @override
+  String get limitPopulation =>
+      'O número de pessoas vem de um modelo de população, não de um censo.';
+
+  @override
+  String get limitBoat =>
+      'As rotas de barco seguem as estradas inundadas, por isso as rotas reais pela água podem ser diferentes. As pontes não podem ser verificadas a partir do espaço.';
+
+  @override
+  String get limitThresholds =>
+      'Os limites de profundidade e de veículos são valores ajustáveis: confirme-os com os responsáveis locais e verifique sempre no terreno.';
+
+  @override
+  String limitUntranslated(String text) {
+    return '(Por agora só em inglês) $text';
+  }
+
+  @override
+  String get colorsTitle => 'COMO LER AS CORES';
+
+  @override
+  String get sourceWebsite => 'Site';
+
+  @override
+  String get sourceDocs => 'Documentação';
+
+  @override
+  String sourceDoi(String doi) {
+    return 'DOI: $doi';
+  }
+
+  @override
+  String sourceLicence(String licence) {
+    return 'Licença: $licence';
+  }
+
+  @override
+  String get readIntroAgain =>
+      'Ler de novo a introdução e o aviso de segurança';
+
+  @override
+  String get introTitle1 => 'Veja quem a cheia isola';
+
+  @override
+  String get introBody1 =>
+      'O AccessWatch mostra onde a água da cheia isola pessoas de clínicas, mercados e abrigos, e quão difícil é chegar até elas.';
+
+  @override
+  String get introTitle2 => 'Feito com radar de satélite';
+
+  @override
+  String get introBody2 =>
+      'O mapa da cheia vem do radar NISAR, comparado com o mapa Copernicus EMS. A profundidade e a população são estimativas, e os dados do radar ainda estão em fase beta.';
+
+  @override
+  String get introTitle3 => 'Como usar';
+
+  @override
+  String get introBody3 =>
+      'O Mapa mostra a cheia e os bolsões isolados. As Missões classificam os bolsões, com uma ficha para cada um. Os Cuidados encontram clínicas e uma rota por estrada a partir de onde está. A Info explica os dados e as suas limitações.';
+
+  @override
+  String get introNext => 'Seguinte';
+
+  @override
+  String introProgress(String page, String count) {
+    return 'Página $page de $count';
+  }
+
+  @override
+  String get safetyTitle => 'Antes de começar';
+
+  @override
+  String get safetyBody =>
+      'O AccessWatch apoia decisões e não é um serviço de emergência. Os dados podem estar errados ou desatualizados: verifique sempre no terreno antes de agir.';
+
+  @override
+  String get safetyEmergency =>
+      'Se estiver em perigo, ligue para o número de emergência local.';
+
+  @override
+  String get safetyCheckbox =>
+      'Compreendo que esta aplicação não é um serviço de emergência.';
+
+  @override
+  String get safetyAccept => 'Aceitar e continuar';
 }

@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../data/mission_ranking.dart';
 import '../data/verify_notes.dart';
 import 'mission_state.dart';
 import 'providers.dart';
@@ -17,6 +18,8 @@ class SettingsKeys {
   static const language = 'language';
   static const textScale = 'text_scale';
   static const verifyChecks = 'verify_checks';
+  static const safetyAccepted = 'safety_accepted_v1';
+  static const priorityWeights = 'priority_weights';
 }
 
 Locale? readLocale(SharedPreferences prefs) {
@@ -45,6 +48,19 @@ Map<String, Set<VerifyNoteKind>> readVerifyChecks(SharedPreferences prefs) {
   }
 }
 
+PriorityWeights readPriorityWeights(SharedPreferences prefs) {
+  final text = prefs.getString(SettingsKeys.priorityWeights);
+  if (text == null) return const PriorityWeights();
+  try {
+    final j = jsonDecode(text) as Map<String, dynamic>;
+    double weight(String key) =>
+        ((j[key] as num?)?.toDouble() ?? PriorityWeights.published).clamp(PriorityWeights.min, PriorityWeights.max);
+    return PriorityWeights(people: weight('people'), serviceLoss: weight('service_loss'), difficulty: weight('difficulty'));
+  } on FormatException {
+    return const PriorityWeights();
+  }
+}
+
 /// Watched by the app: writes every change of a saved setting.
 final settingsPersistenceProvider = Provider<void>((ref) {
   final prefs = ref.watch(sharedPreferencesProvider);
@@ -52,6 +68,11 @@ final settingsPersistenceProvider = Provider<void>((ref) {
     locale == null ? prefs.remove(SettingsKeys.language) : prefs.setString(SettingsKeys.language, locale.languageCode);
   });
   ref.listen<double>(textScaleProvider, (_, scale) => prefs.setDouble(SettingsKeys.textScale, scale));
+  ref.listen<bool>(safetyAcceptedProvider, (_, accepted) => prefs.setBool(SettingsKeys.safetyAccepted, accepted));
+  ref.listen<PriorityWeights>(priorityWeightsProvider, (_, w) {
+    prefs.setString(SettingsKeys.priorityWeights,
+        jsonEncode({'people': w.people, 'service_loss': w.serviceLoss, 'difficulty': w.difficulty}));
+  });
   ref.listen<Map<String, Set<VerifyNoteKind>>>(verifyChecksProvider, (_, checks) {
     prefs.setString(SettingsKeys.verifyChecks, jsonEncode({
       for (final entry in checks.entries) entry.key: [for (final kind in entry.value) kind.name],

@@ -332,12 +332,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get back => 'Back';
 
   @override
-  String get systemHonestyBrief => 'SYSTEM & HONESTY BRIEF';
-
-  @override
-  String get appTitle => 'AccessWatch Mobile';
-
-  @override
   String get appSubtitle => 'Satellite radar flood access analysis';
 
   @override
@@ -384,16 +378,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String dateEmsImage(String date) {
     return 'EMS image: $date';
   }
-
-  @override
-  String get howDepthEstimated => 'HOW DEPTH IS ESTIMATED';
-
-  @override
-  String get depthDescription =>
-      'Radar shows where the water is, not how deep it is. Depth classes are estimated from the flood edge and a surface elevation model, so they are indicative only.';
-
-  @override
-  String get waterDepthSummary => 'WATER DEPTH SUMMARY';
 
   @override
   String get dataSources => 'DATA SOURCES & ATTRIBUTION';
@@ -546,8 +530,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get compareNotIndependent =>
-      'Not an independent check: our flood map was calibrated on this EMS map.';
+  String compareNotIndependent(
+    String agreement,
+    String crossValidation,
+    String physicsOnly,
+  ) {
+    return 'Not an independent check: our flood map was calibrated on this EMS map, so its agreement with it (IoU $agreement; $crossValidation in spatial cross-validation) says little about accuracy elsewhere. The physics-only map, made without EMS, agrees less (IoU $physicsOnly) and is the more conservative one: it marks less flood.';
+  }
 
   @override
   String compareEmsDate(String date, String hours) {
@@ -961,4 +950,181 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get locationNotNow => 'Not now';
+
+  @override
+  String get warnShortDepotAssumed => 'Aid depot location is assumed';
+
+  @override
+  String get warnDepotAssumed =>
+      'The aid depot location is assumed, not confirmed. Routes and priority depend on it: confirm the real depot before acting.';
+
+  @override
+  String get trustTitle => 'DATA & TRUST';
+
+  @override
+  String dateEmsGap(String hours) {
+    return 'The EMS image was taken $hours hours after the NISAR \"after\" scene, so the water may have changed in between.';
+  }
+
+  @override
+  String get knownIssuesTitle => 'KNOWN ISSUES IN THIS DATA';
+
+  @override
+  String get knownIssuesNone => 'The data records no known issues.';
+
+  @override
+  String issueRankInversion(String higher, String lower) {
+    return '$higher ranks above $lower although $lower has more people: their priority terms are equal after rounding.';
+  }
+
+  @override
+  String issueSafestCount(String report, String routes) {
+    return 'The validation report says the safest route differs from the shortest for $report pocket(s), but the route data shows $routes.';
+  }
+
+  @override
+  String issueRoadsOutsideCoverage(String count, String dry) {
+    return '$count road pieces reach outside the radar coverage; $dry of them are labelled dry, which may only mean the radar did not see them.';
+  }
+
+  @override
+  String issuePocketOutsideCoverage(String pct, String pocket) {
+    return '$pct% of pocket $pocket lies outside the radar coverage.';
+  }
+
+  @override
+  String issueClinicDuplicates(String records, String pairs) {
+    return 'The $records clinic records include $pairs pairs less than 100 m apart, so some may be the same clinic counted twice.';
+  }
+
+  @override
+  String get validationTitle => 'HOW WELL THE FLOOD MAP AGREES';
+
+  @override
+  String get scoreIou => 'Agreement with EMS (IoU)';
+
+  @override
+  String get scoreF1 => 'F1 score';
+
+  @override
+  String get scorePrecision => 'Precision (flood we mark that EMS also marks)';
+
+  @override
+  String get scoreRecall => 'Recall (EMS flood we also mark)';
+
+  @override
+  String get scoreCrossValidation => 'Spatial cross-validation (IoU)';
+
+  @override
+  String get scorePhysicsOnly => 'Physics-only map vs EMS (IoU)';
+
+  @override
+  String get scoreStablePockets => 'Pockets that hold in every test scenario';
+
+  @override
+  String validationReference(String layer) {
+    return 'Reference map: $layer';
+  }
+
+  @override
+  String get limitsTitle => 'LIMITS, IN PLAIN WORDS';
+
+  @override
+  String get limitDepth =>
+      'Radar shows where water is, not how deep it is. Depth is estimated from a surface model, so the classes are a guide, not measurements.';
+
+  @override
+  String get limitRadar =>
+      'The radar finds open water well but can miss water under trees or between buildings.';
+
+  @override
+  String limitRoads(String pct, String fragments) {
+    return 'Roads come from OpenStreetMap: $pct% of buildings are within 150 m of a mapped road, and $fragments small disconnected road pieces were left out.';
+  }
+
+  @override
+  String get limitPopulation =>
+      'People counts come from a population model, not a census.';
+
+  @override
+  String get limitBoat =>
+      'Boat routes follow the flooded roads, so real water routes can differ. Bridges cannot be checked from space.';
+
+  @override
+  String get limitThresholds =>
+      'The depth and vehicle limits are adjustable defaults: confirm them with local responders and always check on the ground.';
+
+  @override
+  String limitUntranslated(String text) {
+    return '(Only in English for now) $text';
+  }
+
+  @override
+  String get colorsTitle => 'HOW TO READ THE COLOURS';
+
+  @override
+  String get sourceWebsite => 'Website';
+
+  @override
+  String get sourceDocs => 'Documentation';
+
+  @override
+  String sourceDoi(String doi) {
+    return 'DOI: $doi';
+  }
+
+  @override
+  String sourceLicence(String licence) {
+    return 'Licence: $licence';
+  }
+
+  @override
+  String get readIntroAgain => 'Read the introduction and safety message again';
+
+  @override
+  String get introTitle1 => 'See who the flood cuts off';
+
+  @override
+  String get introBody1 =>
+      'AccessWatch shows where floodwater cuts people off from clinics, markets and shelters, and how hard they are to reach.';
+
+  @override
+  String get introTitle2 => 'Built from satellite radar';
+
+  @override
+  String get introBody2 =>
+      'The flood map comes from NISAR radar, checked against the Copernicus EMS map. Depth and population are estimates, and the radar data is still in beta.';
+
+  @override
+  String get introTitle3 => 'How to use it';
+
+  @override
+  String get introBody3 =>
+      'Map shows the flood and the cut-off pockets. Missions ranks the pockets with a brief for each. Care finds clinics and a road route from where you are. Info explains the data and its limits.';
+
+  @override
+  String get introNext => 'Next';
+
+  @override
+  String introProgress(String page, String count) {
+    return 'Page $page of $count';
+  }
+
+  @override
+  String get safetyTitle => 'Before you start';
+
+  @override
+  String get safetyBody =>
+      'AccessWatch supports decisions and is not an emergency service. The data can be wrong or out of date: always check on the ground before acting.';
+
+  @override
+  String get safetyEmergency =>
+      'If you are in danger, call your local emergency number.';
+
+  @override
+  String get safetyCheckbox =>
+      'I understand that this app is not an emergency service.';
+
+  @override
+  String get safetyAccept => 'Accept and continue';
 }

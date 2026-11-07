@@ -24,5 +24,9 @@ const minTextScale = 1.0;
 const maxTextScale = 2.0;
 final textScaleProvider = StateProvider<double>((ref) => readTextScale(ref.watch(sharedPreferencesProvider)));
 
+/// The user accepted the safety message (saved). Until then only the intro shows.
+final safetyAcceptedProvider =
+    StateProvider<bool>((ref) => ref.watch(sharedPreferencesProvider).getBool(SettingsKeys.safetyAccepted) ?? false);
+
 /// Hides the bottom navigation for screen recording.
 final presentationModeProvider = StateProvider<bool>((ref) => false);

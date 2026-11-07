@@ -6,8 +6,9 @@ import '../data/verify_notes.dart';
 import 'providers.dart';
 import 'settings_store.dart';
 
-/// The slider positions. The published ranking is the starting point.
-final priorityWeightsProvider = StateProvider<PriorityWeights>((ref) => const PriorityWeights());
+/// The slider positions, saved. The published ranking is the starting point.
+final priorityWeightsProvider =
+    StateProvider<PriorityWeights>((ref) => readPriorityWeights(ref.watch(sharedPreferencesProvider)));
 
 /// All missions in their current order.
 final rankedMissionsProvider = Provider<List<RankedMission>>((ref) {

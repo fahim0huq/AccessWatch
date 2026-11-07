@@ -626,18 +626,6 @@ abstract class AppLocalizations {
   /// **'Back'**
   String get back;
 
-  /// No description provided for @systemHonestyBrief.
-  ///
-  /// In en, this message translates to:
-  /// **'SYSTEM & HONESTY BRIEF'**
-  String get systemHonestyBrief;
-
-  /// No description provided for @appTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'AccessWatch Mobile'**
-  String get appTitle;
-
   /// No description provided for @appSubtitle.
   ///
   /// In en, this message translates to:
@@ -715,24 +703,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'EMS image: {date}'**
   String dateEmsImage(String date);
-
-  /// No description provided for @howDepthEstimated.
-  ///
-  /// In en, this message translates to:
-  /// **'HOW DEPTH IS ESTIMATED'**
-  String get howDepthEstimated;
-
-  /// No description provided for @depthDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Radar shows where the water is, not how deep it is. Depth classes are estimated from the flood edge and a surface elevation model, so they are indicative only.'**
-  String get depthDescription;
-
-  /// No description provided for @waterDepthSummary.
-  ///
-  /// In en, this message translates to:
-  /// **'WATER DEPTH SUMMARY'**
-  String get waterDepthSummary;
 
   /// No description provided for @dataSources.
   ///
@@ -989,8 +959,12 @@ abstract class AppLocalizations {
   /// No description provided for @compareNotIndependent.
   ///
   /// In en, this message translates to:
-  /// **'Not an independent check: our flood map was calibrated on this EMS map.'**
-  String get compareNotIndependent;
+  /// **'Not an independent check: our flood map was calibrated on this EMS map, so its agreement with it (IoU {agreement}; {crossValidation} in spatial cross-validation) says little about accuracy elsewhere. The physics-only map, made without EMS, agrees less (IoU {physicsOnly}) and is the more conservative one: it marks less flood.'**
+  String compareNotIndependent(
+    String agreement,
+    String crossValidation,
+    String physicsOnly,
+  );
 
   /// No description provided for @compareEmsDate.
   ///
@@ -1627,6 +1601,288 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not now'**
   String get locationNotNow;
+
+  /// No description provided for @warnShortDepotAssumed.
+  ///
+  /// In en, this message translates to:
+  /// **'Aid depot location is assumed'**
+  String get warnShortDepotAssumed;
+
+  /// No description provided for @warnDepotAssumed.
+  ///
+  /// In en, this message translates to:
+  /// **'The aid depot location is assumed, not confirmed. Routes and priority depend on it: confirm the real depot before acting.'**
+  String get warnDepotAssumed;
+
+  /// No description provided for @trustTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'DATA & TRUST'**
+  String get trustTitle;
+
+  /// No description provided for @dateEmsGap.
+  ///
+  /// In en, this message translates to:
+  /// **'The EMS image was taken {hours} hours after the NISAR \"after\" scene, so the water may have changed in between.'**
+  String dateEmsGap(String hours);
+
+  /// No description provided for @knownIssuesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'KNOWN ISSUES IN THIS DATA'**
+  String get knownIssuesTitle;
+
+  /// No description provided for @knownIssuesNone.
+  ///
+  /// In en, this message translates to:
+  /// **'The data records no known issues.'**
+  String get knownIssuesNone;
+
+  /// No description provided for @issueRankInversion.
+  ///
+  /// In en, this message translates to:
+  /// **'{higher} ranks above {lower} although {lower} has more people: their priority terms are equal after rounding.'**
+  String issueRankInversion(String higher, String lower);
+
+  /// No description provided for @issueSafestCount.
+  ///
+  /// In en, this message translates to:
+  /// **'The validation report says the safest route differs from the shortest for {report} pocket(s), but the route data shows {routes}.'**
+  String issueSafestCount(String report, String routes);
+
+  /// No description provided for @issueRoadsOutsideCoverage.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} road pieces reach outside the radar coverage; {dry} of them are labelled dry, which may only mean the radar did not see them.'**
+  String issueRoadsOutsideCoverage(String count, String dry);
+
+  /// No description provided for @issuePocketOutsideCoverage.
+  ///
+  /// In en, this message translates to:
+  /// **'{pct}% of pocket {pocket} lies outside the radar coverage.'**
+  String issuePocketOutsideCoverage(String pct, String pocket);
+
+  /// No description provided for @issueClinicDuplicates.
+  ///
+  /// In en, this message translates to:
+  /// **'The {records} clinic records include {pairs} pairs less than 100 m apart, so some may be the same clinic counted twice.'**
+  String issueClinicDuplicates(String records, String pairs);
+
+  /// No description provided for @validationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'HOW WELL THE FLOOD MAP AGREES'**
+  String get validationTitle;
+
+  /// No description provided for @scoreIou.
+  ///
+  /// In en, this message translates to:
+  /// **'Agreement with EMS (IoU)'**
+  String get scoreIou;
+
+  /// No description provided for @scoreF1.
+  ///
+  /// In en, this message translates to:
+  /// **'F1 score'**
+  String get scoreF1;
+
+  /// No description provided for @scorePrecision.
+  ///
+  /// In en, this message translates to:
+  /// **'Precision (flood we mark that EMS also marks)'**
+  String get scorePrecision;
+
+  /// No description provided for @scoreRecall.
+  ///
+  /// In en, this message translates to:
+  /// **'Recall (EMS flood we also mark)'**
+  String get scoreRecall;
+
+  /// No description provided for @scoreCrossValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Spatial cross-validation (IoU)'**
+  String get scoreCrossValidation;
+
+  /// No description provided for @scorePhysicsOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Physics-only map vs EMS (IoU)'**
+  String get scorePhysicsOnly;
+
+  /// No description provided for @scoreStablePockets.
+  ///
+  /// In en, this message translates to:
+  /// **'Pockets that hold in every test scenario'**
+  String get scoreStablePockets;
+
+  /// No description provided for @validationReference.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference map: {layer}'**
+  String validationReference(String layer);
+
+  /// No description provided for @limitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'LIMITS, IN PLAIN WORDS'**
+  String get limitsTitle;
+
+  /// No description provided for @limitDepth.
+  ///
+  /// In en, this message translates to:
+  /// **'Radar shows where water is, not how deep it is. Depth is estimated from a surface model, so the classes are a guide, not measurements.'**
+  String get limitDepth;
+
+  /// No description provided for @limitRadar.
+  ///
+  /// In en, this message translates to:
+  /// **'The radar finds open water well but can miss water under trees or between buildings.'**
+  String get limitRadar;
+
+  /// No description provided for @limitRoads.
+  ///
+  /// In en, this message translates to:
+  /// **'Roads come from OpenStreetMap: {pct}% of buildings are within 150 m of a mapped road, and {fragments} small disconnected road pieces were left out.'**
+  String limitRoads(String pct, String fragments);
+
+  /// No description provided for @limitPopulation.
+  ///
+  /// In en, this message translates to:
+  /// **'People counts come from a population model, not a census.'**
+  String get limitPopulation;
+
+  /// No description provided for @limitBoat.
+  ///
+  /// In en, this message translates to:
+  /// **'Boat routes follow the flooded roads, so real water routes can differ. Bridges cannot be checked from space.'**
+  String get limitBoat;
+
+  /// No description provided for @limitThresholds.
+  ///
+  /// In en, this message translates to:
+  /// **'The depth and vehicle limits are adjustable defaults: confirm them with local responders and always check on the ground.'**
+  String get limitThresholds;
+
+  /// No description provided for @limitUntranslated.
+  ///
+  /// In en, this message translates to:
+  /// **'(Only in English for now) {text}'**
+  String limitUntranslated(String text);
+
+  /// No description provided for @colorsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'HOW TO READ THE COLOURS'**
+  String get colorsTitle;
+
+  /// No description provided for @sourceWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get sourceWebsite;
+
+  /// No description provided for @sourceDocs.
+  ///
+  /// In en, this message translates to:
+  /// **'Documentation'**
+  String get sourceDocs;
+
+  /// No description provided for @sourceDoi.
+  ///
+  /// In en, this message translates to:
+  /// **'DOI: {doi}'**
+  String sourceDoi(String doi);
+
+  /// No description provided for @sourceLicence.
+  ///
+  /// In en, this message translates to:
+  /// **'Licence: {licence}'**
+  String sourceLicence(String licence);
+
+  /// No description provided for @readIntroAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the introduction and safety message again'**
+  String get readIntroAgain;
+
+  /// No description provided for @introTitle1.
+  ///
+  /// In en, this message translates to:
+  /// **'See who the flood cuts off'**
+  String get introTitle1;
+
+  /// No description provided for @introBody1.
+  ///
+  /// In en, this message translates to:
+  /// **'AccessWatch shows where floodwater cuts people off from clinics, markets and shelters, and how hard they are to reach.'**
+  String get introBody1;
+
+  /// No description provided for @introTitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Built from satellite radar'**
+  String get introTitle2;
+
+  /// No description provided for @introBody2.
+  ///
+  /// In en, this message translates to:
+  /// **'The flood map comes from NISAR radar, checked against the Copernicus EMS map. Depth and population are estimates, and the radar data is still in beta.'**
+  String get introBody2;
+
+  /// No description provided for @introTitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'How to use it'**
+  String get introTitle3;
+
+  /// No description provided for @introBody3.
+  ///
+  /// In en, this message translates to:
+  /// **'Map shows the flood and the cut-off pockets. Missions ranks the pockets with a brief for each. Care finds clinics and a road route from where you are. Info explains the data and its limits.'**
+  String get introBody3;
+
+  /// No description provided for @introNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get introNext;
+
+  /// No description provided for @introProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {page} of {count}'**
+  String introProgress(String page, String count);
+
+  /// No description provided for @safetyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Before you start'**
+  String get safetyTitle;
+
+  /// No description provided for @safetyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'AccessWatch supports decisions and is not an emergency service. The data can be wrong or out of date: always check on the ground before acting.'**
+  String get safetyBody;
+
+  /// No description provided for @safetyEmergency.
+  ///
+  /// In en, this message translates to:
+  /// **'If you are in danger, call your local emergency number.'**
+  String get safetyEmergency;
+
+  /// No description provided for @safetyCheckbox.
+  ///
+  /// In en, this message translates to:
+  /// **'I understand that this app is not an emergency service.'**
+  String get safetyCheckbox;
+
+  /// No description provided for @safetyAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept and continue'**
+  String get safetyAccept;
 }
 
 class _AppLocalizationsDelegate

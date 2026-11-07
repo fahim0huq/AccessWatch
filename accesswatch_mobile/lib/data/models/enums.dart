@@ -136,13 +136,15 @@ enum QualityFlag {
   nisarBeta,
   depotAutoSelected,
   validationChosenByProductOrder,
-  classifierCalibratedOnEms;
+  classifierCalibratedOnEms,
+  depotAssumed;
 
   static QualityFlag parse(Object? raw) => _parse(const {
         'nisar_beta': nisarBeta,
         'depot_auto_selected': depotAutoSelected,
         'validation_chosen_by_product_order': validationChosenByProductOrder,
         'classifier_calibrated_on_ems': classifierCalibratedOnEms,
+        'depot_assumed': depotAssumed,
       }, raw, 'quality flag');
 
   /// The flags whose value is true in a `quality_flags` / `flags` object.

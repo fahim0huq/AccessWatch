@@ -13,6 +13,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Pumps the real app on the real bundle: phone width, tall enough that the
 /// scrolling lists build every row, so finders can see them.
+/// Scrolls the first list until [finder] is built and on screen.
+Future<void> scrollTo(WidgetTester tester, Finder finder) async {
+  await tester.scrollUntilVisible(finder, 400, scrollable: find.byType(Scrollable).first);
+  await tester.pumpAndSettle();
+}
+
 Future<void> pumpApp(
   WidgetTester tester,
   AppBundle bundle, {
@@ -24,7 +30,9 @@ Future<void> pumpApp(
   List<Override> overrides = const [],
   Map<String, Object> saved = const {},
 }) async {
-  SharedPreferences.setMockInitialValues(saved);
+  // A fresh tree, so a second pump in one test starts the app anew.
+  await tester.pumpWidget(const SizedBox());
+  SharedPreferences.setMockInitialValues({SettingsKeys.safetyAccepted: true, ...saved});
   final prefs = await SharedPreferences.getInstance();
   tester.view.physicalSize = Size(width, height);
   tester.view.devicePixelRatio = 1.0;

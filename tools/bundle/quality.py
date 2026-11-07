@@ -12,6 +12,9 @@ KNOWN_FLAGS = {
     "aid depot is auto-selected": "depot_auto_selected",
     "validation map chosen by product order": "validation_chosen_by_product_order",
     "flood map = classifier calibrated": "classifier_calibrated_on_ems",
+    # Not in the current notebook output: recognised so a run that assumes the depot
+    # location gets its own warning instead of stopping the build.
+    "aid depot location is assumed": "depot_assumed",
 }
 CLINIC_NEAR_M = 100
 

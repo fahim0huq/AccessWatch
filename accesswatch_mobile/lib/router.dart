@@ -7,6 +7,7 @@ import 'screens/main_navigation_screen.dart';
 import 'screens/map_screen.dart';
 import 'screens/mission_detail_screen.dart';
 import 'screens/missions_screen.dart';
+import 'screens/welcome_screen.dart';
 
 class AppRoutes {
   static const home = '/home';
@@ -14,11 +15,16 @@ class AppRoutes {
   static const missions = '/missions';
   static const care = '/care';
   static const info = '/info';
+  static const welcome = '/welcome';
 }
 
-GoRouter createRouter() => GoRouter(
+/// [safetyAccepted] is read on every navigation, so accepting opens the app at once.
+GoRouter createRouter({required bool Function() safetyAccepted}) => GoRouter(
       initialLocation: AppRoutes.home,
+      redirect: (context, state) =>
+          !safetyAccepted() && state.matchedLocation != AppRoutes.welcome ? AppRoutes.welcome : null,
       routes: [
+        GoRoute(path: AppRoutes.welcome, builder: (context, state) => const WelcomeScreen()),
         StatefulShellRoute.indexedStack(
           builder: (context, state, shell) => MainNavigationScreen(shell: shell),
           branches: [
