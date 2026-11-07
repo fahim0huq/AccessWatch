@@ -3,7 +3,6 @@ import '../models/demo_data.dart';
 import '../theme/app_theme.dart';
 import '../widgets/demo_badge.dart';
 import '../widgets/map_painter.dart';
-import '../widgets/mission_card_detail.dart';
 import '../widgets/analysis_progress_modal.dart';
 
 class MapScreen extends StatefulWidget {
@@ -55,14 +54,11 @@ class _MapScreenState extends State<MapScreen> {
     final targetY = (pocket.coordinates.dy / 100) * 840;
 
     _transformationController.value = Matrix4.identity()
-      ..translate(-targetX + 200, -targetY + 200)
-      ..scale(1.65);
+      ..translateByDouble(-targetX + 200, -targetY + 200, 0, 1)
+      ..scaleByDouble(1.65, 1.65, 1.65, 1);
   }
 
-  void _onSelectPocket(Pocket pocket) {
-    focusOnPocket(pocket);
-    _showMissionCardSheet(pocket);
-  }
+  void _onSelectPocket(Pocket pocket) => focusOnPocket(pocket);
 
   void _showRoadSegmentDialog(RoadSegment road) {
     showDialog(
@@ -202,27 +198,6 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  void _showMissionCardSheet(Pocket pocket) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.75,
-        maxChildSize: 0.95,
-        minChildSize: 0.4,
-        builder: (context, scrollController) {
-          return MissionCardDetail(
-            pocket: pocket,
-            onViewOnMap: (p) {
-              focusOnPocket(p);
-            },
-          );
-        },
-      ),
-    );
-  }
-
   void _showLayersSheet() {
     showModalBottomSheet(
       context: context,
@@ -306,13 +281,13 @@ class _MapScreenState extends State<MapScreen> {
 
   void _zoomIn() {
     final matrix = _transformationController.value.clone();
-    matrix.scale(1.3);
+    matrix.scaleByDouble(1.3, 1.3, 1.3, 1);
     _transformationController.value = matrix;
   }
 
   void _zoomOut() {
     final matrix = _transformationController.value.clone();
-    matrix.scale(0.75);
+    matrix.scaleByDouble(0.75, 0.75, 0.75, 1);
     _transformationController.value = matrix;
   }
 
@@ -833,12 +808,15 @@ class _MapScreenState extends State<MapScreen> {
                                           fontFamily: 'monospace',
                                         ),
                                       ),
-                                      Text(
-                                        p.accessMode,
-                                        style: const TextStyle(
-                                          color: AppColors.warning,
-                                          fontSize: 9,
-                                          fontWeight: FontWeight.bold,
+                                      Flexible(
+                                        child: Text(
+                                          p.accessMode,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            color: AppColors.warning,
+                                            fontSize: 9,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
                                     ],

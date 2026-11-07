@@ -1,89 +1,75 @@
 import 'package:flutter/material.dart';
-import '../models/demo_data.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../l10n/app_localizations.dart';
+import '../state/providers.dart';
 import '../theme/app_theme.dart';
-import 'home_screen.dart';
-import 'map_screen.dart';
-import 'missions_screen.dart';
-import 'info_screen.dart';
 
-class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({super.key});
+/// Bottom navigation around the tabs. Nothing shows until the data has loaded,
+/// so no screen ever has to handle a missing bundle.
+class MainNavigationScreen extends ConsumerWidget {
+  final StatefulNavigationShell shell;
 
-  @override
-  State<MainNavigationScreen> createState() => _MainNavigationScreenState();
-}
-
-class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _currentIndex = 0;
-  bool _isPresentationMode = false;
-  String? _focusPocketId;
-
-  void _navigateToTab(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
-
-  void _focusPocketOnMap(Pocket pocket) {
-    setState(() {
-      _focusPocketId = pocket.id;
-      _currentIndex = 1; // Switch to Map tab
-    });
-  }
+  const MainNavigationScreen({super.key, required this.shell});
 
   @override
-  Widget build(BuildContext context) {
-    final List<Widget> screens = [
-      HomeScreen(onNavigateToTab: _navigateToTab),
-      MapScreen(
-        key: ValueKey(_focusPocketId ?? 'default_map'),
-        initialPocketId: _focusPocketId,
-        onNavigateToTab: _navigateToTab,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
+    final bundle = ref.watch(bundleProvider);
+    return bundle.when(
+      loading: () => _Message(icon: const CircularProgressIndicator(color: AppColors.accent), text: l.loadingData),
+      error: (error, _) => _Message(
+        icon: const Icon(Icons.error_outline_rounded, color: AppColors.highRisk, size: 40),
+        text: l.loadError,
+        action: FilledButton(onPressed: () => ref.invalidate(bundleProvider), child: Text(l.retry)),
       ),
-      MissionsScreen(onViewOnMap: _focusPocketOnMap),
-      InfoScreen(
-        isPresentationMode: _isPresentationMode,
-        onTogglePresentationMode: (value) {
-          setState(() {
-            _isPresentationMode = value;
-          });
-        },
+      data: (_) => Scaffold(
+        body: shell,
+        bottomNavigationBar: ref.watch(presentationModeProvider)
+            ? null
+            : BottomNavigationBar(
+                currentIndex: shell.currentIndex,
+                onTap: (index) => shell.goBranch(index, initialLocation: index == shell.currentIndex),
+                selectedItemColor: AppColors.accent,
+                unselectedItemColor: AppColors.textMuted,
+                backgroundColor: AppColors.surface,
+                type: BottomNavigationBarType.fixed,
+                items: [
+                  BottomNavigationBarItem(icon: const Icon(Icons.grid_view_rounded), label: l.tabHome),
+                  BottomNavigationBarItem(icon: const Icon(Icons.map_rounded), label: l.tabMap),
+                  BottomNavigationBarItem(icon: const Icon(Icons.assignment_rounded), label: l.tabMissions),
+                  BottomNavigationBarItem(icon: const Icon(Icons.info_outline_rounded), label: l.tabInfo),
+                ],
+              ),
       ),
-    ];
-
-    return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: screens,
-      ),
-      bottomNavigationBar: _isPresentationMode
-          ? null
-          : BottomNavigationBar(
-              currentIndex: _currentIndex,
-              onTap: _navigateToTab,
-              selectedItemColor: AppColors.accent,
-              unselectedItemColor: AppColors.textMuted,
-              backgroundColor: AppColors.surface,
-              type: BottomNavigationBarType.fixed,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.grid_view_rounded),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.map_rounded),
-                  label: 'Map',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.assignment_rounded),
-                  label: 'Missions',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.info_outline_rounded),
-                  label: 'Info',
-                ),
-              ],
-            ),
     );
   }
+}
+
+class _Message extends StatelessWidget {
+  final Widget icon;
+  final String text;
+  final Widget? action;
+
+  const _Message({required this.icon, required this.text, this.action});
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        backgroundColor: AppColors.background,
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                icon,
+                const SizedBox(height: 16),
+                Text(text, textAlign: TextAlign.center, style: const TextStyle(color: AppColors.text, fontSize: 14)),
+                if (action != null) ...[const SizedBox(height: 16), action!],
+              ],
+            ),
+          ),
+        ),
+      );
 }

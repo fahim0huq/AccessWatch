@@ -34,7 +34,7 @@ Also in `flood/`: `flood_baseline_threshold.tif` (1 = flood from the threshold m
 `is_bridge`, `bridge_uncertain` (bridge or ford near flood water: verify on the ground) | `access_normal_vehicle`, `access_high_clearance`, `access_foot` | `travel_time_min`, `risk_cost`.
 
 ## `mission_cards.json`
-`cards[]` sorted by rank: `title`, `location`, `population`, `access_status`, `access_mode`, `boat_leg_km`, `lost_services[]`, `service_access{}`, `routes{safest, shortest}`, `risk_level`, `confidence`, `stability`, `worst_case_mode`, `verify_notes[]`, `priority_terms{}`, `summary`, `alert_text` (short text for field teams).
+`cards[]` sorted by rank: `rank`, `pocket_id`, `title`, `location{lat, lon, nearest_place, direction_from_place}`, `population`, `population_note`, `access_status`, `access_mode`, `boat_leg_km`, `lost_services[]{service, previous_minutes}`, `limited_services[]`, `service_access{clinic, market, shelter, aid_depot}`, `routes{safest, shortest}` (each `distance_km`, `time_min`, `max_depth_class`, `risk_level`, `risk_score`, `uncertain_bridges`), `max_depth_class`, `risk_level`, `confidence`, `verification_required`, `verify_notes[]`, `short_water_crossing`, `depot_auto_selected`, `priority_score`, `priority_terms{pop_norm, service_loss_norm, difficulty_norm}`, `summary`, `alert_text` (short text for field teams), `data`, `stability`, `worst_case_mode`.
 
 ## `network/services.geojson` and `network/aid_depot.geojson` (Point)
 Services: `type` `clinic` / `market` / `shelter`, `name` (may be empty; OSM may list one facility twice), `on_network`. Depot: `name`.

@@ -25,7 +25,7 @@ dist-ssr
 
 # --- AccessWatch data & secrets (added) ---
 # Raw working folder: notebook runs, caches, EMS zips (hundreds of MB, some >100 MB)
-Data/
+/Data/
 *.zip
 *.ipynb
 preview_map.html
@@ -36,6 +36,7 @@ preview_map.html
 firebase-adminsdk*.json
 google-services.json
 GoogleService-Info.plist
+# Raw working folder rule above is anchored: git ignores case here, so "Data/" would also hide lib/data/.
 # Python bytecode from tools/
 __pycache__/
 # Flutter build output
