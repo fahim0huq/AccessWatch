@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 from shapely.geometry import Point, box
 
-from bundle import ems, graph, quality, services
+from bundle import depth_ranges, ems, graph, quality, services
 from bundle.common import MAX_BUNDLE_BYTES, OUT, GateError, line_to_geojson, polygon_to_geojson
 
 
@@ -128,6 +128,34 @@ class Quality(unittest.TestCase):
         p = [{"pocket_id": a, "rank": r, "population": n, "service_loss_norm": .8, "difficulty_norm": 1.0}
              for a, r, n in (("A", 1, 10), ("B", 2, 30), ("C", 3, 5))]
         self.assertEqual(quality.rank_population_inversions(p), [["A", "B"]])
+
+
+class DepthRanges(unittest.TestCase):
+    row = "| `depth_class.tif` | 0 dry, 1 shallow (<0.4 m), 2 medium (<0.9 m), 3 deep, 4 unknown |"
+    limits = {"shallow": 0.3, "medium": 0.8}
+
+    def test_reads_the_schema_row(self):
+        self.assertEqual(depth_ranges.limits_from_schema(self.row), {"shallow": 0.4, "medium": 0.9})
+
+    def test_missing_schema_row_fails(self):
+        with self.assertRaises(GateError):
+            depth_ranges.limits_from_schema("no limits here")
+
+    def test_config_values_are_found_at_any_level(self):
+        doc = {"flood_method": {"depth_shallow_max_m": 0.25, "medium_threshold": 0.7}}
+        self.assertEqual(depth_ranges.limits_from_config(doc), {"shallow": 0.25, "medium": 0.7})
+
+    def test_config_is_ignored_unless_both_limits_exist(self):
+        self.assertIsNone(depth_ranges.limits_from_config({"shallow_max": 0.25}, {"km_shallow": 1.0}))
+
+    def test_rasters_that_match_pass(self):
+        depth = np.array([0.1, 0.5, 2.0, np.nan])
+        depth_ranges.check_against_rasters(self.limits, depth, np.array([1, 2, 3, 0]))
+
+    def test_pixel_outside_its_class_fails(self):
+        for values, classes in (([0.5], [1]), ([0.2], [2]), ([0.9], [2]), ([0.5], [3])):
+            with self.assertRaises(GateError):
+                depth_ranges.check_against_rasters(self.limits, np.array(values), np.array(classes))
 
 
 class Rounding(unittest.TestCase):

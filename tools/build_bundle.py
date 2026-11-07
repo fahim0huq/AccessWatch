@@ -14,6 +14,7 @@ from bundle import ems as ems_mod
 from bundle import graph as graph_mod
 from bundle import layers, quality, services
 from bundle.common import MAX_BUNDLE_BYTES, OUT, SRC, GateError, gate, read_json, write_json
+from bundle.depth_ranges import build_depth_classes
 
 SCENE_TIME = re.compile(r"_(\d{8}T\d{6})_")
 MANIFEST = "manifest.json"
@@ -47,6 +48,8 @@ def build(out):
     flood = layers.build_flood(mask)
     baseline, _ = layers.build_baseline()
     depth = layers.build_depth_zones()
+    depth_classes = build_depth_classes(report, sources, layers.read_raster("depth.tif").data,
+                                        layers.read_raster("depth_class.tif").data)
     pockets, pocket_geoms = layers.build_pockets()
     routes = layers.build_routes()
     pocket_ids = [pid for pid, _ in pocket_geoms]
@@ -96,6 +99,7 @@ def build(out):
         "dates": {"nisar_before": iso(before), "nisar_after": iso(after), "ems_image": iso(ems["image_time"]),
                   "ems_hours_after_nisar": gap_hours, "notebook_generated": missions["generated"]},
         "quality_flags": quality_doc["flags"],
+        "depth_classes": depth_classes,
         "compare": compare,
         "graph": {"nodes": len(graph["lon"]), "edges": len(graph["edges"]),
                   "self_loops_dropped": graph["self_loops_dropped"], "connectivity": links, **replay},

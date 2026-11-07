@@ -290,24 +290,6 @@ abstract class AppLocalizations {
   /// **'UNKNOWN'**
   String get depthUnknown;
 
-  /// No description provided for @depthShallowRange.
-  ///
-  /// In en, this message translates to:
-  /// **'< 0.3 m'**
-  String get depthShallowRange;
-
-  /// No description provided for @depthMediumRange.
-  ///
-  /// In en, this message translates to:
-  /// **'0.3–0.8 m'**
-  String get depthMediumRange;
-
-  /// No description provided for @depthDeepRange.
-  ///
-  /// In en, this message translates to:
-  /// **'> 0.8 m'**
-  String get depthDeepRange;
-
   /// No description provided for @depthEstimateWarning.
   ///
   /// In en, this message translates to:
@@ -787,6 +769,384 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not affiliated with or endorsed by NASA, ISRO or Copernicus.'**
   String get notAffiliated;
+
+  /// No description provided for @depthBelow.
+  ///
+  /// In en, this message translates to:
+  /// **'< {limit} m'**
+  String depthBelow(String limit);
+
+  /// No description provided for @depthBetween.
+  ///
+  /// In en, this message translates to:
+  /// **'{low}–{high} m'**
+  String depthBetween(String low, String high);
+
+  /// No description provided for @depthAbove.
+  ///
+  /// In en, this message translates to:
+  /// **'> {limit} m'**
+  String depthAbove(String limit);
+
+  /// No description provided for @osmAttribution.
+  ///
+  /// In en, this message translates to:
+  /// **'© OpenStreetMap contributors'**
+  String get osmAttribution;
+
+  /// No description provided for @mapDates.
+  ///
+  /// In en, this message translates to:
+  /// **'NISAR {before} – {after} · EMS {ems}'**
+  String mapDates(String before, String after, String ems);
+
+  /// No description provided for @warningsToggle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} warnings'**
+  String warningsToggle(String count);
+
+  /// No description provided for @tooltipLayers.
+  ///
+  /// In en, this message translates to:
+  /// **'Layers'**
+  String get tooltipLayers;
+
+  /// No description provided for @tooltipLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Legend'**
+  String get tooltipLegend;
+
+  /// No description provided for @tooltipCompare.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare with EMS'**
+  String get tooltipCompare;
+
+  /// No description provided for @tooltipLocate.
+  ///
+  /// In en, this message translates to:
+  /// **'Show my location'**
+  String get tooltipLocate;
+
+  /// No description provided for @tooltipZoomIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom in'**
+  String get tooltipZoomIn;
+
+  /// No description provided for @tooltipZoomOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom out'**
+  String get tooltipZoomOut;
+
+  /// No description provided for @tooltipFit.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the whole area'**
+  String get tooltipFit;
+
+  /// No description provided for @layersControl.
+  ///
+  /// In en, this message translates to:
+  /// **'LAYERS'**
+  String get layersControl;
+
+  /// No description provided for @layerDepth.
+  ///
+  /// In en, this message translates to:
+  /// **'Water depth (estimate)'**
+  String get layerDepth;
+
+  /// No description provided for @layerFlood.
+  ///
+  /// In en, this message translates to:
+  /// **'Flood extent'**
+  String get layerFlood;
+
+  /// No description provided for @layerEms.
+  ///
+  /// In en, this message translates to:
+  /// **'Official EMS flood'**
+  String get layerEms;
+
+  /// No description provided for @layerRoads.
+  ///
+  /// In en, this message translates to:
+  /// **'Flooded roads'**
+  String get layerRoads;
+
+  /// No description provided for @layerPockets.
+  ///
+  /// In en, this message translates to:
+  /// **'Pockets'**
+  String get layerPockets;
+
+  /// No description provided for @layerRoutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Routes'**
+  String get layerRoutes;
+
+  /// No description provided for @layerServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Services'**
+  String get layerServices;
+
+  /// No description provided for @layerCompare.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare with EMS'**
+  String get layerCompare;
+
+  /// No description provided for @opacityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Opacity {pct}%'**
+  String opacityLabel(String pct);
+
+  /// No description provided for @depthDetailNote.
+  ///
+  /// In en, this message translates to:
+  /// **'At low zoom only the largest depth patches are drawn, with smoothed edges. Zoom in to see them all.'**
+  String get depthDetailNote;
+
+  /// No description provided for @legendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'LEGEND'**
+  String get legendTitle;
+
+  /// No description provided for @legendPocketRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'Pocket, {level} risk'**
+  String legendPocketRisk(String level);
+
+  /// No description provided for @legendSafest.
+  ///
+  /// In en, this message translates to:
+  /// **'Safest route'**
+  String get legendSafest;
+
+  /// No description provided for @legendShortest.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortest route (dashed)'**
+  String get legendShortest;
+
+  /// No description provided for @legendRoad.
+  ///
+  /// In en, this message translates to:
+  /// **'Flooded road, by depth'**
+  String get legendRoad;
+
+  /// No description provided for @legendEms.
+  ///
+  /// In en, this message translates to:
+  /// **'Official EMS flood outline'**
+  String get legendEms;
+
+  /// No description provided for @legendClinic.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinic'**
+  String get legendClinic;
+
+  /// No description provided for @legendMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Market'**
+  String get legendMarket;
+
+  /// No description provided for @legendShelter.
+  ///
+  /// In en, this message translates to:
+  /// **'Shelter'**
+  String get legendShelter;
+
+  /// No description provided for @legendDepot.
+  ///
+  /// In en, this message translates to:
+  /// **'Aid depot'**
+  String get legendDepot;
+
+  /// No description provided for @legendMe.
+  ///
+  /// In en, this message translates to:
+  /// **'My location'**
+  String get legendMe;
+
+  /// No description provided for @compareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'COMPARE WITH EMS'**
+  String get compareTitle;
+
+  /// No description provided for @compareBoth.
+  ///
+  /// In en, this message translates to:
+  /// **'Both maps: {area} km²'**
+  String compareBoth(String area);
+
+  /// No description provided for @compareOnlyOurs.
+  ///
+  /// In en, this message translates to:
+  /// **'Only our map: {area} km²'**
+  String compareOnlyOurs(String area);
+
+  /// No description provided for @compareOnlyEms.
+  ///
+  /// In en, this message translates to:
+  /// **'Only EMS: {area} km²'**
+  String compareOnlyEms(String area);
+
+  /// No description provided for @compareIou.
+  ///
+  /// In en, this message translates to:
+  /// **'Agreement (IoU): {iou}'**
+  String compareIou(String iou);
+
+  /// No description provided for @compareNotIndependent.
+  ///
+  /// In en, this message translates to:
+  /// **'Not an independent check: our flood map was calibrated on this EMS map.'**
+  String get compareNotIndependent;
+
+  /// No description provided for @compareEmsDate.
+  ///
+  /// In en, this message translates to:
+  /// **'EMS image: {date}, {hours} hours after the NISAR scene.'**
+  String compareEmsDate(String date, String hours);
+
+  /// No description provided for @compareTransparent.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear areas are dry in both maps, or outside the area EMS mapped.'**
+  String get compareTransparent;
+
+  /// No description provided for @rankedPocketsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'RANKED POCKETS'**
+  String get rankedPocketsTitle;
+
+  /// No description provided for @allPockets.
+  ///
+  /// In en, this message translates to:
+  /// **'ALL'**
+  String get allPockets;
+
+  /// No description provided for @routeSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{pocket}: {route}'**
+  String routeSheetTitle(String pocket, String route);
+
+  /// No description provided for @routeSafestLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Safest route'**
+  String get routeSafestLabel;
+
+  /// No description provided for @routeShortestLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortest route'**
+  String get routeShortestLabel;
+
+  /// No description provided for @routeAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Access'**
+  String get routeAccess;
+
+  /// No description provided for @routeWaterKm.
+  ///
+  /// In en, this message translates to:
+  /// **'Water on route'**
+  String get routeWaterKm;
+
+  /// No description provided for @routeWaterValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{shallow} / {medium} / {deep} km (shallow / medium / deep)'**
+  String routeWaterValue(String shallow, String medium, String deep);
+
+  /// No description provided for @routesIllustrative.
+  ///
+  /// In en, this message translates to:
+  /// **'Distances and times are estimates, and the route starts from the auto-selected depot.'**
+  String get routesIllustrative;
+
+  /// No description provided for @sheetServiceType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get sheetServiceType;
+
+  /// No description provided for @sheetStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Access status'**
+  String get sheetStatus;
+
+  /// No description provided for @clinicReachable.
+  ///
+  /// In en, this message translates to:
+  /// **'Reachable on dry roads'**
+  String get clinicReachable;
+
+  /// No description provided for @clinicAccessFlooded.
+  ///
+  /// In en, this message translates to:
+  /// **'Access road flooded'**
+  String get clinicAccessFlooded;
+
+  /// No description provided for @clinicInsidePocket.
+  ///
+  /// In en, this message translates to:
+  /// **'Inside pocket {pocket}'**
+  String clinicInsidePocket(String pocket);
+
+  /// No description provided for @clinicStatusNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This shows whether the clinic connects to the main dry road network. It does not say whether a cut-off pocket can reach it.'**
+  String get clinicStatusNote;
+
+  /// No description provided for @clinicDuplicateNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Mapped records can repeat one facility, so nearby clinics may be the same place.'**
+  String get clinicDuplicateNote;
+
+  /// No description provided for @locationOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Location is turned off on this device.'**
+  String get locationOff;
+
+  /// No description provided for @locationDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission was not given.'**
+  String get locationDenied;
+
+  /// No description provided for @locationOutside.
+  ///
+  /// In en, this message translates to:
+  /// **'You are outside the mapped area.'**
+  String get locationOutside;
+
+  /// No description provided for @viewOnMap.
+  ///
+  /// In en, this message translates to:
+  /// **'VIEW ON MAP'**
+  String get viewOnMap;
 }
 
 class _AppLocalizationsDelegate

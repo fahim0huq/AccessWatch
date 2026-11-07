@@ -25,17 +25,3 @@ final textScaleProvider = StateProvider<double>((ref) => minTextScale);
 
 /// Hides the bottom navigation for screen recording.
 final presentationModeProvider = StateProvider<bool>((ref) => false);
-
-enum MapLayer { depthZones, flood, floodEms, pockets, routes, services }
-
-/// Which map layers are switched on. The official EMS layer starts off.
-class MapLayersNotifier extends StateNotifier<Set<MapLayer>> {
-  MapLayersNotifier() : super(MapLayer.values.toSet()..remove(MapLayer.floodEms));
-
-  void setVisible(MapLayer layer, bool visible) {
-    state = visible ? {...state, layer} : ({...state}..remove(layer));
-  }
-}
-
-final mapLayersProvider =
-    StateNotifierProvider<MapLayersNotifier, Set<MapLayer>>((ref) => MapLayersNotifier());

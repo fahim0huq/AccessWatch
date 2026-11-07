@@ -115,15 +115,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get depthUnknown => 'UNKNOWN';
 
   @override
-  String get depthShallowRange => '< 0.3 m';
-
-  @override
-  String get depthMediumRange => '0.3–0.8 m';
-
-  @override
-  String get depthDeepRange => '> 0.8 m';
-
-  @override
   String get depthEstimateWarning =>
       'Depth is an estimate, shown as classes and not exact metres. Verify on the ground.';
 
@@ -424,4 +415,229 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notAffiliated =>
       'Not affiliated with or endorsed by NASA, ISRO or Copernicus.';
+
+  @override
+  String depthBelow(String limit) {
+    return '< $limit m';
+  }
+
+  @override
+  String depthBetween(String low, String high) {
+    return '$low–$high m';
+  }
+
+  @override
+  String depthAbove(String limit) {
+    return '> $limit m';
+  }
+
+  @override
+  String get osmAttribution => '© OpenStreetMap contributors';
+
+  @override
+  String mapDates(String before, String after, String ems) {
+    return 'NISAR $before – $after · EMS $ems';
+  }
+
+  @override
+  String warningsToggle(String count) {
+    return '$count warnings';
+  }
+
+  @override
+  String get tooltipLayers => 'Layers';
+
+  @override
+  String get tooltipLegend => 'Legend';
+
+  @override
+  String get tooltipCompare => 'Compare with EMS';
+
+  @override
+  String get tooltipLocate => 'Show my location';
+
+  @override
+  String get tooltipZoomIn => 'Zoom in';
+
+  @override
+  String get tooltipZoomOut => 'Zoom out';
+
+  @override
+  String get tooltipFit => 'Show the whole area';
+
+  @override
+  String get layersControl => 'LAYERS';
+
+  @override
+  String get layerDepth => 'Water depth (estimate)';
+
+  @override
+  String get layerFlood => 'Flood extent';
+
+  @override
+  String get layerEms => 'Official EMS flood';
+
+  @override
+  String get layerRoads => 'Flooded roads';
+
+  @override
+  String get layerPockets => 'Pockets';
+
+  @override
+  String get layerRoutes => 'Routes';
+
+  @override
+  String get layerServices => 'Services';
+
+  @override
+  String get layerCompare => 'Compare with EMS';
+
+  @override
+  String opacityLabel(String pct) {
+    return 'Opacity $pct%';
+  }
+
+  @override
+  String get depthDetailNote =>
+      'At low zoom only the largest depth patches are drawn, with smoothed edges. Zoom in to see them all.';
+
+  @override
+  String get legendTitle => 'LEGEND';
+
+  @override
+  String legendPocketRisk(String level) {
+    return 'Pocket, $level risk';
+  }
+
+  @override
+  String get legendSafest => 'Safest route';
+
+  @override
+  String get legendShortest => 'Shortest route (dashed)';
+
+  @override
+  String get legendRoad => 'Flooded road, by depth';
+
+  @override
+  String get legendEms => 'Official EMS flood outline';
+
+  @override
+  String get legendClinic => 'Clinic';
+
+  @override
+  String get legendMarket => 'Market';
+
+  @override
+  String get legendShelter => 'Shelter';
+
+  @override
+  String get legendDepot => 'Aid depot';
+
+  @override
+  String get legendMe => 'My location';
+
+  @override
+  String get compareTitle => 'COMPARE WITH EMS';
+
+  @override
+  String compareBoth(String area) {
+    return 'Both maps: $area km²';
+  }
+
+  @override
+  String compareOnlyOurs(String area) {
+    return 'Only our map: $area km²';
+  }
+
+  @override
+  String compareOnlyEms(String area) {
+    return 'Only EMS: $area km²';
+  }
+
+  @override
+  String compareIou(String iou) {
+    return 'Agreement (IoU): $iou';
+  }
+
+  @override
+  String get compareNotIndependent =>
+      'Not an independent check: our flood map was calibrated on this EMS map.';
+
+  @override
+  String compareEmsDate(String date, String hours) {
+    return 'EMS image: $date, $hours hours after the NISAR scene.';
+  }
+
+  @override
+  String get compareTransparent =>
+      'Clear areas are dry in both maps, or outside the area EMS mapped.';
+
+  @override
+  String get rankedPocketsTitle => 'RANKED POCKETS';
+
+  @override
+  String get allPockets => 'ALL';
+
+  @override
+  String routeSheetTitle(String pocket, String route) {
+    return '$pocket: $route';
+  }
+
+  @override
+  String get routeSafestLabel => 'Safest route';
+
+  @override
+  String get routeShortestLabel => 'Shortest route';
+
+  @override
+  String get routeAccess => 'Access';
+
+  @override
+  String get routeWaterKm => 'Water on route';
+
+  @override
+  String routeWaterValue(String shallow, String medium, String deep) {
+    return '$shallow / $medium / $deep km (shallow / medium / deep)';
+  }
+
+  @override
+  String get routesIllustrative =>
+      'Distances and times are estimates, and the route starts from the auto-selected depot.';
+
+  @override
+  String get sheetServiceType => 'Type';
+
+  @override
+  String get sheetStatus => 'Access status';
+
+  @override
+  String get clinicReachable => 'Reachable on dry roads';
+
+  @override
+  String get clinicAccessFlooded => 'Access road flooded';
+
+  @override
+  String clinicInsidePocket(String pocket) {
+    return 'Inside pocket $pocket';
+  }
+
+  @override
+  String get clinicStatusNote =>
+      'This shows whether the clinic connects to the main dry road network. It does not say whether a cut-off pocket can reach it.';
+
+  @override
+  String get clinicDuplicateNote =>
+      'Mapped records can repeat one facility, so nearby clinics may be the same place.';
+
+  @override
+  String get locationOff => 'Location is turned off on this device.';
+
+  @override
+  String get locationDenied => 'Location permission was not given.';
+
+  @override
+  String get locationOutside => 'You are outside the mapped area.';
+
+  @override
+  String get viewOnMap => 'VIEW ON MAP';
 }

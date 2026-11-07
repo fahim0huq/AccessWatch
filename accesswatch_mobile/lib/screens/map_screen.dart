@@ -1,855 +1,289 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import '../models/demo_data.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:latlong2/latlong.dart' show LatLng;
+
+import '../data/bundle_repository.dart';
+import '../data/models/manifest.dart';
+import '../l10n/app_localizations.dart';
+import '../state/location.dart';
+import '../state/map_state.dart';
+import '../state/providers.dart';
 import '../theme/app_theme.dart';
-import '../widgets/demo_badge.dart';
-import '../widgets/map_painter.dart';
-import '../widgets/analysis_progress_modal.dart';
+import '../widgets/map/feature_layers.dart';
+import '../widgets/map/flood_layers.dart';
+import '../widgets/map/layer_panel.dart';
+import '../widgets/map/map_chrome.dart';
+import '../widgets/map/map_bottom_panel.dart';
+import '../widgets/map/map_legend.dart';
+import '../widgets/map/map_sheets.dart';
+import '../widgets/quality_banners.dart';
 
-class MapScreen extends StatefulWidget {
-  final String? initialPocketId;
-  final Function(int)? onNavigateToTab;
+const _tileUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const _userAgentPackage = 'com.accesswatch.app.accesswatch_mobile';
+// Room on the right for the floating buttons, so nothing fitted sits under them.
+const _fitPadding = EdgeInsets.fromLTRB(12, 12, 68, 24);
 
-  const MapScreen({
-    super.key,
-    this.initialPocketId,
-    this.onNavigateToTab,
-  });
+LatLngBounds _latLngBounds(GeoBounds b) => LatLngBounds(LatLng(b.south, b.west), LatLng(b.north, b.east));
+
+class MapScreen extends ConsumerStatefulWidget {
+  const MapScreen({super.key});
 
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  ConsumerState<MapScreen> createState() => _MapScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> {
-  bool _isBeforeFlood = false;
-  late String _selectedPocketId;
-  final TransformationController _transformationController = TransformationController();
+class _MapScreenState extends ConsumerState<MapScreen> {
+  final _map = MapController();
+  // Kept across rebuilds: each new TileLayer would bring its own tile provider and client.
+  late final _tiles = TileLayer(
+    urlTemplate: _tileUrl,
+    userAgentPackageName: _userAgentPackage,
+    maxNativeZoom: 19,
+    tileProvider: ref.read(mapTileProvider),
+  );
+  bool _ready = false;
+  bool _bannersOpen = true;
+  bool _legendOpen = false;
+  bool _wantsLocation = false;
+  LatLng? _me;
+  StreamSubscription<LatLng>? _positions;
 
-  Map<String, bool> _layerVisibility = {
-    'flood': true,
-    'waterDepth': true,
-    'roads': true,
-    'services': true,
-    'pockets': true,
-    'routes': true,
-  };
+  AppBundle get _bundle => ref.read(loadedBundleProvider);
 
   @override
-  void initState() {
-    super.initState();
-    _selectedPocketId = widget.initialPocketId ?? 'pocket-01';
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // The tab stays alive while hidden: GPS only runs while it is on screen.
+    if (!TickerMode.valuesOf(context).enabled) {
+      _stopPositions();
+    } else if (_wantsLocation) {
+      _startPositions();
+    }
   }
 
   @override
   void dispose() {
-    _transformationController.dispose();
+    _stopPositions();
+    _map.dispose();
     super.dispose();
   }
 
-  void focusOnPocket(Pocket pocket) {
-    setState(() {
-      _selectedPocketId = pocket.id;
-    });
-
-    final targetX = (pocket.coordinates.dx / 100) * 1200;
-    final targetY = (pocket.coordinates.dy / 100) * 840;
-
-    _transformationController.value = Matrix4.identity()
-      ..translateByDouble(-targetX + 200, -targetY + 200, 0, 1)
-      ..scaleByDouble(1.65, 1.65, 1.65, 1);
+  void _stopPositions() {
+    _positions?.cancel();
+    _positions = null;
   }
 
-  void _onSelectPocket(Pocket pocket) => focusOnPocket(pocket);
-
-  void _showRoadSegmentDialog(RoadSegment road) {
-    showDialog(
-      context: context,
-      builder: (context) => Dialog(
-        backgroundColor: AppColors.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: AppColors.border),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'ROAD SEGMENT',
-                    style: TextStyle(
-                      color: AppColors.textMuted,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'monospace',
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: road.depthClass == DepthClass.deep
-                          ? AppColors.floodDeep.withValues(alpha: 0.2)
-                          : road.depthClass == DepthClass.medium
-                              ? AppColors.floodMedium.withValues(alpha: 0.2)
-                              : AppColors.floodShallow.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      road.depthClass.label,
-                      style: TextStyle(
-                        color: road.depthClass == DepthClass.deep
-                            ? AppColors.floodDeep
-                            : road.depthClass == DepthClass.medium
-                                ? AppColors.floodMedium
-                                : AppColors.floodShallow,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                road.name,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: AppColors.background,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.border),
-                ),
-                child: Column(
-                  children: [
-                    const Text(
-                      'Estimated water depth',
-                      style: TextStyle(
-                        color: AppColors.textMuted,
-                        fontSize: 11,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '${road.estimatedDepthMeters.toStringAsFixed(2)} m',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w900,
-                        fontFamily: 'monospace',
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      road.depthClass.label,
-                      style: TextStyle(
-                        color: road.depthClass == DepthClass.deep
-                            ? AppColors.floodDeep
-                            : road.depthClass == DepthClass.medium
-                                ? AppColors.floodMedium
-                                : AppColors.accent,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'monospace',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              const Text(
-                'Estimated — verify on the ground.',
-                style: TextStyle(
-                  color: AppColors.warning,
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.accent,
-                    foregroundColor: AppColors.background,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  ),
-                  child: const Text('CLOSE', style: TextStyle(fontWeight: FontWeight.bold)),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  void _startPositions() {
+    _positions ??= ref.read(locationSourceProvider).positions().listen((position) {
+      if (!mounted) return;
+      final first = _me == null;
+      setState(() => _me = position);
+      if (first) _centreOnMe();
+    }, onError: (Object _) => _stopPositions());
   }
 
-  void _showLayersSheet() {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: AppColors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => StatefulBuilder(
-        builder: (context, setSheetState) {
-          final layers = [
-            {'key': 'flood', 'label': 'Flood extent'},
-            {'key': 'waterDepth', 'label': 'Water depth'},
-            {'key': 'roads', 'label': 'Roads'},
-            {'key': 'services', 'label': 'Services'},
-            {'key': 'pockets', 'label': 'Communities'},
-            {'key': 'routes', 'label': 'Routes'},
-          ];
-
-          return Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'LAYERS CONTROL',
-                  style: TextStyle(
-                    color: AppColors.accent,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'monospace',
-                  ),
-                ),
-                const SizedBox(height: 12),
-                ...layers.map((l) {
-                  final key = l['key'] as String;
-                  final label = l['label'] as String;
-                  return CheckboxListTile(
-                    title: Text(
-                      label,
-                      style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
-                    ),
-                    value: _layerVisibility[key] ?? true,
-                    activeColor: AppColors.accent,
-                    onChanged: (val) {
-                      setSheetState(() {
-                        _layerVisibility[key] = val ?? true;
-                      });
-                      setState(() {});
-                    },
-                  );
-                }),
-              ],
-            ),
-          );
-        },
-      ),
-    );
+  void _say(String message) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(message)));
   }
 
-  void _runAnalysis() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AnalysisProgressModal(
-        onComplete: () {
-          setState(() {
-            _isBeforeFlood = false;
-            _layerVisibility = {
-              'flood': true,
-              'roads': true,
-              'services': true,
-              'pockets': true,
-              'routes': true,
-            };
-          });
-        },
-      ),
-    );
+  void _centreOnMe() {
+    final me = _me;
+    if (me == null) return;
+    if (_latLngBounds(_bundle.manifest.boundsAll).contains(me)) {
+      _map.move(me, 15);
+    } else {
+      _say(AppLocalizations.of(context)!.locationOutside);
+    }
   }
 
-  void _zoomIn() {
-    final matrix = _transformationController.value.clone();
-    matrix.scaleByDouble(1.3, 1.3, 1.3, 1);
-    _transformationController.value = matrix;
+  Future<void> _locate() async {
+    final l = AppLocalizations.of(context)!;
+    final issue = await ref.read(locationSourceProvider).prepare();
+    if (!mounted) return;
+    switch (issue) {
+      case LocationIssue.serviceOff:
+        _say(l.locationOff);
+      case LocationIssue.denied:
+        _say(l.locationDenied);
+      case null:
+        _wantsLocation = true;
+        _startPositions();
+        _centreOnMe();
+    }
   }
 
-  void _zoomOut() {
-    final matrix = _transformationController.value.clone();
-    matrix.scaleByDouble(0.75, 0.75, 0.75, 1);
-    _transformationController.value = matrix;
+  void _fitAll() => _map.fitCamera(CameraFit.bounds(
+        bounds: _latLngBounds(_bundle.manifest.bounds),
+        padding: _fitPadding,
+      ));
+
+  void _focus(String? pocketId) {
+    if (!_ready) return;
+    if (pocketId == null) {
+      _fitAll();
+      return;
+    }
+    final pocket = _bundle.pockets.firstWhere((p) => p.id == pocketId);
+    final points = [for (final polygon in pocket.polygons) ...polygon.outer];
+    _map.fitCamera(CameraFit.bounds(
+      bounds: LatLngBounds.fromPoints(points),
+      padding: const EdgeInsets.fromLTRB(48, 48, 80, 48),
+      maxZoom: 15,
+    ));
   }
 
-  void _resetZoom() {
-    _transformationController.value = Matrix4.identity();
+  /// The map loads its first tiles before it applies initialCameraFit and does
+  /// not reload after, which leaves the fitted view with no base map. A tiny
+  /// camera move makes it load the tiles for the view actually on screen.
+  void _loadFittedTiles() {
+    final camera = _map.camera;
+    _map.move(camera.center, camera.zoom + 0.001);
+    // On an idle page nothing else asks for the frame that shows them.
+    WidgetsBinding.instance.ensureVisualUpdate();
+  }
+
+  void _zoom(double by) {
+    final camera = _map.camera;
+    _map.move(camera.center, camera.zoom + by);
+  }
+
+  void _openPocket(String id) {
+    ref.read(selectedPocketIdProvider.notifier).state = id;
+    showPocketSheet(context, ref, id);
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<String?>(selectedPocketIdProvider, (_, id) => _focus(id));
+    final l = AppLocalizations.of(context)!;
+    final bundle = ref.watch(loadedBundleProvider);
+    final layers = ref.watch(mapLayersProvider);
+    final compare = layers.contains(MapLayer.compare);
+    final height = MediaQuery.sizeOf(context).height;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
-            // Top Header Bar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Row(
-                    children: [
-                      Icon(Icons.radar, color: AppColors.accent, size: 20),
-                      SizedBox(width: 8),
-                      Text(
-                        'MISSION CONTROL',
-                        style: TextStyle(
-                          color: AppColors.accent,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'monospace',
-                          letterSpacing: 1.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const DemoBadge(compact: true),
-                ],
-              ),
-            ),
-
-            // Segmented Control: BEFORE FLOOD | AFTER FLOOD
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-              child: Container(
-                padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.border),
-                ),
-                child: Row(
+            // Scrolls within a cap, so large text can never squeeze the map away.
+            ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: height * 0.4),
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () => setState(() => _isBeforeFlood = false),
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 250),
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          decoration: BoxDecoration(
-                            color: !_isBeforeFlood ? AppColors.highRisk.withValues(alpha: 0.2) : Colors.transparent,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: !_isBeforeFlood ? AppColors.highRisk.withValues(alpha: 0.5) : Colors.transparent,
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.bolt, size: 14, color: !_isBeforeFlood ? AppColors.highRisk : AppColors.textMuted),
-                              const SizedBox(width: 4),
-                              Text(
-                                'AFTER FLOOD (SAR)',
-                                style: TextStyle(
-                                  color: !_isBeforeFlood ? AppColors.highRisk : AppColors.textMuted,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'monospace',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    MapHeader(
+                      bannersOpen: _bannersOpen,
+                      onToggleBanners: () => setState(() => _bannersOpen = !_bannersOpen),
                     ),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () => setState(() => _isBeforeFlood = true),
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 250),
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          decoration: BoxDecoration(
-                            color: _isBeforeFlood ? AppColors.warning.withValues(alpha: 0.2) : Colors.transparent,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: _isBeforeFlood ? AppColors.warning.withValues(alpha: 0.5) : Colors.transparent,
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.wb_sunny, size: 14, color: _isBeforeFlood ? AppColors.warning : AppColors.textMuted),
-                              const SizedBox(width: 4),
-                              Text(
-                                'BEFORE FLOOD',
-                                style: TextStyle(
-                                  color: _isBeforeFlood ? AppColors.warning : AppColors.textMuted,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'monospace',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    if (compare) const CompareLegend(),
+                    if (_bannersOpen) const QualityBanners(padding: EdgeInsets.fromLTRB(8, 0, 8, 2)),
                   ],
                 ),
               ),
             ),
-
-            // MAIN INTERACTIVE MAP VIEWPORT (NO BLACK SIDES)
             Expanded(
               child: Stack(
-                fit: StackFit.expand,
                 children: [
-                  InteractiveViewer(
-                    transformationController: _transformationController,
-                    boundaryMargin: const EdgeInsets.all(400),
-                    minScale: 1.0,
-                    maxScale: 3.8,
-                    child: SizedBox(
-                      width: 1200,
-                      height: 840,
-                      child: Stack(
-                        children: [
-                          // Base Map Image
-                          AnimatedCrossFade(
-                            firstChild: Image.asset(
-                              'assets/maps/map_bright.jpg',
-                              width: 1200,
-                              height: 840,
-                              fit: BoxFit.cover,
-                            ),
-                            secondChild: Image.asset(
-                              'assets/maps/map_radar_flood.jpg',
-                              width: 1200,
-                              height: 840,
-                              fit: BoxFit.cover,
-                            ),
-                            crossFadeState: _isBeforeFlood
-                                ? CrossFadeState.showFirst
-                                : CrossFadeState.showSecond,
-                            duration: const Duration(milliseconds: 500),
-                          ),
-
-                          // GIS CustomPaint Overlay
-                          CustomPaint(
-                            size: const Size(1200, 840),
-                            painter: MapPainter(
-                              pockets: DEMO_DATA.pockets,
-                              services: DEMO_DATA.services,
-                              roads: DEMO_DATA.roads,
-                              floodZones: DEMO_DATA.floodZones,
-                              selectedPocketId: _selectedPocketId,
-                              isBeforeFlood: _isBeforeFlood,
-                              layerVisibility: _layerVisibility,
-                            ),
-                          ),
-
-                          // Interactive Road Segment Taps Overlay
-                          if (!_isBeforeFlood && (_layerVisibility['roads'] ?? true))
-                            ...DEMO_DATA.roads.map((road) {
-                              if (road.points.isEmpty) return const SizedBox.shrink();
-                              final midPoint = road.points[road.points.length ~/ 2];
-                              final left = (midPoint.dx / 100) * 1200 - 28;
-                              final top = (midPoint.dy / 100) * 840 - 12;
-                              return Positioned(
-                                left: left,
-                                top: top,
-                                child: GestureDetector(
-                                  onTap: () => _showRoadSegmentDialog(road),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                                    decoration: BoxDecoration(
-                                      color: road.depthClass == DepthClass.deep
-                                          ? AppColors.floodDeep
-                                          : road.depthClass == DepthClass.medium
-                                              ? AppColors.floodMedium
-                                              : AppColors.floodShallow,
-                                      borderRadius: BorderRadius.circular(6),
-                                      border: Border.all(color: Colors.white.withValues(alpha: 0.9), width: 1),
-                                      boxShadow: const [BoxShadow(color: Colors.black45, blurRadius: 4)],
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(
-                                          Icons.water,
-                                          size: 10,
-                                          color: road.depthClass == DepthClass.deep ? Colors.white : Colors.black87,
-                                        ),
-                                        const SizedBox(width: 3),
-                                        Text(
-                                          '${road.estimatedDepthMeters.toStringAsFixed(2)}m',
-                                          style: TextStyle(
-                                            color: road.depthClass == DepthClass.deep ? Colors.white : Colors.black87,
-                                            fontSize: 9,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'monospace',
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }),
-                        ],
+                  FlutterMap(
+                    mapController: _map,
+                    options: MapOptions(
+                      // Set as well as the fit, so even the very first tile requests
+                      // are for this area and not the library's default centre.
+                      initialCenter: _latLngBounds(bundle.manifest.bounds).center,
+                      initialZoom: 12,
+                      initialCameraFit: CameraFit.bounds(
+                        bounds: _latLngBounds(bundle.manifest.bounds),
+                        padding: _fitPadding,
                       ),
+                      minZoom: 9,
+                      maxZoom: 18,
+                      backgroundColor: AppColors.surfaceElevated,
+                      interactionOptions: const InteractionOptions(
+                        flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+                      ),
+                      onMapReady: () {
+                        _ready = true;
+                        final selected = ref.read(selectedPocketIdProvider);
+                        if (selected != null) {
+                          _focus(selected);
+                        } else {
+                          _loadFittedTiles();
+                        }
+                      },
                     ),
+                    children: [
+                      if (ref.watch(showBaseTilesProvider)) _tiles,
+                      if (compare)
+                        OverlayImageLayer(overlayImages: [
+                          OverlayImage(
+                            bounds: _latLngBounds(bundle.manifest.bounds),
+                            imageProvider: const AssetImage(BundleRepository.compareImageAsset),
+                            opacity: ref.watch(mapOpacityProvider)[MapLayer.compare]!,
+                            filterQuality: FilterQuality.none,
+                          ),
+                        ])
+                      else ...[
+                        if (layers.contains(MapLayer.depthZones)) const DepthZonesLayer(),
+                        if (layers.contains(MapLayer.flood)) const FloodLayer(),
+                        if (layers.contains(MapLayer.floodEms)) const EmsFloodLayer(),
+                      ],
+                      if (layers.contains(MapLayer.floodedRoads)) const FloodedRoadsLayer(),
+                      if (layers.contains(MapLayer.pockets)) PocketAreasLayer(onTap: (p) => _openPocket(p.id)),
+                      if (layers.contains(MapLayer.routes)) RoutesLayer(onTap: (r) => showRoutesSheet(context, r)),
+                      if (layers.contains(MapLayer.pockets)) PocketLabelsLayer(onTap: (p) => _openPocket(p.id)),
+                      if (layers.contains(MapLayer.services))
+                        ServicesLayer(onTap: (s) => showServiceSheet(context, ref, s)),
+                      if (_me != null) MyLocationLayer(position: _me!),
+                      const OsmAttribution(),
+                    ],
                   ),
-
-                  // Floating Map Controls (Zoom In, Zoom Out, Reset, Layers)
+                  MapControls(
+                    compare: compare,
+                    onLayers: () => showModalBottomSheet<void>(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (_) => const LayerPanel(),
+                    ),
+                    onCompare: () {
+                      // The compare panel takes the banners' place so the map stays large;
+                      // they are one tap away, and return when Compare ends.
+                      setState(() => _bannersOpen = compare);
+                      ref.read(mapLayersProvider.notifier).setVisible(MapLayer.compare, !compare);
+                    },
+                    onLocate: _locate,
+                    onZoomIn: () => _zoom(1),
+                    onZoomOut: () => _zoom(-1),
+                    onFit: _fitAll,
+                  ),
                   Positioned(
-                    bottom: 16,
-                    right: 16,
+                    left: 8,
+                    bottom: 30,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        FloatingActionButton.small(
-                          heroTag: 'btnLayers',
-                          onPressed: _showLayersSheet,
+                        if (_legendOpen)
+                          ConstrainedBox(constraints: BoxConstraints(maxHeight: height * 0.4), child: const MapLegend()),
+                        const SizedBox(height: 6),
+                        ActionChip(
+                          avatar: Icon(_legendOpen ? Icons.close_rounded : Icons.legend_toggle_rounded, size: 16, color: AppColors.accent),
+                          label: Text(l.tooltipLegend, style: const TextStyle(color: AppColors.text, fontSize: 12)),
                           backgroundColor: AppColors.surface,
-                          child: const Icon(Icons.layers_rounded, color: AppColors.accent),
-                        ),
-                        const SizedBox(height: 8),
-                        FloatingActionButton.small(
-                          heroTag: 'btnZoomIn',
-                          onPressed: _zoomIn,
-                          backgroundColor: AppColors.surface,
-                          child: const Icon(Icons.add, color: Colors.white),
-                        ),
-                        const SizedBox(height: 8),
-                        FloatingActionButton.small(
-                          heroTag: 'btnZoomOut',
-                          onPressed: _zoomOut,
-                          backgroundColor: AppColors.surface,
-                          child: const Icon(Icons.remove, color: Colors.white),
-                        ),
-                        const SizedBox(height: 8),
-                        FloatingActionButton.small(
-                          heroTag: 'btnResetView',
-                          onPressed: _resetZoom,
-                          backgroundColor: AppColors.surface,
-                          child: const Icon(Icons.center_focus_strong, color: AppColors.accent),
+                          onPressed: () => setState(() => _legendOpen = !_legendOpen),
                         ),
                       ],
                     ),
                   ),
-
-                  // Floating Radar Label
-                  if (!_isBeforeFlood)
-                    const Positioned(
-                      top: 12,
-                      left: 16,
-                      child: RadarViewBadge(),
-                    ),
-
-                  // Floating Water Depth Map Legend
-                  if (!_isBeforeFlood && (_layerVisibility['waterDepth'] ?? true))
-                    Positioned(
-                      bottom: 16,
-                      left: 16,
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: AppColors.surface.withValues(alpha: 0.92),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppColors.border),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black45,
-                              blurRadius: 10,
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Text(
-                              'WATER DEPTH',
-                              style: TextStyle(
-                                color: AppColors.accent,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'monospace',
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 16,
-                                  height: 4,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.floodShallow,
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  'SHALLOW',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'monospace',
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  '< 0.3 m',
-                                  style: TextStyle(
-                                    color: AppColors.textMuted,
-                                    fontSize: 10,
-                                    fontFamily: 'monospace',
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 4),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 16,
-                                  height: 4,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.floodMedium,
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  'MEDIUM',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'monospace',
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  '0.3–0.8 m',
-                                  style: TextStyle(
-                                    color: AppColors.textMuted,
-                                    fontSize: 10,
-                                    fontFamily: 'monospace',
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 4),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 16,
-                                  height: 4,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.floodDeep,
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  'DEEP',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'monospace',
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  '> 0.8 m',
-                                  style: TextStyle(
-                                    color: AppColors.textMuted,
-                                    fontSize: 10,
-                                    fontFamily: 'monospace',
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            const Text(
-                              'Estimated depth — verify on the ground.',
-                              style: TextStyle(
-                                color: AppColors.warning,
-                                fontSize: 9,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                 ],
               ),
             ),
-
-            // LOWER SECTION: Action Button & Priorities List
-            Container(
-              decoration: const BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                border: Border(top: BorderSide(color: AppColors.border)),
-              ),
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Action Trigger Button
-                    ElevatedButton(
-                      onPressed: _runAnalysis,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: AppColors.background,
-                        minimumSize: const Size(double.infinity, 46),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.play_arrow_rounded, size: 20),
-                          SizedBox(width: 8),
-                          Text(
-                            'RUN SAR PIPELINE ANALYSIS',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w900,
-                              fontFamily: 'monospace',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-
-                    // Top Priorities Title & Pocket Selector Chips
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'ISOLATED COMMUNITIES',
-                          style: TextStyle(
-                            color: AppColors.textMuted,
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'monospace',
-                          ),
-                        ),
-                        Text(
-                          '${DEMO_DATA.pockets.length} Ranked Pockets',
-                          style: const TextStyle(
-                            color: AppColors.accent,
-                            fontSize: 11,
-                            fontFamily: 'monospace',
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-
-                    // Pocket Items Horizontal List
-                    SizedBox(
-                      height: 80,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: DEMO_DATA.pockets.length,
-                        itemBuilder: (context, index) {
-                          final p = DEMO_DATA.pockets[index];
-                          final isSelected = p.id == _selectedPocketId;
-
-                          return GestureDetector(
-                            onTap: () => _onSelectPocket(p),
-                            child: Container(
-                              width: 135,
-                              margin: const EdgeInsets.only(right: 10),
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: isSelected ? AppColors.accent.withValues(alpha: 0.15) : AppColors.background,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: isSelected ? AppColors.accent : AppColors.border,
-                                  width: isSelected ? 1.5 : 1,
-                                ),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        '#${p.rank.toString().padLeft(2, '0')}',
-                                        style: TextStyle(
-                                          color: isSelected ? AppColors.accent : Colors.white,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'monospace',
-                                        ),
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          p.accessMode,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            color: AppColors.warning,
-                                            fontSize: 9,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    p.name,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Text(
-                                    '${p.population} people',
-                                    style: const TextStyle(
-                                      color: AppColors.textMuted,
-                                      fontSize: 10,
-                                      fontFamily: 'monospace',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            MapBottomPanel(onOpenPocket: _openPocket),
           ],
         ),
       ),

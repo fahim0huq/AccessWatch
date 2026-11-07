@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../data/models/enums.dart';
 import '../data/models/mission.dart';
 import '../l10n/app_localizations.dart';
+import '../router.dart';
 import '../state/providers.dart';
 import '../theme/app_theme.dart';
 import '../utils/labels.dart';
@@ -24,17 +26,23 @@ class _MissionsScreenState extends ConsumerState<MissionsScreen> {
   AccessMode? _filter;
 
   void _openDetail(Mission mission) {
-    ref.read(selectedPocketIdProvider.notifier).state = mission.pocketId;
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => DraggableScrollableSheet(
+      builder: (sheetContext) => DraggableScrollableSheet(
         initialChildSize: 0.8,
         maxChildSize: 0.95,
         minChildSize: 0.4,
-        builder: (context, scrollController) =>
-            MissionCardDetail(mission: mission, scrollController: scrollController),
+        builder: (_, scrollController) => MissionCardDetail(
+          mission: mission,
+          scrollController: scrollController,
+          onViewOnMap: () {
+            Navigator.pop(sheetContext);
+            ref.read(selectedPocketIdProvider.notifier).state = mission.pocketId;
+            context.go(AppRoutes.map);
+          },
+        ),
       ),
     );
   }

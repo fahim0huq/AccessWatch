@@ -1,9 +1,11 @@
 // Depth-class card and route comparison table of the mission sheet.
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/models/enums.dart';
 import '../data/models/mission.dart';
 import '../l10n/app_localizations.dart';
+import '../state/providers.dart';
 import '../theme/app_theme.dart';
 import '../utils/labels.dart';
 
@@ -18,22 +20,15 @@ Color depthColor(DepthClass depth) => switch (depth) {
     };
 
 /// Depth is shown as a class with its definition, never as exact metres.
-class MissionCardDepthSection extends StatelessWidget {
+class MissionCardDepthSection extends ConsumerWidget {
   final DepthClass depth;
 
   const MissionCardDepthSection({super.key, required this.depth});
 
-  String? _range(AppLocalizations l) => switch (depth) {
-        DepthClass.shallow => l.depthShallowRange,
-        DepthClass.medium => l.depthMediumRange,
-        DepthClass.deep => l.depthDeepRange,
-        DepthClass.dry || DepthClass.unknown => null,
-      };
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context)!;
-    final range = _range(l);
+    final range = l.depthRange(depth, ref.watch(loadedBundleProvider).manifest.depthClasses, Fmt.of(context));
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),

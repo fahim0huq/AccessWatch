@@ -35,6 +35,33 @@ class BundleDates {
       );
 }
 
+/// Limits of the depth classes in metres. Depth itself remains an estimate.
+class DepthClasses {
+  final double shallowMaxM, mediumMinM, mediumMaxM, deepMinM;
+
+  /// Where the limits came from, for the Data and trust screen.
+  final String source;
+
+  const DepthClasses({
+    required this.shallowMaxM,
+    required this.mediumMinM,
+    required this.mediumMaxM,
+    required this.deepMinM,
+    required this.source,
+  });
+
+  factory DepthClasses.fromJson(Map<String, dynamic> j) {
+    Map<String, dynamic> cls(String name) => j[name] as Map<String, dynamic>;
+    return DepthClasses(
+      shallowMaxM: _d(cls('shallow')['max_m']),
+      mediumMinM: _d(cls('medium')['min_m']),
+      mediumMaxM: _d(cls('medium')['max_m']),
+      deepMinM: _d(cls('deep')['min_m']),
+      source: j['source'] as String,
+    );
+  }
+}
+
 class CompareInfo {
   final int both, onlyOurs, onlyEms, ourFloodPixelsOutsideEmsArea;
   final double pixelAreaM2, iou;
@@ -158,6 +185,7 @@ class Manifest {
   final GeoBounds bounds, boundsAll;
   final BundleDates dates;
   final Set<QualityFlag> qualityFlags;
+  final DepthClasses depthClasses;
   final CompareInfo compare;
   final GraphInfo graph;
   final BundleStats stats;
@@ -171,6 +199,7 @@ class Manifest {
     required this.boundsAll,
     required this.dates,
     required this.qualityFlags,
+    required this.depthClasses,
     required this.compare,
     required this.graph,
     required this.stats,
@@ -185,6 +214,7 @@ class Manifest {
         boundsAll: GeoBounds.fromJson(j['bounds_all'] as Map<String, dynamic>),
         dates: BundleDates.fromJson(j['dates'] as Map<String, dynamic>),
         qualityFlags: QualityFlag.activeIn(j['quality_flags'] as Map<String, dynamic>),
+        depthClasses: DepthClasses.fromJson(j['depth_classes'] as Map<String, dynamic>),
         compare: CompareInfo.fromJson(j['compare'] as Map<String, dynamic>),
         graph: GraphInfo.fromJson(j['graph'] as Map<String, dynamic>),
         stats: BundleStats.fromJson(j['stats'] as Map<String, dynamic>),

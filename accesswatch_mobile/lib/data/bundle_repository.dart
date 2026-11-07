@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+import 'depth_lod.dart';
 import 'models/layers.dart';
 import 'models/manifest.dart';
 import 'models/mission.dart';
@@ -19,6 +20,9 @@ class AppBundle {
   final List<FloodArea> flood, floodBaseline;
   final EmsLayer ems;
   final List<DepthZone> depthZones;
+
+  /// Simplified copies of [depthZones] for drawing, by zoom.
+  final DepthLod depthLod;
   final List<Pocket> pockets;
   final List<RouteLine> routes;
   final List<ServicePoint> services;
@@ -32,6 +36,7 @@ class AppBundle {
     required this.floodBaseline,
     required this.ems,
     required this.depthZones,
+    required this.depthLod,
     required this.pockets,
     required this.routes,
     required this.services,
@@ -46,7 +51,10 @@ class AppBundle {
 Map<String, dynamic> _json(String text) => jsonDecode(text) as Map<String, dynamic>;
 List<FloodArea> _parseFlood(String text) => FloodArea.listFromJson(_json(text));
 EmsLayer _parseEms(String text) => EmsLayer.fromJson(_json(text));
-List<DepthZone> _parseDepth(String text) => DepthZone.listFromJson(_json(text));
+(List<DepthZone>, DepthLod) _parseDepth(String text) {
+  final zones = DepthZone.listFromJson(_json(text));
+  return (zones, buildDepthLod(zones));
+}
 List<Pocket> _parsePockets(String text) => Pocket.listFromJson(_json(text));
 List<RouteLine> _parseRoutes(String text) => RouteLine.listFromJson(_json(text));
 RoadGraph _parseGraph(String text) => RoadGraph.fromJson(_json(text));
@@ -86,7 +94,8 @@ class BundleRepository {
       flood: await flood,
       floodBaseline: await baseline,
       ems: await ems,
-      depthZones: await depth,
+      depthZones: (await depth).$1,
+      depthLod: (await depth).$2,
       pockets: await pockets,
       routes: await routes,
       services: await services,

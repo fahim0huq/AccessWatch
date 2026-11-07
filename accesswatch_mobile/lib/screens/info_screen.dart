@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../data/models/enums.dart';
 import '../l10n/app_localizations.dart';
 import '../state/providers.dart';
 import '../theme/app_theme.dart';
@@ -22,6 +23,7 @@ class InfoScreen extends ConsumerWidget {
     final bundle = ref.watch(loadedBundleProvider);
     final dates = bundle.manifest.dates;
     final stats = bundle.manifest.stats;
+    final limits = bundle.manifest.depthClasses;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -61,11 +63,11 @@ class InfoScreen extends ConsumerWidget {
               children: [
                 Text(l.depthDescription, style: _bodyStyle),
                 const SizedBox(height: 14),
-                _DepthRow(label: l.depthShallow, range: l.depthShallowRange, color: AppColors.floodShallow),
+                _DepthRow(label: l.depthShallow, range: l.depthRange(DepthClass.shallow, limits, fmt)!, color: AppColors.floodShallow),
                 const Divider(color: AppColors.border, height: 12),
-                _DepthRow(label: l.depthMedium, range: l.depthMediumRange, color: AppColors.floodMedium),
+                _DepthRow(label: l.depthMedium, range: l.depthRange(DepthClass.medium, limits, fmt)!, color: AppColors.floodMedium),
                 const Divider(color: AppColors.border, height: 12),
-                _DepthRow(label: l.depthDeep, range: l.depthDeepRange, color: AppColors.floodDeep),
+                _DepthRow(label: l.depthDeep, range: l.depthRange(DepthClass.deep, limits, fmt)!, color: AppColors.floodDeep),
                 const SizedBox(height: 14),
                 Text(l.depthEstimateWarning,
                     style: const TextStyle(color: AppColors.warning, fontSize: 11.5, fontWeight: FontWeight.bold)),

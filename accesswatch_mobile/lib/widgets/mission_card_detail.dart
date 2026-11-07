@@ -16,8 +16,9 @@ const _sectionStyle =
 class MissionCardDetail extends StatelessWidget {
   final Mission mission;
   final ScrollController? scrollController;
+  final VoidCallback? onViewOnMap;
 
-  const MissionCardDetail({super.key, required this.mission, this.scrollController});
+  const MissionCardDetail({super.key, required this.mission, this.scrollController, this.onViewOnMap});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class MissionCardDetail extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const MissionCardHeader(),
+          MissionCardHeader(onViewOnMap: onViewOnMap),
           const Divider(color: AppColors.border, height: 1),
           Expanded(
             child: ListView(

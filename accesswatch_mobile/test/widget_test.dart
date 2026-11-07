@@ -76,8 +76,7 @@ void main() {
   });
 
   testWidgets('Map tab shows the warnings above the map', (tester) async {
-    // Wide view: the old demo map overflows at phone width until Phase 2 replaces it.
-    await pumpApp(tester, bundle, width: 1000);
+    await pumpApp(tester, bundle);
     await openTab(tester, en.tabMap);
     expect(find.text(en.warnShortNisarBeta), findsOneWidget);
     expect(find.text(en.warnShortClassifierCalibrated), findsOneWidget);

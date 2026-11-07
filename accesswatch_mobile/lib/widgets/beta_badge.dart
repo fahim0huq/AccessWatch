@@ -26,14 +26,16 @@ class BetaBadge extends ConsumerWidget {
         children: [
           const Icon(Icons.science_outlined, size: 12, color: AppColors.warning),
           const SizedBox(width: 4),
-          Text(
-            AppLocalizations.of(context)!.betaBadge,
-            style: const TextStyle(
-              color: AppColors.warning,
-              fontSize: 10,
-              fontWeight: FontWeight.w900,
-              fontFamily: 'monospace',
-              letterSpacing: 0.5,
+          Flexible(
+            child: Text(
+              AppLocalizations.of(context)!.betaBadge,
+              style: const TextStyle(
+                color: AppColors.warning,
+                fontSize: 10,
+                fontWeight: FontWeight.w900,
+                fontFamily: 'monospace',
+                letterSpacing: 0.5,
+              ),
             ),
           ),
         ],

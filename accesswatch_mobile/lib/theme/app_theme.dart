@@ -13,13 +13,14 @@ class AppColors {
   static const Color accent = Color(0xFF35C9D0); // Cyan/Teal-blue
   static const Color accentSecondary = Color(0xFF4DA3FF); // Blue
 
-  // Flood Depth Colors
-  static const Color floodShallow = Color(0xFF7DD3FC);
-  static const Color floodMedium = Color(0xFF38A0E8);
-  static const Color floodDeep = Color(0xFF1D4ED8);
+  // Flood depth colors: the notebook palette
+  static const Color floodShallow = Color(0xFF9ECAE1);
+  static const Color floodMedium = Color(0xFF3182BD);
+  static const Color floodDeep = Color(0xFF08306B);
 
   // Status & Routes
-  static const Color safestRoute = Color(0xFF38D996); // Green SPECIFICALLY for safest route
+  static const Color safestRoute = Color(0xFF14B8A6); // Solid teal on the map
+  static const Color shortestRoute = Color(0xFF8D5A3C); // Dashed brown on the map
   static const Color highRisk = Color(0xFFEF4444);
   static const Color warning = Color(0xFFF59E0B);
   static const Color info = Color(0xFF38BDF8);

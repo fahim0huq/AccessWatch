@@ -118,15 +118,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get depthUnknown => 'DESCONHECIDA';
 
   @override
-  String get depthShallowRange => '< 0,3 m';
-
-  @override
-  String get depthMediumRange => '0,3–0,8 m';
-
-  @override
-  String get depthDeepRange => '> 0,8 m';
-
-  @override
   String get depthEstimateWarning =>
       'A profundidade é uma estimativa, em classes e não em metros exatos. Verifique no terreno.';
 
@@ -427,4 +418,229 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get notAffiliated =>
       'Sem afiliação nem aprovação da NASA, do ISRO ou do Copernicus.';
+
+  @override
+  String depthBelow(String limit) {
+    return '< $limit m';
+  }
+
+  @override
+  String depthBetween(String low, String high) {
+    return '$low–$high m';
+  }
+
+  @override
+  String depthAbove(String limit) {
+    return '> $limit m';
+  }
+
+  @override
+  String get osmAttribution => '© contribuidores do OpenStreetMap';
+
+  @override
+  String mapDates(String before, String after, String ems) {
+    return 'NISAR $before – $after · EMS $ems';
+  }
+
+  @override
+  String warningsToggle(String count) {
+    return '$count avisos';
+  }
+
+  @override
+  String get tooltipLayers => 'Camadas';
+
+  @override
+  String get tooltipLegend => 'Legenda';
+
+  @override
+  String get tooltipCompare => 'Comparar com o EMS';
+
+  @override
+  String get tooltipLocate => 'Mostrar a minha localização';
+
+  @override
+  String get tooltipZoomIn => 'Aproximar';
+
+  @override
+  String get tooltipZoomOut => 'Afastar';
+
+  @override
+  String get tooltipFit => 'Mostrar toda a área';
+
+  @override
+  String get layersControl => 'CAMADAS';
+
+  @override
+  String get layerDepth => 'Profundidade da água (estimativa)';
+
+  @override
+  String get layerFlood => 'Extensão da cheia';
+
+  @override
+  String get layerEms => 'Cheia oficial EMS';
+
+  @override
+  String get layerRoads => 'Estradas inundadas';
+
+  @override
+  String get layerPockets => 'Bolsões';
+
+  @override
+  String get layerRoutes => 'Rotas';
+
+  @override
+  String get layerServices => 'Serviços';
+
+  @override
+  String get layerCompare => 'Comparar com o EMS';
+
+  @override
+  String opacityLabel(String pct) {
+    return 'Opacidade $pct%';
+  }
+
+  @override
+  String get depthDetailNote =>
+      'Com pouco zoom só se desenham as maiores manchas de profundidade, com contornos suavizados. Aproxime para as ver todas.';
+
+  @override
+  String get legendTitle => 'LEGENDA';
+
+  @override
+  String legendPocketRisk(String level) {
+    return 'Bolsão, risco $level';
+  }
+
+  @override
+  String get legendSafest => 'Rota mais segura';
+
+  @override
+  String get legendShortest => 'Rota mais curta (tracejada)';
+
+  @override
+  String get legendRoad => 'Estrada inundada, por profundidade';
+
+  @override
+  String get legendEms => 'Contorno da cheia oficial EMS';
+
+  @override
+  String get legendClinic => 'Clínica';
+
+  @override
+  String get legendMarket => 'Mercado';
+
+  @override
+  String get legendShelter => 'Abrigo';
+
+  @override
+  String get legendDepot => 'Depósito de ajuda';
+
+  @override
+  String get legendMe => 'A minha localização';
+
+  @override
+  String get compareTitle => 'COMPARAR COM O EMS';
+
+  @override
+  String compareBoth(String area) {
+    return 'Ambos os mapas: $area km²';
+  }
+
+  @override
+  String compareOnlyOurs(String area) {
+    return 'Só o nosso mapa: $area km²';
+  }
+
+  @override
+  String compareOnlyEms(String area) {
+    return 'Só o EMS: $area km²';
+  }
+
+  @override
+  String compareIou(String iou) {
+    return 'Concordância (IoU): $iou';
+  }
+
+  @override
+  String get compareNotIndependent =>
+      'Não é uma verificação independente: o nosso mapa de cheia foi calibrado neste mapa EMS.';
+
+  @override
+  String compareEmsDate(String date, String hours) {
+    return 'Imagem EMS: $date, $hours horas depois da cena NISAR.';
+  }
+
+  @override
+  String get compareTransparent =>
+      'As áreas transparentes estão secas em ambos os mapas ou fora da área mapeada pelo EMS.';
+
+  @override
+  String get rankedPocketsTitle => 'BOLSÕES CLASSIFICADOS';
+
+  @override
+  String get allPockets => 'TODOS';
+
+  @override
+  String routeSheetTitle(String pocket, String route) {
+    return '$pocket: $route';
+  }
+
+  @override
+  String get routeSafestLabel => 'Rota mais segura';
+
+  @override
+  String get routeShortestLabel => 'Rota mais curta';
+
+  @override
+  String get routeAccess => 'Acesso';
+
+  @override
+  String get routeWaterKm => 'Água na rota';
+
+  @override
+  String routeWaterValue(String shallow, String medium, String deep) {
+    return '$shallow / $medium / $deep km (baixa / média / alta)';
+  }
+
+  @override
+  String get routesIllustrative =>
+      'As distâncias e os tempos são estimativas e a rota parte do depósito selecionado automaticamente.';
+
+  @override
+  String get sheetServiceType => 'Tipo';
+
+  @override
+  String get sheetStatus => 'Estado de acesso';
+
+  @override
+  String get clinicReachable => 'Acessível por estradas secas';
+
+  @override
+  String get clinicAccessFlooded => 'Estrada de acesso inundada';
+
+  @override
+  String clinicInsidePocket(String pocket) {
+    return 'Dentro do bolsão $pocket';
+  }
+
+  @override
+  String get clinicStatusNote =>
+      'Indica se a clínica está ligada à principal rede de estradas secas. Não diz se um bolsão isolado consegue chegar até ela.';
+
+  @override
+  String get clinicDuplicateNote =>
+      'Os registos do mapa podem repetir uma instalação, por isso clínicas próximas podem ser o mesmo local.';
+
+  @override
+  String get locationOff => 'A localização está desligada neste dispositivo.';
+
+  @override
+  String get locationDenied => 'A permissão de localização não foi dada.';
+
+  @override
+  String get locationOutside => 'Está fora da área mapeada.';
+
+  @override
+  String get viewOnMap => 'VER NO MAPA';
 }
