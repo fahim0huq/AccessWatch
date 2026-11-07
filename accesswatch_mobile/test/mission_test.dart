@@ -1,0 +1,237 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:accesswatch_mobile/data/bundle_repository.dart';
+import 'package:accesswatch_mobile/data/mission_ranking.dart';
+import 'package:accesswatch_mobile/data/verify_notes.dart';
+import 'package:accesswatch_mobile/l10n/app_localizations.dart';
+import 'package:accesswatch_mobile/l10n/app_localizations_en.dart';
+import 'package:accesswatch_mobile/l10n/app_localizations_pt.dart';
+import 'package:accesswatch_mobile/state/mission_state.dart';
+import 'package:accesswatch_mobile/utils/labels.dart';
+import 'package:accesswatch_mobile/utils/mission_text.dart';
+import 'package:accesswatch_mobile/widgets/mission_list_card.dart';
+import 'package:accesswatch_mobile/widgets/ranking_panel.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import 'support/app_harness.dart';
+
+void main() {
+  late AppBundle bundle;
+  final AppLocalizations en = AppLocalizationsEn();
+  final AppLocalizations pt = AppLocalizationsPt();
+
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    bundle = await BundleRepository().load();
+  });
+
+  Future<void> openMissions(WidgetTester tester, {List<Override> overrides = const [], Locale locale = const Locale('en')}) async {
+    await pumpApp(tester, bundle, overrides: overrides, locale: locale);
+    final l = locale.languageCode == 'en' ? en : pt;
+    await tester.tap(find.text(l.tabMissions).last);
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> openFirstMission(WidgetTester tester) async {
+    await tester.tap(find.byType(MissionListCard).first);
+    await tester.pumpAndSettle();
+  }
+
+  List<String> order(WidgetTester tester) =>
+      tester.widgetList<MissionListCard>(find.byType(MissionListCard)).map((c) => c.ranked.mission.pocketId).toList();
+
+  group('ranking', () {
+    test('the published weights give back the published ranking exactly', () {
+      final ranked = rankMissions(bundle.missions, const PriorityWeights());
+      expect(ranked.map((r) => r.rank), ranked.map((r) => r.mission.rank));
+      for (final r in ranked) {
+        // The score reproduces the data's priority_score, within its rounding.
+        expect(r.score, closeTo(r.mission.priorityScore, 0.0006));
+      }
+    });
+
+    test('more weight on people moves the larger difficult pocket above smaller boat pockets', () {
+      final ranked = rankMissions(bundle.missions, const PriorityWeights(people: 2));
+      final ids = ranked.map((r) => r.mission.pocketId).toList();
+      expect(ids.first, 'P01');
+      expect(ids.indexOf('P02'), lessThan(ids.indexOf('P08')));
+    });
+
+    test('a weight of zero drops that term', () {
+      const w = PriorityWeights(people: 0, serviceLoss: 0, difficulty: 0);
+      expect(rankMissions(bundle.missions, w).every((r) => r.score == 1), isTrue);
+      // All tied, so the published order holds.
+      expect(rankMissions(bundle.missions, w).map((r) => r.rank), bundle.missions.map((m) => m.rank));
+    });
+
+    test('the data has a dominant pocket and tied terms, so the notes apply', () {
+      final (top, share) = largestPocket(bundle.missions)!;
+      expect(top.pocketId, 'P01');
+      expect(share, greaterThan(dominantPocketShare));
+      expect(hasTiedTerms(bundle.missions), isTrue);
+    });
+  });
+
+  group('verify notes', () {
+    // Each kind, matched to the wording of the notebook's own notes in the source file.
+    const sourceWords = {
+      VerifyNoteKind.bridges: 'bridge(s) on the route',
+      VerifyNoteKind.lowConfidence: 'Low confidence',
+      VerifyNoteKind.boatRoute: 'boat route follows',
+      VerifyNoteKind.unstable: 'Sensitivity test',
+      VerifyNoteKind.shortestDeep: 'crosses deep water',
+      VerifyNoteKind.depotAutoSelected: 'AUTO-SELECTED',
+      VerifyNoteKind.estimates: 'Depth classes are estimates',
+    };
+
+    test('match the source notes for every card, built only from the fields', () {
+      final source = jsonDecode(File('../data_sample/notebook_outputs/mission_cards.json').readAsStringSync());
+      for (final card in source['cards'] as List) {
+        final notes = (card['verify_notes'] as List).cast<String>();
+        final mission = bundle.missions.firstWhere((m) => m.pocketId == card['pocket_id']);
+        final fromSource = {
+          for (final e in sourceWords.entries)
+            if (notes.any((n) => n.contains(e.value))) e.key,
+        };
+        expect(fromSource, hasLength(notes.length), reason: 'a source note has no kind: $notes');
+        expect(verifyNotesFor(mission).map((n) => n.kind).toSet(), fromSource, reason: mission.pocketId);
+      }
+    });
+
+    testWidgets('are a checklist whose ticks survive leaving the page', (tester) async {
+      await openMissions(tester);
+      await openFirstMission(tester);
+      final mission = bundle.missions.first;
+      final notes = verifyNotesFor(mission);
+      expect(find.byType(CheckboxListTile), findsNWidgets(notes.length));
+      await tester.tap(find.byType(CheckboxListTile).first);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(en.back));
+      await tester.pumpAndSettle();
+      await openFirstMission(tester);
+      final first = tester.widget<CheckboxListTile>(find.byType(CheckboxListTile).first);
+      expect(first.value, isTrue);
+    });
+  });
+
+  group('sliders', () {
+    testWidgets('re-rank the list live, show the published rank, and reset', (tester) async {
+      await openMissions(tester);
+      final published = order(tester);
+      expect(find.textContaining('Published rank'), findsNothing);
+      final sliders = find.descendant(of: find.byType(RankingPanel), matching: find.byType(Slider));
+      expect(sliders, findsNWidgets(3));
+
+      // Full weight on people: drag the first slider to its right end.
+      tester.widget<Slider>(sliders.first).onChanged!(PriorityWeights.max);
+      await tester.pumpAndSettle();
+      final changed = order(tester);
+      expect(changed, isNot(published));
+      expect(changed.first, 'P01');
+      expect(find.textContaining('Published rank'), findsWidgets);
+
+      await tester.tap(find.text(en.rankingReset));
+      await tester.pumpAndSettle();
+      expect(order(tester), published);
+      expect(find.textContaining('Published rank'), findsNothing);
+    });
+
+    testWidgets('show the choice, dominance, tie and depot notes from the data', (tester) async {
+      await openMissions(tester);
+      expect(find.text(en.rankingChoiceNote), findsOneWidget);
+      expect(find.text(en.rankingDominated('P01', '98')), findsOneWidget);
+      expect(find.text(en.rankingTies), findsOneWidget);
+      expect(find.text(en.rankingDepotNote), findsOneWidget);
+    });
+
+    testWidgets('keep the notes when folded away', (tester) async {
+      await openMissions(tester);
+      await tester.tap(find.byTooltip(en.rankingHide));
+      await tester.pumpAndSettle();
+      expect(find.descendant(of: find.byType(RankingPanel), matching: find.byType(Slider)), findsNothing);
+      expect(find.text(en.rankingDominated('P01', '98')), findsOneWidget);
+    });
+  });
+
+  group('detail page', () {
+    testWidgets('shows service access, routes and the priority terms', (tester) async {
+      await openMissions(tester);
+      await openFirstMission(tester);
+      expect(find.text(en.serviceAccessTitle), findsOneWidget);
+      expect(find.textContaining(en.accessNo), findsWidgets);
+      expect(find.text(en.routeComparison), findsOneWidget);
+      expect(find.text(en.priorityTermsTitle), findsOneWidget);
+    });
+
+    testWidgets('Show on map goes to that pocket', (tester) async {
+      await openMissions(tester);
+      await openFirstMission(tester);
+      await tester.tap(find.text(en.viewOnMap));
+      await tester.pumpAndSettle();
+      expect(find.byType(FlutterMap), findsOneWidget);
+    });
+
+    testWidgets('an unknown mission link does not crash', (tester) async {
+      tester.binding.platformDispatcher.defaultRouteNameTestValue = '/missions/P99';
+      addTearDown(tester.binding.platformDispatcher.clearDefaultRouteNameTestValue);
+      await pumpApp(tester, bundle);
+      expect(find.text(en.missionNotFound('P99')), findsOneWidget);
+    });
+  });
+
+  group('share alert', () {
+    Future<List<String>> shareFirst(WidgetTester tester, AppLocalizations l, Locale locale) async {
+      final sent = <String>[];
+      await openMissions(tester, locale: locale, overrides: [
+        alertSharerProvider.overrideWithValue((text) async => sent.add(text)),
+      ]);
+      await openFirstMission(tester);
+      await tester.tap(find.text(l.shareAlert));
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(FilledButton, l.shareAlert));
+      await tester.pumpAndSettle();
+      return sent;
+    }
+
+    testWidgets('is built in English from the fields', (tester) async {
+      final sent = await shareFirst(tester, en, const Locale('en'));
+      expect(sent, hasLength(1));
+      expect(sent.single, allOf(contains('#1 P01'), contains('West of Guija'), contains('12,853'), contains('BOAT (0.56 km by water)')));
+      expect(sent.single, allOf(contains('Jan 17, 2026'), contains(en.alertDepot), contains(en.alertVerify)));
+      expect(sent.single, isNot(contains(en.alertCustomWeights)));
+    });
+
+    testWidgets('is built in Portuguese, with no notebook English', (tester) async {
+      final sent = await shareFirst(tester, pt, const Locale('pt'));
+      expect(sent.single, allOf(contains('A oeste de Guija'), contains('12.853'), contains('BARCO (0,56 km por água)'), contains(pt.alertVerify)));
+      final card = (jsonDecode(File('../data_sample/notebook_outputs/mission_cards.json').readAsStringSync())['cards'] as List).first;
+      expect(sent.single, isNot(contains(card['alert_text'] as String)));
+      for (final english in const ['people', 'Route', 'risk', 'VERIFY']) {
+        expect(sent.single, isNot(contains(english)));
+      }
+    });
+
+    test('says when the rank uses custom weights', () {
+      const weights = PriorityWeights(people: 2);
+      final ranked = rankMissions(bundle.missions, weights).first;
+      final text = en.alertText(ranked, weights, bundle.manifest, const Fmt('en'));
+      expect(text, contains(en.alertCustomWeights));
+    });
+  });
+
+  testWidgets('no overflow at 200% on the list and the page, in both languages', (tester) async {
+    for (final (locale, l) in [(const Locale('en'), en), (const Locale('pt'), pt)]) {
+      await pumpApp(tester, bundle, locale: locale, textScale: 2.0);
+      await tester.tap(find.text(l.tabMissions).last);
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(MissionListCard).first);
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox());
+    }
+  });
+}

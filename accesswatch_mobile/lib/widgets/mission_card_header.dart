@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 
-/// Header bar of the sheets: drag handle, back button and, on the Missions tab,
-/// a button to show the pocket on the map.
+/// Top bar of the mission detail and of the map's sheets: back, and when given,
+/// share and show on map. In a sheet it also has a drag handle.
 class MissionCardHeader extends StatelessWidget {
-  final VoidCallback? onViewOnMap;
+  final VoidCallback? onViewOnMap, onShare;
 
-  const MissionCardHeader({super.key, this.onViewOnMap});
+  /// Set on a full page; without it, back closes the sheet.
+  final VoidCallback? onBack;
+
+  const MissionCardHeader({super.key, this.onViewOnMap, this.onShare, this.onBack});
 
   @override
   Widget build(BuildContext context) {
@@ -18,23 +21,37 @@ class MissionCardHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Center(
-            child: Container(
-              width: 36,
-              height: 4,
-              decoration: BoxDecoration(color: AppColors.border, borderRadius: BorderRadius.circular(2)),
+          if (onBack == null) ...[
+            Center(
+              child: Container(
+                width: 36,
+                height: 4,
+                decoration: BoxDecoration(color: AppColors.border, borderRadius: BorderRadius.circular(2)),
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
+            const SizedBox(height: 10),
+          ],
           Wrap(
-            alignment: onViewOnMap == null ? WrapAlignment.start : WrapAlignment.spaceBetween,
+            spacing: 8,
+            runSpacing: 4,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               TextButton.icon(
-                onPressed: () => Navigator.pop(context),
+                onPressed: onBack ?? () => Navigator.pop(context),
                 icon: const Icon(Icons.arrow_back_ios_rounded, size: 14, color: AppColors.accent),
                 label: Text(l.back, style: const TextStyle(color: AppColors.accent, fontSize: 13, fontWeight: FontWeight.bold)),
               ),
+              if (onShare != null)
+                OutlinedButton.icon(
+                  onPressed: onShare,
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.accent,
+                    side: const BorderSide(color: AppColors.accent),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ),
+                  icon: const Icon(Icons.share_rounded, size: 15),
+                  label: Text(l.shareAlert, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900, fontFamily: 'monospace')),
+                ),
               if (onViewOnMap != null)
                 ElevatedButton.icon(
                   onPressed: onViewOnMap,

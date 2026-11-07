@@ -476,24 +476,6 @@ abstract class AppLocalizations {
   /// **'ESTIMATED POPULATION'**
   String get estimatedPopulation;
 
-  /// No description provided for @servicesLost.
-  ///
-  /// In en, this message translates to:
-  /// **'SERVICES LOST'**
-  String get servicesLost;
-
-  /// No description provided for @servicesLimited.
-  ///
-  /// In en, this message translates to:
-  /// **'SERVICES WITH DIFFICULT ACCESS'**
-  String get servicesLimited;
-
-  /// No description provided for @serviceWasMinutes.
-  ///
-  /// In en, this message translates to:
-  /// **'{service} (about {minutes} min before the flood)'**
-  String serviceWasMinutes(String service, String minutes);
-
   /// No description provided for @whyFlagged.
   ///
   /// In en, this message translates to:
@@ -637,12 +619,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Worst case, prepare: {mode}'**
   String worstCaseMode(String mode);
-
-  /// No description provided for @verifyOnGround.
-  ///
-  /// In en, this message translates to:
-  /// **'Verify on the ground before acting.'**
-  String get verifyOnGround;
 
   /// No description provided for @back.
   ///
@@ -1145,8 +1121,254 @@ abstract class AppLocalizations {
   /// No description provided for @viewOnMap.
   ///
   /// In en, this message translates to:
-  /// **'VIEW ON MAP'**
+  /// **'SHOW ON MAP'**
   String get viewOnMap;
+
+  /// No description provided for @layerBaseline.
+  ///
+  /// In en, this message translates to:
+  /// **'Physics-only flood map'**
+  String get layerBaseline;
+
+  /// No description provided for @layerBaselineNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The threshold-based map from before the EMS calibration. It is more cautious: it finds less flood.'**
+  String get layerBaselineNote;
+
+  /// No description provided for @rankingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'RANKING WEIGHTS'**
+  String get rankingTitle;
+
+  /// No description provided for @rankingShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the sliders'**
+  String get rankingShow;
+
+  /// No description provided for @rankingHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide the sliders'**
+  String get rankingHide;
+
+  /// No description provided for @rankingReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get rankingReset;
+
+  /// No description provided for @weightPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'People'**
+  String get weightPeople;
+
+  /// No description provided for @weightServiceLoss.
+  ///
+  /// In en, this message translates to:
+  /// **'Service loss'**
+  String get weightServiceLoss;
+
+  /// No description provided for @weightDifficulty.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty'**
+  String get weightDifficulty;
+
+  /// No description provided for @rankingChoiceNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The weights are a choice, not science. At 1.00 each they give the published ranking.'**
+  String get rankingChoiceNote;
+
+  /// No description provided for @rankingDominated.
+  ///
+  /// In en, this message translates to:
+  /// **'{pocket} holds {pct}% of the estimated people, so it dominates this list and the weights mostly reorder the others.'**
+  String rankingDominated(String pocket, String pct);
+
+  /// No description provided for @rankingTies.
+  ///
+  /// In en, this message translates to:
+  /// **'Pockets with equal terms tie, whatever the weights, and keep their published order.'**
+  String get rankingTies;
+
+  /// No description provided for @rankingDepotNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The aid depot is auto-selected, so this ranking is illustrative.'**
+  String get rankingDepotNote;
+
+  /// No description provided for @publishedRank.
+  ///
+  /// In en, this message translates to:
+  /// **'Published rank: #{rank}'**
+  String publishedRank(String rank);
+
+  /// No description provided for @missionNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No mission {id}. Back to the list.'**
+  String missionNotFound(String id);
+
+  /// No description provided for @serviceAccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SERVICE ACCESS'**
+  String get serviceAccessTitle;
+
+  /// No description provided for @accessYes.
+  ///
+  /// In en, this message translates to:
+  /// **'reachable'**
+  String get accessYes;
+
+  /// No description provided for @accessDifficult.
+  ///
+  /// In en, this message translates to:
+  /// **'difficult'**
+  String get accessDifficult;
+
+  /// No description provided for @accessNo.
+  ///
+  /// In en, this message translates to:
+  /// **'cut off'**
+  String get accessNo;
+
+  /// No description provided for @accessNotApplicable.
+  ///
+  /// In en, this message translates to:
+  /// **'not applicable'**
+  String get accessNotApplicable;
+
+  /// No description provided for @accessWasMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'(about {minutes} min before the flood)'**
+  String accessWasMinutes(String minutes);
+
+  /// No description provided for @priorityTermsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PRIORITY TERMS (0 TO 1)'**
+  String get priorityTermsTitle;
+
+  /// No description provided for @verifyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'VERIFY ON THE GROUND'**
+  String get verifyTitle;
+
+  /// No description provided for @verifyLowConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Low confidence: at least one exit road may not really be blocked (uncertain depth or bridge).'**
+  String get verifyLowConfidence;
+
+  /// No description provided for @verifyBoatRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'The boat route follows the flooded roads, which is an approximation: check currents, debris and the actual landing point.'**
+  String get verifyBoatRoute;
+
+  /// No description provided for @verifyUnstable.
+  ///
+  /// In en, this message translates to:
+  /// **'This pocket disappears or changes when the flood extent or depth is slightly off: verify it first.'**
+  String get verifyUnstable;
+
+  /// No description provided for @verifyShortestDeep.
+  ///
+  /// In en, this message translates to:
+  /// **'The shortest road route ({km} km) crosses deep water: avoid it.'**
+  String verifyShortestDeep(String km);
+
+  /// No description provided for @verifyEstimates.
+  ///
+  /// In en, this message translates to:
+  /// **'Depth classes come from a surface model and population is modelled: confirm both with local responders.'**
+  String get verifyEstimates;
+
+  /// No description provided for @shareAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'SHARE ALERT'**
+  String get shareAlert;
+
+  /// No description provided for @alertTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert for field teams'**
+  String get alertTitle;
+
+  /// No description provided for @alertCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get alertCopy;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @alertHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'ACCESSWATCH #{rank} {pocket}, {place}: about {people} people (estimate).'**
+  String alertHeadline(String rank, String pocket, String place, String people);
+
+  /// No description provided for @alertNeeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs: {mode}.'**
+  String alertNeeds(String mode);
+
+  /// No description provided for @alertBoatLeg.
+  ///
+  /// In en, this message translates to:
+  /// **'{mode} ({km} km by water)'**
+  String alertBoatLeg(String mode, String km);
+
+  /// No description provided for @alertRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'Route {km} km, risk {risk}, confidence {confidence}.'**
+  String alertRoute(String km, String risk, String confidence);
+
+  /// No description provided for @alertDataDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Data from {date}.'**
+  String alertDataDate(String date);
+
+  /// No description provided for @alertCustomWeights.
+  ///
+  /// In en, this message translates to:
+  /// **'Rank uses custom weights.'**
+  String get alertCustomWeights;
+
+  /// No description provided for @alertDepot.
+  ///
+  /// In en, this message translates to:
+  /// **'Route starts at an auto-selected depot, so it is illustrative.'**
+  String get alertDepot;
+
+  /// No description provided for @alertVerify.
+  ///
+  /// In en, this message translates to:
+  /// **'VERIFY ON THE GROUND.'**
+  String get alertVerify;
+
+  /// No description provided for @verifyBridges.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Verify 1 bridge on the route on the ground first: radar cannot see its condition.} other{Verify {count} bridges on the route on the ground first: radar cannot see their condition.}}'**
+  String verifyBridges(int count);
 }
 
 class _AppLocalizationsDelegate

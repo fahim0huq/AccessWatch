@@ -121,6 +121,7 @@ class Fmt {
   String count(num value) => NumberFormat.decimalPattern(_locale).format(value);
   String km(num value) => NumberFormat('0.00', _locale).format(value);
   String limit(num value) => NumberFormat('0.0#', _locale).format(value);
+  String term(num value) => NumberFormat('0.000', _locale).format(value);
   String score(num value) => NumberFormat('0.00', _locale).format(value);
   String oneDecimal(num value) => NumberFormat('0.0', _locale).format(value);
   String minutes(num value) => NumberFormat('0', _locale).format(value);

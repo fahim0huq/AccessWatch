@@ -71,6 +71,23 @@ class FloodLayer extends ConsumerWidget {
   }
 }
 
+/// The threshold map, not calibrated on EMS.
+class BaselineFloodLayer extends ConsumerWidget {
+  const BaselineFloodLayer({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final opacity = ref.watch(mapOpacityProvider)[MapLayer.floodBaseline]!;
+    final baseline = ref.watch(loadedBundleProvider).floodBaseline;
+    return PolygonLayer<Object>(polygons: [
+      for (final area in baseline)
+        for (final polygon in area.polygons)
+          mapPolygon<Object>(polygon, AppColors.floodBaseline.withValues(alpha: opacity),
+              border: AppColors.floodBaseline, width: 1.5),
+    ]);
+  }
+}
+
 class EmsFloodLayer extends ConsumerWidget {
   const EmsFloodLayer({super.key});
 

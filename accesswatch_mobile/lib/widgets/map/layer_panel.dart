@@ -13,6 +13,7 @@ class LayerPanel extends ConsumerWidget {
   String _name(AppLocalizations l, MapLayer layer) => switch (layer) {
         MapLayer.depthZones => l.layerDepth,
         MapLayer.flood => l.layerFlood,
+        MapLayer.floodBaseline => l.layerBaseline,
         MapLayer.floodEms => l.layerEms,
         MapLayer.floodedRoads => l.layerRoads,
         MapLayer.pockets => l.layerPockets,
@@ -48,6 +49,11 @@ class LayerPanel extends ConsumerWidget {
                 activeThumbColor: AppColors.accent,
                 onChanged: (on) => ref.read(mapLayersProvider.notifier).setVisible(layer, on),
               ),
+              if (layer == MapLayer.floodBaseline)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: Text(l.layerBaselineNote, style: const TextStyle(color: AppColors.textMuted, fontSize: 11)),
+                ),
               if (visible.contains(layer) && opacity.containsKey(layer))
                 Row(
                   children: [

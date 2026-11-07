@@ -97,6 +97,7 @@ class MapLegend extends ConsumerWidget {
             for (final depth in const [DepthClass.shallow, DepthClass.medium, DepthClass.deep])
               _Row(_swatch(depthColor(depth)), '${l.depthClass(depth)} ${l.depthRange(depth, limits, fmt)}'),
             _Row(_swatch(AppColors.floodMedium.withValues(alpha: 0.35)), l.layerFlood),
+            _Row(_swatch(AppColors.floodBaseline.withValues(alpha: 0.6)), l.layerBaseline),
             _Row(_swatch(AppColors.warning.withValues(alpha: 0.6)), l.legendEms),
             _Row(_line(AppColors.floodMedium), l.legendRoad),
             for (final level in RiskLevel.values.reversed)

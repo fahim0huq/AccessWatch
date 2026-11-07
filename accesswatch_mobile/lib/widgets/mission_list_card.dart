@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../data/mission_ranking.dart';
 import '../data/models/enums.dart';
-import '../data/models/mission.dart';
 import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import '../utils/labels.dart';
@@ -40,15 +40,15 @@ IconData accessIcon(AccessMode mode) => switch (mode) {
 Color statusColor(PocketStatus status) => status == PocketStatus.cutOff ? AppColors.highRisk : AppColors.warning;
 
 class MissionListCard extends StatelessWidget {
-  final Mission mission;
+  final RankedMission ranked;
   final VoidCallback onTap;
 
-  const MissionListCard({super.key, required this.mission, required this.onTap});
+  const MissionListCard({super.key, required this.ranked, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
-    final m = mission;
+    final m = ranked.mission;
     final services = m.accessStatus == PocketStatus.cutOff
         ? l.lostServices(l.serviceList(m.lostServices.map((s) => s.service)))
         : l.limitedServices(l.serviceList(m.limitedServices));
@@ -65,7 +65,7 @@ class MissionListCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  MissionTag(text: '#${m.rank.toString().padLeft(2, '0')}', color: AppColors.accent),
+                  MissionTag(text: '#${ranked.rank.toString().padLeft(2, '0')}', color: AppColors.accent),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(l.missionTitle(m),
@@ -89,6 +89,11 @@ class MissionListCard extends StatelessWidget {
                   MissionTag(text: l.accessMode(m.accessMode), color: AppColors.accent, icon: accessIcon(m.accessMode)),
                 ],
               ),
+              if (ranked.rank != m.rank) ...[
+                const SizedBox(height: 6),
+                Text(l.publishedRank(Fmt.of(context).count(m.rank)),
+                    style: const TextStyle(color: AppColors.accent, fontSize: 11)),
+              ],
               const SizedBox(height: 8),
               Text(services, style: const TextStyle(color: AppColors.textMuted, fontSize: 11)),
             ],

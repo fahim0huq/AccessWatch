@@ -78,6 +78,10 @@ void main() {
   testWidgets('Map tab shows the warnings above the map', (tester) async {
     await pumpApp(tester, bundle);
     await openTab(tester, en.tabMap);
+    // They start collapsed to a chip that names how many there are.
+    expect(find.text(en.warnShortNisarBeta), findsNothing);
+    await tester.tap(find.text(en.warningsToggle('${bundle.manifest.qualityFlags.length}')));
+    await tester.pumpAndSettle();
     expect(find.text(en.warnShortNisarBeta), findsOneWidget);
     expect(find.text(en.warnShortClassifierCalibrated), findsOneWidget);
   });

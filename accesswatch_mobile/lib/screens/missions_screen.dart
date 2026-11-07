@@ -3,16 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../data/models/enums.dart';
-import '../data/models/mission.dart';
 import '../l10n/app_localizations.dart';
 import '../router.dart';
-import '../state/providers.dart';
+import '../state/mission_state.dart';
 import '../theme/app_theme.dart';
 import '../utils/labels.dart';
 import '../widgets/beta_badge.dart';
-import '../widgets/mission_card_detail.dart';
 import '../widgets/mission_list_card.dart';
 import '../widgets/quality_banners.dart';
+import '../widgets/ranking_panel.dart';
 
 class MissionsScreen extends ConsumerStatefulWidget {
   const MissionsScreen({super.key});
@@ -25,37 +24,15 @@ class _MissionsScreenState extends ConsumerState<MissionsScreen> {
   /// null shows every access mode.
   AccessMode? _filter;
 
-  void _openDetail(Mission mission) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (sheetContext) => DraggableScrollableSheet(
-        initialChildSize: 0.8,
-        maxChildSize: 0.95,
-        minChildSize: 0.4,
-        builder: (_, scrollController) => MissionCardDetail(
-          mission: mission,
-          scrollController: scrollController,
-          onViewOnMap: () {
-            Navigator.pop(sheetContext);
-            ref.read(selectedPocketIdProvider.notifier).state = mission.pocketId;
-            context.go(AppRoutes.map);
-          },
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
-    final missions = ref.watch(loadedBundleProvider).missions;
-    final modes = {for (final m in missions) m.accessMode};
+    final ranked = ref.watch(rankedMissionsProvider);
+    final modes = {for (final r in ranked) r.mission.accessMode};
     final shown = [
-      for (final m in missions)
-        if (_filter == null || m.accessMode == _filter) m,
-    ]..sort((a, b) => a.rank.compareTo(b.rank));
+      for (final r in ranked)
+        if (_filter == null || r.mission.accessMode == _filter) r,
+    ];
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -109,7 +86,12 @@ class _MissionsScreenState extends ConsumerState<MissionsScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 children: [
                   const QualityBanners(padding: EdgeInsets.only(bottom: 8)),
-                  for (final m in shown) MissionListCard(mission: m, onTap: () => _openDetail(m)),
+                  const RankingPanel(),
+                  for (final r in shown)
+                    MissionListCard(
+                      ranked: r,
+                      onTap: () => context.go('${AppRoutes.missions}/${r.mission.pocketId}'),
+                    ),
                 ],
               ),
             ),

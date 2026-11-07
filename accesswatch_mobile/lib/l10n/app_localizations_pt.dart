@@ -244,17 +244,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get estimatedPopulation => 'POPULAÇÃO ESTIMADA';
 
   @override
-  String get servicesLost => 'SERVIÇOS PERDIDOS';
-
-  @override
-  String get servicesLimited => 'SERVIÇOS DE ACESSO DIFÍCIL';
-
-  @override
-  String serviceWasMinutes(String service, String minutes) {
-    return '$service (cerca de $minutes min antes da cheia)';
-  }
-
-  @override
   String get whyFlagged => 'MOTIVO DA SINALIZAÇÃO';
 
   @override
@@ -341,9 +330,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String worstCaseMode(String mode) {
     return 'No pior caso, prepare: $mode';
   }
-
-  @override
-  String get verifyOnGround => 'Verifique no terreno antes de agir.';
 
   @override
   String get back => 'Voltar';
@@ -642,5 +628,172 @@ class AppLocalizationsPt extends AppLocalizations {
   String get locationOutside => 'Está fora da área mapeada.';
 
   @override
-  String get viewOnMap => 'VER NO MAPA';
+  String get viewOnMap => 'MOSTRAR NO MAPA';
+
+  @override
+  String get layerBaseline => 'Mapa de cheia só com física';
+
+  @override
+  String get layerBaselineNote =>
+      'O mapa por limiar, de antes da calibração no EMS. É mais cauteloso: encontra menos cheia.';
+
+  @override
+  String get rankingTitle => 'PESOS DA CLASSIFICAÇÃO';
+
+  @override
+  String get rankingShow => 'Mostrar os controlos';
+
+  @override
+  String get rankingHide => 'Ocultar os controlos';
+
+  @override
+  String get rankingReset => 'Repor';
+
+  @override
+  String get weightPeople => 'Pessoas';
+
+  @override
+  String get weightServiceLoss => 'Perda de serviços';
+
+  @override
+  String get weightDifficulty => 'Dificuldade';
+
+  @override
+  String get rankingChoiceNote =>
+      'Os pesos são uma escolha, não ciência. Com 1,00 em todos, obtém-se a classificação publicada.';
+
+  @override
+  String rankingDominated(String pocket, String pct) {
+    return '$pocket tem $pct% das pessoas estimadas, por isso domina esta lista e os pesos reordenam sobretudo os restantes.';
+  }
+
+  @override
+  String get rankingTies =>
+      'Bolsões com termos iguais empatam, sejam quais forem os pesos, e mantêm a ordem publicada.';
+
+  @override
+  String get rankingDepotNote =>
+      'O depósito de ajuda foi selecionado automaticamente, por isso esta classificação é ilustrativa.';
+
+  @override
+  String publishedRank(String rank) {
+    return 'Classificação publicada: #$rank';
+  }
+
+  @override
+  String missionNotFound(String id) {
+    return 'Não existe a missão $id. Voltar à lista.';
+  }
+
+  @override
+  String get serviceAccessTitle => 'ACESSO A SERVIÇOS';
+
+  @override
+  String get accessYes => 'acessível';
+
+  @override
+  String get accessDifficult => 'difícil';
+
+  @override
+  String get accessNo => 'cortado';
+
+  @override
+  String get accessNotApplicable => 'não aplicável';
+
+  @override
+  String accessWasMinutes(String minutes) {
+    return '(cerca de $minutes min antes da cheia)';
+  }
+
+  @override
+  String get priorityTermsTitle => 'TERMOS DE PRIORIDADE (0 A 1)';
+
+  @override
+  String get verifyTitle => 'VERIFICAR NO TERRENO';
+
+  @override
+  String get verifyLowConfidence =>
+      'Confiança baixa: pelo menos uma estrada de saída pode não estar realmente bloqueada (profundidade ou ponte incerta).';
+
+  @override
+  String get verifyBoatRoute =>
+      'A rota de barco segue as estradas inundadas, o que é uma aproximação: verifique correntes, destroços e o local real de desembarque.';
+
+  @override
+  String get verifyUnstable =>
+      'Este bolsão desaparece ou muda quando a extensão ou a profundidade da cheia variam ligeiramente: verifique-o primeiro.';
+
+  @override
+  String verifyShortestDeep(String km) {
+    return 'A rota mais curta ($km km) atravessa água profunda: evite-a.';
+  }
+
+  @override
+  String get verifyEstimates =>
+      'As classes de profundidade vêm de um modelo de superfície e a população é modelada: confirme ambas com os responsáveis locais.';
+
+  @override
+  String get shareAlert => 'PARTILHAR ALERTA';
+
+  @override
+  String get alertTitle => 'Alerta para equipas no terreno';
+
+  @override
+  String get alertCopy => 'Copiar';
+
+  @override
+  String get close => 'Fechar';
+
+  @override
+  String alertHeadline(
+    String rank,
+    String pocket,
+    String place,
+    String people,
+  ) {
+    return 'ACCESSWATCH #$rank $pocket, $place: cerca de $people pessoas (estimativa).';
+  }
+
+  @override
+  String alertNeeds(String mode) {
+    return 'Precisa de: $mode.';
+  }
+
+  @override
+  String alertBoatLeg(String mode, String km) {
+    return '$mode ($km km por água)';
+  }
+
+  @override
+  String alertRoute(String km, String risk, String confidence) {
+    return 'Rota de $km km, risco $risk, confiança $confidence.';
+  }
+
+  @override
+  String alertDataDate(String date) {
+    return 'Dados de $date.';
+  }
+
+  @override
+  String get alertCustomWeights => 'A classificação usa pesos personalizados.';
+
+  @override
+  String get alertDepot =>
+      'A rota parte de um depósito selecionado automaticamente, por isso é ilustrativa.';
+
+  @override
+  String get alertVerify => 'VERIFIQUE NO TERRENO.';
+
+  @override
+  String verifyBridges(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Verifique primeiro no terreno $count pontes na rota: o radar não consegue ver o seu estado.',
+      one:
+          'Verifique primeiro no terreno 1 ponte na rota: o radar não consegue ver o seu estado.',
+    );
+    return '$_temp0';
+  }
 }

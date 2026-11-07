@@ -4,6 +4,7 @@ import 'screens/home_screen.dart';
 import 'screens/info_screen.dart';
 import 'screens/main_navigation_screen.dart';
 import 'screens/map_screen.dart';
+import 'screens/mission_detail_screen.dart';
 import 'screens/missions_screen.dart';
 
 class AppRoutes {
@@ -26,7 +27,16 @@ GoRouter createRouter() => GoRouter(
               GoRoute(path: AppRoutes.map, builder: (context, state) => const MapScreen()),
             ]),
             StatefulShellBranch(routes: [
-              GoRoute(path: AppRoutes.missions, builder: (context, state) => const MissionsScreen()),
+              GoRoute(
+                path: AppRoutes.missions,
+                builder: (context, state) => const MissionsScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    builder: (context, state) => MissionDetailScreen(pocketId: state.pathParameters['id']!),
+                  ),
+                ],
+              ),
             ]),
             StatefulShellBranch(routes: [
               GoRoute(path: AppRoutes.info, builder: (context, state) => const InfoScreen()),

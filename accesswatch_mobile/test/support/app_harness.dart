@@ -15,8 +15,9 @@ Future<void> pumpApp(
   Locale locale = const Locale('en'),
   double textScale = 1.0,
   double width = 390,
-  double height = 2400,
+  double height = 5000,
   TileProvider? tiles,
+  List<Override> overrides = const [],
 }) async {
   tester.view.physicalSize = Size(width, height);
   tester.view.devicePixelRatio = 1.0;
@@ -28,6 +29,7 @@ Future<void> pumpApp(
       mapTileProvider.overrideWithValue(tiles),
       localeProvider.overrideWith((ref) => locale),
       textScaleProvider.overrideWith((ref) => textScale),
+      ...overrides,
     ],
     child: const AccessWatchApp(),
   ));

@@ -7,6 +7,7 @@ import 'package:accesswatch_mobile/data/bundle_repository.dart';
 import 'package:accesswatch_mobile/data/depth_lod.dart';
 import 'package:accesswatch_mobile/data/models/enums.dart';
 import 'package:accesswatch_mobile/data/models/geo.dart';
+import 'package:accesswatch_mobile/data/models/layers.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations_en.dart';
 import 'package:accesswatch_mobile/state/map_state.dart';
@@ -268,6 +269,22 @@ void main() {
       expect(find.text(en.osmAttribution), findsOneWidget);
     });
 
+    testWidgets('the physics-only layer starts off, has its note, and switches on', (tester) async {
+      await openMap(tester);
+      expect(find.byType(BaselineFloodLayer), findsNothing);
+      await tester.tap(find.byTooltip(en.tooltipLayers));
+      await tester.pumpAndSettle();
+      expect(find.text(en.layerBaselineNote), findsOneWidget);
+      await tester.tap(find.widgetWithText(SwitchListTile, en.layerBaseline));
+      await tester.pumpAndSettle();
+      expect(find.byType(BaselineFloodLayer), findsOneWidget);
+    });
+
+    test('the physics-only map finds less flood, as its note says', () {
+      double hectares(List<FloodArea> areas) => areas.fold(0, (sum, a) => sum + a.areaHa);
+      expect(hectares(bundle.floodBaseline), lessThan(hectares(bundle.flood)));
+    });
+
     testWidgets('layer panel switches a layer off', (tester) async {
       await openMap(tester);
       await tester.tap(find.byTooltip(en.tooltipLayers));
@@ -339,7 +356,7 @@ void main() {
   });
 
   testWidgets('View on map from a mission selects the pocket on the map', (tester) async {
-    await pumpApp(tester, bundle, height: 844);
+    await pumpApp(tester, bundle);
     await tester.tap(find.text(en.tabMissions).last);
     await tester.pumpAndSettle();
     await tester.tap(find.textContaining('West of Guija').first);

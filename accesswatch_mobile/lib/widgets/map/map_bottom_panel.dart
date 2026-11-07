@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/models/mission.dart';
+import '../../data/mission_ranking.dart';
 import '../../l10n/app_localizations.dart';
+import '../../state/mission_state.dart';
 import '../../state/providers.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
@@ -17,7 +18,7 @@ class MapBottomPanel extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context)!;
-    final missions = ref.watch(loadedBundleProvider).missions;
+    final ranked = ref.watch(rankedMissionsProvider);
     final selected = ref.watch(selectedPocketIdProvider);
     final scale = MediaQuery.textScalerOf(context).scale(1);
     return Container(
@@ -44,18 +45,18 @@ class MapBottomPanel extends ConsumerWidget {
                   onTap: () => ref.read(selectedPocketIdProvider.notifier).state = null,
                   child: Center(child: Text(l.allPockets, style: _strong)),
                 ),
-                for (final m in missions)
+                for (final r in ranked)
                   _Chip(
                     width: 150 * scale,
-                    selected: m.pocketId == selected,
+                    selected: r.mission.pocketId == selected,
                     onTap: () {
-                      if (m.pocketId == selected) {
-                        onOpenPocket(m.pocketId);
+                      if (r.mission.pocketId == selected) {
+                        onOpenPocket(r.mission.pocketId);
                       } else {
-                        ref.read(selectedPocketIdProvider.notifier).state = m.pocketId;
+                        ref.read(selectedPocketIdProvider.notifier).state = r.mission.pocketId;
                       }
                     },
-                    child: _MissionChip(mission: m),
+                    child: _MissionChip(ranked: r),
                   ),
               ],
             ),
@@ -69,18 +70,19 @@ class MapBottomPanel extends ConsumerWidget {
 const _strong = TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'monospace');
 
 class _MissionChip extends StatelessWidget {
-  final Mission mission;
+  final RankedMission ranked;
 
-  const _MissionChip({required this.mission});
+  const _MissionChip({required this.ranked});
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
+    final mission = ranked.mission;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('#${mission.rank.toString().padLeft(2, '0')} ${mission.pocketId}',
+        Text('#${ranked.rank.toString().padLeft(2, '0')} ${mission.pocketId}',
             maxLines: 1, overflow: TextOverflow.ellipsis, style: _strong),
         Text(l.missionTitle(mission),
             maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontSize: 11)),

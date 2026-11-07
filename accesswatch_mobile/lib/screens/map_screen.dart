@@ -45,7 +45,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     tileProvider: ref.read(mapTileProvider),
   );
   bool _ready = false;
-  bool _bannersOpen = true;
+  bool _bannersOpen = false;
   bool _legendOpen = false;
   bool _wantsLocation = false;
   LatLng? _me;
@@ -230,6 +230,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                       else ...[
                         if (layers.contains(MapLayer.depthZones)) const DepthZonesLayer(),
                         if (layers.contains(MapLayer.flood)) const FloodLayer(),
+                        if (layers.contains(MapLayer.floodBaseline)) const BaselineFloodLayer(),
                         if (layers.contains(MapLayer.floodEms)) const EmsFloodLayer(),
                       ],
                       if (layers.contains(MapLayer.floodedRoads)) const FloodedRoadsLayer(),
@@ -251,9 +252,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                       builder: (_) => const LayerPanel(),
                     ),
                     onCompare: () {
-                      // The compare panel takes the banners' place so the map stays large;
-                      // they are one tap away, and return when Compare ends.
-                      setState(() => _bannersOpen = compare);
+                      // The compare panel takes the banners' place so the map stays large.
+                      if (!compare) setState(() => _bannersOpen = false);
                       ref.read(mapLayersProvider.notifier).setVisible(MapLayer.compare, !compare);
                     },
                     onLocate: _locate,

@@ -18,6 +18,9 @@ class AppColors {
   static const Color floodMedium = Color(0xFF3182BD);
   static const Color floodDeep = Color(0xFF08306B);
 
+  // The threshold map from before the EMS calibration
+  static const Color floodBaseline = Color(0xFF7C3AED);
+
   // Status & Routes
   static const Color safestRoute = Color(0xFF14B8A6); // Solid teal on the map
   static const Color shortestRoute = Color(0xFF8D5A3C); // Dashed brown on the map

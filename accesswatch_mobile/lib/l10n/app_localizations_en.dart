@@ -241,17 +241,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get estimatedPopulation => 'ESTIMATED POPULATION';
 
   @override
-  String get servicesLost => 'SERVICES LOST';
-
-  @override
-  String get servicesLimited => 'SERVICES WITH DIFFICULT ACCESS';
-
-  @override
-  String serviceWasMinutes(String service, String minutes) {
-    return '$service (about $minutes min before the flood)';
-  }
-
-  @override
   String get whyFlagged => 'WHY FLAGGED';
 
   @override
@@ -338,9 +327,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String worstCaseMode(String mode) {
     return 'Worst case, prepare: $mode';
   }
-
-  @override
-  String get verifyOnGround => 'Verify on the ground before acting.';
 
   @override
   String get back => 'Back';
@@ -639,5 +625,172 @@ class AppLocalizationsEn extends AppLocalizations {
   String get locationOutside => 'You are outside the mapped area.';
 
   @override
-  String get viewOnMap => 'VIEW ON MAP';
+  String get viewOnMap => 'SHOW ON MAP';
+
+  @override
+  String get layerBaseline => 'Physics-only flood map';
+
+  @override
+  String get layerBaselineNote =>
+      'The threshold-based map from before the EMS calibration. It is more cautious: it finds less flood.';
+
+  @override
+  String get rankingTitle => 'RANKING WEIGHTS';
+
+  @override
+  String get rankingShow => 'Show the sliders';
+
+  @override
+  String get rankingHide => 'Hide the sliders';
+
+  @override
+  String get rankingReset => 'Reset';
+
+  @override
+  String get weightPeople => 'People';
+
+  @override
+  String get weightServiceLoss => 'Service loss';
+
+  @override
+  String get weightDifficulty => 'Difficulty';
+
+  @override
+  String get rankingChoiceNote =>
+      'The weights are a choice, not science. At 1.00 each they give the published ranking.';
+
+  @override
+  String rankingDominated(String pocket, String pct) {
+    return '$pocket holds $pct% of the estimated people, so it dominates this list and the weights mostly reorder the others.';
+  }
+
+  @override
+  String get rankingTies =>
+      'Pockets with equal terms tie, whatever the weights, and keep their published order.';
+
+  @override
+  String get rankingDepotNote =>
+      'The aid depot is auto-selected, so this ranking is illustrative.';
+
+  @override
+  String publishedRank(String rank) {
+    return 'Published rank: #$rank';
+  }
+
+  @override
+  String missionNotFound(String id) {
+    return 'No mission $id. Back to the list.';
+  }
+
+  @override
+  String get serviceAccessTitle => 'SERVICE ACCESS';
+
+  @override
+  String get accessYes => 'reachable';
+
+  @override
+  String get accessDifficult => 'difficult';
+
+  @override
+  String get accessNo => 'cut off';
+
+  @override
+  String get accessNotApplicable => 'not applicable';
+
+  @override
+  String accessWasMinutes(String minutes) {
+    return '(about $minutes min before the flood)';
+  }
+
+  @override
+  String get priorityTermsTitle => 'PRIORITY TERMS (0 TO 1)';
+
+  @override
+  String get verifyTitle => 'VERIFY ON THE GROUND';
+
+  @override
+  String get verifyLowConfidence =>
+      'Low confidence: at least one exit road may not really be blocked (uncertain depth or bridge).';
+
+  @override
+  String get verifyBoatRoute =>
+      'The boat route follows the flooded roads, which is an approximation: check currents, debris and the actual landing point.';
+
+  @override
+  String get verifyUnstable =>
+      'This pocket disappears or changes when the flood extent or depth is slightly off: verify it first.';
+
+  @override
+  String verifyShortestDeep(String km) {
+    return 'The shortest road route ($km km) crosses deep water: avoid it.';
+  }
+
+  @override
+  String get verifyEstimates =>
+      'Depth classes come from a surface model and population is modelled: confirm both with local responders.';
+
+  @override
+  String get shareAlert => 'SHARE ALERT';
+
+  @override
+  String get alertTitle => 'Alert for field teams';
+
+  @override
+  String get alertCopy => 'Copy';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String alertHeadline(
+    String rank,
+    String pocket,
+    String place,
+    String people,
+  ) {
+    return 'ACCESSWATCH #$rank $pocket, $place: about $people people (estimate).';
+  }
+
+  @override
+  String alertNeeds(String mode) {
+    return 'Needs: $mode.';
+  }
+
+  @override
+  String alertBoatLeg(String mode, String km) {
+    return '$mode ($km km by water)';
+  }
+
+  @override
+  String alertRoute(String km, String risk, String confidence) {
+    return 'Route $km km, risk $risk, confidence $confidence.';
+  }
+
+  @override
+  String alertDataDate(String date) {
+    return 'Data from $date.';
+  }
+
+  @override
+  String get alertCustomWeights => 'Rank uses custom weights.';
+
+  @override
+  String get alertDepot =>
+      'Route starts at an auto-selected depot, so it is illustrative.';
+
+  @override
+  String get alertVerify => 'VERIFY ON THE GROUND.';
+
+  @override
+  String verifyBridges(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Verify $count bridges on the route on the ground first: radar cannot see their condition.',
+      one:
+          'Verify 1 bridge on the route on the ground first: radar cannot see its condition.',
+    );
+    return '$_temp0';
+  }
 }
