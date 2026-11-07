@@ -39,6 +39,7 @@ class MainNavigationScreen extends ConsumerWidget {
                   BottomNavigationBarItem(icon: const Icon(Icons.grid_view_rounded), label: l.tabHome),
                   BottomNavigationBarItem(icon: const Icon(Icons.map_rounded), label: l.tabMap),
                   BottomNavigationBarItem(icon: const Icon(Icons.assignment_rounded), label: l.tabMissions),
+                  BottomNavigationBarItem(icon: const Icon(Icons.local_hospital_rounded), label: l.tabCare),
                   BottomNavigationBarItem(icon: const Icon(Icons.info_outline_rounded), label: l.tabInfo),
                 ],
               ),

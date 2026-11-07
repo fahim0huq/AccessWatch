@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/bundle_repository.dart';
+import 'settings_store.dart';
 
 final bundleRepositoryProvider = Provider<BundleRepository>((ref) => BundleRepository());
 
@@ -16,12 +17,12 @@ final loadedBundleProvider = Provider<AppBundle>((ref) => ref.watch(bundleProvid
 final selectedPocketIdProvider = StateProvider<String?>((ref) => null);
 
 /// null follows the device language.
-final localeProvider = StateProvider<Locale?>((ref) => null);
+final localeProvider = StateProvider<Locale?>((ref) => readLocale(ref.watch(sharedPreferencesProvider)));
 
 /// App text size on top of the device setting, 1.0 to [maxTextScale].
 const minTextScale = 1.0;
 const maxTextScale = 2.0;
-final textScaleProvider = StateProvider<double>((ref) => minTextScale);
+final textScaleProvider = StateProvider<double>((ref) => readTextScale(ref.watch(sharedPreferencesProvider)));
 
 /// Hides the bottom navigation for screen recording.
 final presentationModeProvider = StateProvider<bool>((ref) => false);

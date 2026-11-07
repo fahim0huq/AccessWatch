@@ -796,4 +796,173 @@ class AppLocalizationsPt extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get tabCare => 'Cuidados';
+
+  @override
+  String get careTitle => 'CUIDADOS';
+
+  @override
+  String get careSubtitle => 'Clínicas e como chegar até elas';
+
+  @override
+  String get mySpotTitle => 'O MEU LOCAL';
+
+  @override
+  String get mySpotIntro =>
+      'Compare a sua posição com o mapa da cheia: dentro da cheia ou não, a profundidade estimada e a clínica mais próxima a que pode chegar por estrada.';
+
+  @override
+  String get useMyLocation => 'Usar a minha localização';
+
+  @override
+  String get mySpotWaiting => 'A aguardar a localização…';
+
+  @override
+  String get testPositionBadge => 'POSIÇÃO DE TESTE (VERSÃO DE DEPURAÇÃO)';
+
+  @override
+  String get testPositionHint =>
+      'Versão de depuração: prima longamente o mapa para definir uma posição de teste.';
+
+  @override
+  String get spotOutside =>
+      'Está fora da área mapeada. O AccessWatch não pode verificar este local nem calcular rotas a partir dele.';
+
+  @override
+  String get spotInFlood => 'Dentro da cheia mapeada';
+
+  @override
+  String get spotNotInFlood => 'Fora da cheia mapeada';
+
+  @override
+  String spotDepth(String depth, String range) {
+    return 'Profundidade estimada aqui: $depth $range';
+  }
+
+  @override
+  String spotFloodedRoad(String metres) {
+    return 'Estrada inundada mais próxima: a $metres m';
+  }
+
+  @override
+  String spotSnapped(String metres) {
+    return 'As rotas partem do ponto de estrada mais próximo, a $metres m';
+  }
+
+  @override
+  String spotNearestClinic(String clinic, String mode, String km) {
+    return 'Clínica mais próxima por estrada: $clinic ($mode, $km km)';
+  }
+
+  @override
+  String get routingFailed => 'Não foi possível calcular as rotas.';
+
+  @override
+  String get needsBoatAny =>
+      'Precisa de barco: nenhuma rota por estrada chega a uma clínica a partir daqui.';
+
+  @override
+  String needsBoatClinic(String clinic) {
+    return 'Precisa de barco: nenhuma rota por estrada chega a $clinic a partir daqui.';
+  }
+
+  @override
+  String get needsBoatShort => 'Precisa de barco a partir do seu local';
+
+  @override
+  String get routesToClinic => 'ROTA PARA UMA CLÍNICA';
+
+  @override
+  String get criterionFastest => 'Mais rápida';
+
+  @override
+  String get criterionSafest => 'Mais segura';
+
+  @override
+  String get targetNearest =>
+      'Para a clínica mais próxima que cada meio de transporte alcança.';
+
+  @override
+  String targetChosen(String clinic) {
+    return 'Para $clinic';
+  }
+
+  @override
+  String get targetUseNearest => 'Usar a mais próxima';
+
+  @override
+  String get careModeCar => 'Carro';
+
+  @override
+  String get careModeTruck => 'Camião alto';
+
+  @override
+  String get careModeFoot => 'A pé';
+
+  @override
+  String noRouteForMode(String mode) {
+    return 'Sem rota de $mode: há água ou estradas bloqueadas no caminho.';
+  }
+
+  @override
+  String routeDistanceTime(String km, String minutes) {
+    return '$km km, cerca de $minutes min';
+  }
+
+  @override
+  String routeWater(String shallow, String medium) {
+    return 'Água no caminho: $shallow m baixa, $medium m média (estimativa)';
+  }
+
+  @override
+  String routeBridges(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count pontes a verificar no terreno: o radar não consegue ver o seu estado',
+      one:
+          '1 ponte a verificar no terreno: o radar não consegue ver o seu estado',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get routeNoWalkingTime =>
+      'O tempo a pé não está nos dados, por isso só se mostra a distância.';
+
+  @override
+  String get routeTimeRounded =>
+      'O tempo é uma estimativa para veículo com dados arredondados: conte com alguns minutos a mais ou a menos.';
+
+  @override
+  String get showRouteOnMap => 'Mostrar no mapa';
+
+  @override
+  String careRouteTo(String clinic, String mode) {
+    return 'Para $clinic de $mode';
+  }
+
+  @override
+  String get clearRoute => 'Limpar a rota';
+
+  @override
+  String clinicsTitle(String count) {
+    return 'CLÍNICAS ($count)';
+  }
+
+  @override
+  String get locationWhyTitle => 'Porquê a sua localização?';
+
+  @override
+  String get locationWhyBody =>
+      'O AccessWatch usa a sua posição só enquanto o Mapa ou os Cuidados estão abertos, para a comparar com o mapa da cheia e calcular a rota para uma clínica. A aplicação não envia a sua posição para lado nenhum, mas os mosaicos do mapa da área que vê vêm do OpenStreetMap.';
+
+  @override
+  String get locationContinue => 'Continuar';
+
+  @override
+  String get locationNotNow => 'Agora não';
 }

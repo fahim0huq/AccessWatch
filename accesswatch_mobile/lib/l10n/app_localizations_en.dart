@@ -793,4 +793,172 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get tabCare => 'Care';
+
+  @override
+  String get careTitle => 'CARE';
+
+  @override
+  String get careSubtitle => 'Clinics and how to reach them';
+
+  @override
+  String get mySpotTitle => 'MY SPOT';
+
+  @override
+  String get mySpotIntro =>
+      'Check your position against the flood map: in the flood or not, the estimated depth, and the nearest clinic you can reach by road.';
+
+  @override
+  String get useMyLocation => 'Use my location';
+
+  @override
+  String get mySpotWaiting => 'Waiting for location…';
+
+  @override
+  String get testPositionBadge => 'TEST POSITION (DEBUG BUILD)';
+
+  @override
+  String get testPositionHint =>
+      'Debug build: long-press the map to set a test position.';
+
+  @override
+  String get spotOutside =>
+      'You are outside the mapped area. AccessWatch cannot check this spot or route from it.';
+
+  @override
+  String get spotInFlood => 'Inside the mapped flood';
+
+  @override
+  String get spotNotInFlood => 'Not inside the mapped flood';
+
+  @override
+  String spotDepth(String depth, String range) {
+    return 'Estimated depth here: $depth $range';
+  }
+
+  @override
+  String spotFloodedRoad(String metres) {
+    return 'Nearest flooded road: $metres m away';
+  }
+
+  @override
+  String spotSnapped(String metres) {
+    return 'Routes start at the nearest road point, $metres m away';
+  }
+
+  @override
+  String spotNearestClinic(String clinic, String mode, String km) {
+    return 'Nearest clinic by road: $clinic ($mode, $km km)';
+  }
+
+  @override
+  String get routingFailed => 'Routes could not be worked out.';
+
+  @override
+  String get needsBoatAny =>
+      'Needs a boat: no road route reaches any clinic from here.';
+
+  @override
+  String needsBoatClinic(String clinic) {
+    return 'Needs a boat: no road route reaches $clinic from here.';
+  }
+
+  @override
+  String get needsBoatShort => 'Needs a boat from your spot';
+
+  @override
+  String get routesToClinic => 'ROUTE TO A CLINIC';
+
+  @override
+  String get criterionFastest => 'Fastest';
+
+  @override
+  String get criterionSafest => 'Safest';
+
+  @override
+  String get targetNearest =>
+      'To the nearest clinic each way of travel can reach.';
+
+  @override
+  String targetChosen(String clinic) {
+    return 'To $clinic';
+  }
+
+  @override
+  String get targetUseNearest => 'Use nearest';
+
+  @override
+  String get careModeCar => 'Car';
+
+  @override
+  String get careModeTruck => 'High-clearance truck';
+
+  @override
+  String get careModeFoot => 'On foot';
+
+  @override
+  String noRouteForMode(String mode) {
+    return 'No route by $mode: water or blocked roads are in the way.';
+  }
+
+  @override
+  String routeDistanceTime(String km, String minutes) {
+    return '$km km, about $minutes min';
+  }
+
+  @override
+  String routeWater(String shallow, String medium) {
+    return 'Water on the way: $shallow m shallow, $medium m medium (estimate)';
+  }
+
+  @override
+  String routeBridges(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count bridges to check on the ground: radar cannot see their condition',
+      one: '1 bridge to check on the ground: radar cannot see its condition',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get routeNoWalkingTime =>
+      'Walking time is not in the data, so only the distance is shown.';
+
+  @override
+  String get routeTimeRounded =>
+      'Time is a vehicle estimate from rounded data: allow a few minutes either way.';
+
+  @override
+  String get showRouteOnMap => 'Show on map';
+
+  @override
+  String careRouteTo(String clinic, String mode) {
+    return 'To $clinic by $mode';
+  }
+
+  @override
+  String get clearRoute => 'Clear the route';
+
+  @override
+  String clinicsTitle(String count) {
+    return 'CLINICS ($count)';
+  }
+
+  @override
+  String get locationWhyTitle => 'Why your location?';
+
+  @override
+  String get locationWhyBody =>
+      'AccessWatch uses your position only while Map or Care is open, to check it against the flood map and route you to a clinic. The app does not send your position anywhere, though map tiles for the area you view come from OpenStreetMap.';
+
+  @override
+  String get locationContinue => 'Continue';
+
+  @override
+  String get locationNotNow => 'Not now';
 }

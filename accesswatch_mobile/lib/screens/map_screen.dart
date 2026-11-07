@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,10 +7,13 @@ import 'package:latlong2/latlong.dart' show LatLng;
 import '../data/bundle_repository.dart';
 import '../data/models/manifest.dart';
 import '../l10n/app_localizations.dart';
+import '../state/care_state.dart';
 import '../state/location.dart';
 import '../state/map_state.dart';
 import '../state/providers.dart';
 import '../theme/app_theme.dart';
+import '../widgets/location_prompt.dart';
+import '../widgets/map/care_route_layer.dart';
 import '../widgets/map/feature_layers.dart';
 import '../widgets/map/flood_layers.dart';
 import '../widgets/map/layer_panel.dart';
@@ -35,7 +37,7 @@ class MapScreen extends ConsumerStatefulWidget {
   ConsumerState<MapScreen> createState() => _MapScreenState();
 }
 
-class _MapScreenState extends ConsumerState<MapScreen> {
+class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
   final _map = MapController();
   // Kept across rebuilds: each new TileLayer would bring its own tile provider and client.
   late final _tiles = TileLayer(
@@ -47,42 +49,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   bool _ready = false;
   bool _bannersOpen = false;
   bool _legendOpen = false;
-  bool _wantsLocation = false;
-  LatLng? _me;
-  StreamSubscription<LatLng>? _positions;
 
   AppBundle get _bundle => ref.read(loadedBundleProvider);
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // The tab stays alive while hidden: GPS only runs while it is on screen.
-    if (!TickerMode.valuesOf(context).enabled) {
-      _stopPositions();
-    } else if (_wantsLocation) {
-      _startPositions();
-    }
-  }
-
-  @override
   void dispose() {
-    _stopPositions();
     _map.dispose();
     super.dispose();
-  }
-
-  void _stopPositions() {
-    _positions?.cancel();
-    _positions = null;
-  }
-
-  void _startPositions() {
-    _positions ??= ref.read(locationSourceProvider).positions().listen((position) {
-      if (!mounted) return;
-      final first = _me == null;
-      setState(() => _me = position);
-      if (first) _centreOnMe();
-    }, onError: (Object _) => _stopPositions());
   }
 
   void _say(String message) {
@@ -92,8 +65,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   }
 
   void _centreOnMe() {
-    final me = _me;
-    if (me == null) return;
+    final me = ref.read(locationControllerProvider).position;
+    if (me == null || !_ready) return;
     if (_latLngBounds(_bundle.manifest.boundsAll).contains(me)) {
       _map.move(me, 15);
     } else {
@@ -102,19 +75,16 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   }
 
   Future<void> _locate() async {
-    final l = AppLocalizations.of(context)!;
-    final issue = await ref.read(locationSourceProvider).prepare();
-    if (!mounted) return;
-    switch (issue) {
-      case LocationIssue.serviceOff:
-        _say(l.locationOff);
-      case LocationIssue.denied:
-        _say(l.locationDenied);
-      case null:
-        _wantsLocation = true;
-        _startPositions();
-        _centreOnMe();
-    }
+    if (await requestLocation(context, ref)) _centreOnMe();
+  }
+
+  void _showCareRoute(CareRouteOnMap? route) {
+    if (route == null || !_ready || route.points.length < 2) return;
+    _map.fitCamera(CameraFit.bounds(
+      bounds: LatLngBounds.fromPoints(route.points),
+      padding: const EdgeInsets.fromLTRB(48, 48, 80, 48),
+      maxZoom: 16,
+    ));
   }
 
   void _fitAll() => _map.fitCamera(CameraFit.bounds(
@@ -160,6 +130,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   @override
   Widget build(BuildContext context) {
     ref.listen<String?>(selectedPocketIdProvider, (_, id) => _focus(id));
+    ref.listen<CareRouteOnMap?>(careRouteOnMapProvider, (_, route) => _showCareRoute(route));
+    ref.listen<LocationState>(locationControllerProvider, (before, now) {
+      if (before?.position == null && now.position != null) _centreOnMe();
+    });
+    final me = ref.watch(locationControllerProvider);
     final l = AppLocalizations.of(context)!;
     final bundle = ref.watch(loadedBundleProvider);
     final layers = ref.watch(mapLayersProvider);
@@ -180,6 +155,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                       bannersOpen: _bannersOpen,
                       onToggleBanners: () => setState(() => _bannersOpen = !_bannersOpen),
                     ),
+                    const CareRoutePanel(),
                     if (compare) const CompareLegend(),
                     if (_bannersOpen) const QualityBanners(padding: EdgeInsets.fromLTRB(8, 0, 8, 2)),
                   ],
@@ -206,10 +182,17 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                       interactionOptions: const InteractionOptions(
                         flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
                       ),
+                      // Debug builds only: a long press sets a test position, for trying Care on a desktop.
+                      onLongPress: kDebugMode
+                          ? (_, point) => ref.read(locationControllerProvider.notifier).setTestPosition(point)
+                          : null,
                       onMapReady: () {
                         _ready = true;
                         final selected = ref.read(selectedPocketIdProvider);
-                        if (selected != null) {
+                        final careRoute = ref.read(careRouteOnMapProvider);
+                        if (careRoute != null) {
+                          _showCareRoute(careRoute);
+                        } else if (selected != null) {
                           _focus(selected);
                         } else {
                           _loadFittedTiles();
@@ -239,7 +222,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                       if (layers.contains(MapLayer.pockets)) PocketLabelsLayer(onTap: (p) => _openPocket(p.id)),
                       if (layers.contains(MapLayer.services))
                         ServicesLayer(onTap: (s) => showServiceSheet(context, ref, s)),
-                      if (_me != null) MyLocationLayer(position: _me!),
+                      const CareRouteLayer(),
+                      if (me.position != null) MyLocationLayer(position: me.position!, isTest: me.isTestPosition),
                       const OsmAttribution(),
                     ],
                   ),

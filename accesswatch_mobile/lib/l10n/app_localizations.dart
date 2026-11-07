@@ -1369,6 +1369,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{Verify 1 bridge on the route on the ground first: radar cannot see its condition.} other{Verify {count} bridges on the route on the ground first: radar cannot see their condition.}}'**
   String verifyBridges(int count);
+
+  /// No description provided for @tabCare.
+  ///
+  /// In en, this message translates to:
+  /// **'Care'**
+  String get tabCare;
+
+  /// No description provided for @careTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CARE'**
+  String get careTitle;
+
+  /// No description provided for @careSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinics and how to reach them'**
+  String get careSubtitle;
+
+  /// No description provided for @mySpotTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MY SPOT'**
+  String get mySpotTitle;
+
+  /// No description provided for @mySpotIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your position against the flood map: in the flood or not, the estimated depth, and the nearest clinic you can reach by road.'**
+  String get mySpotIntro;
+
+  /// No description provided for @useMyLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Use my location'**
+  String get useMyLocation;
+
+  /// No description provided for @mySpotWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for location…'**
+  String get mySpotWaiting;
+
+  /// No description provided for @testPositionBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'TEST POSITION (DEBUG BUILD)'**
+  String get testPositionBadge;
+
+  /// No description provided for @testPositionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Debug build: long-press the map to set a test position.'**
+  String get testPositionHint;
+
+  /// No description provided for @spotOutside.
+  ///
+  /// In en, this message translates to:
+  /// **'You are outside the mapped area. AccessWatch cannot check this spot or route from it.'**
+  String get spotOutside;
+
+  /// No description provided for @spotInFlood.
+  ///
+  /// In en, this message translates to:
+  /// **'Inside the mapped flood'**
+  String get spotInFlood;
+
+  /// No description provided for @spotNotInFlood.
+  ///
+  /// In en, this message translates to:
+  /// **'Not inside the mapped flood'**
+  String get spotNotInFlood;
+
+  /// No description provided for @spotDepth.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated depth here: {depth} {range}'**
+  String spotDepth(String depth, String range);
+
+  /// No description provided for @spotFloodedRoad.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearest flooded road: {metres} m away'**
+  String spotFloodedRoad(String metres);
+
+  /// No description provided for @spotSnapped.
+  ///
+  /// In en, this message translates to:
+  /// **'Routes start at the nearest road point, {metres} m away'**
+  String spotSnapped(String metres);
+
+  /// No description provided for @spotNearestClinic.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearest clinic by road: {clinic} ({mode}, {km} km)'**
+  String spotNearestClinic(String clinic, String mode, String km);
+
+  /// No description provided for @routingFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Routes could not be worked out.'**
+  String get routingFailed;
+
+  /// No description provided for @needsBoatAny.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs a boat: no road route reaches any clinic from here.'**
+  String get needsBoatAny;
+
+  /// No description provided for @needsBoatClinic.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs a boat: no road route reaches {clinic} from here.'**
+  String needsBoatClinic(String clinic);
+
+  /// No description provided for @needsBoatShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs a boat from your spot'**
+  String get needsBoatShort;
+
+  /// No description provided for @routesToClinic.
+  ///
+  /// In en, this message translates to:
+  /// **'ROUTE TO A CLINIC'**
+  String get routesToClinic;
+
+  /// No description provided for @criterionFastest.
+  ///
+  /// In en, this message translates to:
+  /// **'Fastest'**
+  String get criterionFastest;
+
+  /// No description provided for @criterionSafest.
+  ///
+  /// In en, this message translates to:
+  /// **'Safest'**
+  String get criterionSafest;
+
+  /// No description provided for @targetNearest.
+  ///
+  /// In en, this message translates to:
+  /// **'To the nearest clinic each way of travel can reach.'**
+  String get targetNearest;
+
+  /// No description provided for @targetChosen.
+  ///
+  /// In en, this message translates to:
+  /// **'To {clinic}'**
+  String targetChosen(String clinic);
+
+  /// No description provided for @targetUseNearest.
+  ///
+  /// In en, this message translates to:
+  /// **'Use nearest'**
+  String get targetUseNearest;
+
+  /// No description provided for @careModeCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Car'**
+  String get careModeCar;
+
+  /// No description provided for @careModeTruck.
+  ///
+  /// In en, this message translates to:
+  /// **'High-clearance truck'**
+  String get careModeTruck;
+
+  /// No description provided for @careModeFoot.
+  ///
+  /// In en, this message translates to:
+  /// **'On foot'**
+  String get careModeFoot;
+
+  /// No description provided for @noRouteForMode.
+  ///
+  /// In en, this message translates to:
+  /// **'No route by {mode}: water or blocked roads are in the way.'**
+  String noRouteForMode(String mode);
+
+  /// No description provided for @routeDistanceTime.
+  ///
+  /// In en, this message translates to:
+  /// **'{km} km, about {minutes} min'**
+  String routeDistanceTime(String km, String minutes);
+
+  /// No description provided for @routeWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water on the way: {shallow} m shallow, {medium} m medium (estimate)'**
+  String routeWater(String shallow, String medium);
+
+  /// No description provided for @routeBridges.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 bridge to check on the ground: radar cannot see its condition} other{{count} bridges to check on the ground: radar cannot see their condition}}'**
+  String routeBridges(int count);
+
+  /// No description provided for @routeNoWalkingTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Walking time is not in the data, so only the distance is shown.'**
+  String get routeNoWalkingTime;
+
+  /// No description provided for @routeTimeRounded.
+  ///
+  /// In en, this message translates to:
+  /// **'Time is a vehicle estimate from rounded data: allow a few minutes either way.'**
+  String get routeTimeRounded;
+
+  /// No description provided for @showRouteOnMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Show on map'**
+  String get showRouteOnMap;
+
+  /// No description provided for @careRouteTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To {clinic} by {mode}'**
+  String careRouteTo(String clinic, String mode);
+
+  /// No description provided for @clearRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear the route'**
+  String get clearRoute;
+
+  /// No description provided for @clinicsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CLINICS ({count})'**
+  String clinicsTitle(String count);
+
+  /// No description provided for @locationWhyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Why your location?'**
+  String get locationWhyTitle;
+
+  /// No description provided for @locationWhyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'AccessWatch uses your position only while Map or Care is open, to check it against the flood map and route you to a clinic. The app does not send your position anywhere, though map tiles for the area you view come from OpenStreetMap.'**
+  String get locationWhyBody;
+
+  /// No description provided for @locationContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get locationContinue;
+
+  /// No description provided for @locationNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get locationNotNow;
 }
 
 class _AppLocalizationsDelegate

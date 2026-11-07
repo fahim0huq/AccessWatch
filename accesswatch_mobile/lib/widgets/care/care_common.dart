@@ -1,0 +1,102 @@
+import 'package:flutter/material.dart';
+
+import '../../data/models/enums.dart';
+import '../../data/routing.dart';
+import '../../l10n/app_localizations.dart';
+import '../../theme/app_theme.dart';
+
+const careSectionStyle = TextStyle(color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'monospace');
+const careBodyStyle = TextStyle(color: AppColors.text, fontSize: 12.5, height: 1.35);
+const careMutedStyle = TextStyle(color: AppColors.textMuted, fontSize: 11.5, height: 1.35);
+
+IconData careModeIcon(CareMode mode) => switch (mode) {
+      CareMode.car => Icons.directions_car_rounded,
+      CareMode.truck => Icons.local_shipping_rounded,
+      CareMode.foot => Icons.directions_walk_rounded,
+    };
+
+String careModeLabel(AppLocalizations l, CareMode mode) => switch (mode) {
+      CareMode.car => l.careModeCar,
+      CareMode.truck => l.careModeTruck,
+      CareMode.foot => l.careModeFoot,
+    };
+
+(IconData, Color) clinicStatusLook(ClinicStatus status) => switch (status) {
+      ClinicStatus.reachable => (Icons.check_circle_rounded, AppColors.safestRoute),
+      ClinicStatus.accessFlooded => (Icons.water_rounded, AppColors.warning),
+      ClinicStatus.insidePocket => (Icons.block_rounded, AppColors.highRisk),
+    };
+
+class CareCard extends StatelessWidget {
+  final String title;
+  final List<Widget> children;
+  final Color? borderColor;
+
+  const CareCard({super.key, required this.title, required this.children, this.borderColor});
+
+  @override
+  Widget build(BuildContext context) => Container(
+        width: double.infinity,
+        margin: const EdgeInsets.only(bottom: 14),
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: borderColor ?? AppColors.border),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [Text(title, style: careSectionStyle), const SizedBox(height: 10), ...children],
+        ),
+      );
+}
+
+/// Icon and text side by side, so meaning never rests on colour alone.
+class CareFact extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final String text;
+
+  const CareFact({super.key, required this.icon, required this.color, required this.text});
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(bottom: 6),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon, size: 18, color: color),
+            const SizedBox(width: 8),
+            Expanded(child: Text(text, style: careBodyStyle)),
+          ],
+        ),
+      );
+}
+
+/// Shown when no road route reaches a clinic for any mode.
+class NeedsBoatNotice extends StatelessWidget {
+  final String text;
+
+  const NeedsBoatNotice({super.key, required this.text});
+
+  @override
+  Widget build(BuildContext context) => Container(
+        width: double.infinity,
+        margin: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppColors.highRisk.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.highRisk.withValues(alpha: 0.5)),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.directions_boat_rounded, color: AppColors.highRisk),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(text, style: const TextStyle(color: AppColors.highRisk, fontSize: 13, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        ),
+      );
+}

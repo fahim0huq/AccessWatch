@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'l10n/app_localizations.dart';
 import 'router.dart';
 import 'state/providers.dart';
+import 'state/settings_store.dart';
 import 'theme/app_theme.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: AccessWatchApp()));
+  final prefs = await SharedPreferences.getInstance();
+  runApp(ProviderScope(
+    overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+    child: const AccessWatchApp(),
+  ));
 }
 
 class AccessWatchApp extends ConsumerStatefulWidget {
@@ -30,6 +36,7 @@ class _AccessWatchAppState extends ConsumerState<AccessWatchApp> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(settingsPersistenceProvider);
     final appScale = ref.watch(textScaleProvider);
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context)!.appName,

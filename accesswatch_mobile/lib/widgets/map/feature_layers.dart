@@ -255,8 +255,9 @@ class _ServiceIcon extends StatelessWidget {
 
 class MyLocationLayer extends StatelessWidget {
   final LatLng position;
+  final bool isTest;
 
-  const MyLocationLayer({super.key, required this.position});
+  const MyLocationLayer({super.key, required this.position, this.isTest = false});
 
   @override
   Widget build(BuildContext context) => MarkerLayer(markers: [
@@ -265,10 +266,10 @@ class MyLocationLayer extends StatelessWidget {
           width: 28,
           height: 28,
           child: Semantics(
-            label: AppLocalizations.of(context)!.legendMe,
+            label: isTest ? AppLocalizations.of(context)!.testPositionBadge : AppLocalizations.of(context)!.legendMe,
             child: Container(
               decoration: BoxDecoration(
-                color: AppColors.accentSecondary,
+                color: isTest ? AppColors.warning : AppColors.accentSecondary,
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 3),
               ),

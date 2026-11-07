@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 
+import 'screens/care_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/info_screen.dart';
 import 'screens/main_navigation_screen.dart';
@@ -11,6 +12,7 @@ class AppRoutes {
   static const home = '/home';
   static const map = '/map';
   static const missions = '/missions';
+  static const care = '/care';
   static const info = '/info';
 }
 
@@ -37,6 +39,9 @@ GoRouter createRouter() => GoRouter(
                   ),
                 ],
               ),
+            ]),
+            StatefulShellBranch(routes: [
+              GoRoute(path: AppRoutes.care, builder: (context, state) => const CareScreen()),
             ]),
             StatefulShellBranch(routes: [
               GoRoute(path: AppRoutes.info, builder: (context, state) => const InfoScreen()),
