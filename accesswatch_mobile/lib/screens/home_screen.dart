@@ -9,6 +9,7 @@ import '../state/providers.dart';
 import '../theme/app_theme.dart';
 import '../utils/labels.dart';
 import '../widgets/beta_badge.dart';
+import '../widgets/data_status.dart';
 import '../widgets/flood_preview.dart';
 import '../widgets/kpi_grid.dart';
 import '../widgets/quality_banners.dart';
@@ -123,6 +124,9 @@ class _PreviewCard extends StatelessWidget {
                   style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
               const SizedBox(height: 2),
               Text(places, style: const TextStyle(color: AppColors.textMuted, fontSize: 11)),
+              const SizedBox(height: 6),
+              const DataAgeNote(),
+              const SizedBox(height: 4),
               const SizedBox(height: 2),
               Text(l.tapToOpenMap,
                   style: const TextStyle(color: AppColors.accent, fontSize: 11, fontFamily: 'monospace')),

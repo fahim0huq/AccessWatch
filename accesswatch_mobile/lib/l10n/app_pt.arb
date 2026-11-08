@@ -298,5 +298,9 @@
   "safetyCheckbox": "Compreendo que esta aplicação não é um serviço de emergência.",
   "safetyAccept": "Aceitar e continuar",
   "rankingDepotAssumedNote": "A localização do depósito de ajuda é presumida, não confirmada, por isso esta classificação é ilustrativa.",
-  "alertDepotAssumed": "A rota parte de uma localização de depósito presumida e não confirmada, por isso é ilustrativa."
+  "alertDepotAssumed": "A rota parte de uma localização de depósito presumida e não confirmada, por isso é ilustrativa.",
+  "dataAge": "Dados obtidos a {date} (radar NISAR). É um retrato de {days, plural, =0{hoje} =1{há 1 dia} other{há {days} dias}}: a água mudou desde então.",
+  "dataAgeShort": "Retrato {days, plural, =0{de hoje} =1{com 1 dia} other{com {days} dias}}",
+  "offlineBanner": "Sem ligação à rede. Tudo funciona com os dados dentro da aplicação, exceto o fundo do mapa e as ligações web.",
+  "offlineWorks": "Todos os dados da análise estão dentro da aplicação, por isso funciona sem rede. Só o fundo do mapa e as ligações web precisam de rede."
 }

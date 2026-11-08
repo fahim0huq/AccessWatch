@@ -1895,6 +1895,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Route starts at an assumed, unconfirmed depot location, so it is illustrative.'**
   String get alertDepotAssumed;
+
+  /// No description provided for @dataAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Data acquired {date} (NISAR radar). This is a snapshot from {days, plural, =0{today} =1{1 day ago} other{{days} days ago}}: the water has changed since.'**
+  String dataAge(String date, int days);
+
+  /// No description provided for @dataAgeShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Snapshot, {days, plural, =0{from today} =1{1 day old} other{{days} days old}}'**
+  String dataAgeShort(int days);
+
+  /// No description provided for @offlineBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'No network connection. Everything works from the data inside the app, except the map background and web links.'**
+  String get offlineBanner;
+
+  /// No description provided for @offlineWorks.
+  ///
+  /// In en, this message translates to:
+  /// **'All analysis data is inside the app, so it works offline. Only the map background and web links need a network.'**
+  String get offlineWorks;
 }
 
 class _AppLocalizationsDelegate

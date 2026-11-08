@@ -8,6 +8,7 @@ import '../../state/providers.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import '../beta_badge.dart';
+import '../data_status.dart';
 
 final _osmCopyright = Uri.parse('https://www.openstreetmap.org/copyright');
 
@@ -63,6 +64,7 @@ class MapHeader extends ConsumerWidget {
                 const SizedBox(height: 2),
                 Text(l.mapDates(fmt.date(dates.nisarBefore), fmt.date(dates.nisarAfter), fmt.date(dates.emsImage)),
                     style: const TextStyle(color: AppColors.textMuted, fontSize: 10.5)),
+                const DataAgeNote(compact: true),
               ],
             ),
           ),

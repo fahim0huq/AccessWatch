@@ -1142,4 +1142,36 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get alertDepotAssumed =>
       'A rota parte de uma localização de depósito presumida e não confirmada, por isso é ilustrativa.';
+
+  @override
+  String dataAge(String date, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'há $days dias',
+      one: 'há 1 dia',
+      zero: 'hoje',
+    );
+    return 'Dados obtidos a $date (radar NISAR). É um retrato de $_temp0: a água mudou desde então.';
+  }
+
+  @override
+  String dataAgeShort(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'com $days dias',
+      one: 'com 1 dia',
+      zero: 'de hoje',
+    );
+    return 'Retrato $_temp0';
+  }
+
+  @override
+  String get offlineBanner =>
+      'Sem ligação à rede. Tudo funciona com os dados dentro da aplicação, exceto o fundo do mapa e as ligações web.';
+
+  @override
+  String get offlineWorks =>
+      'Todos os dados da análise estão dentro da aplicação, por isso funciona sem rede. Só o fundo do mapa e as ligações web precisam de rede.';
 }

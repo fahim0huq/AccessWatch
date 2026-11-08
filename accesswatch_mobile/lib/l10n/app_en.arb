@@ -371,5 +371,11 @@
   "safetyCheckbox": "I understand that this app is not an emergency service.",
   "safetyAccept": "Accept and continue",
   "rankingDepotAssumedNote": "The aid depot location is assumed, not confirmed, so this ranking is illustrative.",
-  "alertDepotAssumed": "Route starts at an assumed, unconfirmed depot location, so it is illustrative."
+  "alertDepotAssumed": "Route starts at an assumed, unconfirmed depot location, so it is illustrative.",
+  "dataAge": "Data acquired {date} (NISAR radar). This is a snapshot from {days, plural, =0{today} =1{1 day ago} other{{days} days ago}}: the water has changed since.",
+  "dataAgeShort": "Snapshot, {days, plural, =0{from today} =1{1 day old} other{{days} days old}}",
+  "offlineBanner": "No network connection. Everything works from the data inside the app, except the map background and web links.",
+  "offlineWorks": "All analysis data is inside the app, so it works offline. Only the map background and web links need a network.",
+  "@dataAge": {"placeholders": {"date": {"type": "String"}, "days": {"type": "int"}}},
+  "@dataAgeShort": {"placeholders": {"days": {"type": "int"}}}
 }

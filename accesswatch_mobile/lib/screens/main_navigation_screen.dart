@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../l10n/app_localizations.dart';
+import '../state/connectivity.dart';
 import '../state/providers.dart';
 import '../theme/app_theme.dart';
+import '../widgets/data_status.dart';
 
 /// Bottom navigation around the tabs. Nothing shows until the data has loaded,
 /// so no screen ever has to handle a missing bundle.
@@ -25,7 +27,19 @@ class MainNavigationScreen extends ConsumerWidget {
         action: FilledButton(onPressed: () => ref.invalidate(bundleProvider), child: Text(l.retry)),
       ),
       data: (_) => Scaffold(
-        body: shell,
+        body: Column(
+          children: [
+            const OfflineBanner(),
+            Expanded(
+              child: MediaQuery.removePadding(
+                context: context,
+                // The banner already sits below the status bar.
+                removeTop: ref.watch(onlineProvider).valueOrNull == false,
+                child: shell,
+              ),
+            ),
+          ],
+        ),
         bottomNavigationBar: ref.watch(presentationModeProvider)
             ? null
             : BottomNavigationBar(

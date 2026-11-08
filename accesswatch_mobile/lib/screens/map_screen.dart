@@ -8,6 +8,7 @@ import '../data/bundle_repository.dart';
 import '../data/models/manifest.dart';
 import '../l10n/app_localizations.dart';
 import '../state/care_state.dart';
+import '../state/connectivity.dart';
 import '../state/location.dart';
 import '../state/map_state.dart';
 import '../state/providers.dart';
@@ -200,7 +201,7 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                       },
                     ),
                     children: [
-                      if (ref.watch(showBaseTilesProvider)) _tiles,
+                      if (ref.watch(showBaseTilesProvider) && ref.watch(onlineProvider).valueOrNull != false) _tiles,
                       if (compare)
                         OverlayImageLayer(overlayImages: [
                           OverlayImage(

@@ -1135,4 +1135,36 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get alertDepotAssumed =>
       'Route starts at an assumed, unconfirmed depot location, so it is illustrative.';
+
+  @override
+  String dataAge(String date, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days ago',
+      one: '1 day ago',
+      zero: 'today',
+    );
+    return 'Data acquired $date (NISAR radar). This is a snapshot from $_temp0: the water has changed since.';
+  }
+
+  @override
+  String dataAgeShort(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days old',
+      one: '1 day old',
+      zero: 'from today',
+    );
+    return 'Snapshot, $_temp0';
+  }
+
+  @override
+  String get offlineBanner =>
+      'No network connection. Everything works from the data inside the app, except the map background and web links.';
+
+  @override
+  String get offlineWorks =>
+      'All analysis data is inside the app, so it works offline. Only the map background and web links need a network.';
 }

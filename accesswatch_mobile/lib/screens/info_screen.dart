@@ -8,6 +8,7 @@ import '../state/providers.dart';
 import '../theme/app_theme.dart';
 import '../utils/labels.dart';
 import '../widgets/beta_badge.dart';
+import '../widgets/data_status.dart';
 import '../widgets/map/map_legend.dart';
 import '../widgets/quality_banners.dart';
 import '../widgets/settings_card.dart';
@@ -51,6 +52,10 @@ class InfoScreen extends ConsumerWidget {
                 Text(l.dateNisarAfter(fmt.date(dates.nisarAfter)), style: trustBody),
                 Text(l.dateEmsImage(fmt.date(dates.emsImage)), style: trustBody),
                 Text(l.dateEmsGap(fmt.oneDecimal(dates.emsHoursAfterNisar)), style: trustMuted),
+                const SizedBox(height: 8),
+                const DataAgeNote(),
+                const SizedBox(height: 4),
+                Text(l.offlineWorks, style: trustMuted),
               ],
             ),
             Text(l.warningsTitle,

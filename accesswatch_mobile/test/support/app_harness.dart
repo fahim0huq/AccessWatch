@@ -2,6 +2,7 @@ import 'package:accesswatch_mobile/data/bundle_repository.dart';
 import 'package:accesswatch_mobile/main.dart';
 import 'package:accesswatch_mobile/data/routing.dart';
 import 'package:accesswatch_mobile/state/care_state.dart';
+import 'package:accesswatch_mobile/state/connectivity.dart';
 import 'package:accesswatch_mobile/state/map_state.dart';
 import 'package:accesswatch_mobile/state/providers.dart';
 import 'package:accesswatch_mobile/state/settings_store.dart';
@@ -29,6 +30,7 @@ Future<void> pumpApp(
   TileProvider? tiles,
   List<Override> overrides = const [],
   Map<String, Object> saved = const {},
+  bool online = true,
 }) async {
   // A fresh tree, so a second pump in one test starts the app anew.
   await tester.pumpWidget(const SizedBox());
@@ -41,6 +43,8 @@ Future<void> pumpApp(
     overrides: [
       bundleProvider.overrideWith((ref) async => bundle),
       sharedPreferencesProvider.overrideWithValue(prefs),
+      onlineProvider.overrideWith((ref) => Stream.value(online)),
+      clockProvider.overrideWithValue(() => DateTime.utc(2026, 11, 8, 12)),
       // Routing in the same isolate: the fake test clock cannot wait for another one.
       careRouteRunnerProvider.overrideWithValue((request) async => careRoutes(request)),
       showBaseTilesProvider.overrideWithValue(tiles != null),
