@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:accesswatch_mobile/data/bundle_repository.dart';
 import 'package:accesswatch_mobile/data/mission_ranking.dart';
+import 'package:accesswatch_mobile/data/models/enums.dart';
 import 'package:accesswatch_mobile/data/verify_notes.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations_en.dart';
@@ -18,6 +19,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'support/app_harness.dart';
+import 'support/bundle_variants.dart';
 
 void main() {
   late AppBundle bundle;
@@ -68,11 +70,29 @@ void main() {
       expect(rankMissions(bundle.missions, w).map((r) => r.rank), bundle.missions.map((m) => m.rank));
     });
 
-    test('the data has a dominant pocket and tied terms, so the notes apply', () {
+    test('the data has a dominant pocket and, since unrounded pop_norm, no tied terms', () {
       final (top, share) = largestPocket(bundle.missions)!;
       expect(top.pocketId, 'P01');
       expect(share, greaterThan(dominantPocketShare));
-      expect(hasTiedTerms(bundle.missions), isTrue);
+      expect(hasTiedTerms(bundle.missions), isFalse);
+    });
+
+    test('P05, P06 and P08 now have distinct scores, but no weights can reorder them', () {
+      // They share service-loss and difficulty terms, so only people separates them.
+      List<String> trio(PriorityWeights w) => [
+            for (final r in rankMissions(bundle.missions, w))
+              if (const {'P05', 'P06', 'P08'}.contains(r.mission.pocketId)) r.mission.pocketId,
+          ];
+      expect(trio(const PriorityWeights()), ['P05', 'P06', 'P08']);
+      for (final people in [0.25, 0.5, 1.0, 1.5, 2.0]) {
+        for (final other in [0.0, 1.0, 2.0]) {
+          expect(trio(PriorityWeights(people: people, serviceLoss: other, difficulty: other)), ['P05', 'P06', 'P08']);
+        }
+      }
+      // With no weight on people the three tie and keep the published order.
+      final tied = rankMissions(bundle.missions, const PriorityWeights(people: 0));
+      final scores = {for (final r in tied) if (const {'P05', 'P06', 'P08'}.contains(r.mission.pocketId)) r.score};
+      expect(scores, hasLength(1));
     });
   });
 
@@ -140,12 +160,15 @@ void main() {
       expect(find.textContaining('Published rank'), findsNothing);
     });
 
-    testWidgets('show the choice, dominance, tie and depot notes from the data', (tester) async {
+    testWidgets('show the choice and dominance notes; tie and depot notes follow the data', (tester) async {
       await openMissions(tester);
       expect(find.text(en.rankingChoiceNote), findsOneWidget);
       expect(find.text(en.rankingDominated('P01', '98')), findsOneWidget);
-      expect(find.text(en.rankingTies), findsOneWidget);
-      expect(find.text(en.rankingDepotNote), findsOneWidget);
+      // The new data has no tied terms, and its depot is assumed rather than auto-selected.
+      expect(find.text(en.rankingTies), hasTiedTerms(bundle.missions) ? findsOneWidget : findsNothing);
+      expect(bundle.manifest.qualityFlags, contains(QualityFlag.depotAssumed));
+      expect(find.text(en.rankingDepotAssumedNote), findsOneWidget);
+      expect(find.text(en.rankingDepotNote), findsNothing);
     });
 
     testWidgets('keep the notes when folded away', (tester) async {
@@ -201,7 +224,10 @@ void main() {
       final sent = await shareFirst(tester, en, const Locale('en'));
       expect(sent, hasLength(1));
       expect(sent.single, allOf(contains('#1 P01'), contains('West of Guija'), contains('12,853'), contains('BOAT (0.56 km by water)')));
-      expect(sent.single, allOf(contains('Jan 17, 2026'), contains(en.alertDepot), contains(en.alertVerify)));
+      expect(sent.single, allOf(contains('Jan 17, 2026'), contains(en.alertVerify)));
+      // The depot is assumed in the new data, so the alert says so (not "auto-selected").
+      expect(sent.single, contains(en.alertDepotAssumed));
+      expect(sent.single, isNot(contains(en.alertDepot)));
       expect(sent.single, isNot(contains(en.alertCustomWeights)));
     });
 
@@ -213,6 +239,14 @@ void main() {
       for (final english in const ['people', 'Route', 'risk', 'VERIFY']) {
         expect(sent.single, isNot(contains(english)));
       }
+    });
+
+    test('says the depot is auto-selected when the flag says so, whatever the card', () {
+      final ranked = rankMissions(bundle.missions, const PriorityWeights()).first;
+      final auto = withFlags(bundle, {...bundle.manifest.qualityFlags, QualityFlag.depotAutoSelected});
+      final text = en.alertText(ranked, const PriorityWeights(), auto.manifest, const Fmt('en'));
+      expect(text, contains(en.alertDepot));
+      expect(text, isNot(contains(en.alertDepotAssumed)));
     });
 
     test('says when the rank uses custom weights', () {

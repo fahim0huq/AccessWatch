@@ -36,7 +36,10 @@ extension MissionText on AppLocalizations {
       alertRoute(fmt.km(m.safest.distanceKm), riskLevel(m.riskLevel), confidence(m.confidence)),
       alertDataDate(fmt.date(manifest.dates.nisarAfter)),
       if (!weights.isPublished) alertCustomWeights,
-      if (m.depotAutoSelected) alertDepot,
+      if (m.depotAutoSelected || manifest.qualityFlags.contains(QualityFlag.depotAutoSelected))
+        alertDepot
+      else if (manifest.qualityFlags.contains(QualityFlag.depotAssumed))
+        alertDepotAssumed,
       alertVerify,
     ].join(' ');
   }

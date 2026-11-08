@@ -296,5 +296,7 @@
   "safetyBody": "O AccessWatch apoia decisões e não é um serviço de emergência. Os dados podem estar errados ou desatualizados: verifique sempre no terreno antes de agir.",
   "safetyEmergency": "Se estiver em perigo, ligue para o número de emergência local.",
   "safetyCheckbox": "Compreendo que esta aplicação não é um serviço de emergência.",
-  "safetyAccept": "Aceitar e continuar"
+  "safetyAccept": "Aceitar e continuar",
+  "rankingDepotAssumedNote": "A localização do depósito de ajuda é presumida, não confirmada, por isso esta classificação é ilustrativa.",
+  "alertDepotAssumed": "A rota parte de uma localização de depósito presumida e não confirmada, por isso é ilustrativa."
 }

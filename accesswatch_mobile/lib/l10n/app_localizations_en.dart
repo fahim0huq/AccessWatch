@@ -1127,4 +1127,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get safetyAccept => 'Accept and continue';
+
+  @override
+  String get rankingDepotAssumedNote =>
+      'The aid depot location is assumed, not confirmed, so this ranking is illustrative.';
+
+  @override
+  String get alertDepotAssumed =>
+      'Route starts at an assumed, unconfirmed depot location, so it is illustrative.';
 }

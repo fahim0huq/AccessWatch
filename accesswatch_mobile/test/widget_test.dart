@@ -31,7 +31,7 @@ void main() {
     expect(find.text(en.kpiPockets('${stats.pockets}')), findsOneWidget);
     expect(find.text('13,072'), findsOneWidget);
     expect(find.text(en.warnShortNisarBeta), findsOneWidget);
-    expect(find.text(en.warnShortDepotAutoSelected), findsOneWidget);
+    expect(find.text(en.warnShortDepotAssumed), findsOneWidget);
     expect(find.text(en.warnShortValidationProductOrder), findsOneWidget);
     expect(find.text(en.warnShortClassifierCalibrated), findsOneWidget);
     expect(find.text('DEMO DATA'), findsNothing);

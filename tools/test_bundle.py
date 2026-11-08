@@ -69,6 +69,28 @@ class Graph(unittest.TestCase):
         self.assertEqual(links["all"], {"components": 1, "largest": 3})
         self.assertEqual(links["dry"], {"components": 2, "largest": 2})
 
+    def _route(self, coords):
+        return {"properties": {"pocket_id": "P", "route_type": "shortest", "distance_km": .05, "access_mode": "boat"},
+                "geometry": {"coordinates": coords}}
+
+    def test_replay_accepts_a_start_node_almost_as_near_as_the_nearest(self):
+        # Depot off the road between two nodes about 0.5 m apart in distance.
+        g = graph.build_graph([road((0, 0), (0.001, 0)), road((0.001, 0), (0.002, 0))])
+        depot = [0.00048, 0.0002]
+        self.assertEqual(graph.nearest_node(g, *depot), 0)
+        route = self._route([[0.001, 0], [0.002, 0]])
+        graph.replay_routes(g, [route], depot)
+
+    def test_replay_rejects_a_start_far_from_the_depot(self):
+        g = graph.build_graph([road((0, 0), (0.001, 0)), road((0.001, 0), (0.002, 0))])
+        with self.assertRaises(GateError):
+            graph.replay_routes(g, [self._route([[0.001, 0], [0.002, 0]])], [0, 0])
+
+    def test_replay_rejects_routes_with_different_starts(self):
+        g = graph.build_graph([road((0, 0), (0.001, 0)), road((0.001, 0), (0.002, 0))])
+        with self.assertRaises(GateError):
+            graph.replay_routes(g, [self._route([[0, 0], [0.001, 0]]), self._route([[0.001, 0], [0.002, 0]])], [0, 0])
+
     def test_replay_rejects_a_route_off_the_graph(self):
         g = graph.build_graph([road((0, 0), (0, .001))])
         route = {"properties": {"pocket_id": "P", "route_type": "shortest", "distance_km": .05, "access_mode": "boat"},

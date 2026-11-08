@@ -1,6 +1,6 @@
 rank,pocket_id,population,status,access_mode,lat,lon,open_in_google_maps,is_it_really_cut_off?
 1,P01,12853,cut_off,boat,-24.499537850019966,33.01725820012433,"https://www.google.com/maps?q=-24.49954,33.01726&t=k",
-2,P08,22,cut_off,boat,-24.495545100000008,33.0153139,"https://www.google.com/maps?q=-24.49555,33.01531&t=k",
+2,P05,29,cut_off,boat,-24.502268500000003,33.017003,"https://www.google.com/maps?q=-24.50227,33.01700&t=k",
 3,P06,26,cut_off,boat,-24.508309300000008,33.0214128,"https://www.google.com/maps?q=-24.50831,33.02141&t=k",
-4,P05,29,cut_off,boat,-24.502268500000003,33.017003,"https://www.google.com/maps?q=-24.50227,33.01700&t=k",
+4,P08,22,cut_off,boat,-24.495545100000008,33.0153139,"https://www.google.com/maps?q=-24.49555,33.01531&t=k",
 5,P02,52,difficult,high_clearance_truck,-24.552385700000002,32.999644,"https://www.google.com/maps?q=-24.55239,32.99964&t=k",

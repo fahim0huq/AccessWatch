@@ -1883,6 +1883,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Accept and continue'**
   String get safetyAccept;
+
+  /// No description provided for @rankingDepotAssumedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The aid depot location is assumed, not confirmed, so this ranking is illustrative.'**
+  String get rankingDepotAssumedNote;
+
+  /// No description provided for @alertDepotAssumed.
+  ///
+  /// In en, this message translates to:
+  /// **'Route starts at an assumed, unconfirmed depot location, so it is illustrative.'**
+  String get alertDepotAssumed;
 }
 
 class _AppLocalizationsDelegate

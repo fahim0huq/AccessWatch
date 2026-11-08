@@ -18,7 +18,7 @@
   },
   "OpenStreetMap": {
     "url": "https://www.openstreetmap.org/copyright",
-    "downloaded": "2026-11-05T14:24:38"
+    "downloaded": "2026-11-08T03:47:50"
   },
   "WorldPop R2025A 100 m": {
     "doi": "10.5258/SOTON/WP00839",
@@ -29,7 +29,7 @@
     "doi": "10.5067/OPDSWS1-L3V1",
     "better_alternative": "https://mapping.emergency.copernicus.eu/activations/EMSR857/"
   },
-  "Aid depot": "AUTO-SELECTED (illustrative only)",
+  "Aid depot": "Assumed staging point: Hospital Rural de Ch\u00f3kw\u00e8 (assumed by the team, not confirmed)",
   "validation_reference": {
     "layer": "EMSR857_AOI01_DEL_PRODUCT_observedEventA_v1.json",
     "date": null,
@@ -60,7 +60,7 @@
   },
   "quality_flags": [
     "NISAR scenes are BETA (pre-calibration)",
-    "aid depot is auto-selected, routes and priority are illustrative",
+    "aid depot location is assumed by the team (not a confirmed depot): routes and priority are illustrative",
     "validation map chosen by product order, not date: confirm its acquisition date against the NISAR 'after' scene",
     "flood map = classifier calibrated to the EMSR857 delineation (spatial-CV IoU 0.821 vs 0.677 for the threshold map): valid for this event and area, retrain with a new reference for another flood"
   ],

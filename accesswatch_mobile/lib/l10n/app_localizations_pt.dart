@@ -1134,4 +1134,12 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get safetyAccept => 'Aceitar e continuar';
+
+  @override
+  String get rankingDepotAssumedNote =>
+      'A localização do depósito de ajuda é presumida, não confirmada, por isso esta classificação é ilustrativa.';
+
+  @override
+  String get alertDepotAssumed =>
+      'A rota parte de uma localização de depósito presumida e não confirmada, por isso é ilustrativa.';
 }

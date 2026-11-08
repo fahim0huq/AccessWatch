@@ -92,7 +92,8 @@ void main() {
     testWidgets('Show on map draws the road route and its panel', (tester) async {
       await pumpApp(tester, bundle);
       await openTab(tester, en.tabCare);
-      await standAt(tester, bundle.services.firstWhere((s) => s.type == ServiceType.aidDepot).point);
+      // Not the depot: it now sits at a clinic, which gives a route of length 0.
+      await standAt(tester, bundle.services.firstWhere((s) => s.name == 'Mercado de soweto').point);
       await tester.tap(find.text(en.showRouteOnMap).first);
       await tester.pumpAndSettle();
       expect(find.byType(FlutterMap), findsOneWidget);

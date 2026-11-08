@@ -1,6 +1,5 @@
 import 'package:accesswatch_mobile/data/bundle_repository.dart';
 import 'package:accesswatch_mobile/data/models/enums.dart';
-import 'package:accesswatch_mobile/data/models/manifest.dart';
 import 'package:accesswatch_mobile/data/models/quality.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations_en.dart';
@@ -13,38 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'support/app_harness.dart';
-
-/// The real bundle with a different set of quality flags.
-AppBundle withFlags(AppBundle b, Set<QualityFlag> flags) {
-  final m = b.manifest;
-  return AppBundle(
-    manifest: Manifest(
-      schemaVersion: m.schemaVersion,
-      event: m.event,
-      syntheticDemo: m.syntheticDemo,
-      bounds: m.bounds,
-      boundsAll: m.boundsAll,
-      dates: m.dates,
-      qualityFlags: flags,
-      depthClasses: m.depthClasses,
-      compare: m.compare,
-      graph: m.graph,
-      stats: m.stats,
-      files: m.files,
-    ),
-    quality: b.quality,
-    flood: b.flood,
-    floodBaseline: b.floodBaseline,
-    ems: b.ems,
-    depthZones: b.depthZones,
-    depthLod: b.depthLod,
-    pockets: b.pockets,
-    routes: b.routes,
-    services: b.services,
-    missions: b.missions,
-    graph: b.graph,
-  );
-}
+import 'support/bundle_variants.dart';
 
 void main() {
   late AppBundle bundle;
@@ -67,14 +35,14 @@ void main() {
     test('every note in quality.json becomes a plain sentence', () {
       final issues = en.knownIssues(bundle.quality, fmt);
       expect(issues, containsAll([
-        en.issueRankInversion('P08', 'P06'),
-        en.issueRankInversion('P08', 'P05'),
-        en.issueRankInversion('P06', 'P05'),
         en.issueSafestCount('1', '2'),
         en.issueRoadsOutsideCoverage('42', '33'),
         en.issuePocketOutsideCoverage('P01', '3.2'),
         en.issueClinicDuplicates('7', '4'),
       ]));
+      // The new data has no rank inversions, so none are listed.
+      expect(bundle.quality.notes.rankPopulationInversions, isEmpty);
+      expect(issues.where((i) => i.contains('ranks above')), isEmpty);
     });
 
     testWidgets('are all on the trust screen, in English and Portuguese', (tester) async {
@@ -106,7 +74,8 @@ void main() {
     testWidgets('shows every quality flag, the limits and the emergency line', (tester) async {
       await openInfo(tester);
       expect(find.text(en.warnNisarBeta), findsOneWidget);
-      expect(find.text(en.warnDepotAutoSelected), findsOneWidget);
+      expect(find.text(en.warnDepotAssumed), findsOneWidget);
+      expect(find.text(en.warnDepotAutoSelected), findsNothing);
       await scrollTo(tester, find.text(en.limitBoat));
       expect(find.text(en.limitRoads('99.0', '2')), findsOneWidget);
       expect(find.textContaining('(Only in English'), findsNothing);
@@ -144,9 +113,23 @@ void main() {
       expect(find.text(en.warnShortDepotAssumed), findsOneWidget);
     });
 
-    testWidgets('does not show while the flag is false, as in the current data', (tester) async {
-      expect(bundle.manifest.qualityFlags, isNot(contains(QualityFlag.depotAssumed)));
+    testWidgets('is true in the current data and shows on Home, Map and Missions', (tester) async {
+      expect(bundle.manifest.qualityFlags, contains(QualityFlag.depotAssumed));
       await pumpApp(tester, bundle);
+      expect(find.text(en.warnShortDepotAssumed), findsOneWidget, reason: 'Home');
+      await tester.tap(find.text(en.tabMap).last);
+      await tester.pumpAndSettle();
+      // The Map starts with its banners folded into the warnings chip.
+      await tester.tap(find.text(en.warningsToggle('${bundle.manifest.qualityFlags.length}')));
+      await tester.pumpAndSettle();
+      expect(find.text(en.warnShortDepotAssumed), findsOneWidget, reason: 'Map');
+      await tester.tap(find.text(en.tabMissions).last);
+      await tester.pumpAndSettle();
+      expect(find.text(en.warnShortDepotAssumed), findsOneWidget, reason: 'Missions');
+    });
+
+    testWidgets('does not show when the flag is false', (tester) async {
+      await pumpApp(tester, withFlags(bundle, {...bundle.manifest.qualityFlags}..remove(QualityFlag.depotAssumed)));
       expect(find.text(en.warnShortDepotAssumed), findsNothing);
     });
   });

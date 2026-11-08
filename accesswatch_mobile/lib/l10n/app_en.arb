@@ -369,5 +369,7 @@
   "safetyBody": "AccessWatch supports decisions and is not an emergency service. The data can be wrong or out of date: always check on the ground before acting.",
   "safetyEmergency": "If you are in danger, call your local emergency number.",
   "safetyCheckbox": "I understand that this app is not an emergency service.",
-  "safetyAccept": "Accept and continue"
+  "safetyAccept": "Accept and continue",
+  "rankingDepotAssumedNote": "The aid depot location is assumed, not confirmed, so this ranking is illustrative.",
+  "alertDepotAssumed": "Route starts at an assumed, unconfirmed depot location, so it is illustrative."
 }

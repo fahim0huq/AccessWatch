@@ -96,6 +96,9 @@ class _RankingPanelState extends ConsumerState<RankingPanel> {
           if (bundle.manifest.qualityFlags.contains(QualityFlag.depotAutoSelected)) ...[
             const SizedBox(height: 4),
             Text(l.rankingDepotNote, style: _noteStyle.copyWith(color: AppColors.warning)),
+          ] else if (bundle.manifest.qualityFlags.contains(QualityFlag.depotAssumed)) ...[
+            const SizedBox(height: 4),
+            Text(l.rankingDepotAssumedNote, style: _noteStyle.copyWith(color: AppColors.warning)),
           ],
         ],
       ),

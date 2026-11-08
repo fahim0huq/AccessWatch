@@ -15,6 +15,9 @@ SOURCE_FLAGS = {"normal_vehicle": "access_normal_vehicle", "high_clearance": "ac
 # Which roads each access mode may use. Boats follow the flooded roads, so they may use any road.
 MODE_BITS = {"normal_vehicle": 1, "high_clearance_truck": 2, "on_foot": 4, "boat": None}
 ROUTE_KM_TOLERANCE = 0.03
+# The depot can sit off the road with two nodes almost equally near; the notebook may
+# snap to either. The routes' start must be no more than this much farther than the nearest.
+DEPOT_SNAP_SLACK_M = 5.0
 RISK_TOLERANCE = 0.001
 
 
@@ -93,6 +96,12 @@ def nearest_node(graph, lon, lat):
     return int(np.argmin(dx * dx + (lats - lat) ** 2))
 
 
+def node_distance_m(graph, node, lon, lat):
+    dx = (graph["lon"][node] - lon) * np.cos(np.radians(lat)) * 111320
+    dy = (graph["lat"][node] - lat) * 111320
+    return float(np.hypot(dx, dy))
+
+
 def _adjacency(edges):
     adj = defaultdict(list)
     for edge in edges:
@@ -121,7 +130,12 @@ def replay_routes(graph, routes, depot_lonlat):
     """Gate: the graph must reproduce every published route, or in-app routing would disagree with them."""
     adj, index = _adjacency(graph["edges"]), graph["index"]
     pairs = {frozenset((e[U], e[V])): e for e in graph["edges"]}
-    depot = nearest_node(graph, *depot_lonlat)
+    first = {index.get(tuple(f["geometry"]["coordinates"][0])) for f in routes}
+    gate(len(first) == 1 and None not in first, "published routes do not share one start node")
+    depot = first.pop()
+    nearest = nearest_node(graph, *depot_lonlat)
+    extra = node_distance_m(graph, depot, *depot_lonlat) - node_distance_m(graph, nearest, *depot_lonlat)
+    gate(extra <= DEPOT_SNAP_SLACK_M, f"routes start {extra:.1f} m farther from the depot than its nearest road node")
     by_length = dijkstra(adj, depot, LENGTH)
     by_risk = {m: dijkstra(adj, depot, RISK, bit) for m, bit in MODE_BITS.items()}
     for f in routes:

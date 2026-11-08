@@ -346,7 +346,7 @@ void main() {
     testWidgets('choosing a pocket shows only its routes and zooms to it', (tester) async {
       await openMap(tester);
       final before = cameraOf(tester).zoom;
-      await tester.tap(find.text('#02 P08'));
+      await tester.tap(find.text('#02 P05'));
       await tester.pumpAndSettle();
       expect(cameraOf(tester).zoom, greaterThan(before));
       final routes = tester.widget<PolylineLayer<Object>>(find.descendant(
