@@ -1176,4 +1176,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get mapSemanticsLabel =>
       'Flood map. Pockets, services and routes are also listed below the map and on the Missions and Care tabs.';
+
+  @override
+  String alreadyAtClinic(String clinic) {
+    return 'You\'re already at $clinic: no route needed.';
+  }
+
+  @override
+  String get alreadyHereShort => 'You\'re here';
 }

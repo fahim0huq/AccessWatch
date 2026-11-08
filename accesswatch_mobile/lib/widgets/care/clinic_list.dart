@@ -38,11 +38,13 @@ class ClinicList extends ConsumerWidget {
                       ? null
                       : routes.needsBoat(clinic.id)
                           ? l.needsBoatShort
-                          : [
-                              for (final mode in routes.byMode.keys)
-                                if (routes.forMode(mode, clinic.id) case final r?)
-                                  '${careModeLabel(l, mode)} ${l.distanceKm(fmt.km(r.route.lengthM / 1000))}',
-                            ].join(' · ');
+                          : routes.byMode.keys.any((m) => routes.forMode(m, clinic.id)?.route.isAtTarget ?? false)
+                              ? l.alreadyHereShort
+                              : [
+                                  for (final mode in routes.byMode.keys)
+                                    if (routes.forMode(mode, clinic.id) case final r?)
+                                      '${careModeLabel(l, mode)} ${l.distanceKm(fmt.km(r.route.lengthM / 1000))}',
+                                ].join(' · ');
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

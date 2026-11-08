@@ -76,17 +76,27 @@ void main() {
   });
 
   group('my spot on real data', () {
-    testWidgets('at the depot: dry, nearest clinic by road, routes for each mode', (tester) async {
+    testWidgets('away from clinics: dry, nearest clinic by road, routes for each mode', (tester) async {
       await pumpApp(tester, bundle);
       await openTab(tester, en.tabCare);
-      final depot = bundle.services.firstWhere((s) => s.type == ServiceType.aidDepot).point;
-      await standAt(tester, depot);
+      await standAt(tester, bundle.services.firstWhere((s) => s.name == 'Mercado de soweto').point);
       expect(find.text(en.testPositionBadge), findsOneWidget);
       expect(find.text(en.spotNotInFlood), findsOneWidget);
       expect(find.textContaining('Nearest clinic by road'), findsOneWidget);
       expect(find.text(en.needsBoatAny), findsNothing);
       expect(find.text(en.showRouteOnMap), findsNWidgets(3));
       expect(find.text('• ${en.routeNoWalkingTime}'), findsOneWidget);
+    });
+
+    testWidgets('at the depot, which shares a road point with a clinic: "already at the clinic", no route', (tester) async {
+      await pumpApp(tester, bundle);
+      await openTab(tester, en.tabCare);
+      await standAt(tester, bundle.services.firstWhere((s) => s.type == ServiceType.aidDepot).point);
+      expect(find.textContaining("You're already at"), findsWidgets);
+      expect(find.textContaining('Nearest clinic by road'), findsNothing);
+      // No zero-length route is offered for the map.
+      expect(find.text(en.showRouteOnMap), findsNothing);
+      expect(find.text(en.alreadyHereShort), findsWidgets);
     });
 
     testWidgets('Show on map draws the road route and its panel', (tester) async {

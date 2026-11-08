@@ -121,6 +121,8 @@ class _ModeCard extends ConsumerWidget {
           const SizedBox(height: 6),
           if (r == null)
             Text(l.noRouteForMode(careModeLabel(l, mode)), style: careMutedStyle)
+          else if (r.route.isAtTarget)
+            Text(l.alreadyAtClinic(l.serviceName(r.clinic)), style: careBodyStyle.copyWith(fontWeight: FontWeight.bold))
           else ...[
             Text(l.serviceName(r.clinic), style: careBodyStyle.copyWith(fontWeight: FontWeight.bold)),
             Text(routeSummary(l, fmt, mode, r.route), style: careBodyStyle),

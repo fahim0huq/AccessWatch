@@ -380,5 +380,8 @@
   "@dataAgeShort": {"placeholders": {"days": {"type": "int"}}},
   "pocketMarkerLabel": "Pocket {pocket}, {risk} risk",
   "@pocketMarkerLabel": {"placeholders": {"pocket": {"type": "String"}, "risk": {"type": "String"}}},
-  "mapSemanticsLabel": "Flood map. Pockets, services and routes are also listed below the map and on the Missions and Care tabs."
+  "mapSemanticsLabel": "Flood map. Pockets, services and routes are also listed below the map and on the Missions and Care tabs.",
+  "alreadyAtClinic": "You're already at {clinic}: no route needed.",
+  "alreadyHereShort": "You're here",
+  "@alreadyAtClinic": {"placeholders": {"clinic": {"type": "String"}}}
 }

@@ -43,6 +43,9 @@ class GraphRoute {
   /// Road pieces on the route flagged as a bridge to check on the ground.
   final int uncertainBridges;
 
+  /// Start and clinic share a road point: there is nothing to travel or draw.
+  bool get isAtTarget => nodes.length < 2;
+
   const GraphRoute({
     required this.nodes,
     required this.lengthM,

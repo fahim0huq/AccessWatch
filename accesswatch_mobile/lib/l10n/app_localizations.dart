@@ -1931,6 +1931,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Flood map. Pockets, services and routes are also listed below the map and on the Missions and Care tabs.'**
   String get mapSemanticsLabel;
+
+  /// No description provided for @alreadyAtClinic.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re already at {clinic}: no route needed.'**
+  String alreadyAtClinic(String clinic);
+
+  /// No description provided for @alreadyHereShort.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re here'**
+  String get alreadyHereShort;
 }
 
 class _AppLocalizationsDelegate

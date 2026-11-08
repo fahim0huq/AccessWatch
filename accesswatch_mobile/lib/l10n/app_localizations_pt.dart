@@ -1183,4 +1183,12 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get mapSemanticsLabel =>
       'Mapa da cheia. Os bolsões, serviços e rotas também estão listados por baixo do mapa e nos separadores Missões e Cuidados.';
+
+  @override
+  String alreadyAtClinic(String clinic) {
+    return 'Já está em $clinic: não precisa de rota.';
+  }
+
+  @override
+  String get alreadyHereShort => 'Está aqui';
 }

@@ -98,6 +98,13 @@ class _NearestClinic extends ConsumerWidget {
                 if (routes.forMode(mode, null) case final r?) (mode, r),
             ]..sort((a, b) => a.$2.route.lengthM.compareTo(b.$2.route.lengthM));
             final (mode, route) = best.first;
+            if (route.route.isAtTarget) {
+              return CareFact(
+                icon: Icons.local_hospital_rounded,
+                color: AppColors.safestRoute,
+                text: l.alreadyAtClinic(l.serviceName(route.clinic)),
+              );
+            }
             return CareFact(
               icon: Icons.local_hospital_rounded,
               color: AppColors.safestRoute,
