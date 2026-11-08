@@ -4,13 +4,17 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'l10n/app_localizations.dart';
+import 'perf.dart';
 import 'router.dart';
 import 'state/providers.dart';
 import 'state/settings_store.dart';
 import 'theme/app_theme.dart';
 
 Future<void> main() async {
+  perfStart();
   WidgetsFlutterBinding.ensureInitialized();
+  perfWatchFrames();
+  WidgetsBinding.instance.addPostFrameCallback((_) => perfMark('first frame'));
   final prefs = await SharedPreferences.getInstance();
   runApp(ProviderScope(
     overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],

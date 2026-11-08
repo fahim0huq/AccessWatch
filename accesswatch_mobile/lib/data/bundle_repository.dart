@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+import '../perf.dart';
 import 'depth_lod.dart';
 import 'models/layers.dart';
 import 'models/manifest.dart';
@@ -70,11 +71,11 @@ class BundleRepository {
   Future<String> _text(String name) => assets.loadString('$assetDir/$name', cache: false);
 
   /// Large files go through an isolate; the small ones parse on the spot.
-  Future<T> _big<T>(String name, ComputeCallback<String, T> parse) async =>
-      compute(parse, await _text(name), debugLabel: name);
+  Future<T> _big<T>(String name, ComputeCallback<String, T> parse) =>
+      perfTime(name, _text(name).then((text) => compute(parse, text, debugLabel: name)));
 
-  Future<T> _small<T>(String name, T Function(Map<String, dynamic>) parse) async =>
-      parse(_json(await _text(name)));
+  Future<T> _small<T>(String name, T Function(Map<String, dynamic>) parse) =>
+      perfTime(name, _text(name).then((text) => parse(_json(text))));
 
   Future<AppBundle> load() async {
     final manifest = _small('manifest.json', Manifest.fromJson);

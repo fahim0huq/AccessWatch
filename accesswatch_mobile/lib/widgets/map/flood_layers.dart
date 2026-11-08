@@ -31,7 +31,10 @@ class DepthZonesLayer extends ConsumerStatefulWidget {
 }
 
 class _DepthZonesLayerState extends ConsumerState<DepthZonesLayer> {
-  final _cache = <int, List<Polygon<Object>>>{};
+  // The layer widget itself is kept per level, not only its polygons: the map
+  // library drops its projection cache whenever it receives a new layer widget,
+  // and this widget rebuilds on every camera change because it reads the zoom.
+  final _cache = <int, PolygonLayer<Object>>{};
   double? _cachedOpacity;
 
   @override
@@ -43,14 +46,13 @@ class _DepthZonesLayerState extends ConsumerState<DepthZonesLayer> {
     }
     final lod = ref.watch(loadedBundleProvider).depthLod;
     final level = DepthLod.levelIndexForZoom(MapCamera.of(context).zoom);
-    final polygons = _cache.putIfAbsent(
+    return _cache.putIfAbsent(
       level,
-      () => [
+      () => PolygonLayer<Object>(polygons: [
         for (final patch in lod.levels[level])
           mapPolygon<Object>(patch.polygon, depthColor(patch.depthClass).withValues(alpha: opacity)),
-      ],
+      ]),
     );
-    return PolygonLayer<Object>(polygons: polygons);
   }
 }
 

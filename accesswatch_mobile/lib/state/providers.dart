@@ -2,12 +2,17 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/bundle_repository.dart';
+import '../perf.dart';
 import 'settings_store.dart';
 
 final bundleRepositoryProvider = Provider<BundleRepository>((ref) => BundleRepository());
 
 /// The whole data bundle. Every screen reads from this.
-final bundleProvider = FutureProvider<AppBundle>((ref) => ref.watch(bundleRepositoryProvider).load());
+final bundleProvider = FutureProvider<AppBundle>((ref) async {
+  final bundle = await perfTime('bundle load', ref.watch(bundleRepositoryProvider).load());
+  perfMark('bundle ready');
+  return bundle;
+});
 
 /// The loaded bundle, for screens shown only after it has loaded
 /// (MainNavigationScreen holds them back until then).
