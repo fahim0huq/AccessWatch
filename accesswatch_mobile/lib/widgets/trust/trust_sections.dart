@@ -10,6 +10,9 @@ import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import '../../utils/trust_text.dart';
 
+/// The doi.org address of a DOI, the standard resolver for DOIs.
+String doiUrl(String doi) => 'https://doi.org/${doi.trim()}';
+
 const trustBody = TextStyle(color: AppColors.text, fontSize: 12.5, height: 1.4);
 const trustMuted = TextStyle(color: AppColors.textMuted, fontSize: 11.5, height: 1.35);
 
@@ -184,9 +187,10 @@ class _Source extends StatelessWidget {
             children: [
               if (source.url != null) link(l.sourceWebsite, source.url!),
               if (source.docs != null) link(l.sourceDocs, source.docs!),
+              // A DOI resolves through doi.org; the identifier itself comes from the data.
+              if (source.doi != null) link(l.sourceDoi(source.doi!), doiUrl(source.doi!)),
             ],
           ),
-          if (source.doi != null) SelectableText(l.sourceDoi(source.doi!), style: trustMuted),
           if (source.licence != null) Text(l.sourceLicence(source.licence!), style: trustMuted),
         ],
       ),

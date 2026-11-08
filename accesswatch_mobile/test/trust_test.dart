@@ -8,6 +8,7 @@ import 'package:accesswatch_mobile/screens/welcome_screen.dart';
 import 'package:accesswatch_mobile/state/settings_store.dart';
 import 'package:accesswatch_mobile/utils/labels.dart';
 import 'package:accesswatch_mobile/utils/trust_text.dart';
+import 'package:accesswatch_mobile/widgets/trust/trust_sections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -92,12 +93,14 @@ void main() {
     testWidgets('sources link only to addresses in the data', (tester) async {
       await openInfo(tester);
       await scrollTo(tester, find.text(en.notAffiliated));
-      final links = bundle.quality.dataSources.fold<int>(0, (n, s) => n + (s.url != null ? 1 : 0) + (s.docs != null ? 1 : 0));
+      final links = bundle.quality.dataSources
+          .fold<int>(0, (n, s) => n + (s.url != null ? 1 : 0) + (s.docs != null ? 1 : 0) + (s.doi != null ? 1 : 0));
       expect(find.byIcon(Icons.open_in_new_rounded), findsNWidgets(links));
-      // WorldPop has a DOI and no link: shown as text.
+      // WorldPop has a DOI and no website: its DOI is the link, through doi.org.
       final worldPop = bundle.quality.dataSources.firstWhere((s) => s.name.startsWith('WorldPop'));
       expect(worldPop.url, isNull);
-      expect(find.text(en.sourceDoi(worldPop.doi!)), findsOneWidget);
+      expect(find.widgetWithText(TextButton, en.sourceDoi(worldPop.doi!)), findsOneWidget);
+      expect(doiUrl(worldPop.doi!), 'https://doi.org/10.5258/SOTON/WP00839');
     });
 
     test('a source without links shows only its name', () {
