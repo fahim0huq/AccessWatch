@@ -1919,6 +1919,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All analysis data is inside the app, so it works offline. Only the map background and web links need a network.'**
   String get offlineWorks;
+
+  /// No description provided for @pocketMarkerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pocket {pocket}, {risk} risk'**
+  String pocketMarkerLabel(String pocket, String risk);
+
+  /// No description provided for @mapSemanticsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Flood map. Pockets, services and routes are also listed below the map and on the Missions and Care tabs.'**
+  String get mapSemanticsLabel;
 }
 
 class _AppLocalizationsDelegate

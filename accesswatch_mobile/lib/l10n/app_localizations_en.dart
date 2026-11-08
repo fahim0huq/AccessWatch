@@ -1167,4 +1167,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get offlineWorks =>
       'All analysis data is inside the app, so it works offline. Only the map background and web links need a network.';
+
+  @override
+  String pocketMarkerLabel(String pocket, String risk) {
+    return 'Pocket $pocket, $risk risk';
+  }
+
+  @override
+  String get mapSemanticsLabel =>
+      'Flood map. Pockets, services and routes are also listed below the map and on the Missions and Care tabs.';
 }

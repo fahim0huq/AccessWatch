@@ -377,5 +377,8 @@
   "offlineBanner": "No network connection. Everything works from the data inside the app, except the map background and web links.",
   "offlineWorks": "All analysis data is inside the app, so it works offline. Only the map background and web links need a network.",
   "@dataAge": {"placeholders": {"date": {"type": "String"}, "days": {"type": "int"}}},
-  "@dataAgeShort": {"placeholders": {"days": {"type": "int"}}}
+  "@dataAgeShort": {"placeholders": {"days": {"type": "int"}}},
+  "pocketMarkerLabel": "Pocket {pocket}, {risk} risk",
+  "@pocketMarkerLabel": {"placeholders": {"pocket": {"type": "String"}, "risk": {"type": "String"}}},
+  "mapSemanticsLabel": "Flood map. Pockets, services and routes are also listed below the map and on the Missions and Care tabs."
 }

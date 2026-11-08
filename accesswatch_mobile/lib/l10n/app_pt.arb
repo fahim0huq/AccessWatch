@@ -302,5 +302,7 @@
   "dataAge": "Dados obtidos a {date} (radar NISAR). É um retrato de {days, plural, =0{hoje} =1{há 1 dia} other{há {days} dias}}: a água mudou desde então.",
   "dataAgeShort": "Retrato {days, plural, =0{de hoje} =1{com 1 dia} other{com {days} dias}}",
   "offlineBanner": "Sem ligação à rede. Tudo funciona com os dados dentro da aplicação, exceto o fundo do mapa e as ligações web.",
-  "offlineWorks": "Todos os dados da análise estão dentro da aplicação, por isso funciona sem rede. Só o fundo do mapa e as ligações web precisam de rede."
+  "offlineWorks": "Todos os dados da análise estão dentro da aplicação, por isso funciona sem rede. Só o fundo do mapa e as ligações web precisam de rede.",
+  "pocketMarkerLabel": "Bolsão {pocket}, risco {risk}",
+  "mapSemanticsLabel": "Mapa da cheia. Os bolsões, serviços e rotas também estão listados por baixo do mapa e nos separadores Missões e Cuidados."
 }

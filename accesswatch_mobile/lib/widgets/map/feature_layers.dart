@@ -15,21 +15,24 @@ import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import 'flood_layers.dart' show mapPolygon;
 
+/// Smallest tap area for anything on the map (Material and Android guidance).
+const minTapTarget = 48.0;
+
 /// Service names appear from this zoom; below it they would pile on top of each other.
 const serviceLabelMinZoom = 15.0;
 
 Color riskColor(RiskLevel level) => switch (level) {
-      RiskLevel.high => AppColors.highRisk,
-      RiskLevel.medium => AppColors.warning,
-      RiskLevel.low => const Color(0xFFFDE047),
-    };
+  RiskLevel.high => AppColors.highRisk,
+  RiskLevel.medium => AppColors.warning,
+  RiskLevel.low => const Color(0xFFFDE047),
+};
 
 IconData serviceIcon(ServiceType type) => switch (type) {
-      ServiceType.clinic => Icons.local_hospital_rounded,
-      ServiceType.market => Icons.storefront_rounded,
-      ServiceType.shelter => Icons.night_shelter_rounded,
-      ServiceType.aidDepot => Icons.warehouse_rounded,
-    };
+  ServiceType.clinic => Icons.local_hospital_rounded,
+  ServiceType.market => Icons.storefront_rounded,
+  ServiceType.shelter => Icons.night_shelter_rounded,
+  ServiceType.aidDepot => Icons.warehouse_rounded,
+};
 
 class PocketAreasLayer extends ConsumerStatefulWidget {
   final ValueChanged<Pocket> onTap;
@@ -55,6 +58,7 @@ class _PocketAreasLayerState extends ConsumerState<PocketAreasLayer> {
     final selected = ref.watch(selectedPocketIdProvider);
     final pockets = ref.watch(loadedBundleProvider).pockets;
     return GestureDetector(
+      excludeFromSemantics: true,
       onTap: () {
         final hits = _hit.value?.hitValues;
         if (hits != null && hits.isNotEmpty) widget.onTap(hits.first);
@@ -100,32 +104,49 @@ class PocketLabelsLayer extends ConsumerWidget {
       final box = Rect.fromCenter(center: camera.latLngToScreenOffset(pocket.point), width: width, height: height);
       if (placed.any(box.overlaps)) continue;
       placed.add(box);
-      markers.add(Marker(
-        point: pocket.point,
-        width: width,
-        height: height,
-        child: GestureDetector(
-          onTap: () => onTap(pocket),
-          child: Container(
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: AppColors.surface.withValues(alpha: 0.92),
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(
-                color: pocket.id == selected ? AppColors.accent : riskColor(pocket.riskLevel),
-                width: pocket.id == selected ? 2 : 1,
+      markers.add(
+        Marker(
+          point: pocket.point,
+          width: width,
+          // The label stays small; the tap area around it is the 48 dp minimum.
+          height: height < minTapTarget ? minTapTarget : height,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => onTap(pocket),
+            child: Semantics(
+              button: true,
+              label: l.pocketMarkerLabel(pocket.id, l.riskLevel(pocket.riskLevel)),
+              excludeSemantics: true,
+              child: Center(
+                child: Container(
+                  height: height,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: AppColors.surface.withValues(alpha: 0.92),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      color: pocket.id == selected ? AppColors.accent : riskColor(pocket.riskLevel),
+                      width: pocket.id == selected ? 2 : 1,
+                    ),
+                  ),
+                  child: Text(
+                    '${pocket.id} · ${l.riskLevel(pocket.riskLevel)}',
+                    maxLines: 1,
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'monospace',
+                    ),
+                  ),
+                ),
               ),
-            ),
-            child: Text(
-              '${pocket.id} · ${l.riskLevel(pocket.riskLevel)}',
-              maxLines: 1,
-              overflow: TextOverflow.fade,
-              softWrap: false,
-              style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'monospace'),
             ),
           ),
         ),
-      ));
+      );
     }
     return MarkerLayer(markers: markers);
   }
@@ -157,6 +178,7 @@ class _RoutesLayerState extends ConsumerState<RoutesLayer> {
     final selected = ref.watch(selectedPocketIdProvider);
     final routes = ref.watch(loadedBundleProvider).routes.where((r) => selected == null || r.pocketId == selected);
     return GestureDetector(
+      excludeFromSemantics: true,
       onTap: () {
         final hits = _hit.value?.hitValues;
         // Copied: the map library reuses this list for its next hit test.
@@ -171,8 +193,9 @@ class _RoutesLayerState extends ConsumerState<RoutesLayer> {
                 points: route.points,
                 hitValue: route,
                 strokeWidth: type == RouteType.safest ? 5 : 2.5,
-                color: (type == RouteType.safest ? AppColors.safestRoute : AppColors.shortestRoute)
-                    .withValues(alpha: opacity),
+                color: (type == RouteType.safest ? AppColors.safestRoute : AppColors.shortestRoute).withValues(
+                  alpha: opacity,
+                ),
                 pattern: type == RouteType.safest
                     ? const StrokePattern.solid()
                     : StrokePattern.dashed(segments: const [9, 6]),
@@ -193,45 +216,49 @@ class ServicesLayer extends ConsumerWidget {
     final l = AppLocalizations.of(context)!;
     final labelled = MapCamera.of(context).zoom >= serviceLabelMinZoom;
     final scale = MediaQuery.textScalerOf(context).scale(1);
-    return MarkerLayer(markers: [
-      for (final service in ref.watch(loadedBundleProvider).services)
-        Marker(
-          point: service.point,
-          width: labelled ? 120 * scale : 40,
-          height: labelled ? 40 + 26 * scale : 40,
-          // The icon sits on the point, with its name below it.
-          alignment: labelled ? const Alignment(0, 0.2) : Alignment.center,
-          child: GestureDetector(
-            onTap: () => onTap(service),
-            child: Semantics(
-              button: true,
-              label: l.serviceName(service),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _ServiceIcon(service: service),
-                  if (labelled)
-                    Flexible(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                        decoration: BoxDecoration(
-                          color: AppColors.surface.withValues(alpha: 0.9),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Text(
-                          l.serviceName(service),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600),
+    return MarkerLayer(
+      markers: [
+        for (final service in ref.watch(loadedBundleProvider).services)
+          Marker(
+            point: service.point,
+            width: labelled ? 120 * scale : minTapTarget,
+            height: labelled ? minTapTarget + 26 * scale : minTapTarget,
+            // The icon sits on the point, with its name below it.
+            alignment: labelled ? const Alignment(0, 0.2) : Alignment.center,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => onTap(service),
+              child: Semantics(
+                button: true,
+                label: '${l.serviceType(service.type)}: ${l.serviceName(service)}',
+                excludeSemantics: true,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _ServiceIcon(service: service),
+                    if (labelled)
+                      Flexible(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                          decoration: BoxDecoration(
+                            color: AppColors.surface.withValues(alpha: 0.9),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            l.serviceName(service),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-    ]);
+      ],
+    );
   }
 }
 
@@ -242,15 +269,15 @@ class _ServiceIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 28,
-        height: 28,
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 1.5),
-        ),
-        child: Icon(serviceIcon(service.type), size: 16, color: Colors.white),
-      );
+    width: 28,
+    height: 28,
+    decoration: BoxDecoration(
+      color: AppColors.surface,
+      shape: BoxShape.circle,
+      border: Border.all(color: Colors.white, width: 1.5),
+    ),
+    child: Icon(serviceIcon(service.type), size: 16, color: Colors.white),
+  );
 }
 
 class MyLocationLayer extends StatelessWidget {
@@ -260,22 +287,24 @@ class MyLocationLayer extends StatelessWidget {
   const MyLocationLayer({super.key, required this.position, this.isTest = false});
 
   @override
-  Widget build(BuildContext context) => MarkerLayer(markers: [
-        Marker(
-          point: position,
-          width: 28,
-          height: 28,
-          child: Semantics(
-            label: isTest ? AppLocalizations.of(context)!.testPositionBadge : AppLocalizations.of(context)!.legendMe,
-            child: Container(
-              decoration: BoxDecoration(
-                color: isTest ? AppColors.warning : AppColors.accentSecondary,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 3),
-              ),
-              child: const Icon(Icons.navigation_rounded, size: 12, color: Colors.white),
+  Widget build(BuildContext context) => MarkerLayer(
+    markers: [
+      Marker(
+        point: position,
+        width: 28,
+        height: 28,
+        child: Semantics(
+          label: isTest ? AppLocalizations.of(context)!.testPositionBadge : AppLocalizations.of(context)!.legendMe,
+          child: Container(
+            decoration: BoxDecoration(
+              color: isTest ? AppColors.warning : AppColors.accentSecondary,
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 3),
             ),
+            child: const Icon(Icons.navigation_rounded, size: 12, color: Colors.white),
           ),
         ),
-      ]);
+      ),
+    ],
+  );
 }

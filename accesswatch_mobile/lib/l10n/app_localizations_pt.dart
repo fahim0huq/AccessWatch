@@ -1174,4 +1174,13 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get offlineWorks =>
       'Todos os dados da análise estão dentro da aplicação, por isso funciona sem rede. Só o fundo do mapa e as ligações web precisam de rede.';
+
+  @override
+  String pocketMarkerLabel(String pocket, String risk) {
+    return 'Bolsão $pocket, risco $risk';
+  }
+
+  @override
+  String get mapSemanticsLabel =>
+      'Mapa da cheia. Os bolsões, serviços e rotas também estão listados por baixo do mapa e nos separadores Missões e Cuidados.';
 }

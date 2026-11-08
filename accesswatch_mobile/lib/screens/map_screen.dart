@@ -81,17 +81,17 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
 
   void _showCareRoute(CareRouteOnMap? route) {
     if (route == null || !_ready || route.points.length < 2) return;
-    _map.fitCamera(CameraFit.bounds(
-      bounds: LatLngBounds.fromPoints(route.points),
-      padding: const EdgeInsets.fromLTRB(48, 48, 80, 48),
-      maxZoom: 16,
-    ));
+    _map.fitCamera(
+      CameraFit.bounds(
+        bounds: LatLngBounds.fromPoints(route.points),
+        padding: const EdgeInsets.fromLTRB(48, 48, 80, 48),
+        maxZoom: 16,
+      ),
+    );
   }
 
-  void _fitAll() => _map.fitCamera(CameraFit.bounds(
-        bounds: _latLngBounds(_bundle.manifest.bounds),
-        padding: _fitPadding,
-      ));
+  void _fitAll() =>
+      _map.fitCamera(CameraFit.bounds(bounds: _latLngBounds(_bundle.manifest.bounds), padding: _fitPadding));
 
   void _focus(String? pocketId) {
     if (!_ready) return;
@@ -101,11 +101,13 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
     }
     final pocket = _bundle.pockets.firstWhere((p) => p.id == pocketId);
     final points = [for (final polygon in pocket.polygons) ...polygon.outer];
-    _map.fitCamera(CameraFit.bounds(
-      bounds: LatLngBounds.fromPoints(points),
-      padding: const EdgeInsets.fromLTRB(48, 48, 80, 48),
-      maxZoom: 15,
-    ));
+    _map.fitCamera(
+      CameraFit.bounds(
+        bounds: LatLngBounds.fromPoints(points),
+        padding: const EdgeInsets.fromLTRB(48, 48, 80, 48),
+        maxZoom: 15,
+      ),
+    );
   }
 
   /// The map loads its first tiles before it applies initialCameraFit and does
@@ -166,67 +168,72 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
             Expanded(
               child: Stack(
                 children: [
-                  FlutterMap(
-                    mapController: _map,
-                    options: MapOptions(
-                      // Set as well as the fit, so even the very first tile requests
-                      // are for this area and not the library's default centre.
-                      initialCenter: _latLngBounds(bundle.manifest.bounds).center,
-                      initialZoom: 12,
-                      initialCameraFit: CameraFit.bounds(
-                        bounds: _latLngBounds(bundle.manifest.bounds),
-                        padding: _fitPadding,
+                  Semantics(
+                    label: l.mapSemanticsLabel,
+                    child: FlutterMap(
+                      mapController: _map,
+                      options: MapOptions(
+                        // Set as well as the fit, so even the very first tile requests
+                        // are for this area and not the library's default centre.
+                        initialCenter: _latLngBounds(bundle.manifest.bounds).center,
+                        initialZoom: 12,
+                        initialCameraFit: CameraFit.bounds(
+                          bounds: _latLngBounds(bundle.manifest.bounds),
+                          padding: _fitPadding,
+                        ),
+                        minZoom: 9,
+                        maxZoom: 18,
+                        backgroundColor: AppColors.surfaceElevated,
+                        interactionOptions: const InteractionOptions(
+                          flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+                        ),
+                        // Debug builds only: a long press sets a test position, for trying Care on a desktop.
+                        onLongPress: kDebugMode
+                            ? (_, point) => ref.read(locationControllerProvider.notifier).setTestPosition(point)
+                            : null,
+                        onMapReady: () {
+                          _ready = true;
+                          final selected = ref.read(selectedPocketIdProvider);
+                          final careRoute = ref.read(careRouteOnMapProvider);
+                          if (careRoute != null) {
+                            _showCareRoute(careRoute);
+                          } else if (selected != null) {
+                            _focus(selected);
+                          } else {
+                            _loadFittedTiles();
+                          }
+                        },
                       ),
-                      minZoom: 9,
-                      maxZoom: 18,
-                      backgroundColor: AppColors.surfaceElevated,
-                      interactionOptions: const InteractionOptions(
-                        flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
-                      ),
-                      // Debug builds only: a long press sets a test position, for trying Care on a desktop.
-                      onLongPress: kDebugMode
-                          ? (_, point) => ref.read(locationControllerProvider.notifier).setTestPosition(point)
-                          : null,
-                      onMapReady: () {
-                        _ready = true;
-                        final selected = ref.read(selectedPocketIdProvider);
-                        final careRoute = ref.read(careRouteOnMapProvider);
-                        if (careRoute != null) {
-                          _showCareRoute(careRoute);
-                        } else if (selected != null) {
-                          _focus(selected);
-                        } else {
-                          _loadFittedTiles();
-                        }
-                      },
-                    ),
-                    children: [
-                      if (ref.watch(showBaseTilesProvider) && ref.watch(onlineProvider).valueOrNull != false) _tiles,
-                      if (compare)
-                        OverlayImageLayer(overlayImages: [
-                          OverlayImage(
-                            bounds: _latLngBounds(bundle.manifest.bounds),
-                            imageProvider: const AssetImage(BundleRepository.compareImageAsset),
-                            opacity: ref.watch(mapOpacityProvider)[MapLayer.compare]!,
-                            filterQuality: FilterQuality.none,
-                          ),
-                        ])
-                      else ...[
-                        if (layers.contains(MapLayer.depthZones)) const DepthZonesLayer(),
-                        if (layers.contains(MapLayer.flood)) const FloodLayer(),
-                        if (layers.contains(MapLayer.floodBaseline)) const BaselineFloodLayer(),
-                        if (layers.contains(MapLayer.floodEms)) const EmsFloodLayer(),
+                      children: [
+                        if (ref.watch(showBaseTilesProvider) && ref.watch(onlineProvider).valueOrNull != false) _tiles,
+                        if (compare)
+                          OverlayImageLayer(
+                            overlayImages: [
+                              OverlayImage(
+                                bounds: _latLngBounds(bundle.manifest.bounds),
+                                imageProvider: const AssetImage(BundleRepository.compareImageAsset),
+                                opacity: ref.watch(mapOpacityProvider)[MapLayer.compare]!,
+                                filterQuality: FilterQuality.none,
+                              ),
+                            ],
+                          )
+                        else ...[
+                          if (layers.contains(MapLayer.depthZones)) const DepthZonesLayer(),
+                          if (layers.contains(MapLayer.flood)) const FloodLayer(),
+                          if (layers.contains(MapLayer.floodBaseline)) const BaselineFloodLayer(),
+                          if (layers.contains(MapLayer.floodEms)) const EmsFloodLayer(),
+                        ],
+                        if (layers.contains(MapLayer.floodedRoads)) const FloodedRoadsLayer(),
+                        if (layers.contains(MapLayer.pockets)) PocketAreasLayer(onTap: (p) => _openPocket(p.id)),
+                        if (layers.contains(MapLayer.routes)) RoutesLayer(onTap: (r) => showRoutesSheet(context, r)),
+                        if (layers.contains(MapLayer.pockets)) PocketLabelsLayer(onTap: (p) => _openPocket(p.id)),
+                        if (layers.contains(MapLayer.services))
+                          ServicesLayer(onTap: (s) => showServiceSheet(context, ref, s)),
+                        const CareRouteLayer(),
+                        if (me.position != null) MyLocationLayer(position: me.position!, isTest: me.isTestPosition),
+                        const OsmAttribution(),
                       ],
-                      if (layers.contains(MapLayer.floodedRoads)) const FloodedRoadsLayer(),
-                      if (layers.contains(MapLayer.pockets)) PocketAreasLayer(onTap: (p) => _openPocket(p.id)),
-                      if (layers.contains(MapLayer.routes)) RoutesLayer(onTap: (r) => showRoutesSheet(context, r)),
-                      if (layers.contains(MapLayer.pockets)) PocketLabelsLayer(onTap: (p) => _openPocket(p.id)),
-                      if (layers.contains(MapLayer.services))
-                        ServicesLayer(onTap: (s) => showServiceSheet(context, ref, s)),
-                      const CareRouteLayer(),
-                      if (me.position != null) MyLocationLayer(position: me.position!, isTest: me.isTestPosition),
-                      const OsmAttribution(),
-                    ],
+                    ),
                   ),
                   MapControls(
                     compare: compare,
@@ -254,10 +261,17 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         if (_legendOpen)
-                          ConstrainedBox(constraints: BoxConstraints(maxHeight: height * 0.4), child: const MapLegend()),
+                          ConstrainedBox(
+                            constraints: BoxConstraints(maxHeight: height * 0.4),
+                            child: const MapLegend(),
+                          ),
                         const SizedBox(height: 6),
                         ActionChip(
-                          avatar: Icon(_legendOpen ? Icons.close_rounded : Icons.legend_toggle_rounded, size: 16, color: AppColors.accent),
+                          avatar: Icon(
+                            _legendOpen ? Icons.close_rounded : Icons.legend_toggle_rounded,
+                            size: 16,
+                            color: AppColors.accent,
+                          ),
                           label: Text(l.tooltipLegend, style: const TextStyle(color: AppColors.text, fontSize: 12)),
                           backgroundColor: AppColors.surface,
                           onPressed: () => setState(() => _legendOpen = !_legendOpen),
