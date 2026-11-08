@@ -2,8 +2,10 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!-- Location is optional: the app works without GPS, so phones without it can install it. -->
+    <uses-feature android:name="android.hardware.location.gps" android:required="false"/>
     <application
-        android:label="accesswatch_mobile"
+        android:label="AccessWatch"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -43,6 +45,11 @@
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
+        </intent>
+        <!-- Lets url_launcher open the source and OpenStreetMap links on Android 11 and later. -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="https"/>
         </intent>
     </queries>
 </manifest>

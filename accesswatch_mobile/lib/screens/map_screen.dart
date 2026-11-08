@@ -25,7 +25,7 @@ import '../widgets/map/map_sheets.dart';
 import '../widgets/quality_banners.dart';
 
 const _tileUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-const _userAgentPackage = 'com.accesswatch.app.accesswatch_mobile';
+const _userAgentPackage = 'com.accesswatch.app';
 // Room on the right for the floating buttons, so nothing fitted sits under them.
 const _fitPadding = EdgeInsets.fromLTRB(12, 12, 68, 24);
 
