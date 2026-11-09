@@ -116,7 +116,7 @@ void main() {
       expect(find.text(en.warnShortDepotAssumed), findsOneWidget);
     });
 
-    testWidgets('is true in the current data and shows on About and Help first, not on the Map', (tester) async {
+    testWidgets('is true in the current data and shows in About, not on the Map or Help first', (tester) async {
       expect(bundle.manifest.qualityFlags, contains(QualityFlag.depotAssumed));
       await pumpApp(tester, bundle);
       await openAbout(tester);
@@ -126,7 +126,7 @@ void main() {
       expect(find.text(en.warnShortDepotAssumed), findsNothing, reason: 'Map');
       await tester.tap(find.text(en.tabHelpFirst).last);
       await tester.pumpAndSettle();
-      expect(find.text(en.warnShortDepotAssumed), findsOneWidget, reason: 'Missions');
+      expect(find.text(en.warnShortDepotAssumed), findsNothing, reason: 'Help first');
     });
 
     testWidgets('does not show when the flag is false', (tester) async {

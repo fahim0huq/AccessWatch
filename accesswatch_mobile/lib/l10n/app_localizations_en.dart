@@ -1245,4 +1245,59 @@ class AppLocalizationsEn extends AppLocalizations {
   String areaMarkerLabel(String rank, String name, String mode) {
     return 'Area $rank: $name, $mode';
   }
+
+  @override
+  String get helpTitle => 'Who needs help first';
+
+  @override
+  String helpSubtitle(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString areas, most urgent at the top',
+      one: '1 area, most urgent at the top',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String filterAllCount(String count) {
+    return 'All $count';
+  }
+
+  @override
+  String filterBoatCount(String count) {
+    return 'Boat $count';
+  }
+
+  @override
+  String filterTruckCount(String count) {
+    return 'Truck $count';
+  }
+
+  @override
+  String filterCarCount(String count) {
+    return 'Car $count';
+  }
+
+  @override
+  String filterFootCount(String count) {
+    return 'On foot $count';
+  }
+
+  @override
+  String get customWeightsNote =>
+      'Ordered with your own priority weights. Reset them in About this data › Advanced.';
+
+  @override
+  String areaCardLabel(String rank, String name, String people, String mode) {
+    return 'Area $rank: $name. $people. $mode';
+  }
+
+  @override
+  String get noAreasForFilter => 'No areas match this filter.';
 }

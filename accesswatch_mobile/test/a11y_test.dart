@@ -5,7 +5,7 @@ import 'package:accesswatch_mobile/l10n/app_localizations.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations_en.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations_pt.dart';
 import 'package:accesswatch_mobile/state/location.dart';
-import 'package:accesswatch_mobile/screens/missions_screen.dart';
+import 'package:accesswatch_mobile/screens/help_first_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -49,7 +49,7 @@ void main() {
       await pumpApp(tester, bundle, locale: locale, height: 844);
       await tester.tap(find.text(l.tabHelpFirst).last);
       await tester.pumpAndSettle();
-      GoRouter.of(tester.element(find.byType(MissionsScreen))).go('/help/P01');
+      GoRouter.of(tester.element(find.byType(HelpFirstScreen))).go('/help/P01');
       await tester.pumpAndSettle();
       await checkGuidelines(tester, '$lang mission page');
       await tester.tap(find.text(l.tabFindCare).last);

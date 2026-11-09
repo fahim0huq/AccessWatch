@@ -11,7 +11,7 @@ import 'package:accesswatch_mobile/l10n/app_localizations_pt.dart';
 import 'package:accesswatch_mobile/state/mission_state.dart';
 import 'package:accesswatch_mobile/utils/labels.dart';
 import 'package:accesswatch_mobile/utils/mission_text.dart';
-import 'package:accesswatch_mobile/widgets/mission_list_card.dart';
+import 'package:accesswatch_mobile/widgets/help/area_card.dart';
 import 'package:accesswatch_mobile/widgets/ranking_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -39,12 +39,18 @@ void main() {
   }
 
   Future<void> openFirstMission(WidgetTester tester) async {
-    await tester.tap(find.byType(MissionListCard).first);
+    await tester.tap(find.byType(AreaCard).first);
     await tester.pumpAndSettle();
   }
 
+  /// The priority sliders, in About.
+  Future<void> openRanking(WidgetTester tester) async {
+    await openAbout(tester);
+    await scrollTo(tester, find.byType(RankingPanel));
+  }
+
   List<String> order(WidgetTester tester) =>
-      tester.widgetList<MissionListCard>(find.byType(MissionListCard)).map((c) => c.ranked.mission.pocketId).toList();
+      tester.widgetList<AreaCard>(find.byType(AreaCard)).map((c) => c.ranked.mission.pocketId).toList();
 
   group('ranking', () {
     test('the published weights give back the published ranking exactly', () {
@@ -139,29 +145,34 @@ void main() {
   });
 
   group('sliders', () {
-    testWidgets('re-rank the list live, show the published rank, and reset', (tester) async {
+    testWidgets('re-rank Help first, say so there, and reset', (tester) async {
       await openMissions(tester);
       final published = order(tester);
-      expect(find.textContaining('Published rank'), findsNothing);
+      expect(find.text(en.customWeightsNote), findsNothing);
+      await openRanking(tester);
       final sliders = find.descendant(of: find.byType(RankingPanel), matching: find.byType(Slider));
       expect(sliders, findsNWidgets(3));
 
       // Full weight on people: drag the first slider to its right end.
       tester.widget<Slider>(sliders.first).onChanged!(PriorityWeights.max);
       await tester.pumpAndSettle();
+      await goBack(tester);
       final changed = order(tester);
       expect(changed, isNot(published));
       expect(changed.first, 'P01');
-      expect(find.textContaining('Published rank'), findsWidgets);
+      expect(find.text(en.customWeightsNote), findsOneWidget);
 
+      await openRanking(tester);
       await tester.tap(find.text(en.rankingReset));
       await tester.pumpAndSettle();
+      await goBack(tester);
       expect(order(tester), published);
-      expect(find.textContaining('Published rank'), findsNothing);
+      expect(find.text(en.customWeightsNote), findsNothing);
     });
 
     testWidgets('show the choice and dominance notes; tie and depot notes follow the data', (tester) async {
       await openMissions(tester);
+      await openRanking(tester);
       expect(find.text(en.rankingChoiceNote), findsOneWidget);
       expect(find.text(en.rankingDominated('P01', '98')), findsOneWidget);
       // The new data has no tied terms, and its depot is assumed rather than auto-selected.
@@ -173,6 +184,7 @@ void main() {
 
     testWidgets('keep the notes when folded away', (tester) async {
       await openMissions(tester);
+      await openRanking(tester);
       await tester.tap(find.byTooltip(en.rankingHide));
       await tester.pumpAndSettle();
       expect(find.descendant(of: find.byType(RankingPanel), matching: find.byType(Slider)), findsNothing);
@@ -262,7 +274,7 @@ void main() {
       await pumpApp(tester, bundle, locale: locale, textScale: 2.0);
       await tester.tap(find.text(l.tabHelpFirst).last);
       await tester.pumpAndSettle();
-      await tester.tap(find.byType(MissionListCard).first);
+      await tester.tap(find.byType(AreaCard).first);
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox());

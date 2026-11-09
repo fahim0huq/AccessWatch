@@ -11,6 +11,7 @@ import '../widgets/beta_badge.dart';
 import '../widgets/data_status.dart';
 import '../widgets/map/map_legend.dart';
 import '../widgets/quality_banners.dart';
+import '../widgets/ranking_panel.dart';
 import '../widgets/settings_card.dart';
 import '../widgets/trust/trust_sections.dart';
 
@@ -71,6 +72,7 @@ class InfoScreen extends ConsumerWidget {
               children: const [MapLegend(width: double.infinity), SizedBox(height: 10), CompareLegend()],
             ),
             const SourcesSection(),
+            const RankingPanel(),
             const SettingsCard(),
             const SizedBox(height: 16),
             OutlinedButton.icon(

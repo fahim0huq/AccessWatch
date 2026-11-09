@@ -319,5 +319,15 @@
   "modeCarCanReach": "Um carro consegue chegar",
   "modeFootCanReach": "Acessível a pé",
   "openArea": "Abrir",
-  "areaMarkerLabel": "Área {rank}: {name}, {mode}"
+  "areaMarkerLabel": "Área {rank}: {name}, {mode}",
+  "helpTitle": "Quem precisa de ajuda primeiro",
+  "helpSubtitle": "{count, plural, =1{1 área, a mais urgente no topo} other{{count} áreas, as mais urgentes no topo}}",
+  "filterAllCount": "Todas {count}",
+  "filterBoatCount": "Barco {count}",
+  "filterTruckCount": "Camião {count}",
+  "filterCarCount": "Carro {count}",
+  "filterFootCount": "A pé {count}",
+  "customWeightsNote": "Ordenado com os seus próprios pesos de prioridade. Reponha-os em Sobre estes dados › Avançado.",
+  "areaCardLabel": "Área {rank}: {name}. {people}. {mode}",
+  "noAreasForFilter": "Nenhuma área corresponde a este filtro."
 }

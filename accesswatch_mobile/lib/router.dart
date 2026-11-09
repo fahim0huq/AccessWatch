@@ -5,7 +5,7 @@ import 'screens/info_screen.dart';
 import 'screens/main_navigation_screen.dart';
 import 'screens/map_screen.dart';
 import 'screens/mission_detail_screen.dart';
-import 'screens/missions_screen.dart';
+import 'screens/help_first_screen.dart';
 import 'screens/welcome_screen.dart';
 
 class AppRoutes {
@@ -35,7 +35,7 @@ GoRouter createRouter({required bool Function() safetyAccepted}) => GoRouter(
             StatefulShellBranch(routes: [
               GoRoute(
                 path: AppRoutes.help,
-                builder: (context, state) => const MissionsScreen(),
+                builder: (context, state) => const HelpFirstScreen(),
                 routes: [
                   GoRoute(
                     path: ':id',

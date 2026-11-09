@@ -2021,6 +2021,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Area {rank}: {name}, {mode}'**
   String areaMarkerLabel(String rank, String name, String mode);
+
+  /// No description provided for @helpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Who needs help first'**
+  String get helpTitle;
+
+  /// No description provided for @helpSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 area, most urgent at the top} other{{count} areas, most urgent at the top}}'**
+  String helpSubtitle(int count);
+
+  /// No description provided for @filterAllCount.
+  ///
+  /// In en, this message translates to:
+  /// **'All {count}'**
+  String filterAllCount(String count);
+
+  /// No description provided for @filterBoatCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Boat {count}'**
+  String filterBoatCount(String count);
+
+  /// No description provided for @filterTruckCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Truck {count}'**
+  String filterTruckCount(String count);
+
+  /// No description provided for @filterCarCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Car {count}'**
+  String filterCarCount(String count);
+
+  /// No description provided for @filterFootCount.
+  ///
+  /// In en, this message translates to:
+  /// **'On foot {count}'**
+  String filterFootCount(String count);
+
+  /// No description provided for @customWeightsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Ordered with your own priority weights. Reset them in About this data › Advanced.'**
+  String get customWeightsNote;
+
+  /// No description provided for @areaCardLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Area {rank}: {name}. {people}. {mode}'**
+  String areaCardLabel(String rank, String name, String people, String mode);
+
+  /// No description provided for @noAreasForFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'No areas match this filter.'**
+  String get noAreasForFilter;
 }
 
 class _AppLocalizationsDelegate

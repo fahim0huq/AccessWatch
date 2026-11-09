@@ -3,7 +3,7 @@ import 'package:accesswatch_mobile/data/models/enums.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations_en.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations_pt.dart';
-import 'package:accesswatch_mobile/widgets/mission_list_card.dart';
+import 'package:accesswatch_mobile/widgets/help/area_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -32,31 +32,42 @@ void main() {
     expect(find.text('DEMO DATA'), findsNothing);
   });
 
-  testWidgets('Missions lists every card and shows all warnings', (tester) async {
+  testWidgets('Help first lists every area, most urgent first', (tester) async {
     await pumpApp(tester, bundle);
     await openTab(tester, en.tabHelpFirst);
-    expect(find.text(en.warnShortNisarBeta), findsOneWidget);
+    expect(find.text(en.helpTitle), findsOneWidget);
+    expect(find.text(en.helpSubtitle(bundle.missions.length)), findsOneWidget);
+    // No warning banners here: they live in About.
+    expect(find.text(en.warnShortNisarBeta), findsNothing);
     expect(find.text(en.pocketTitle('west', 'Guija')), findsWidgets);
-    expect(find.byType(MissionListCard), findsNWidgets(bundle.missions.length));
-    expect(find.text('P07'), findsOneWidget);
+    expect(find.byType(AreaCard), findsNWidgets(bundle.missions.length));
+    // Only the most urgent card is emphasised, with its own Open button.
+    final cards = tester.widgetList<AreaCard>(find.byType(AreaCard)).toList();
+    expect(cards.first.emphasised, isTrue);
+    expect(cards.skip(1).any((c) => c.emphasised), isFalse);
+    expect(find.text(en.openArea), findsOneWidget);
   });
 
   testWidgets('the access filter only keeps matching missions', (tester) async {
     await pumpApp(tester, bundle);
     await openTab(tester, en.tabHelpFirst);
-    final chip = find.widgetWithText(ChoiceChip, en.accessBoat);
+    final boats = bundle.missions.where((m) => m.accessMode == AccessMode.boat).length;
+    final trucks = bundle.missions.where((m) => m.accessMode == AccessMode.highClearanceTruck).length;
+    // Counts on the chips come from the data.
+    expect(find.text(en.filterAllCount('${bundle.missions.length}')), findsOneWidget);
+    expect(find.text(en.filterTruckCount('$trucks')), findsOneWidget);
+    final chip = find.widgetWithText(FilterChip, en.filterBoatCount('$boats'));
     await tester.ensureVisible(chip);
     await tester.pumpAndSettle();
     await tester.tap(chip);
     await tester.pumpAndSettle();
-    final boats = bundle.missions.where((m) => m.accessMode == AccessMode.boat).length;
-    expect(find.text(en.rankedPockets('$boats')), findsOneWidget);
+    expect(find.byType(AreaCard), findsNWidgets(boats));
   });
 
   testWidgets('mission sheet shows real fields and depth as a class, not metres', (tester) async {
     await pumpApp(tester, bundle);
     await openTab(tester, en.tabHelpFirst);
-    await tester.tap(find.byType(MissionListCard).first);
+    await tester.tap(find.byType(AreaCard).first);
     await tester.pumpAndSettle();
     expect(find.text('12,853'), findsOneWidget);
     expect(find.text(en.estimatedMaxDepth), findsOneWidget);
@@ -85,7 +96,7 @@ void main() {
         final l = locale.languageCode == 'en' ? en : pt;
         await pumpApp(tester, bundle, locale: locale, textScale: 2.0);
         await openTab(tester, l.tabHelpFirst);
-        await tester.tap(find.byType(MissionListCard).first);
+        await tester.tap(find.byType(AreaCard).first);
         await tester.pumpAndSettle();
         await tester.tap(find.text(l.back));
         await tester.pumpAndSettle();

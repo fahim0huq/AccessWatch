@@ -402,5 +402,22 @@
   "modeFootCanReach": "Reachable on foot",
   "openArea": "Open",
   "areaMarkerLabel": "Area {rank}: {name}, {mode}",
-  "@areaMarkerLabel": {"placeholders": {"rank": {"type": "String"}, "name": {"type": "String"}, "mode": {"type": "String"}}}
+  "@areaMarkerLabel": {"placeholders": {"rank": {"type": "String"}, "name": {"type": "String"}, "mode": {"type": "String"}}},
+  "helpTitle": "Who needs help first",
+  "helpSubtitle": "{count, plural, =1{1 area, most urgent at the top} other{{count} areas, most urgent at the top}}",
+  "@helpSubtitle": {"placeholders": {"count": {"type": "int", "format": "decimalPattern"}}},
+  "filterAllCount": "All {count}",
+  "@filterAllCount": {"placeholders": {"count": {"type": "String"}}},
+  "filterBoatCount": "Boat {count}",
+  "@filterBoatCount": {"placeholders": {"count": {"type": "String"}}},
+  "filterTruckCount": "Truck {count}",
+  "@filterTruckCount": {"placeholders": {"count": {"type": "String"}}},
+  "filterCarCount": "Car {count}",
+  "@filterCarCount": {"placeholders": {"count": {"type": "String"}}},
+  "filterFootCount": "On foot {count}",
+  "@filterFootCount": {"placeholders": {"count": {"type": "String"}}},
+  "customWeightsNote": "Ordered with your own priority weights. Reset them in About this data › Advanced.",
+  "areaCardLabel": "Area {rank}: {name}. {people}. {mode}",
+  "@areaCardLabel": {"placeholders": {"rank": {"type": "String"}, "name": {"type": "String"}, "people": {"type": "String"}, "mode": {"type": "String"}}},
+  "noAreasForFilter": "No areas match this filter."
 }
