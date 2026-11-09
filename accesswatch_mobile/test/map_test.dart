@@ -370,7 +370,7 @@ void main() {
 
     testWidgets('a tap on a service opens its sheet, and clinics show their status', (tester) async {
       await openMap(tester);
-      await showLayer(tester, MapLayer.services);
+      await showLayer(tester, MapLayer.clinics);
       // Called directly: at the fitted zoom neighbouring markers overlap this one.
       tester.widget<ServicesLayer>(find.byType(ServicesLayer)).onTap(bundle.clinics.first);
       await tester.pumpAndSettle();

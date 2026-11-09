@@ -107,6 +107,46 @@ class EmsFloodLayer extends ConsumerWidget {
   }
 }
 
+/// Every road piece of graph.json, coloured by who can still use it. The graph
+/// holds a passable flag per mode, so this is read straight from the data.
+Color roadStatusColor(int flags) => (flags & 1) != 0
+    ? AppColors.roadAnyCar
+    : (flags & 2) != 0
+        ? AppColors.roadHighClearance
+        : (flags & 4) != 0
+            ? AppColors.roadFootOnly
+            : AppColors.roadImpassable;
+
+class AllRoadsLayer extends ConsumerStatefulWidget {
+  const AllRoadsLayer({super.key});
+
+  @override
+  ConsumerState<AllRoadsLayer> createState() => _AllRoadsLayerState();
+}
+
+class _AllRoadsLayerState extends ConsumerState<AllRoadsLayer> {
+  PolylineLayer<Object>? _layer;
+  double? _opacity;
+
+  @override
+  Widget build(BuildContext context) {
+    final opacity = ref.watch(mapOpacityProvider)[MapLayer.allRoads]!;
+    if (_layer == null || opacity != _opacity) {
+      _opacity = opacity;
+      final g = ref.read(loadedBundleProvider).graph;
+      _layer = PolylineLayer<Object>(polylines: [
+        for (var e = 0; e < g.edgeCount; e++)
+          Polyline<Object>(
+            points: [LatLng(g.lat[g.u[e]], g.lon[g.u[e]]), LatLng(g.lat[g.v[e]], g.lon[g.v[e]])],
+            strokeWidth: 2.5,
+            color: roadStatusColor(g.flags[e]).withValues(alpha: opacity),
+          ),
+      ]);
+    }
+    return _layer!;
+  }
+}
+
 /// Only the flooded edges of graph.json. Each edge is a straight piece between
 /// its two end points, which is all the geometry the graph holds.
 class FloodedRoadsLayer extends ConsumerStatefulWidget {

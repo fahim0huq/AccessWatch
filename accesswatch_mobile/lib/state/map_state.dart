@@ -1,20 +1,30 @@
 import 'package:flutter_map/flutter_map.dart' show TileProvider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-/// Everything the layer panel controls, bottom to top. [compare] is the
-/// compare.png overlay, which stands in for the flood layers while on.
-enum MapLayer { depthZones, flood, floodBaseline, floodEms, floodedRoads, pockets, routes, services, compare }
+import 'settings_store.dart';
 
-/// Flood and areas only, to start. Depth classes also start on, but draw only
-/// when zoomed in ([depthZonesMinZoom]); the rest is in About > Advanced.
-const _startOff = {
-  MapLayer.floodBaseline,
-  MapLayer.floodEms,
-  MapLayer.compare,
-  MapLayer.floodedRoads,
-  MapLayer.routes,
-  MapLayer.services,
-};
+/// Every map layer, bottom to top. [compare] is the compare.png overlay, which
+/// stands in for the flood layers while on. Places are one layer per type.
+enum MapLayer {
+  depthZones,
+  flood,
+  floodBaseline,
+  floodEms,
+  allRoads,
+  floodedRoads,
+  pockets,
+  routes,
+  clinics,
+  markets,
+  shelters,
+  depot,
+  compare,
+}
+
+/// The default view: flood water and cut-off areas. Depth classes are on as
+/// well, but draw only when zoomed in ([depthZonesMinZoom]).
+final defaultMapLayers = {MapLayer.depthZones, MapLayer.flood, MapLayer.pockets};
 
 /// Below this zoom the depth classes would only be noise over the flood.
 const depthZonesMinZoom = 13.5;
@@ -24,25 +34,40 @@ const _startOpacity = {
   MapLayer.flood: 0.55,
   MapLayer.floodBaseline: 0.45,
   MapLayer.floodEms: 0.45,
+  MapLayer.allRoads: 0.9,
   MapLayer.floodedRoads: 1.0,
   MapLayer.pockets: 0.4,
   MapLayer.routes: 1.0,
   MapLayer.compare: 0.85,
 };
 
-/// Layers with an opacity slider. Services are icons with labels, so they have none.
+/// Layers with an opacity slider. Places are icons with labels, so they have none.
 Iterable<MapLayer> get layersWithOpacity => _startOpacity.keys;
 
+/// The saved layer choice; names it does not know are skipped. Null if none saved.
+Set<MapLayer>? readMapLayers(SharedPreferences prefs) {
+  final names = prefs.getStringList(SettingsKeys.mapLayers);
+  if (names == null) return null;
+  final byName = {for (final layer in MapLayer.values) layer.name: layer};
+  return {for (final name in names) if (byName[name] != null) byName[name]!};
+}
+
 class MapLayersNotifier extends StateNotifier<Set<MapLayer>> {
-  MapLayersNotifier() : super(MapLayer.values.toSet().difference(_startOff));
+  MapLayersNotifier([Set<MapLayer>? saved]) : super(saved ?? {...defaultMapLayers});
 
   void setVisible(MapLayer layer, bool visible) {
     state = visible ? {...state, layer} : ({...state}..remove(layer));
   }
+
+  void setAll(Iterable<MapLayer> layers, bool visible) {
+    state = visible ? {...state, ...layers} : ({...state}..removeAll(layers));
+  }
+
+  void reset() => state = {...defaultMapLayers};
 }
 
-final mapLayersProvider =
-    StateNotifierProvider<MapLayersNotifier, Set<MapLayer>>((ref) => MapLayersNotifier());
+final mapLayersProvider = StateNotifierProvider<MapLayersNotifier, Set<MapLayer>>(
+    (ref) => MapLayersNotifier(readMapLayers(ref.watch(sharedPreferencesProvider))));
 
 class MapOpacityNotifier extends StateNotifier<Map<MapLayer, double>> {
   MapOpacityNotifier() : super(_startOpacity);

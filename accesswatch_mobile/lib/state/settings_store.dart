@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/mission_ranking.dart';
 import '../data/verify_notes.dart';
+import 'map_state.dart';
 import 'mission_state.dart';
 import 'providers.dart';
 
@@ -20,6 +21,7 @@ class SettingsKeys {
   static const verifyChecks = 'verify_checks';
   static const safetyAccepted = 'safety_accepted_v1';
   static const priorityWeights = 'priority_weights';
+  static const mapLayers = 'map_layers';
 }
 
 /// English unless the user chose another language; never the device's own.
@@ -74,6 +76,8 @@ final settingsPersistenceProvider = Provider<void>((ref) {
     prefs.setString(SettingsKeys.priorityWeights,
         jsonEncode({'people': w.people, 'service_loss': w.serviceLoss, 'difficulty': w.difficulty}));
   });
+  ref.listen<Set<MapLayer>>(mapLayersProvider,
+      (_, layers) => prefs.setStringList(SettingsKeys.mapLayers, [for (final l in layers) l.name]..sort()));
   ref.listen<Map<String, Set<VerifyNoteKind>>>(verifyChecksProvider, (_, checks) {
     prefs.setString(SettingsKeys.verifyChecks, jsonEncode({
       for (final entry in checks.entries) entry.key: [for (final kind in entry.value) kind.name],

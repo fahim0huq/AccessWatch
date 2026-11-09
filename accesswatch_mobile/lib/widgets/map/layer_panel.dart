@@ -3,19 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../state/map_state.dart';
+import '../../state/providers.dart';
 import '../../utils/labels.dart';
-
-String layerName(AppLocalizations l, MapLayer layer) => switch (layer) {
-      MapLayer.depthZones => l.layerDepth,
-      MapLayer.flood => l.layerFlood,
-      MapLayer.floodBaseline => l.layerBaseline,
-      MapLayer.floodEms => l.layerEms,
-      MapLayer.floodedRoads => l.layerRoads,
-      MapLayer.pockets => l.layerPockets,
-      MapLayer.routes => l.layerRoutes,
-      MapLayer.services => l.layerServices,
-      MapLayer.compare => l.layerCompare,
-    };
+import 'layers_sheet.dart' show layerName;
 
 /// A switch and an opacity slider for each map layer (About > Advanced).
 class LayerControls extends ConsumerWidget {
@@ -26,6 +16,7 @@ class LayerControls extends ConsumerWidget {
     final l = AppLocalizations.of(context)!;
     final fmt = Fmt.of(context);
     final text = Theme.of(context).textTheme;
+    final flags = ref.watch(loadedBundleProvider).manifest.qualityFlags;
     final visible = ref.watch(mapLayersProvider);
     final opacity = ref.watch(mapOpacityProvider);
     return Column(
@@ -35,7 +26,7 @@ class LayerControls extends ConsumerWidget {
         for (final layer in MapLayer.values.reversed) ...[
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
-            title: Text(layerName(l, layer), style: text.bodyLarge),
+            title: Text(layerName(l, layer, flags), style: text.bodyLarge),
             value: visible.contains(layer),
             onChanged: (on) => ref.read(mapLayersProvider.notifier).setVisible(layer, on),
           ),
@@ -52,7 +43,7 @@ class LayerControls extends ConsumerWidget {
                     value: opacity[layer]!,
                     min: 0.1,
                     divisions: 18,
-                    semanticFormatterCallback: (_) => '${layerName(l, layer)}: ${l.opacityLabel(fmt.percent(opacity[layer]!))}',
+                    semanticFormatterCallback: (_) => '${layerName(l, layer, flags)}: ${l.opacityLabel(fmt.percent(opacity[layer]!))}',
                     onChanged: (value) => ref.read(mapOpacityProvider.notifier).set(layer, value),
                   ),
                 ),

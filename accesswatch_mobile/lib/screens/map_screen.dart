@@ -17,6 +17,7 @@ import '../widgets/location_prompt.dart';
 import '../widgets/map/care_route_layer.dart';
 import '../widgets/map/feature_layers.dart';
 import '../widgets/map/flood_layers.dart';
+import '../widgets/map/layers_sheet.dart';
 import '../widgets/map/map_chrome.dart';
 import '../widgets/map/map_overlay.dart';
 import '../widgets/map/map_sheets.dart';
@@ -194,13 +195,19 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                         if (layers.contains(MapLayer.floodBaseline)) const BaselineFloodLayer(),
                         if (layers.contains(MapLayer.floodEms)) const EmsFloodLayer(),
                       ],
+                      if (layers.contains(MapLayer.allRoads)) const AllRoadsLayer(),
                       if (layers.contains(MapLayer.floodedRoads)) const FloodedRoadsLayer(),
                       if (layers.contains(MapLayer.pockets)) PocketAreasLayer(onTap: (p) => _openPocket(p.id)),
                       if (showRoutes) RoutesLayer(onTap: (r) => showRoutesSheet(context, r)),
                       if (layers.contains(MapLayer.pockets)) PocketLabelsLayer(onTap: (p) => _openPocket(p.id)),
-                      if (layers.contains(MapLayer.services)) ServicesLayer(onTap: (s) => showServiceSheet(context, ref, s)),
+                      if (placeLayers.keys.any(layers.contains))
+                        ServicesLayer(
+                          types: {for (final e in placeLayers.entries) if (layers.contains(e.key)) e.value},
+                          onTap: (s) => showServiceSheet(context, ref, s),
+                        ),
                       const CareRouteLayer(),
                       if (me.position != null) MyLocationLayer(position: me.position!, isTest: me.isStandIn, label: me.isSample ? l.sampleNotice : null),
+                      const Scalebar(alignment: Alignment.bottomLeft, padding: EdgeInsets.fromLTRB(12, 0, 0, 8)),
                       const OsmAttribution(),
                     ],
                   ),
@@ -251,7 +258,11 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   const HelpButton(),
-                                  const SizedBox(height: 4),
+                                  MapRoundButton(
+                                    icon: Icons.layers_rounded,
+                                    tooltip: l.layersButton,
+                                    onPressed: () => showLayersSheet(context),
+                                  ),
                                   MapRoundButton(icon: Icons.my_location_rounded, tooltip: l.tooltipLocate, onPressed: _locate),
                                   MapRoundButton(icon: Icons.add_rounded, tooltip: l.tooltipZoomIn, onPressed: () => _zoom(1)),
                                   MapRoundButton(icon: Icons.remove_rounded, tooltip: l.tooltipZoomOut, onPressed: () => _zoom(-1)),

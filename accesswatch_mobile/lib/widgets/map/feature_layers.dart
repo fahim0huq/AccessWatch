@@ -204,7 +204,10 @@ class _RoutesLayerState extends ConsumerState<RoutesLayer> {
 class ServicesLayer extends ConsumerWidget {
   final ValueChanged<ServicePoint> onTap;
 
-  const ServicesLayer({super.key, required this.onTap});
+  /// Which kinds of place to show.
+  final Set<ServiceType> types;
+
+  const ServicesLayer({super.key, required this.onTap, required this.types});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -214,6 +217,7 @@ class ServicesLayer extends ConsumerWidget {
     return MarkerLayer(
       markers: [
         for (final service in ref.watch(loadedBundleProvider).services)
+          if (types.contains(service.type))
           Marker(
             point: service.point,
             width: labelled ? 120 * scale : minTapTarget,

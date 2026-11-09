@@ -41,6 +41,12 @@ class AppColors {
   static const careRoute = Color(0xFFC026D3);
   static const me = Color(0xFF1D5FA8);
   static const mapBackground = Color(0xFFE3ECEB);
+
+  // Road status on the map: who can still use each road piece.
+  static const roadAnyCar = reach;
+  static const roadHighClearance = truck;
+  static const roadFootOnly = Color(0xFFC99A06);
+  static const roadImpassable = danger;
   static const shadow = Color(0x22000000);
 }
 

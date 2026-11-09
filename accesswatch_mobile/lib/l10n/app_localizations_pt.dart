@@ -306,7 +306,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get osmAttribution => '© contribuidores do OpenStreetMap';
 
   @override
-  String get tooltipLocate => 'Mostrar a minha localização';
+  String get tooltipLocate => 'A minha localização';
 
   @override
   String get tooltipZoomIn => 'Aproximar';
@@ -315,16 +315,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get tooltipZoomOut => 'Afastar';
 
   @override
-  String get tooltipFit => 'Mostrar toda a área';
+  String get tooltipFit => 'Ajustar à área da cheia';
 
   @override
   String get layersControl => 'Camadas';
 
   @override
-  String get layerDepth => 'Profundidade da água (estimativa)';
+  String get layerDepth => 'Classes de profundidade da água';
 
   @override
-  String get layerFlood => 'Extensão da cheia';
+  String get layerFlood => 'Água da cheia';
 
   @override
   String get layerEms => 'Cheia oficial EMS';
@@ -333,16 +333,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get layerRoads => 'Estradas inundadas';
 
   @override
-  String get layerPockets => 'Bolsões';
+  String get layerPockets => 'Áreas isoladas';
 
   @override
   String get layerRoutes => 'Rotas';
 
   @override
-  String get layerServices => 'Serviços';
-
-  @override
-  String get layerCompare => 'Comparar com o EMS';
+  String get layerCompare => 'Comparar com o mapa oficial EMS';
 
   @override
   String opacityLabel(String pct) {
@@ -1451,4 +1448,79 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get alertDepthUnknownLine => 'Profundidade da água desconhecida.';
+
+  @override
+  String get layersButton => 'Camadas';
+
+  @override
+  String get layersTitle => 'O que o mapa mostra';
+
+  @override
+  String get layerGroupWater => 'Água';
+
+  @override
+  String get layerGroupAreas => 'Áreas';
+
+  @override
+  String get layerGroupRoads => 'Estradas';
+
+  @override
+  String get layerGroupPlaces => 'Locais';
+
+  @override
+  String get layerGroupRoutes => 'Rotas';
+
+  @override
+  String get layerGroupMore => 'Mais';
+
+  @override
+  String get layerFloodNote =>
+      'Desligue para ver as estradas e o terreno debaixo da água.';
+
+  @override
+  String get layerRoadsNote =>
+      'Troços de estrada debaixo de água, sombreados pela classe de profundidade: claro baixa, médio média, escuro alta.';
+
+  @override
+  String get layerAllRoads => 'Estado de todas as estradas';
+
+  @override
+  String get roadAnyCar => 'Qualquer carro';
+
+  @override
+  String get roadHighClearance => 'Só chassis alto';
+
+  @override
+  String get roadFootOnly => 'Só a pé';
+
+  @override
+  String get roadImpassable => 'Intransitável';
+
+  @override
+  String get layerClinics => 'Clínicas';
+
+  @override
+  String get layerMarkets => 'Mercados';
+
+  @override
+  String get layerShelters => 'Abrigos';
+
+  @override
+  String get layerDepot => 'Depósito de ajuda';
+
+  @override
+  String get layerDepotAssumed => 'Depósito de ajuda (presumido)';
+
+  @override
+  String get layerDepotAuto => 'Depósito de ajuda (escolhido automaticamente)';
+
+  @override
+  String get layerRoutesNote =>
+      'A rota mais segura e a mais curta para cada área, a partir do depósito de ajuda.';
+
+  @override
+  String get resetView => 'Repor a vista padrão';
+
+  @override
+  String get routesPanelOpen => 'Ver cada rota';
 }

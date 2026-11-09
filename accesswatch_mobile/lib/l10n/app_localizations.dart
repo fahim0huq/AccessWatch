@@ -569,7 +569,7 @@ abstract class AppLocalizations {
   /// No description provided for @tooltipLocate.
   ///
   /// In en, this message translates to:
-  /// **'Show my location'**
+  /// **'My location'**
   String get tooltipLocate;
 
   /// No description provided for @tooltipZoomIn.
@@ -587,7 +587,7 @@ abstract class AppLocalizations {
   /// No description provided for @tooltipFit.
   ///
   /// In en, this message translates to:
-  /// **'Show the whole area'**
+  /// **'Fit to the flood area'**
   String get tooltipFit;
 
   /// No description provided for @layersControl.
@@ -599,13 +599,13 @@ abstract class AppLocalizations {
   /// No description provided for @layerDepth.
   ///
   /// In en, this message translates to:
-  /// **'Water depth (estimate)'**
+  /// **'Water depth classes'**
   String get layerDepth;
 
   /// No description provided for @layerFlood.
   ///
   /// In en, this message translates to:
-  /// **'Flood extent'**
+  /// **'Flood water'**
   String get layerFlood;
 
   /// No description provided for @layerEms.
@@ -623,7 +623,7 @@ abstract class AppLocalizations {
   /// No description provided for @layerPockets.
   ///
   /// In en, this message translates to:
-  /// **'Pockets'**
+  /// **'Cut-off areas'**
   String get layerPockets;
 
   /// No description provided for @layerRoutes.
@@ -632,16 +632,10 @@ abstract class AppLocalizations {
   /// **'Routes'**
   String get layerRoutes;
 
-  /// No description provided for @layerServices.
-  ///
-  /// In en, this message translates to:
-  /// **'Services'**
-  String get layerServices;
-
   /// No description provided for @layerCompare.
   ///
   /// In en, this message translates to:
-  /// **'Compare with EMS'**
+  /// **'Compare with the official EMS map'**
   String get layerCompare;
 
   /// No description provided for @opacityLabel.
@@ -2309,6 +2303,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Water depth unknown.'**
   String get alertDepthUnknownLine;
+
+  /// No description provided for @layersButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Layers'**
+  String get layersButton;
+
+  /// No description provided for @layersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What the map shows'**
+  String get layersTitle;
+
+  /// No description provided for @layerGroupWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water'**
+  String get layerGroupWater;
+
+  /// No description provided for @layerGroupAreas.
+  ///
+  /// In en, this message translates to:
+  /// **'Areas'**
+  String get layerGroupAreas;
+
+  /// No description provided for @layerGroupRoads.
+  ///
+  /// In en, this message translates to:
+  /// **'Roads'**
+  String get layerGroupRoads;
+
+  /// No description provided for @layerGroupPlaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Places'**
+  String get layerGroupPlaces;
+
+  /// No description provided for @layerGroupRoutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Routes'**
+  String get layerGroupRoutes;
+
+  /// No description provided for @layerGroupMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get layerGroupMore;
+
+  /// No description provided for @layerFloodNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn it off to see the roads and land under the water.'**
+  String get layerFloodNote;
+
+  /// No description provided for @layerRoadsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Road pieces under water, shaded by depth class: light shallow, middle medium, dark deep.'**
+  String get layerRoadsNote;
+
+  /// No description provided for @layerAllRoads.
+  ///
+  /// In en, this message translates to:
+  /// **'All roads status'**
+  String get layerAllRoads;
+
+  /// No description provided for @roadAnyCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Any car'**
+  String get roadAnyCar;
+
+  /// No description provided for @roadHighClearance.
+  ///
+  /// In en, this message translates to:
+  /// **'High-clearance only'**
+  String get roadHighClearance;
+
+  /// No description provided for @roadFootOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'On foot only'**
+  String get roadFootOnly;
+
+  /// No description provided for @roadImpassable.
+  ///
+  /// In en, this message translates to:
+  /// **'Impassable'**
+  String get roadImpassable;
+
+  /// No description provided for @layerClinics.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinics'**
+  String get layerClinics;
+
+  /// No description provided for @layerMarkets.
+  ///
+  /// In en, this message translates to:
+  /// **'Markets'**
+  String get layerMarkets;
+
+  /// No description provided for @layerShelters.
+  ///
+  /// In en, this message translates to:
+  /// **'Shelters'**
+  String get layerShelters;
+
+  /// No description provided for @layerDepot.
+  ///
+  /// In en, this message translates to:
+  /// **'Aid depot'**
+  String get layerDepot;
+
+  /// No description provided for @layerDepotAssumed.
+  ///
+  /// In en, this message translates to:
+  /// **'Aid depot (assumed)'**
+  String get layerDepotAssumed;
+
+  /// No description provided for @layerDepotAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Aid depot (auto-selected)'**
+  String get layerDepotAuto;
+
+  /// No description provided for @layerRoutesNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The safest and shortest route to each area from the aid depot.'**
+  String get layerRoutesNote;
+
+  /// No description provided for @resetView.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to default view'**
+  String get resetView;
+
+  /// No description provided for @routesPanelOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'See every route'**
+  String get routesPanelOpen;
 }
 
 class _AppLocalizationsDelegate
