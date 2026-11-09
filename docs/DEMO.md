@@ -22,34 +22,34 @@ changes with it and these figures should be re-read from the screens.
 ## Script (about 3 minutes)
 
 **0:00 Map (40 s).** "This is the January 2026 flood around Chókwè, seen by NISAR radar. Blue is
-the flood. Orange areas need a boat; teal areas a high-clearance truck can reach." Point at the
-card: "8 areas cut off, about 13,100 people near Chókwè and Guija." Point at the small line under
-the button: "Preliminary data, snapshot of 17 January 2026. Every caveat is one tap away." Tap
-the pill numbered 1: the short sheet shows the area, its people and "Needs a boat".
+the flood. Orange areas need a boat; teal areas a high-clearance vehicle can reach." Point at the
+card: "8 areas cut off or hard to reach, about 13,100 people near Chókwè and Guija." Tap Layers:
+turn off "Flood water" to show the roads and land underneath, then turn it back on. Tap "See every
+route", then the shortest route of area 2: the map shows only that route and zooms to it.
 
-**0:40 Help first (40 s).** Tap "See who needs help first". "The areas in order, most urgent at
-the top." Point at the Boat 4 / Truck 4 chips, then tap Open on area 1: "West of Guija, 12,853
-people by a population model. It needs a boat: about 0.56 km by water after about 5 km by road.
-It lost its clinic, market and shelter, which used to be 5 to 9 minutes away." Point at the safest
-route: "Check 5 bridges first." Tap Share alert: "The alert is written by the app from the data,
-in English or Portuguese, and you see it before it is sent." Close it. Tap "Check on the ground
-first": "A checklist for the team; ticks stay on the phone."
+**0:40 Help first (45 s).** Tap the Help first tab. "The areas in order, most urgent at the top."
+Tap the "Vehicle (high-clearance) 4" chip: "These need a high-clearance vehicle, never an ordinary
+car." Tap All again, then "Share an alert for a team" and choose Boat teams: "One alert for all four
+boat areas, in rank order, with people, how to get in and how deep the water is, written by the
+app in English or Portuguese, and you see it before it is sent." Close it.
 
-**1:20 Find care (40 s).** "Someone asks: where can I get care?" Tap "Try a sample spot in
+**1:25 One area (35 s).** Open area 1: "West of Guija (1), 12,853 people by a population model. It
+needs a boat: about 0.56 km by water, on a 5.62 km route." Point at the water card: "Water about
+0.7 m deep on average on the way in, up to about 1.6 m. That is an estimate from a 30 m terrain
+model, a guide and not a measurement." Point at the lost services and "Check 5 bridges first", then
+tap "Check on the ground first": "A checklist for the team; ticks stay on the phone."
+
+**2:00 Find care (25 s).** "Someone asks: where can I get care?" Tap "Try a sample spot in
 Chókwè". "It names the nearest clinic and says, for a car, a high-clearance truck and someone on
-foot, whether a road route exists, never through deep water. If none does, it says a boat is
-needed instead of drawing a line." Tap "Show the route on the map".
+foot, whether a road route exists, never through deep water. Where the data cannot give a fair
+time, it shows the distance only and says why."
 
-**2:00 About this data (60 s).** Tap the round "?". "The first card is the honest summary,
+**2:25 About this data (35 s).** Tap the round "?". "The first card is the honest summary,
 written from the data's own warning flags: the radar scenes are beta, the aid depot is assumed,
 the official comparison map was picked by product order, and our flood map was calibrated on that
-official map." Open "How well it matches the official map": "Agreement 0.80, and this sentence
-matters: it is not an independent check." Open Advanced: "The priority weights are a choice, not
-science. One area holds 98% of the people, so it stays on top. The sliders move the truck areas
-against the small boat areas, and cannot reorder the three tied boat areas." Back on About,
-switch to Português to show the second language. Close with the line at the bottom: "This app
-supports decisions. It is not an emergency service. If you are in danger, call your local
-emergency number."
+official map, so agreeing with it is not an independent check." Switch to Português for a moment.
+Close with the line at the bottom: "This app supports decisions. It is not an emergency service.
+If you are in danger, call your local emergency number."
 
 ## Limits to state out loud
 
@@ -61,7 +61,8 @@ emergency number."
   map for this event (spatial cross-validation IoU 0.82, against 0.68 for the threshold map). Its
   agreement with EMS is not an independent check, and it must be retrained for another flood.
 - **Depth is estimated.** Radar shows where water is, not how deep. Depth classes (shallow,
-  medium, deep) come from a surface model and are a guide, not measurements.
+  medium, deep) and the average depth on the way in come from a 30 m terrain model and are a
+  guide, not measurements.
 - Population is a modelled estimate, not a census. Bridges cannot be checked from space. The EMS
   image was taken later than the NISAR scene (the gap is recorded in the data and shown in About,
   under How the flood map was made). Always verify on the ground.
