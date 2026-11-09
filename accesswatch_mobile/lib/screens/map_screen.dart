@@ -26,10 +26,13 @@ const _tileUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 const _userAgentPackage = 'com.accesswatch.app';
 /// Room for the pill and chips above (they grow with the text size) and the
 /// buttons on the right, so nothing fitted sits under them.
-EdgeInsets _fitPadding(BuildContext context) =>
-    EdgeInsets.fromLTRB(16, 64 + 56 * MediaQuery.textScalerOf(context).scale(1), 72, 16);
-EdgeInsets _focusPadding(BuildContext context) =>
-    EdgeInsets.fromLTRB(48, 64 + 56 * MediaQuery.textScalerOf(context).scale(1), 80, 48);
+double _overlayHeight(BuildContext context) =>
+    64 + 56 * MediaQuery.textScalerOf(context).scale(1).clamp(1.0, mapOverlayMaxTextScale);
+EdgeInsets _fitPadding(BuildContext context) => EdgeInsets.fromLTRB(16, _overlayHeight(context), 72, 16);
+EdgeInsets _focusPadding(BuildContext context) => EdgeInsets.fromLTRB(48, _overlayHeight(context), 80, 48);
+
+/// Text-size cap for the name pill and legend chips on top of the map.
+const mapOverlayMaxTextScale = 1.5;
 
 LatLngBounds _latLngBounds(GeoBounds b) => LatLngBounds(LatLng(b.south, b.west), LatLng(b.north, b.east));
 
@@ -220,12 +223,18 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
-                                children: const [
-                                  MapBrandPill(),
-                                  SizedBox(height: 8),
-                                  MapLegendChips(),
-                                  SizedBox(height: 8),
-                                  CareRoutePanel(),
+                                children: [
+                                  // The name and legend repeat words shown full size elsewhere;
+                                  // capped so that at very large text the map stays visible.
+                                  MediaQuery.withClampedTextScaling(
+                                    maxScaleFactor: mapOverlayMaxTextScale,
+                                    child: const Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [MapBrandPill(), SizedBox(height: 8), MapLegendChips()],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  const CareRoutePanel(),
                                 ],
                               ),
                             ),

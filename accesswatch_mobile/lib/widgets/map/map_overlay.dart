@@ -104,7 +104,7 @@ class MapSummaryCard extends ConsumerWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(AppSizes.cardRadius)),
         boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 12, offset: Offset(0, -2))],
       ),
-      constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.5),
+      constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.42),
       child: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(AppSizes.gutter, 18, AppSizes.gutter, 8),
         child: Column(

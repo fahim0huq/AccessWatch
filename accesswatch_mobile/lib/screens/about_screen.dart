@@ -32,7 +32,11 @@ class AboutScreen extends ConsumerWidget {
     Widget row(IconData icon, String title, String route, {String? subtitle}) =>
         NavRow(icon: icon, title: title, subtitle: subtitle, onTap: () => context.push(route));
     return Scaffold(
-      appBar: AppBar(title: Text(l.aboutThisData)),
+      appBar: AppBar(
+        // Opened by a link there is nothing to pop: back goes to the Map.
+        leading: BackButton(onPressed: () => context.canPop() ? context.pop() : context.go(AppRoutes.map)),
+        title: Text(l.aboutThisData),
+      ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(AppSizes.gutter, 4, AppSizes.gutter, 32),
         children: [
