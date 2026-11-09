@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/mission_ranking.dart';
 import '../../l10n/app_localizations.dart';
+import '../../state/mission_state.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import '../ui/kit.dart';
@@ -9,7 +11,7 @@ import '../ui/mode_look.dart';
 
 /// One area in Help first. The most urgent one is [emphasised]: a coloured
 /// border, bigger type and its own Open button. The others are compact rows.
-class AreaCard extends StatelessWidget {
+class AreaCard extends ConsumerWidget {
   final RankedMission ranked;
   final bool emphasised;
   final VoidCallback onOpen;
@@ -17,13 +19,13 @@ class AreaCard extends StatelessWidget {
   const AreaCard({super.key, required this.ranked, required this.onOpen, this.emphasised = false});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context)!;
     final text = Theme.of(context).textTheme;
     final m = ranked.mission;
     final tone = modeTone(m.accessMode);
     final people = l.populationEstimate(Fmt.of(context).count(m.population));
-    final name = l.missionTitle(m);
+    final name = l.areaName(ranked, ref.watch(rankedMissionsProvider));
     final header = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

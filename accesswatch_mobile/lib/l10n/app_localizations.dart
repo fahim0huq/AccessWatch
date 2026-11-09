@@ -1617,7 +1617,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapAreasCutOff.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{1 area cut off} other{{count} areas cut off}}'**
+  /// **'{count, plural, =1{1 area cut off or hard to reach} other{{count} areas cut off or hard to reach}}'**
   String mapAreasCutOff(int count);
 
   /// No description provided for @mapPeopleNear.
@@ -1761,8 +1761,8 @@ abstract class AppLocalizations {
   /// No description provided for @modeBoatDetail.
   ///
   /// In en, this message translates to:
-  /// **'About {water} km by water, after {road} km by road'**
-  String modeBoatDetail(String water, String road);
+  /// **'About {water} km by water. Safest route {total} km in all.'**
+  String modeBoatDetail(String water, String total);
 
   /// No description provided for @modeTruckTitle.
   ///
@@ -2129,6 +2129,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Layer changes show on the Map tab.'**
   String get advancedMapNote;
+
+  /// No description provided for @areaNameNumbered.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} ({number})'**
+  String areaNameNumbered(String name, String number);
+
+  /// No description provided for @routeTimeUntrusted.
+  ///
+  /// In en, this message translates to:
+  /// **'No time shown: many short road pieces on this route have a time of zero in the data, so a summed time would be far too low.'**
+  String get routeTimeUntrusted;
+
+  /// No description provided for @confHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'HIGH'**
+  String get confHigh;
+
+  /// No description provided for @confMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'MEDIUM'**
+  String get confMedium;
+
+  /// No description provided for @confLow.
+  ///
+  /// In en, this message translates to:
+  /// **'LOW'**
+  String get confLow;
 }
 
 class _AppLocalizationsDelegate

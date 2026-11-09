@@ -31,7 +31,10 @@ void main() {
     expect(find.text(en.helpSubtitle(bundle.missions.length)), findsOneWidget);
     // No warning banners here: they live in About.
     expect(find.text(en.warnShortNisarBeta), findsNothing);
-    expect(find.text(en.pocketTitle('west', 'Guija')), findsWidgets);
+    // Two areas share this name, so each carries its number.
+    expect(find.text(en.areaNameNumbered(en.pocketTitle('west', 'Guija'), '1')), findsOneWidget);
+    expect(find.text(en.areaNameNumbered(en.pocketTitle('west', 'Guija'), '2')), findsOneWidget);
+    expect(find.text(en.pocketTitle('southwest', 'Guija')), findsOneWidget);
     expect(find.byType(AreaCard), findsNWidgets(bundle.missions.length));
     // Only the most urgent card is emphasised, with its own Open button.
     final cards = tester.widgetList<AreaCard>(find.byType(AreaCard)).toList();

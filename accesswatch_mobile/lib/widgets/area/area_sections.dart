@@ -24,10 +24,9 @@ class ModeCard extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     final m = mission;
     final tone = modeTone(m.accessMode);
-    // The safest route's distance includes its water leg.
-    final roadKm = (m.safest.distanceKm - m.boatLegKm).clamp(0, double.infinity);
     final (title, detail) = switch (m.accessMode) {
-      AccessMode.boat => (l.modeNeedsBoat, l.modeBoatDetail(fmt.km(m.boatLegKm), fmt.km(roadKm))),
+      // The data gives the water total and the route total, not where the water starts.
+      AccessMode.boat => (l.modeNeedsBoat, l.modeBoatDetail(fmt.km(m.boatLegKm), fmt.km(m.safest.distanceKm))),
       AccessMode.highClearanceTruck => (l.modeTruckTitle, l.modeTruckDetail),
       AccessMode.normalVehicle => (l.modeCarTitle, null),
       AccessMode.onFoot => (l.modeFootTitle, null),

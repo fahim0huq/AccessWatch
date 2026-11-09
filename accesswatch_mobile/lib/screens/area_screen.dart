@@ -54,7 +54,7 @@ class AreaScreen extends ConsumerWidget {
           : ListView(
               padding: const EdgeInsets.fromLTRB(AppSizes.gutter, 4, AppSizes.gutter, 32),
               children: [
-                Semantics(header: true, child: Text(l.missionTitle(ranked.mission), style: text.headlineMedium)),
+                Semantics(header: true, child: Text(l.areaName(ranked, ref.watch(rankedMissionsProvider)), style: text.headlineMedium)),
                 const SizedBox(height: 4),
                 Text(l.populationEstimate(fmt.count(ranked.mission.population)),
                     style: text.bodyLarge!.copyWith(color: AppColors.inkSecondary)),

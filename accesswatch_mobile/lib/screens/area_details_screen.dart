@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/models/enums.dart';
 import '../l10n/app_localizations.dart';
+import '../state/mission_state.dart';
 import '../theme/app_theme.dart';
 import '../utils/labels.dart';
 import '../widgets/area/area_sections.dart';
@@ -31,7 +32,7 @@ class _DetailPage extends ConsumerWidget {
         children: ranked == null
             ? [Text(l.missionNotFound(pocketId))]
             : [
-                Text(l.missionTitle(ranked.mission), style: Theme.of(context).textTheme.titleLarge),
+                Text(l.areaName(ranked, ref.watch(rankedMissionsProvider)), style: Theme.of(context).textTheme.titleLarge),
                 const SizedBox(height: 12),
                 ...children(context, ref),
               ],

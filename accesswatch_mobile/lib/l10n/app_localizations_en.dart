@@ -985,8 +985,8 @@ class AppLocalizationsEn extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$countString areas cut off',
-      one: '1 area cut off',
+      other: '$countString areas cut off or hard to reach',
+      one: '1 area cut off or hard to reach',
     );
     return '$_temp0';
   }
@@ -1098,8 +1098,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String modeBoatDetail(String water, String road) {
-    return 'About $water km by water, after $road km by road';
+  String modeBoatDetail(String water, String total) {
+    return 'About $water km by water. Safest route $total km in all.';
   }
 
   @override
@@ -1320,4 +1320,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get advancedMapNote => 'Layer changes show on the Map tab.';
+
+  @override
+  String areaNameNumbered(String name, String number) {
+    return '$name ($number)';
+  }
+
+  @override
+  String get routeTimeUntrusted =>
+      'No time shown: many short road pieces on this route have a time of zero in the data, so a summed time would be far too low.';
+
+  @override
+  String get confHigh => 'HIGH';
+
+  @override
+  String get confMedium => 'MEDIUM';
+
+  @override
+  String get confLow => 'LOW';
 }

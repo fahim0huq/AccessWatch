@@ -211,8 +211,9 @@ void main() {
       expect(find.text(en.areaXofN('1', '${bundle.missions.length}')), findsOneWidget);
       expect(find.text(en.populationEstimate('12,853')), findsOneWidget);
       expect(find.text(en.modeNeedsBoat), findsOneWidget);
-      // The water leg is part of the safest route's distance.
-      expect(find.text(en.modeBoatDetail('0.56', '5.06')), findsOneWidget);
+      // Water total and route total only: the data does not say where the water starts.
+      expect(find.text(en.modeBoatDetail('0.56', '5.62')), findsOneWidget);
+      expect(find.textContaining('by road'), findsNothing);
       expect(find.text(en.lostTitle), findsOneWidget);
       expect(find.text(en.lostWasMinutes('${m.lostServices.first.previousMinutes}')), findsWidgets);
       expect(find.text(en.serviceDepotLinkPlain), findsOneWidget);
@@ -234,7 +235,7 @@ void main() {
 
     testWidgets('a truck area says a high-clearance truck can reach it', (tester) async {
       await openMissions(tester);
-      final truck = find.text(en.pocketTitle('south', 'Chókwè')).first;
+      final truck = find.textContaining(en.pocketTitle('south', 'Chókwè')).first;
       await scrollTo(tester, truck);
       await tester.tap(truck);
       await tester.pumpAndSettle();

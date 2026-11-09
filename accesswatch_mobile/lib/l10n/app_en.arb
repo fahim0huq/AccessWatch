@@ -313,7 +313,7 @@
   "tabHelpFirst": "Help first",
   "tabFindCare": "Find care",
   "aboutThisData": "About this data",
-  "mapAreasCutOff": "{count, plural, =1{1 area cut off} other{{count} areas cut off}}",
+  "mapAreasCutOff": "{count, plural, =1{1 area cut off or hard to reach} other{{count} areas cut off or hard to reach}}",
   "@mapAreasCutOff": {"placeholders": {"count": {"type": "int", "format": "decimalPattern"}}},
   "mapPeopleNear": "About {people} people near {places}",
   "@mapPeopleNear": {"placeholders": {"people": {"type": "String"}, "places": {"type": "String"}}},
@@ -351,8 +351,8 @@
   "noAreasForFilter": "No areas match this filter.",
   "areaXofN": "Area {rank} of {count}",
   "@areaXofN": {"placeholders": {"rank": {"type": "String"}, "count": {"type": "String"}}},
-  "modeBoatDetail": "About {water} km by water, after {road} km by road",
-  "@modeBoatDetail": {"placeholders": {"water": {"type": "String"}, "road": {"type": "String"}}},
+  "modeBoatDetail": "About {water} km by water. Safest route {total} km in all.",
+  "@modeBoatDetail": {"placeholders": {"water": {"type": "String"}, "total": {"type": "String"}}},
   "modeTruckTitle": "A high-clearance truck can reach it",
   "modeCarTitle": "A normal car can reach it",
   "modeFootTitle": "It can be reached on foot only",
@@ -422,5 +422,11 @@
   "dataGenerated": "Analysis run: {date}",
   "@dataGenerated": {"placeholders": {"date": {"type": "String"}}},
   "updateInfo": "The data comes from one run of the analysis. When the analysis is run again on newer scenes, a new app version carries the new data.",
-  "advancedMapNote": "Layer changes show on the Map tab."
+  "advancedMapNote": "Layer changes show on the Map tab.",
+  "areaNameNumbered": "{name} ({number})",
+  "@areaNameNumbered": {"placeholders": {"name": {"type": "String"}, "number": {"type": "String"}}},
+  "routeTimeUntrusted": "No time shown: many short road pieces on this route have a time of zero in the data, so a summed time would be far too low.",
+  "confHigh": "HIGH",
+  "confMedium": "MEDIUM",
+  "confLow": "LOW"
 }

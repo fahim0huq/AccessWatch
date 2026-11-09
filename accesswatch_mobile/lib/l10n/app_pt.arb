@@ -252,7 +252,7 @@
   "tabHelpFirst": "Ajudar primeiro",
   "tabFindCare": "Encontrar cuidados",
   "aboutThisData": "Sobre estes dados",
-  "mapAreasCutOff": "{count, plural, =1{1 área isolada} other{{count} áreas isoladas}}",
+  "mapAreasCutOff": "{count, plural, =1{1 área isolada ou de difícil acesso} other{{count} áreas isoladas ou de difícil acesso}}",
   "mapPeopleNear": "Cerca de {people} pessoas perto de {places}",
   "placesAnd": "{first} e {last}",
   "seeWhoNeedsHelp": "Ver quem precisa de ajuda primeiro",
@@ -276,7 +276,7 @@
   "areaCardLabel": "Área {rank}: {name}. {people}. {mode}",
   "noAreasForFilter": "Nenhuma área corresponde a este filtro.",
   "areaXofN": "Área {rank} de {count}",
-  "modeBoatDetail": "Cerca de {water} km por água, depois de {road} km por estrada",
+  "modeBoatDetail": "Cerca de {water} km por água. Rota mais segura com {total} km no total.",
   "modeTruckTitle": "Um camião de chassis alto consegue chegar",
   "modeCarTitle": "Um carro normal consegue chegar",
   "modeFootTitle": "Só se chega a pé",
@@ -337,5 +337,10 @@
   "floodMapIntro": "O mapa de inundação compara imagens de radar NISAR de antes e depois da cheia. A água aberta reflete o radar de forma diferente da terra, por isso uma mudança entre as duas imagens marca água nova.",
   "dataGenerated": "Análise executada: {date}",
   "updateInfo": "Os dados vêm de uma execução da análise. Quando a análise for executada de novo com imagens mais recentes, uma nova versão da aplicação traz os novos dados.",
-  "advancedMapNote": "As alterações de camadas aparecem no separador Mapa."
+  "advancedMapNote": "As alterações de camadas aparecem no separador Mapa.",
+  "areaNameNumbered": "{name} ({number})",
+  "routeTimeUntrusted": "Sem tempo: muitos troços curtos desta rota têm tempo zero nos dados, por isso um tempo somado ficaria muito abaixo do real.",
+  "confHigh": "ALTA",
+  "confMedium": "MÉDIA",
+  "confLow": "BAIXA"
 }

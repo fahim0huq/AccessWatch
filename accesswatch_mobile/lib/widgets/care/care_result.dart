@@ -142,6 +142,7 @@ class _ModeRow extends StatelessWidget {
                   const SizedBox(height: 4),
                   // Walking time is not modelled: distance only on foot.
                   Text(routeSummary(l, Fmt.of(context), mode, r.route), style: text.bodyMedium),
+                  if (mode != CareMode.foot && !timeIsTrustworthy(r.route)) Text(l.routeTimeUntrusted, style: text.bodySmall),
                   if (r.clinic.id != headline) Text(l.toClinic(l.serviceName(r.clinic)), style: text.bodySmall),
                 ],
               ],

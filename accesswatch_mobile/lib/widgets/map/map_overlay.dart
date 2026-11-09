@@ -170,7 +170,7 @@ void showAreaSheet(BuildContext context, WidgetRef ref, String pocketId) {
                 children: [
                   RankCircle(rank: ranked.rank, tone: modeTone(m.accessMode)),
                   const SizedBox(width: 12),
-                  Expanded(child: Text(l.missionTitle(m), style: text.titleLarge)),
+                  Expanded(child: Text(l.areaName(ranked, ref.read(rankedMissionsProvider)), style: text.titleLarge)),
                 ],
               ),
               const SizedBox(height: 8),

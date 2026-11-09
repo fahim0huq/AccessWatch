@@ -117,7 +117,7 @@ class PocketLabelsLayer extends ConsumerWidget {
             onTap: () => onTap(pocket),
             child: Semantics(
               button: true,
-              label: l.areaMarkerLabel('${ranked.rank}', l.missionTitle(ranked.mission), modeWords(l, pocket.accessMode)),
+              label: l.areaMarkerLabel('${ranked.rank}', l.areaName(ranked, rankOf.values.toList()), modeWords(l, pocket.accessMode)),
               excludeSemantics: true,
               child: Center(
                 child: Container(

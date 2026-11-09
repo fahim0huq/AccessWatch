@@ -2,6 +2,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../data/mission_ranking.dart';
 import '../data/models/enums.dart';
 import '../data/models/mission.dart';
 import '../data/models/quality.dart';
@@ -36,10 +37,11 @@ extension BundleLabels on AppLocalizations {
         RiskLevel.high => levelHigh,
       };
 
+  /// Its own words: "confiança" is feminine in Portuguese.
   String confidence(Confidence level) => switch (level) {
-        Confidence.low => levelLow,
-        Confidence.medium => levelMedium,
-        Confidence.high => levelHigh,
+        Confidence.low => confLow,
+        Confidence.medium => confMedium,
+        Confidence.high => confHigh,
       };
 
   String serviceLink(ServiceLink link) => switch (link) {
@@ -116,6 +118,13 @@ extension BundleLabels on AppLocalizations {
           warnClassifierCalibrated(fmt.score(quality.classifierCvIou), fmt.score(quality.thresholdMapIou)),
         QualityFlag.depotAssumed => warnDepotAssumed,
       };
+
+  /// The area's name; with its number when another area has the same name.
+  String areaName(RankedMission r, List<RankedMission> all) {
+    final base = missionTitle(r.mission);
+    final shared = all.any((o) => o.mission.pocketId != r.mission.pocketId && missionTitle(o.mission) == base);
+    return shared ? areaNameNumbered(base, '${r.rank}') : base;
+  }
 
   /// "A", "A and B", "A, B and C".
   String placeList(Iterable<String> places) {

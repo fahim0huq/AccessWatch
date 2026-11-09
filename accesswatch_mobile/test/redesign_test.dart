@@ -5,13 +5,18 @@ import 'package:accesswatch_mobile/data/mission_ranking.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations_en.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations_pt.dart';
+import 'package:accesswatch_mobile/data/models/enums.dart';
+import 'package:accesswatch_mobile/data/routing.dart';
+import 'package:accesswatch_mobile/state/care_state.dart';
 import 'package:accesswatch_mobile/state/mission_state.dart';
+import 'package:accesswatch_mobile/widgets/care/route_cards.dart';
 import 'package:accesswatch_mobile/utils/labels.dart';
 import 'package:accesswatch_mobile/utils/mission_text.dart';
 import 'package:accesswatch_mobile/widgets/help/area_card.dart';
 import 'package:accesswatch_mobile/widgets/map/feature_layers.dart';
 import 'package:accesswatch_mobile/widgets/quality_banners.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -23,7 +28,7 @@ const _alertEn = 'ACCESSWATCH #1 P01, West of Guija: about 12,853 people (estima
     'Needs: BOAT (0.56 km by water). Route 5.62 km, risk HIGH, confidence LOW. Data from Jan 17, 2026. '
     'Route starts at an assumed, unconfirmed depot location, so it is illustrative. VERIFY ON THE GROUND.';
 const _alertPt = 'ACCESSWATCH #1 P01, A oeste de Guija: cerca de 12.853 pessoas (estimativa). '
-    'Precisa de: BARCO (0,56 km por água). Rota de 5,62 km, risco ALTO, confiança BAIXO. Dados de 17 de jan. de 2026. '
+    'Precisa de: BARCO (0,56 km por água). Rota de 5,62 km, risco ALTO, confiança BAIXA. Dados de 17 de jan. de 2026. '
     'A rota parte de uma localização de depósito presumida e não confirmada, por isso é ilustrativa. VERIFIQUE NO TERRENO.';
 
 void main() {
@@ -120,5 +125,37 @@ void main() {
         ok('about');
       });
     }
+  });
+
+  group('correctness', () {
+    test('boat areas: water total and route total from the data, for every card', () {
+      for (final m in bundle.missions.where((m) => m.accessMode == AccessMode.boat)) {
+        final line = en.modeBoatDetail(const Fmt('en').km(m.boatLegKm), const Fmt('en').km(m.safest.distanceKm));
+        expect(line, isNot(contains('road')), reason: m.pocketId);
+        expect(m.boatLegKm, lessThan(m.safest.distanceKm), reason: m.pocketId);
+      }
+    });
+
+    testWidgets('the sample spot car route shows distance only, with the reason', (tester) async {
+      await pumpApp(tester, bundle);
+      await tab(tester, en.tabFindCare);
+      await tester.tap(find.text(en.trySampleSpot));
+      await tester.pumpAndSettle();
+      final container = ProviderScope.containerOf(tester.element(find.byType(Navigator).first));
+      final car = container.read(careRoutesProvider).value!.forMode(CareMode.car, null)!.route;
+      // About 77 km/h on town roads: the summed time cannot be right.
+      expect(car.lengthM / 1000 / (car.timeMin / 60), greaterThan(60));
+      expect(timeIsTrustworthy(car), isFalse);
+      expect(find.text(en.routeTimeUntrusted), findsWidgets);
+      expect(find.textContaining('about ${const Fmt('en').minutes(car.timeMin)} min'), findsNothing);
+    });
+
+    test('a few long pieces keep their time; many short ones do not', () {
+      GraphRoute route(int pieces, double minutes) => GraphRoute(
+          nodes: List.generate(pieces + 1, (i) => i), lengthM: 1000, timeMin: minutes, riskCost: 0, shallowM: 0, mediumM: 0, uncertainBridges: 0);
+      expect(timeIsTrustworthy(route(4, 6)), isTrue);
+      expect(timeIsTrustworthy(route(130, 3.3)), isFalse);
+      expect(timeIsTrustworthy(route(3, 0)), isFalse);
+    });
   });
 }

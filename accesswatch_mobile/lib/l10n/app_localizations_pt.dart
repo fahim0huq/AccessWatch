@@ -988,8 +988,8 @@ class AppLocalizationsPt extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$countString áreas isoladas',
-      one: '1 área isolada',
+      other: '$countString áreas isoladas ou de difícil acesso',
+      one: '1 área isolada ou de difícil acesso',
     );
     return '$_temp0';
   }
@@ -1101,8 +1101,8 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String modeBoatDetail(String water, String road) {
-    return 'Cerca de $water km por água, depois de $road km por estrada';
+  String modeBoatDetail(String water, String total) {
+    return 'Cerca de $water km por água. Rota mais segura com $total km no total.';
   }
 
   @override
@@ -1325,4 +1325,22 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get advancedMapNote =>
       'As alterações de camadas aparecem no separador Mapa.';
+
+  @override
+  String areaNameNumbered(String name, String number) {
+    return '$name ($number)';
+  }
+
+  @override
+  String get routeTimeUntrusted =>
+      'Sem tempo: muitos troços curtos desta rota têm tempo zero nos dados, por isso um tempo somado ficaria muito abaixo do real.';
+
+  @override
+  String get confHigh => 'ALTA';
+
+  @override
+  String get confMedium => 'MÉDIA';
+
+  @override
+  String get confLow => 'BAIXA';
 }
