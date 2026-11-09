@@ -22,6 +22,8 @@ void main() {
     await pumpApp(tester, bundle);
     // Harness clock: 2026-11-08 12:00 UTC; NISAR after scene: 2026-01-17 03:42 UTC.
     await openAbout(tester);
+    await tester.tap(find.text(en.aboutAgeRow));
+    await tester.pumpAndSettle();
     expect(find.text(en.dataAge('Jan 17, 2026', 295)), findsOneWidget);
   });
 

@@ -46,7 +46,9 @@ void main() {
   /// The priority sliders, in About.
   Future<void> openRanking(WidgetTester tester) async {
     await openAbout(tester);
-    await scrollTo(tester, find.byType(RankingPanel));
+    await scrollTo(tester, find.text(en.aboutAdvancedRow));
+    await tester.tap(find.text(en.aboutAdvancedRow));
+    await tester.pumpAndSettle();
   }
 
   List<String> order(WidgetTester tester) =>
@@ -164,6 +166,7 @@ void main() {
       tester.widget<Slider>(sliders.first).onChanged!(PriorityWeights.max);
       await tester.pumpAndSettle();
       await goBack(tester);
+      await goBack(tester);
       final changed = order(tester);
       expect(changed, isNot(published));
       expect(changed.first, 'P01');
@@ -172,6 +175,7 @@ void main() {
       await openRanking(tester);
       await tester.tap(find.text(en.rankingReset));
       await tester.pumpAndSettle();
+      await goBack(tester);
       await goBack(tester);
       expect(order(tester), published);
       expect(find.text(en.customWeightsNote), findsNothing);

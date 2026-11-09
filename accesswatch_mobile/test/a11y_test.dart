@@ -43,6 +43,13 @@ void main() {
       }
       await openAbout(tester);
       await checkGuidelines(tester, '$lang about');
+      for (final row in [l.aboutLimitsRow, l.aboutAdvancedRow]) {
+        await scrollTo(tester, find.text(row));
+        await tester.tap(find.text(row));
+        await tester.pumpAndSettle();
+        await checkGuidelines(tester, '$lang $row');
+        await goBack(tester);
+      }
       semantics.dispose();
     });
 

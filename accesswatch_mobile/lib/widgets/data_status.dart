@@ -26,11 +26,11 @@ class DataAgeNote extends ConsumerWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.history_rounded, size: compact ? 13 : 16, color: AppColors.warning),
+          Icon(Icons.history_rounded, size: 18, color: AppColors.boatText),
           const SizedBox(width: 6),
           Expanded(
             child: Text(text,
-                style: TextStyle(color: AppColors.warning, fontSize: compact ? 10.5 : 12, height: 1.35)),
+                style: TextStyle(color: AppColors.boatText, fontSize: compact ? 14 : 16, height: 1.4)),
           ),
         ],
       ),
@@ -47,7 +47,7 @@ class OfflineBanner extends ConsumerWidget {
     if (ref.watch(onlineProvider).valueOrNull != false) return const SizedBox.shrink();
     final l = AppLocalizations.of(context)!;
     return Material(
-      color: AppColors.surfaceElevated,
+      color: AppColors.noticeTint,
       child: SafeArea(
         bottom: false,
         child: Semantics(
@@ -56,9 +56,9 @@ class OfflineBanner extends ConsumerWidget {
             padding: const EdgeInsets.fromLTRB(14, 8, 14, 8),
             child: Row(
               children: [
-                const Icon(Icons.cloud_off_rounded, color: AppColors.warning, size: 20),
+                const Icon(Icons.cloud_off_rounded, color: AppColors.noticeText, size: 20),
                 const SizedBox(width: 10),
-                Expanded(child: Text(l.offlineBanner, style: const TextStyle(color: AppColors.text, fontSize: 12.5))),
+                Expanded(child: Text(l.offlineBanner, style: const TextStyle(color: AppColors.noticeText, fontSize: 14, fontWeight: FontWeight.w500))),
               ],
             ),
           ),

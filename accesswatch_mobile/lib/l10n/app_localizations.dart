@@ -143,7 +143,7 @@ abstract class AppLocalizations {
   /// No description provided for @betaBadge.
   ///
   /// In en, this message translates to:
-  /// **'BETA DATA'**
+  /// **'Beta data'**
   String get betaBadge;
 
   /// No description provided for @heroTitle.
@@ -251,31 +251,31 @@ abstract class AppLocalizations {
   /// No description provided for @depthDry.
   ///
   /// In en, this message translates to:
-  /// **'DRY'**
+  /// **'Dry'**
   String get depthDry;
 
   /// No description provided for @depthShallow.
   ///
   /// In en, this message translates to:
-  /// **'SHALLOW'**
+  /// **'Shallow'**
   String get depthShallow;
 
   /// No description provided for @depthMedium.
   ///
   /// In en, this message translates to:
-  /// **'MEDIUM'**
+  /// **'Medium'**
   String get depthMedium;
 
   /// No description provided for @depthDeep.
   ///
   /// In en, this message translates to:
-  /// **'DEEP'**
+  /// **'Deep'**
   String get depthDeep;
 
   /// No description provided for @depthUnknown.
   ///
   /// In en, this message translates to:
-  /// **'UNKNOWN'**
+  /// **'Unknown'**
   String get depthUnknown;
 
   /// No description provided for @depthEstimateWarning.
@@ -287,7 +287,7 @@ abstract class AppLocalizations {
   /// No description provided for @warningsTitle.
   ///
   /// In en, this message translates to:
-  /// **'DATA WARNINGS'**
+  /// **'Data warnings'**
   String get warningsTitle;
 
   /// No description provided for @warnShortNisarBeta.
@@ -623,7 +623,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsTitle.
   ///
   /// In en, this message translates to:
-  /// **'SETTINGS'**
+  /// **'Settings'**
   String get settingsTitle;
 
   /// No description provided for @language.
@@ -665,7 +665,7 @@ abstract class AppLocalizations {
   /// No description provided for @dataDates.
   ///
   /// In en, this message translates to:
-  /// **'DATA DATES'**
+  /// **'Data dates'**
   String get dataDates;
 
   /// No description provided for @dateNisarBefore.
@@ -689,7 +689,7 @@ abstract class AppLocalizations {
   /// No description provided for @dataSources.
   ///
   /// In en, this message translates to:
-  /// **'DATA SOURCES & ATTRIBUTION'**
+  /// **'Data sources & attribution'**
   String get dataSources;
 
   /// No description provided for @notAffiliated.
@@ -779,7 +779,7 @@ abstract class AppLocalizations {
   /// No description provided for @layersControl.
   ///
   /// In en, this message translates to:
-  /// **'LAYERS'**
+  /// **'Layers'**
   String get layersControl;
 
   /// No description provided for @layerDepth.
@@ -845,7 +845,7 @@ abstract class AppLocalizations {
   /// No description provided for @legendTitle.
   ///
   /// In en, this message translates to:
-  /// **'LEGEND'**
+  /// **'Legend'**
   String get legendTitle;
 
   /// No description provided for @legendPocketRisk.
@@ -911,7 +911,7 @@ abstract class AppLocalizations {
   /// No description provided for @compareTitle.
   ///
   /// In en, this message translates to:
-  /// **'COMPARE WITH EMS'**
+  /// **'Compare with EMS'**
   String get compareTitle;
 
   /// No description provided for @compareBoth.
@@ -1095,7 +1095,7 @@ abstract class AppLocalizations {
   /// No description provided for @rankingTitle.
   ///
   /// In en, this message translates to:
-  /// **'RANKING WEIGHTS'**
+  /// **'Ranking weights'**
   String get rankingTitle;
 
   /// No description provided for @rankingShow.
@@ -1611,7 +1611,7 @@ abstract class AppLocalizations {
   /// No description provided for @knownIssuesTitle.
   ///
   /// In en, this message translates to:
-  /// **'KNOWN ISSUES IN THIS DATA'**
+  /// **'Known issues in this data'**
   String get knownIssuesTitle;
 
   /// No description provided for @knownIssuesNone.
@@ -1653,7 +1653,7 @@ abstract class AppLocalizations {
   /// No description provided for @validationTitle.
   ///
   /// In en, this message translates to:
-  /// **'HOW WELL THE FLOOD MAP AGREES'**
+  /// **'How well the flood map agrees'**
   String get validationTitle;
 
   /// No description provided for @scoreIou.
@@ -1707,7 +1707,7 @@ abstract class AppLocalizations {
   /// No description provided for @limitsTitle.
   ///
   /// In en, this message translates to:
-  /// **'LIMITS, IN PLAIN WORDS'**
+  /// **'Limits, in plain words'**
   String get limitsTitle;
 
   /// No description provided for @limitDepth.
@@ -1755,7 +1755,7 @@ abstract class AppLocalizations {
   /// No description provided for @colorsTitle.
   ///
   /// In en, this message translates to:
-  /// **'HOW TO READ THE COLOURS'**
+  /// **'How to read the colours'**
   String get colorsTitle;
 
   /// No description provided for @sourceWebsite.
@@ -1785,7 +1785,7 @@ abstract class AppLocalizations {
   /// No description provided for @readIntroAgain.
   ///
   /// In en, this message translates to:
-  /// **'Read the introduction and safety message again'**
+  /// **'Read the safety message again'**
   String get readIntroAgain;
 
   /// No description provided for @introTitle1.
@@ -1797,7 +1797,7 @@ abstract class AppLocalizations {
   /// No description provided for @introBody1.
   ///
   /// In en, this message translates to:
-  /// **'AccessWatch shows where floodwater cuts people off from clinics, markets and shelters, and how hard they are to reach.'**
+  /// **'AccessWatch shows where floodwater cuts people off from clinics, markets and shelters, and how to reach them. It is built from satellite radar: depth and population are estimates.'**
   String get introBody1;
 
   /// No description provided for @introTitle2.
@@ -1863,7 +1863,7 @@ abstract class AppLocalizations {
   /// No description provided for @safetyAccept.
   ///
   /// In en, this message translates to:
-  /// **'Accept and continue'**
+  /// **'I understand'**
   String get safetyAccept;
 
   /// No description provided for @rankingDepotAssumedNote.
@@ -2333,6 +2333,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All clinics ({count})'**
   String allClinicsTitle(String count);
+
+  /// No description provided for @aboutPreliminary.
+  ///
+  /// In en, this message translates to:
+  /// **'Preliminary data. Use as a guide, then verify on the ground.'**
+  String get aboutPreliminary;
+
+  /// No description provided for @aboutGuideOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Use as a guide, then verify on the ground.'**
+  String get aboutGuideOnly;
+
+  /// No description provided for @plainNisarBeta.
+  ///
+  /// In en, this message translates to:
+  /// **'The NISAR radar scenes are beta products, not yet fully calibrated.'**
+  String get plainNisarBeta;
+
+  /// No description provided for @plainDepotAutoSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'The aid depot was chosen automatically by the analysis, so routes and priorities are only illustrative.'**
+  String get plainDepotAutoSelected;
+
+  /// No description provided for @plainDepotAssumed.
+  ///
+  /// In en, this message translates to:
+  /// **'The aid depot is assumed, not confirmed, so routes and priorities are a guide.'**
+  String get plainDepotAssumed;
+
+  /// No description provided for @plainValidationProductOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'The official map used to check ours was chosen by product order, not by which image was closest in time.'**
+  String get plainValidationProductOrder;
+
+  /// No description provided for @plainClassifierCalibrated.
+  ///
+  /// In en, this message translates to:
+  /// **'The flood map is calibrated to this event\'s official map, so it agrees with that map partly by design.'**
+  String get plainClassifierCalibrated;
+
+  /// No description provided for @aboutFloodMapRow.
+  ///
+  /// In en, this message translates to:
+  /// **'How the flood map was made'**
+  String get aboutFloodMapRow;
+
+  /// No description provided for @aboutMatchRow.
+  ///
+  /// In en, this message translates to:
+  /// **'How well it matches the official map'**
+  String get aboutMatchRow;
+
+  /// No description provided for @aboutLimitsRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Limits and known issues'**
+  String get aboutLimitsRow;
+
+  /// No description provided for @aboutSourcesRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get aboutSourcesRow;
+
+  /// No description provided for @aboutAgeRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Data age and update info'**
+  String get aboutAgeRow;
+
+  /// No description provided for @aboutAdvancedRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced'**
+  String get aboutAdvancedRow;
+
+  /// No description provided for @aboutAdvancedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority weights, Compare, physics-only and depth layers'**
+  String get aboutAdvancedSubtitle;
+
+  /// No description provided for @aboutLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get aboutLanguage;
+
+  /// No description provided for @aboutTextSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Text size'**
+  String get aboutTextSize;
+
+  /// No description provided for @textSizeOption.
+  ///
+  /// In en, this message translates to:
+  /// **'{pct}%'**
+  String textSizeOption(String pct);
+
+  /// No description provided for @aboutSafetyLine.
+  ///
+  /// In en, this message translates to:
+  /// **'This app supports decisions. It is not an emergency service. If you are in danger, call your local emergency number.'**
+  String get aboutSafetyLine;
+
+  /// No description provided for @floodMapIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'The flood map compares NISAR radar scenes from before and after the flood. Open water reflects radar differently from land, so a change between the two scenes marks new water.'**
+  String get floodMapIntro;
+
+  /// No description provided for @dataGenerated.
+  ///
+  /// In en, this message translates to:
+  /// **'Analysis run: {date}'**
+  String dataGenerated(String date);
+
+  /// No description provided for @updateInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'The data comes from one run of the analysis. When the analysis is run again on newer scenes, a new app version carries the new data.'**
+  String get updateInfo;
+
+  /// No description provided for @advancedMapNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Layer changes show on the Map tab.'**
+  String get advancedMapNote;
+
+  /// No description provided for @advancedRankingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority weights'**
+  String get advancedRankingTitle;
 }
 
 class _AppLocalizationsDelegate

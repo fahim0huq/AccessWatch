@@ -12,7 +12,7 @@ import '../utils/labels.dart';
 /// Above this share of all pocket people, one pocket holds "almost all" of them.
 const dominantPocketShare = 0.8;
 
-const _noteStyle = TextStyle(color: AppColors.textMuted, fontSize: 11.5, height: 1.35);
+const _noteStyle = TextStyle(color: AppColors.inkSecondary, fontSize: 14, height: 1.4);
 
 /// Sliders that re-rank the list live, a reset, and what the result can and
 /// cannot tell you. The notes stay visible when the sliders are folded away.
@@ -37,11 +37,11 @@ class _RankingPanelState extends ConsumerState<RankingPanel> {
     final dominated = largest != null && largest.$2 >= dominantPocketShare;
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.fromLTRB(14, 6, 14, 12),
+      padding: const EdgeInsets.fromLTRB(16, 6, 16, 14),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.accent.withValues(alpha: 0.3)),
+        borderRadius: BorderRadius.circular(AppSizes.cardRadius),
+        border: Border.all(color: AppColors.line),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +50,7 @@ class _RankingPanelState extends ConsumerState<RankingPanel> {
             children: [
               Expanded(
                 child: Text(l.rankingTitle,
-                    style: const TextStyle(color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold)),
+                    style: const TextStyle(color: AppColors.ink, fontSize: 18, fontWeight: FontWeight.w700)),
               ),
               IconButton(
                 tooltip: _open ? l.rankingHide : l.rankingShow,
@@ -84,7 +84,7 @@ class _RankingPanelState extends ConsumerState<RankingPanel> {
               ),
             ),
           ],
-          Text(l.rankingChoiceNote, style: _noteStyle.copyWith(color: AppColors.text, fontWeight: FontWeight.bold)),
+          Text(l.rankingChoiceNote, style: _noteStyle.copyWith(color: AppColors.ink, fontWeight: FontWeight.bold)),
           if (dominated) ...[
             const SizedBox(height: 4),
             Text(l.rankingDominated(largest.$1.pocketId, fmt.percent(largest.$2)), style: _noteStyle),
@@ -95,10 +95,10 @@ class _RankingPanelState extends ConsumerState<RankingPanel> {
           ],
           if (bundle.manifest.qualityFlags.contains(QualityFlag.depotAutoSelected)) ...[
             const SizedBox(height: 4),
-            Text(l.rankingDepotNote, style: _noteStyle.copyWith(color: AppColors.warning)),
+            Text(l.rankingDepotNote, style: _noteStyle.copyWith(color: AppColors.boatText)),
           ] else if (bundle.manifest.qualityFlags.contains(QualityFlag.depotAssumed)) ...[
             const SizedBox(height: 4),
-            Text(l.rankingDepotAssumedNote, style: _noteStyle.copyWith(color: AppColors.warning)),
+            Text(l.rankingDepotAssumedNote, style: _noteStyle.copyWith(color: AppColors.boatText)),
           ],
         ],
       ),
@@ -121,8 +121,8 @@ class _WeightSlider extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(child: Text(label, style: const TextStyle(color: AppColors.text, fontSize: 12.5))),
-            Text('× $shown', style: const TextStyle(color: AppColors.accent, fontSize: 12)),
+            Expanded(child: Text(label, style: const TextStyle(color: AppColors.ink, fontSize: 16))),
+            Text('× $shown', style: const TextStyle(color: AppColors.brand, fontSize: 16, fontWeight: FontWeight.w700)),
           ],
         ),
         Slider(

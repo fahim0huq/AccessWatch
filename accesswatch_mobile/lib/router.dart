@@ -1,7 +1,8 @@
 import 'package:go_router/go_router.dart';
 
 import 'screens/care_screen.dart';
-import 'screens/info_screen.dart';
+import 'screens/about_pages.dart';
+import 'screens/about_screen.dart';
 import 'screens/main_navigation_screen.dart';
 import 'screens/map_screen.dart';
 import 'screens/area_details_screen.dart';
@@ -15,6 +16,12 @@ class AppRoutes {
   static const care = '/care';
   static const about = '/about';
   static const welcome = '/welcome';
+  static const aboutFloodMap = '/about/flood-map';
+  static const aboutMatch = '/about/match';
+  static const aboutLimits = '/about/limits';
+  static const aboutSources = '/about/sources';
+  static const aboutAge = '/about/age';
+  static const aboutAdvanced = '/about/advanced';
 
   static String area(String pocketId) => '$help/$pocketId';
   static String areaChecks(String pocketId) => '$help/$pocketId/checks';
@@ -28,7 +35,18 @@ GoRouter createRouter({required bool Function() safetyAccepted}) => GoRouter(
           !safetyAccepted() && state.matchedLocation != AppRoutes.welcome ? AppRoutes.welcome : null,
       routes: [
         GoRoute(path: AppRoutes.welcome, builder: (context, state) => const WelcomeScreen()),
-        GoRoute(path: AppRoutes.about, builder: (context, state) => const BundleGate(child: InfoScreen())),
+        GoRoute(
+          path: AppRoutes.about,
+          builder: (context, state) => const BundleGate(child: AboutScreen()),
+          routes: [
+            GoRoute(path: 'flood-map', builder: (context, state) => const BundleGate(child: AboutFloodMapPage())),
+            GoRoute(path: 'match', builder: (context, state) => const BundleGate(child: AboutMatchPage())),
+            GoRoute(path: 'limits', builder: (context, state) => const BundleGate(child: AboutLimitsPage())),
+            GoRoute(path: 'sources', builder: (context, state) => const BundleGate(child: AboutSourcesPage())),
+            GoRoute(path: 'age', builder: (context, state) => const BundleGate(child: AboutAgePage())),
+            GoRoute(path: 'advanced', builder: (context, state) => const BundleGate(child: AboutAdvancedPage())),
+          ],
+        ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, shell) => MainNavigationScreen(shell: shell),
           branches: [

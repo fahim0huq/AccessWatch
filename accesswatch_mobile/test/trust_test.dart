@@ -1,3 +1,4 @@
+// About this data: the honest summary, every page behind it, and first run.
 import 'package:accesswatch_mobile/data/bundle_repository.dart';
 import 'package:accesswatch_mobile/data/models/enums.dart';
 import 'package:accesswatch_mobile/data/models/quality.dart';
@@ -5,11 +6,15 @@ import 'package:accesswatch_mobile/l10n/app_localizations.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations_en.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations_pt.dart';
 import 'package:accesswatch_mobile/screens/welcome_screen.dart';
+import 'package:accesswatch_mobile/state/map_state.dart';
+import 'package:accesswatch_mobile/state/providers.dart';
 import 'package:accesswatch_mobile/state/settings_store.dart';
 import 'package:accesswatch_mobile/utils/labels.dart';
 import 'package:accesswatch_mobile/utils/trust_text.dart';
+import 'package:accesswatch_mobile/widgets/ranking_panel.dart';
 import 'package:accesswatch_mobile/widgets/trust/trust_sections.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'support/app_harness.dart';
@@ -26,10 +31,58 @@ void main() {
     bundle = await BundleRepository().load();
   });
 
-  Future<void> openInfo(WidgetTester tester, {Locale locale = const Locale('en')}) async {
-    await pumpApp(tester, bundle, locale: locale);
+  Future<void> openInfo(WidgetTester tester, {Locale locale = const Locale('en'), AppBundle? data}) async {
+    await pumpApp(tester, data ?? bundle, locale: locale);
     await openAbout(tester);
   }
+
+  /// One of the rows of About, by its title.
+  Future<void> openPage(WidgetTester tester, String row) async {
+    await scrollTo(tester, find.text(row));
+    await tester.tap(find.text(row));
+    await tester.pumpAndSettle();
+  }
+
+  group('summary card', () {
+    testWidgets('lists every true quality flag in plain words, and no false one', (tester) async {
+      await openInfo(tester);
+      expect(find.text(en.aboutPreliminary), findsOneWidget);
+      for (final flag in QualityFlag.values) {
+        expect(find.text(en.warningPlain(flag)), bundle.manifest.qualityFlags.contains(flag) ? findsOneWidget : findsNothing,
+            reason: flag.name);
+      }
+    });
+
+    testWidgets('depot_assumed is true in the data and is said in About', (tester) async {
+      expect(bundle.manifest.qualityFlags, contains(QualityFlag.depotAssumed));
+      await openInfo(tester);
+      expect(find.text(en.plainDepotAssumed), findsOneWidget);
+      await goBack(tester);
+      // The Map and Help first leave the warnings to About.
+      expect(find.text(en.plainDepotAssumed), findsNothing, reason: 'Map');
+      await tester.tap(find.text(en.tabHelpFirst).last);
+      await tester.pumpAndSettle();
+      expect(find.text(en.plainDepotAssumed), findsNothing, reason: 'Help first');
+    });
+
+    testWidgets('follows the flags: an auto-selected depot is said, a removed flag is not', (tester) async {
+      final auto = withFlags(bundle, {...bundle.manifest.qualityFlags, QualityFlag.depotAutoSelected});
+      await openInfo(tester, data: auto);
+      expect(find.text(en.plainDepotAutoSelected), findsOneWidget);
+      final none = withFlags(bundle, {...bundle.manifest.qualityFlags}..remove(QualityFlag.depotAssumed));
+      await openInfo(tester, data: none);
+      expect(find.text(en.plainDepotAssumed), findsNothing);
+      await openInfo(tester, data: withFlags(bundle, {}));
+      expect(find.text(en.aboutPreliminary), findsNothing);
+      expect(find.text(en.aboutGuideOnly), findsOneWidget);
+    });
+
+    testWidgets('ends with the safety line', (tester) async {
+      await openInfo(tester);
+      await scrollTo(tester, find.text(en.aboutSafetyLine));
+      expect(find.text(en.aboutSafetyLine), findsOneWidget);
+    });
+  });
 
   group('known issues', () {
     test('every note in quality.json becomes a plain sentence', () {
@@ -45,42 +98,54 @@ void main() {
       expect(issues.where((i) => i.contains('ranks above')), isEmpty);
     });
 
-    testWidgets('are all on the trust screen, in English and Portuguese', (tester) async {
+    testWidgets('are all under Limits and known issues, in English and Portuguese', (tester) async {
       await openInfo(tester);
+      await openPage(tester, en.aboutLimitsRow);
       for (final issue in en.knownIssues(bundle.quality, fmt)) {
         await scrollTo(tester, find.text(issue));
         expect(find.text(issue), findsOneWidget);
       }
       await openInfo(tester, locale: const Locale('pt'));
+      await openPage(tester, pt.aboutLimitsRow);
       for (final issue in pt.knownIssues(bundle.quality, const Fmt('pt'))) {
         await scrollTo(tester, find.text(issue));
         expect(find.text(issue), findsOneWidget);
       }
-      expect(find.text(pt.issueSafestCount('1', '2')), findsOneWidget);
     });
   });
 
-  group('trust screen', () {
-    testWidgets('states the calibration plainly, with the EMS date and gap', (tester) async {
+  group('pages', () {
+    testWidgets('the match page states the calibration plainly', (tester) async {
       await openInfo(tester);
-      // On the trust screen and inside the colour guide's compare panel.
+      await openPage(tester, en.aboutMatchRow);
+      // In the scores card and the compare legend.
       expect(find.text(en.compareNotIndependent('0.80', '0.82', '0.68')), findsWidgets);
-      expect(find.text(en.dateEmsGap('35.2')), findsOneWidget);
-      expect(find.text(en.dateEmsImage('Jan 18, 2026')), findsOneWidget);
+      expect(find.text(en.compareBoth('23.4')), findsOneWidget);
       await scrollTo(tester, find.text(en.scorePhysicsOnly));
       expect(find.text(en.scorePhysicsOnly), findsOneWidget);
     });
 
-    testWidgets('shows every quality flag, the limits and the emergency line', (tester) async {
+    testWidgets('the flood map page has the dates, the EMS gap from the data and the colours', (tester) async {
       await openInfo(tester);
+      await openPage(tester, en.aboutFloodMapRow);
+      expect(find.text(en.dateNisarBefore('Jan 5, 2026')), findsOneWidget);
+      expect(find.text(en.dateEmsImage('Jan 18, 2026')), findsOneWidget);
+      expect(find.text(en.dateEmsGap('35.2')), findsOneWidget);
+      final limits = bundle.manifest.depthClasses;
+      await scrollTo(tester, find.text('${en.depthShallow} ${en.depthBelow(limits.shallowMaxM.toString())}'));
+      expect(find.text('${en.depthDeep} ${en.depthAbove(limits.deepMinM.toString())}'), findsOneWidget);
+    });
+
+    testWidgets('limits shows every quality flag in full and the limits', (tester) async {
+      await openInfo(tester);
+      await openPage(tester, en.aboutLimitsRow);
       expect(find.text(en.warnNisarBeta), findsOneWidget);
       expect(find.text(en.warnDepotAssumed), findsOneWidget);
+      expect(find.text(en.warnClassifierCalibrated('0.82', '0.68')), findsOneWidget);
       expect(find.text(en.warnDepotAutoSelected), findsNothing);
       await scrollTo(tester, find.text(en.limitBoat));
       expect(find.text(en.limitRoads('99.0', '2')), findsOneWidget);
       expect(find.textContaining('(Only in English'), findsNothing);
-      await scrollTo(tester, find.text(en.safetyEmergency));
-      expect(find.text(en.safetyEmergency), findsOneWidget);
     });
 
     test('every limit in the current report has a translation', () {
@@ -89,71 +154,94 @@ void main() {
       expect(limits.every((l) => l.topic != null), isTrue);
     });
 
-    testWidgets('sources link only to addresses in the data', (tester) async {
+    testWidgets('sources link only to addresses in the data, DOIs through doi.org', (tester) async {
       await openInfo(tester);
+      await openPage(tester, en.aboutSourcesRow);
       await scrollTo(tester, find.text(en.notAffiliated));
       final links = bundle.quality.dataSources
           .fold<int>(0, (n, s) => n + (s.url != null ? 1 : 0) + (s.docs != null ? 1 : 0) + (s.doi != null ? 1 : 0));
       expect(find.byIcon(Icons.open_in_new_rounded), findsNWidgets(links));
-      // WorldPop has a DOI and no website: its DOI is the link, through doi.org.
       final worldPop = bundle.quality.dataSources.firstWhere((s) => s.name.startsWith('WorldPop'));
       expect(worldPop.url, isNull);
       expect(find.widgetWithText(TextButton, en.sourceDoi(worldPop.doi!)), findsOneWidget);
       expect(doiUrl(worldPop.doi!), 'https://doi.org/10.5258/SOTON/WP00839');
+      await scrollTo(tester, find.text('OpenStreetMap'));
+      expect(find.text('OpenStreetMap'), findsOneWidget);
     });
 
     test('a source without links shows only its name', () {
       const source = DataSource('Some source');
       expect(source.url ?? source.docs, isNull);
     });
+
+    testWidgets('data age gives the date, the age and that it works offline', (tester) async {
+      await openInfo(tester);
+      await openPage(tester, en.aboutAgeRow);
+      // Harness clock: 2026-11-08 12:00 UTC; NISAR after scene: 2026-01-17 03:42 UTC.
+      expect(find.text(en.dataAge('Jan 17, 2026', 295)), findsOneWidget);
+      expect(find.text(en.dataGenerated('Nov 8, 2026')), findsOneWidget);
+      expect(find.text(en.offlineWorks), findsOneWidget);
+    });
+
+    testWidgets('Advanced holds the sliders, Compare, physics-only and depth controls', (tester) async {
+      await openInfo(tester);
+      await openPage(tester, en.aboutAdvancedRow);
+      expect(find.byType(RankingPanel), findsOneWidget);
+      final container = ProviderScope.containerOf(tester.element(find.byType(RankingPanel)));
+      for (final (layer, name) in [
+        (MapLayer.compare, en.layerCompare),
+        (MapLayer.floodBaseline, en.layerBaseline),
+        (MapLayer.depthZones, en.layerDepth),
+      ]) {
+        final tile = find.widgetWithText(SwitchListTile, name);
+        await scrollTo(tester, tile);
+        final before = container.read(mapLayersProvider).contains(layer);
+        await tester.tap(tile);
+        await tester.pumpAndSettle();
+        expect(container.read(mapLayersProvider).contains(layer), !before, reason: name);
+      }
+      expect(find.text(en.layerBaselineNote), findsOneWidget);
+      // Compare on: its legend and the calibration sentence show here too.
+      expect(find.text(en.compareNotIndependent('0.80', '0.82', '0.68')), findsOneWidget);
+    });
   });
 
-  group('depot_assumed', () {
-    testWidgets('shows as a banner when the flag is true', (tester) async {
-      final flagged = withFlags(bundle, {...bundle.manifest.qualityFlags, QualityFlag.depotAssumed});
-      await pumpApp(tester, flagged);
+  group('settings', () {
+    testWidgets('language: English by default, Portuguese on request, and back', (tester) async {
+      await pumpApp(tester, bundle, overrides: [localeProvider.overrideWith((ref) => readLocale(ref.watch(sharedPreferencesProvider)))]);
+      expect(find.text(en.tabHelpFirst), findsOneWidget);
       await openAbout(tester);
-      expect(find.text(en.warnShortDepotAssumed), findsOneWidget);
-    });
-
-    testWidgets('is true in the current data and shows in About, not on the Map or Help first', (tester) async {
-      expect(bundle.manifest.qualityFlags, contains(QualityFlag.depotAssumed));
-      await pumpApp(tester, bundle);
-      await openAbout(tester);
-      expect(find.text(en.warnShortDepotAssumed), findsOneWidget, reason: 'About');
-      await goBack(tester);
-      // The Map keeps one short line and leaves the warnings to About.
-      expect(find.text(en.warnShortDepotAssumed), findsNothing, reason: 'Map');
-      await tester.tap(find.text(en.tabHelpFirst).last);
+      await tester.tap(find.widgetWithText(ChoiceChip, en.languagePortuguese));
       await tester.pumpAndSettle();
-      expect(find.text(en.warnShortDepotAssumed), findsNothing, reason: 'Help first');
+      expect(find.text(pt.aboutThisData), findsWidgets);
+      await tester.tap(find.widgetWithText(ChoiceChip, pt.languageEnglish));
+      await tester.pumpAndSettle();
+      expect(find.text(en.aboutThisData), findsWidgets);
     });
 
-    testWidgets('does not show when the flag is false', (tester) async {
-      await pumpApp(tester, withFlags(bundle, {...bundle.manifest.qualityFlags}..remove(QualityFlag.depotAssumed)));
-      await openAbout(tester);
-      expect(find.text(en.warnShortDepotAssumed), findsNothing);
+    testWidgets('text size offers 100, 125 and 150%', (tester) async {
+      await openInfo(tester);
+      for (final pct in ['100', '125', '150']) {
+        expect(find.widgetWithText(ChoiceChip, en.textSizeOption(pct)), findsOneWidget);
+      }
+      await tester.tap(find.widgetWithText(ChoiceChip, en.textSizeOption('125')));
+      await tester.pumpAndSettle();
+      final container = ProviderScope.containerOf(tester.element(find.byType(Navigator).first));
+      expect(container.read(textScaleProvider), 1.25);
     });
   });
 
   group('first run', () {
-    testWidgets('intro, then a safety message that must be accepted', (tester) async {
+    testWidgets('one screen, one button: the safety message, then the Map', (tester) async {
       await pumpApp(tester, bundle, saved: {SettingsKeys.safetyAccepted: false});
       expect(find.byType(WelcomeScreen), findsOneWidget);
       expect(find.text(en.introTitle1), findsOneWidget);
-      for (var i = 0; i < 3; i++) {
-        await tester.tap(find.text(en.introNext));
-        await tester.pumpAndSettle();
-      }
       expect(find.text(en.safetyEmergency), findsOneWidget);
-      final accept = find.widgetWithText(FilledButton, en.safetyAccept);
-      expect(tester.widget<FilledButton>(accept).onPressed, isNull, reason: 'cannot accept without ticking');
-      await tester.tap(find.text(en.safetyCheckbox));
-      await tester.pumpAndSettle();
-      await tester.tap(accept);
+      expect(find.byType(FilledButton), findsOneWidget);
+      await tester.tap(find.text(en.safetyAccept));
       await tester.pumpAndSettle();
       expect(find.byType(WelcomeScreen), findsNothing);
-      expect(find.text(en.tabHelpFirst), findsOneWidget);
+      expect(find.text(en.mapAreasCutOff(bundle.manifest.stats.pockets)), findsOneWidget);
     });
 
     testWidgets('a deep link cannot skip the safety message', (tester) async {
@@ -163,17 +251,12 @@ void main() {
       expect(find.byType(WelcomeScreen), findsOneWidget);
     });
 
-    testWidgets('once accepted, the app opens directly and Info can show it again', (tester) async {
+    testWidgets('once accepted, the app opens directly and About can show it again', (tester) async {
       await openInfo(tester);
       await scrollTo(tester, find.text(en.readIntroAgain));
       await tester.tap(find.text(en.readIntroAgain));
       await tester.pumpAndSettle();
       expect(find.byType(WelcomeScreen), findsOneWidget);
-      for (var i = 0; i < 3; i++) {
-        await tester.tap(find.text(en.introNext));
-        await tester.pumpAndSettle();
-      }
-      expect(find.text(en.safetyCheckbox), findsNothing);
       await tester.tap(find.text(en.close));
       await tester.pumpAndSettle();
       expect(find.byType(WelcomeScreen), findsNothing);
@@ -181,17 +264,18 @@ void main() {
     });
   });
 
-  testWidgets('no overflow at 200% on the trust screen and the intro', (tester) async {
+  testWidgets('no overflow at 200% on About, its pages and the intro, in both languages', (tester) async {
     for (final locale in const [Locale('en'), Locale('pt')]) {
       final l = locale.languageCode == 'en' ? en : pt;
       await pumpApp(tester, bundle, locale: locale, textScale: 2.0);
       await openAbout(tester);
       expect(tester.takeException(), isNull);
-      await pumpApp(tester, bundle, locale: locale, textScale: 2.0, saved: {SettingsKeys.safetyAccepted: false});
-      for (var i = 0; i < 3; i++) {
-        await tester.tap(find.text(l.introNext));
-        await tester.pumpAndSettle();
+      for (final row in [l.aboutFloodMapRow, l.aboutMatchRow, l.aboutLimitsRow, l.aboutSourcesRow, l.aboutAgeRow, l.aboutAdvancedRow]) {
+        await openPage(tester, row);
+        expect(tester.takeException(), isNull, reason: '${locale.languageCode} $row');
+        await goBack(tester);
       }
+      await pumpApp(tester, bundle, locale: locale, textScale: 2.0, saved: {SettingsKeys.safetyAccepted: false});
       expect(tester.takeException(), isNull);
     }
   });

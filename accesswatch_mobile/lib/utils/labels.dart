@@ -98,6 +98,15 @@ extension BundleLabels on AppLocalizations {
         QualityFlag.depotAssumed => warnShortDepotAssumed,
       };
 
+  /// One plain sentence per flag, for the summary at the top of About.
+  String warningPlain(QualityFlag flag) => switch (flag) {
+        QualityFlag.nisarBeta => plainNisarBeta,
+        QualityFlag.depotAutoSelected => plainDepotAutoSelected,
+        QualityFlag.validationChosenByProductOrder => plainValidationProductOrder,
+        QualityFlag.classifierCalibratedOnEms => plainClassifierCalibrated,
+        QualityFlag.depotAssumed => plainDepotAssumed,
+      };
+
   String warningFull(QualityFlag flag, Manifest manifest, Quality quality, Fmt fmt) => switch (flag) {
         QualityFlag.nisarBeta => warnNisarBeta,
         QualityFlag.depotAutoSelected => warnDepotAutoSelected,

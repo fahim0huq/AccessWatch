@@ -24,14 +24,6 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('About shows every warning in full, with values from the bundle', (tester) async {
-    await pumpApp(tester, bundle);
-    await openAbout(tester);
-    expect(find.text(en.warnClassifierCalibrated('0.82', '0.68')), findsOneWidget);
-    expect(find.text(en.warnShortDepotAssumed), findsOneWidget);
-    expect(find.text('DEMO DATA'), findsNothing);
-  });
-
   testWidgets('Help first lists every area, most urgent first', (tester) async {
     await pumpApp(tester, bundle);
     await openTab(tester, en.tabHelpFirst);
@@ -74,15 +66,6 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text(en.estimatedMaxDepth), findsOneWidget);
     expect(find.text(en.depthDeep), findsWidgets);
-  });
-
-  testWidgets('Info reads dates and sources from the bundle', (tester) async {
-    await pumpApp(tester, bundle);
-    await openAbout(tester);
-    expect(find.text(en.dateNisarBefore('Jan 5, 2026')), findsOneWidget);
-    expect(find.text(en.dateEmsImage('Jan 18, 2026')), findsOneWidget);
-    await scrollTo(tester, find.text('OpenStreetMap'));
-    expect(find.text('OpenStreetMap'), findsOneWidget);
   });
 
   testWidgets('Portuguese changes text and number format', (tester) async {

@@ -9,12 +9,14 @@ import '../../state/providers.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import '../../utils/trust_text.dart';
+import '../area/area_sections.dart' show CardTitle;
+import '../ui/kit.dart';
 
 /// The doi.org address of a DOI, the standard resolver for DOIs.
 String doiUrl(String doi) => 'https://doi.org/${doi.trim()}';
 
-const trustBody = TextStyle(color: AppColors.text, fontSize: 12.5, height: 1.4);
-const trustMuted = TextStyle(color: AppColors.textMuted, fontSize: 11.5, height: 1.35);
+const trustBody = TextStyle(color: AppColors.ink, fontSize: 16, height: 1.45);
+const trustMuted = TextStyle(color: AppColors.inkSecondary, fontSize: 14, height: 1.4);
 
 class TrustCard extends StatelessWidget {
   final String title;
@@ -24,23 +26,11 @@ class TrustCard extends StatelessWidget {
   const TrustCard({super.key, required this.title, required this.children, this.accent});
 
   @override
-  Widget build(BuildContext context) => Container(
-        width: double.infinity,
-        margin: const EdgeInsets.only(bottom: 16),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: (accent ?? AppColors.border).withValues(alpha: accent == null ? 1 : 0.5)),
-        ),
+  Widget build(BuildContext context) => AppCard(
+        borderColor: accent,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title,
-                style: TextStyle(color: accent ?? AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 10),
-            ...children,
-          ],
+          children: [CardTitle(title), ...children],
         ),
       );
 }
@@ -58,7 +48,7 @@ class Bullet extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(padding: const EdgeInsets.only(top: 3), child: Icon(icon, size: icon == Icons.circle ? 7 : 16, color: color)),
+            Padding(padding: const EdgeInsets.only(top: 3), child: Icon(icon, size: icon == Icons.circle ? 8 : 18, color: color)),
             const SizedBox(width: 8),
             Expanded(child: Text(text, style: trustBody)),
           ],
@@ -76,10 +66,10 @@ class KnownIssuesSection extends ConsumerWidget {
     final issues = l.knownIssues(ref.watch(loadedBundleProvider).quality, Fmt.of(context));
     return TrustCard(
       title: l.knownIssuesTitle,
-      accent: AppColors.warning,
+      accent: AppColors.boat,
       children: [
         if (issues.isEmpty) Text(l.knownIssuesNone, style: trustBody),
-        for (final issue in issues) Bullet(issue, icon: Icons.report_problem_outlined, color: AppColors.warning),
+        for (final issue in issues) Bullet(issue, icon: Icons.report_problem_outlined, color: AppColors.boatText),
       ],
     );
   }
@@ -109,7 +99,7 @@ class ValidationSection extends ConsumerWidget {
     return TrustCard(
       title: l.validationTitle,
       children: [
-        Bullet(l.calibrationNote(bundle.manifest, q, fmt), icon: Icons.warning_amber_rounded, color: AppColors.warning),
+        Bullet(l.calibrationNote(bundle.manifest, q, fmt), icon: Icons.warning_amber_rounded, color: AppColors.boatText),
         Bullet(l.compareEmsDate(fmt.date(dates.emsImage), fmt.oneDecimal(dates.emsHoursAfterNisar)),
             icon: Icons.schedule_rounded, color: AppColors.textMuted),
         const SizedBox(height: 4),
@@ -171,10 +161,10 @@ class _Source extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     Widget link(String label, String url) => TextButton.icon(
-          style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(48, 40), alignment: Alignment.centerLeft),
+          style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(48, 48), alignment: Alignment.centerLeft),
           onPressed: () => launchUrl(Uri.parse(url)),
           icon: const Icon(Icons.open_in_new_rounded, size: 15),
-          label: Text(label, style: const TextStyle(fontSize: 12)),
+          label: Text(label, style: const TextStyle(fontSize: 14)),
         );
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),

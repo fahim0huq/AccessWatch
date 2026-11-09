@@ -30,7 +30,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get retry => 'Tentar novamente';
 
   @override
-  String get betaBadge => 'DADOS BETA';
+  String get betaBadge => 'Dados beta';
 
   @override
   String get heroTitle =>
@@ -97,26 +97,26 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get depthDry => 'SECO';
+  String get depthDry => 'Seco';
 
   @override
-  String get depthShallow => 'BAIXA';
+  String get depthShallow => 'Baixa';
 
   @override
-  String get depthMedium => 'MÉDIA';
+  String get depthMedium => 'Média';
 
   @override
-  String get depthDeep => 'ALTA';
+  String get depthDeep => 'Alta';
 
   @override
-  String get depthUnknown => 'DESCONHECIDA';
+  String get depthUnknown => 'Desconhecida';
 
   @override
   String get depthEstimateWarning =>
       'A profundidade é uma estimativa, em classes e não em metros exatos. Verifique no terreno.';
 
   @override
-  String get warningsTitle => 'AVISOS SOBRE OS DADOS';
+  String get warningsTitle => 'Avisos sobre os dados';
 
   @override
   String get warnShortNisarBeta => 'As cenas NISAR são dados BETA';
@@ -332,7 +332,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get appSubtitle => 'Análise de acesso em cheias por radar de satélite';
 
   @override
-  String get settingsTitle => 'DEFINIÇÕES';
+  String get settingsTitle => 'Definições';
 
   @override
   String get language => 'Idioma';
@@ -356,7 +356,7 @@ class AppLocalizationsPt extends AppLocalizations {
       'Ocultar a navegação inferior para gravação de ecrã';
 
   @override
-  String get dataDates => 'DATAS DOS DADOS';
+  String get dataDates => 'Datas dos dados';
 
   @override
   String dateNisarBefore(String date) {
@@ -374,7 +374,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get dataSources => 'FONTES DE DADOS E ATRIBUIÇÃO';
+  String get dataSources => 'Fontes de dados e atribuição';
 
   @override
   String get notAffiliated =>
@@ -430,7 +430,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get tooltipFit => 'Mostrar toda a área';
 
   @override
-  String get layersControl => 'CAMADAS';
+  String get layersControl => 'Camadas';
 
   @override
   String get layerDepth => 'Profundidade da água (estimativa)';
@@ -466,7 +466,7 @@ class AppLocalizationsPt extends AppLocalizations {
       'Com pouco zoom só se desenham as maiores manchas de profundidade, com contornos suavizados. Aproxime para as ver todas.';
 
   @override
-  String get legendTitle => 'LEGENDA';
+  String get legendTitle => 'Legenda';
 
   @override
   String legendPocketRisk(String level) {
@@ -501,7 +501,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get legendMe => 'A minha localização';
 
   @override
-  String get compareTitle => 'COMPARAR COM O EMS';
+  String get compareTitle => 'Comparar com o EMS';
 
   @override
   String compareBoth(String area) {
@@ -618,7 +618,7 @@ class AppLocalizationsPt extends AppLocalizations {
       'O mapa por limiar, de antes da calibração no EMS. É mais cauteloso: encontra menos cheia.';
 
   @override
-  String get rankingTitle => 'PESOS DA CLASSIFICAÇÃO';
+  String get rankingTitle => 'Pesos da classificação';
 
   @override
   String get rankingShow => 'Mostrar os controlos';
@@ -963,7 +963,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get knownIssuesTitle => 'PROBLEMAS CONHECIDOS NESTES DADOS';
+  String get knownIssuesTitle => 'Problemas conhecidos nestes dados';
 
   @override
   String get knownIssuesNone => 'Os dados não registam problemas conhecidos.';
@@ -994,7 +994,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get validationTitle => 'CONCORDÂNCIA DO MAPA DE CHEIA';
+  String get validationTitle => 'Concordância do mapa de cheia';
 
   @override
   String get scoreIou => 'Concordância com o EMS (IoU)';
@@ -1024,7 +1024,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get limitsTitle => 'LIMITAÇÕES, EM PALAVRAS SIMPLES';
+  String get limitsTitle => 'Limitações, em palavras simples';
 
   @override
   String get limitDepth =>
@@ -1057,7 +1057,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get colorsTitle => 'COMO LER AS CORES';
+  String get colorsTitle => 'Como ler as cores';
 
   @override
   String get sourceWebsite => 'Site';
@@ -1076,15 +1076,14 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get readIntroAgain =>
-      'Ler de novo a introdução e o aviso de segurança';
+  String get readIntroAgain => 'Ler de novo a mensagem de segurança';
 
   @override
   String get introTitle1 => 'Veja quem a cheia isola';
 
   @override
   String get introBody1 =>
-      'O AccessWatch mostra onde a água da cheia isola pessoas de clínicas, mercados e abrigos, e quão difícil é chegar até elas.';
+      'O AccessWatch mostra onde a água isola pessoas de clínicas, mercados e abrigos, e como chegar até elas. É feito a partir de radar de satélite: a profundidade e a população são estimativas.';
 
   @override
   String get introTitle2 => 'Feito com radar de satélite';
@@ -1124,7 +1123,7 @@ class AppLocalizationsPt extends AppLocalizations {
       'Compreendo que esta aplicação não é um serviço de emergência.';
 
   @override
-  String get safetyAccept => 'Aceitar e continuar';
+  String get safetyAccept => 'Compreendo';
 
   @override
   String get rankingDepotAssumedNote =>
@@ -1460,4 +1459,88 @@ class AppLocalizationsPt extends AppLocalizations {
   String allClinicsTitle(String count) {
     return 'Todas as clínicas ($count)';
   }
+
+  @override
+  String get aboutPreliminary =>
+      'Dados preliminares. Use-os como guia e verifique no terreno.';
+
+  @override
+  String get aboutGuideOnly => 'Use-os como guia e verifique no terreno.';
+
+  @override
+  String get plainNisarBeta =>
+      'As imagens de radar NISAR são produtos beta, ainda não totalmente calibrados.';
+
+  @override
+  String get plainDepotAutoSelected =>
+      'O depósito de ajuda foi escolhido automaticamente pela análise, por isso as rotas e prioridades são apenas ilustrativas.';
+
+  @override
+  String get plainDepotAssumed =>
+      'O depósito de ajuda é presumido, não confirmado, por isso as rotas e prioridades são um guia.';
+
+  @override
+  String get plainValidationProductOrder =>
+      'O mapa oficial usado para verificar o nosso foi escolhido pela ordem dos produtos, não pela imagem mais próxima no tempo.';
+
+  @override
+  String get plainClassifierCalibrated =>
+      'O mapa de inundação foi calibrado com o mapa oficial deste evento, por isso concorda com esse mapa em parte por construção.';
+
+  @override
+  String get aboutFloodMapRow => 'Como foi feito o mapa de inundação';
+
+  @override
+  String get aboutMatchRow => 'Quanto coincide com o mapa oficial';
+
+  @override
+  String get aboutLimitsRow => 'Limites e problemas conhecidos';
+
+  @override
+  String get aboutSourcesRow => 'Fontes';
+
+  @override
+  String get aboutAgeRow => 'Idade dos dados e atualizações';
+
+  @override
+  String get aboutAdvancedRow => 'Avançado';
+
+  @override
+  String get aboutAdvancedSubtitle =>
+      'Pesos de prioridade, Comparar, camadas só física e de profundidade';
+
+  @override
+  String get aboutLanguage => 'Idioma';
+
+  @override
+  String get aboutTextSize => 'Tamanho do texto';
+
+  @override
+  String textSizeOption(String pct) {
+    return '$pct%';
+  }
+
+  @override
+  String get aboutSafetyLine =>
+      'Esta aplicação apoia decisões. Não é um serviço de emergência. Se estiver em perigo, ligue para o número de emergência local.';
+
+  @override
+  String get floodMapIntro =>
+      'O mapa de inundação compara imagens de radar NISAR de antes e depois da cheia. A água aberta reflete o radar de forma diferente da terra, por isso uma mudança entre as duas imagens marca água nova.';
+
+  @override
+  String dataGenerated(String date) {
+    return 'Análise executada: $date';
+  }
+
+  @override
+  String get updateInfo =>
+      'Os dados vêm de uma execução da análise. Quando a análise for executada de novo com imagens mais recentes, uma nova versão da aplicação traz os novos dados.';
+
+  @override
+  String get advancedMapNote =>
+      'As alterações de camadas aparecem no separador Mapa.';
+
+  @override
+  String get advancedRankingTitle => 'Pesos de prioridade';
 }

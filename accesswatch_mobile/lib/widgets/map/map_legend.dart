@@ -12,8 +12,8 @@ import '../mission_card_sections.dart' show depthColor;
 import '../ui/mode_look.dart';
 import 'feature_layers.dart' show serviceIcon;
 
-const _text = TextStyle(color: AppColors.text, fontSize: 11);
-const _title = TextStyle(color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold);
+const _text = TextStyle(color: AppColors.ink, fontSize: 14);
+const _title = TextStyle(color: AppColors.ink, fontSize: 16, fontWeight: FontWeight.w700);
 
 BoxDecoration _panel() => BoxDecoration(
   color: AppColors.surface.withValues(alpha: 0.96),
@@ -32,7 +32,7 @@ class _Row extends StatelessWidget {
     padding: const EdgeInsets.symmetric(vertical: 2),
     child: Row(
       children: [
-        SizedBox(width: 26, height: 16, child: Center(child: sample)),
+        SizedBox(width: 26, height: 20, child: Center(child: sample)),
         const SizedBox(width: 8),
         Expanded(child: Text(label, style: _text)),
       ],
@@ -112,7 +112,7 @@ class MapLegend extends ConsumerWidget {
               _Row(Icon(serviceIcon(type), size: 15, color: AppColors.brand), l.serviceType(type)),
             _Row(const Icon(Icons.navigation_rounded, size: 15, color: AppColors.accentSecondary), l.legendMe),
             const SizedBox(height: 6),
-            Text(l.depthEstimateWarning, style: const TextStyle(color: AppColors.warning, fontSize: 10.5)),
+            Text(l.depthEstimateWarning, style: const TextStyle(color: AppColors.boatText, fontSize: 14)),
           ],
         ),
       ),
@@ -147,12 +147,12 @@ class CompareLegend extends ConsumerWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.warning_amber_rounded, size: 15, color: AppColors.warning),
+              const Icon(Icons.warning_amber_rounded, size: 15, color: AppColors.boatText),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
                   l.calibrationNote(manifest, ref.watch(loadedBundleProvider).quality, fmt),
-                  style: const TextStyle(color: AppColors.warning, fontSize: 11, fontWeight: FontWeight.bold),
+                  style: const TextStyle(color: AppColors.boatText, fontSize: 14, fontWeight: FontWeight.bold),
                 ),
               ),
             ],
@@ -167,7 +167,7 @@ class CompareLegend extends ConsumerWidget {
             l.compareEmsDate(fmt.date(manifest.dates.emsImage), fmt.oneDecimal(manifest.dates.emsHoursAfterNisar)),
             style: _text,
           ),
-          Text(l.compareTransparent, style: const TextStyle(color: AppColors.textMuted, fontSize: 10.5)),
+          Text(l.compareTransparent, style: const TextStyle(color: AppColors.inkSecondary, fontSize: 14)),
         ],
       ),
     );

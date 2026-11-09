@@ -30,7 +30,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get retry => 'Try again';
 
   @override
-  String get betaBadge => 'BETA DATA';
+  String get betaBadge => 'Beta data';
 
   @override
   String get heroTitle => 'Find who is cut off.\nReach them safely.';
@@ -94,26 +94,26 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get depthDry => 'DRY';
+  String get depthDry => 'Dry';
 
   @override
-  String get depthShallow => 'SHALLOW';
+  String get depthShallow => 'Shallow';
 
   @override
-  String get depthMedium => 'MEDIUM';
+  String get depthMedium => 'Medium';
 
   @override
-  String get depthDeep => 'DEEP';
+  String get depthDeep => 'Deep';
 
   @override
-  String get depthUnknown => 'UNKNOWN';
+  String get depthUnknown => 'Unknown';
 
   @override
   String get depthEstimateWarning =>
       'Depth is an estimate, shown as classes and not exact metres. Verify on the ground.';
 
   @override
-  String get warningsTitle => 'DATA WARNINGS';
+  String get warningsTitle => 'Data warnings';
 
   @override
   String get warnShortNisarBeta => 'NISAR scenes are BETA data';
@@ -329,7 +329,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appSubtitle => 'Satellite radar flood access analysis';
 
   @override
-  String get settingsTitle => 'SETTINGS';
+  String get settingsTitle => 'Settings';
 
   @override
   String get language => 'Language';
@@ -353,7 +353,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Hide the bottom navigation for screen recording';
 
   @override
-  String get dataDates => 'DATA DATES';
+  String get dataDates => 'Data dates';
 
   @override
   String dateNisarBefore(String date) {
@@ -371,7 +371,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get dataSources => 'DATA SOURCES & ATTRIBUTION';
+  String get dataSources => 'Data sources & attribution';
 
   @override
   String get notAffiliated =>
@@ -427,7 +427,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tooltipFit => 'Show the whole area';
 
   @override
-  String get layersControl => 'LAYERS';
+  String get layersControl => 'Layers';
 
   @override
   String get layerDepth => 'Water depth (estimate)';
@@ -463,7 +463,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'At low zoom only the largest depth patches are drawn, with smoothed edges. Zoom in to see them all.';
 
   @override
-  String get legendTitle => 'LEGEND';
+  String get legendTitle => 'Legend';
 
   @override
   String legendPocketRisk(String level) {
@@ -498,7 +498,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get legendMe => 'My location';
 
   @override
-  String get compareTitle => 'COMPARE WITH EMS';
+  String get compareTitle => 'Compare with EMS';
 
   @override
   String compareBoth(String area) {
@@ -615,7 +615,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'The threshold-based map from before the EMS calibration. It is more cautious: it finds less flood.';
 
   @override
-  String get rankingTitle => 'RANKING WEIGHTS';
+  String get rankingTitle => 'Ranking weights';
 
   @override
   String get rankingShow => 'Show the sliders';
@@ -958,7 +958,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get knownIssuesTitle => 'KNOWN ISSUES IN THIS DATA';
+  String get knownIssuesTitle => 'Known issues in this data';
 
   @override
   String get knownIssuesNone => 'The data records no known issues.';
@@ -989,7 +989,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get validationTitle => 'HOW WELL THE FLOOD MAP AGREES';
+  String get validationTitle => 'How well the flood map agrees';
 
   @override
   String get scoreIou => 'Agreement with EMS (IoU)';
@@ -1018,7 +1018,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get limitsTitle => 'LIMITS, IN PLAIN WORDS';
+  String get limitsTitle => 'Limits, in plain words';
 
   @override
   String get limitDepth =>
@@ -1051,7 +1051,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get colorsTitle => 'HOW TO READ THE COLOURS';
+  String get colorsTitle => 'How to read the colours';
 
   @override
   String get sourceWebsite => 'Website';
@@ -1070,14 +1070,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get readIntroAgain => 'Read the introduction and safety message again';
+  String get readIntroAgain => 'Read the safety message again';
 
   @override
   String get introTitle1 => 'See who the flood cuts off';
 
   @override
   String get introBody1 =>
-      'AccessWatch shows where floodwater cuts people off from clinics, markets and shelters, and how hard they are to reach.';
+      'AccessWatch shows where floodwater cuts people off from clinics, markets and shelters, and how to reach them. It is built from satellite radar: depth and population are estimates.';
 
   @override
   String get introTitle2 => 'Built from satellite radar';
@@ -1117,7 +1117,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'I understand that this app is not an emergency service.';
 
   @override
-  String get safetyAccept => 'Accept and continue';
+  String get safetyAccept => 'I understand';
 
   @override
   String get rankingDepotAssumedNote =>
@@ -1452,4 +1452,87 @@ class AppLocalizationsEn extends AppLocalizations {
   String allClinicsTitle(String count) {
     return 'All clinics ($count)';
   }
+
+  @override
+  String get aboutPreliminary =>
+      'Preliminary data. Use as a guide, then verify on the ground.';
+
+  @override
+  String get aboutGuideOnly => 'Use as a guide, then verify on the ground.';
+
+  @override
+  String get plainNisarBeta =>
+      'The NISAR radar scenes are beta products, not yet fully calibrated.';
+
+  @override
+  String get plainDepotAutoSelected =>
+      'The aid depot was chosen automatically by the analysis, so routes and priorities are only illustrative.';
+
+  @override
+  String get plainDepotAssumed =>
+      'The aid depot is assumed, not confirmed, so routes and priorities are a guide.';
+
+  @override
+  String get plainValidationProductOrder =>
+      'The official map used to check ours was chosen by product order, not by which image was closest in time.';
+
+  @override
+  String get plainClassifierCalibrated =>
+      'The flood map is calibrated to this event\'s official map, so it agrees with that map partly by design.';
+
+  @override
+  String get aboutFloodMapRow => 'How the flood map was made';
+
+  @override
+  String get aboutMatchRow => 'How well it matches the official map';
+
+  @override
+  String get aboutLimitsRow => 'Limits and known issues';
+
+  @override
+  String get aboutSourcesRow => 'Sources';
+
+  @override
+  String get aboutAgeRow => 'Data age and update info';
+
+  @override
+  String get aboutAdvancedRow => 'Advanced';
+
+  @override
+  String get aboutAdvancedSubtitle =>
+      'Priority weights, Compare, physics-only and depth layers';
+
+  @override
+  String get aboutLanguage => 'Language';
+
+  @override
+  String get aboutTextSize => 'Text size';
+
+  @override
+  String textSizeOption(String pct) {
+    return '$pct%';
+  }
+
+  @override
+  String get aboutSafetyLine =>
+      'This app supports decisions. It is not an emergency service. If you are in danger, call your local emergency number.';
+
+  @override
+  String get floodMapIntro =>
+      'The flood map compares NISAR radar scenes from before and after the flood. Open water reflects radar differently from land, so a change between the two scenes marks new water.';
+
+  @override
+  String dataGenerated(String date) {
+    return 'Analysis run: $date';
+  }
+
+  @override
+  String get updateInfo =>
+      'The data comes from one run of the analysis. When the analysis is run again on newer scenes, a new app version carries the new data.';
+
+  @override
+  String get advancedMapNote => 'Layer changes show on the Map tab.';
+
+  @override
+  String get advancedRankingTitle => 'Priority weights';
 }
