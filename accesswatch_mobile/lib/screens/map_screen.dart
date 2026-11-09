@@ -194,7 +194,7 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                       if (layers.contains(MapLayer.pockets)) PocketLabelsLayer(onTap: (p) => _openPocket(p.id)),
                       if (layers.contains(MapLayer.services)) ServicesLayer(onTap: (s) => showServiceSheet(context, ref, s)),
                       const CareRouteLayer(),
-                      if (me.position != null) MyLocationLayer(position: me.position!, isTest: me.isTestPosition),
+                      if (me.position != null) MyLocationLayer(position: me.position!, isTest: me.isStandIn, label: me.isSample ? l.sampleNotice : null),
                       const OsmAttribution(),
                     ],
                   ),

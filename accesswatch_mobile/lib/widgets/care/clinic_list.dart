@@ -21,11 +21,11 @@ class ClinicList extends ConsumerWidget {
     final routes = ref.watch(careRoutesProvider).valueOrNull;
     final target = ref.watch(targetClinicIdProvider);
     return CareCard(
-      title: l.clinicsTitle(fmt.count(bundle.clinics.length)),
+      title: l.allClinicsTitle(fmt.count(bundle.clinics.length)),
       children: [
         for (final clinic in bundle.clinics)
           Material(
-            color: clinic.id == target ? AppColors.accent.withValues(alpha: 0.12) : Colors.transparent,
+            color: clinic.id == target ? AppColors.truckTint : Colors.transparent,
             borderRadius: BorderRadius.circular(10),
             child: InkWell(
               borderRadius: BorderRadius.circular(10),
@@ -56,7 +56,7 @@ class ClinicList extends ConsumerWidget {
                           const SizedBox(width: 6),
                           Expanded(
                             child: Text(l.clinicStatus(clinic.clinicStatus!, clinic.pocketId),
-                                style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.bold)),
+                                style: TextStyle(color: color, fontSize: 14, fontWeight: FontWeight.bold)),
                           ),
                         ],
                       ),

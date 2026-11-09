@@ -1371,7 +1371,7 @@ abstract class AppLocalizations {
   /// No description provided for @testPositionBadge.
   ///
   /// In en, this message translates to:
-  /// **'TEST POSITION (DEBUG BUILD)'**
+  /// **'Test position (debug build)'**
   String get testPositionBadge;
 
   /// No description provided for @testPositionHint.
@@ -2237,6 +2237,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Routes start at the aid depot, which is assumed. Use them as a guide.'**
   String get routesIllustrativeShort;
+
+  /// No description provided for @findCareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find care'**
+  String get findCareTitle;
+
+  /// No description provided for @findCareSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The nearest clinic you can reach, and how'**
+  String get findCareSubtitle;
+
+  /// No description provided for @trySampleSpot.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a sample spot in Chókwè'**
+  String get trySampleSpot;
+
+  /// No description provided for @sampleNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample location, not your position'**
+  String get sampleNotice;
+
+  /// No description provided for @nearestClinicLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearest clinic'**
+  String get nearestClinicLabel;
+
+  /// No description provided for @chosenClinicLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your chosen clinic'**
+  String get chosenClinicLabel;
+
+  /// No description provided for @byCar.
+  ///
+  /// In en, this message translates to:
+  /// **'By car'**
+  String get byCar;
+
+  /// No description provided for @byTruck.
+  ///
+  /// In en, this message translates to:
+  /// **'High-clearance truck'**
+  String get byTruck;
+
+  /// No description provided for @byFoot.
+  ///
+  /// In en, this message translates to:
+  /// **'On foot'**
+  String get byFoot;
+
+  /// No description provided for @canReach.
+  ///
+  /// In en, this message translates to:
+  /// **'Can reach'**
+  String get canReach;
+
+  /// No description provided for @noRoadRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'No road route'**
+  String get noRoadRoute;
+
+  /// No description provided for @toClinic.
+  ///
+  /// In en, this message translates to:
+  /// **'to {clinic}'**
+  String toClinic(String clinic);
+
+  /// No description provided for @showRouteOnMapLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the route on the map'**
+  String get showRouteOnMapLong;
+
+  /// No description provided for @routeBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Route by'**
+  String get routeBy;
+
+  /// No description provided for @aboutThisSpot.
+  ///
+  /// In en, this message translates to:
+  /// **'About this spot'**
+  String get aboutThisSpot;
+
+  /// No description provided for @allClinicsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All clinics ({count})'**
+  String allClinicsTitle(String count);
 }
 
 class _AppLocalizationsDelegate

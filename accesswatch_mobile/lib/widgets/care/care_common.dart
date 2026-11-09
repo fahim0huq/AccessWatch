@@ -4,10 +4,12 @@ import '../../data/models/enums.dart';
 import '../../data/routing.dart';
 import '../../l10n/app_localizations.dart';
 import '../../theme/app_theme.dart';
+import '../area/area_sections.dart' show CardTitle;
+import '../ui/kit.dart';
 
-const careSectionStyle = TextStyle(color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold);
-const careBodyStyle = TextStyle(color: AppColors.text, fontSize: 12.5, height: 1.35);
-const careMutedStyle = TextStyle(color: AppColors.textMuted, fontSize: 11.5, height: 1.35);
+const careSectionStyle = TextStyle(color: AppColors.ink, fontSize: 18, fontWeight: FontWeight.w700);
+const careBodyStyle = TextStyle(color: AppColors.ink, fontSize: 16, height: 1.4);
+const careMutedStyle = TextStyle(color: AppColors.inkSecondary, fontSize: 14, height: 1.4);
 
 IconData careModeIcon(CareMode mode) => switch (mode) {
       CareMode.car => Icons.directions_car_rounded,
@@ -22,31 +24,22 @@ String careModeLabel(AppLocalizations l, CareMode mode) => switch (mode) {
     };
 
 (IconData, Color) clinicStatusLook(ClinicStatus status) => switch (status) {
-      ClinicStatus.reachable => (Icons.check_circle_rounded, AppColors.safestRoute),
-      ClinicStatus.accessFlooded => (Icons.water_rounded, AppColors.warning),
-      ClinicStatus.insidePocket => (Icons.block_rounded, AppColors.highRisk),
+      ClinicStatus.reachable => (Icons.check_circle_rounded, AppColors.reach),
+      ClinicStatus.accessFlooded => (Icons.water_rounded, AppColors.boatText),
+      ClinicStatus.insidePocket => (Icons.block_rounded, AppColors.danger),
     };
 
 class CareCard extends StatelessWidget {
   final String title;
   final List<Widget> children;
-  final Color? borderColor;
 
-  const CareCard({super.key, required this.title, required this.children, this.borderColor});
+  const CareCard({super.key, required this.title, required this.children});
 
   @override
-  Widget build(BuildContext context) => Container(
-        width: double.infinity,
-        margin: const EdgeInsets.only(bottom: 14),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: borderColor ?? AppColors.border),
-        ),
+  Widget build(BuildContext context) => AppCard(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text(title, style: careSectionStyle), const SizedBox(height: 10), ...children],
+          children: [CardTitle(title), ...children],
         ),
       );
 }
@@ -82,19 +75,19 @@ class NeedsBoatNotice extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         width: double.infinity,
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(12),
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: AppColors.highRisk.withValues(alpha: 0.12),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.highRisk.withValues(alpha: 0.5)),
+          color: AppColors.boatTint,
+          borderRadius: BorderRadius.circular(AppSizes.chipRadius),
+          border: Border.all(color: AppColors.boat, width: 1.5),
         ),
         child: Row(
           children: [
-            const Icon(Icons.directions_boat_rounded, color: AppColors.highRisk),
+            const Icon(Icons.directions_boat_rounded, color: AppColors.boatText),
             const SizedBox(width: 10),
             Expanded(
-              child: Text(text, style: const TextStyle(color: AppColors.highRisk, fontSize: 13, fontWeight: FontWeight.bold)),
+              child: Text(text, style: const TextStyle(color: AppColors.boatText, fontSize: 16, fontWeight: FontWeight.w700)),
             ),
           ],
         ),

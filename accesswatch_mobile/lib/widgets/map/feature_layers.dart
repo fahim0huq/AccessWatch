@@ -278,7 +278,10 @@ class MyLocationLayer extends StatelessWidget {
   final LatLng position;
   final bool isTest;
 
-  const MyLocationLayer({super.key, required this.position, this.isTest = false});
+  /// Read out instead of the default, e.g. for the sample spot.
+  final String? label;
+
+  const MyLocationLayer({super.key, required this.position, this.isTest = false, this.label});
 
   @override
   Widget build(BuildContext context) => MarkerLayer(
@@ -288,7 +291,7 @@ class MyLocationLayer extends StatelessWidget {
         width: 28,
         height: 28,
         child: Semantics(
-          label: isTest ? AppLocalizations.of(context)!.testPositionBadge : AppLocalizations.of(context)!.legendMe,
+          label: label ?? (isTest ? AppLocalizations.of(context)!.testPositionBadge : AppLocalizations.of(context)!.legendMe),
           child: Container(
             decoration: BoxDecoration(
               color: isTest ? AppColors.boat : AppColors.me,

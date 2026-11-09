@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latlong2/latlong.dart' show LatLng;
+import 'package:latlong2/latlong.dart' show Distance, LatLng;
 
+import '../data/models/enums.dart';
 import '../data/models/service_point.dart';
 import '../data/my_spot.dart';
 import '../data/routing.dart';
@@ -22,6 +23,22 @@ final targetClinicIdProvider = StateProvider<String?>((ref) => null);
 final mySpotProvider = Provider<MySpot?>((ref) {
   final position = ref.watch(locationControllerProvider).position;
   return position == null ? null : analyzeSpot(ref.watch(loadedBundleProvider), position);
+});
+
+/// The sample spot of Find care: a real market in the data, dry and close
+/// enough to a road to route from, and the farthest such market from the aid
+/// depot (so the routes are not zero-length). Null if the data has none.
+final sampleSpotProvider = Provider<ServicePoint?>((ref) {
+  final bundle = ref.watch(loadedBundleProvider);
+  final depot = [for (final s in bundle.services) if (s.type == ServiceType.aidDepot) s.point];
+  if (depot.isEmpty) return null;
+  const distance = Distance();
+  final markets = [
+    for (final s in bundle.services)
+      if (s.type == ServiceType.market)
+        if (analyzeSpot(bundle, s.point) case final spot when spot.usable && !spot.inFlood) s,
+  ]..sort((a, b) => distance(b.point, depot.first).compareTo(distance(a.point, depot.first)));
+  return markets.isEmpty ? null : markets.first;
 });
 
 /// Road node of each clinic.

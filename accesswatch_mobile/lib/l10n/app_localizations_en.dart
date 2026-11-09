@@ -797,7 +797,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mySpotWaiting => 'Waiting for location…';
 
   @override
-  String get testPositionBadge => 'TEST POSITION (DEBUG BUILD)';
+  String get testPositionBadge => 'Test position (debug build)';
 
   @override
   String get testPositionHint =>
@@ -1400,4 +1400,56 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get routesIllustrativeShort =>
       'Routes start at the aid depot, which is assumed. Use them as a guide.';
+
+  @override
+  String get findCareTitle => 'Find care';
+
+  @override
+  String get findCareSubtitle => 'The nearest clinic you can reach, and how';
+
+  @override
+  String get trySampleSpot => 'Try a sample spot in Chókwè';
+
+  @override
+  String get sampleNotice => 'Sample location, not your position';
+
+  @override
+  String get nearestClinicLabel => 'Nearest clinic';
+
+  @override
+  String get chosenClinicLabel => 'Your chosen clinic';
+
+  @override
+  String get byCar => 'By car';
+
+  @override
+  String get byTruck => 'High-clearance truck';
+
+  @override
+  String get byFoot => 'On foot';
+
+  @override
+  String get canReach => 'Can reach';
+
+  @override
+  String get noRoadRoute => 'No road route';
+
+  @override
+  String toClinic(String clinic) {
+    return 'to $clinic';
+  }
+
+  @override
+  String get showRouteOnMapLong => 'Show the route on the map';
+
+  @override
+  String get routeBy => 'Route by';
+
+  @override
+  String get aboutThisSpot => 'About this spot';
+
+  @override
+  String allClinicsTitle(String count) {
+    return 'All clinics ($count)';
+  }
 }

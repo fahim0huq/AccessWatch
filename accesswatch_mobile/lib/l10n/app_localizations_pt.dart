@@ -800,7 +800,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get mySpotWaiting => 'A aguardar a localização…';
 
   @override
-  String get testPositionBadge => 'POSIÇÃO DE TESTE (VERSÃO DE DEPURAÇÃO)';
+  String get testPositionBadge => 'Posição de teste (versão de depuração)';
 
   @override
   String get testPositionHint =>
@@ -1407,4 +1407,57 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get routesIllustrativeShort =>
       'As rotas começam no depósito de ajuda, que é presumido. Use-as como guia.';
+
+  @override
+  String get findCareTitle => 'Encontrar cuidados';
+
+  @override
+  String get findCareSubtitle =>
+      'A clínica mais próxima a que consegue chegar, e como';
+
+  @override
+  String get trySampleSpot => 'Experimentar um local de exemplo em Chókwè';
+
+  @override
+  String get sampleNotice => 'Local de exemplo, não a sua posição';
+
+  @override
+  String get nearestClinicLabel => 'Clínica mais próxima';
+
+  @override
+  String get chosenClinicLabel => 'A clínica que escolheu';
+
+  @override
+  String get byCar => 'De carro';
+
+  @override
+  String get byTruck => 'Camião de chassis alto';
+
+  @override
+  String get byFoot => 'A pé';
+
+  @override
+  String get canReach => 'Consegue chegar';
+
+  @override
+  String get noRoadRoute => 'Sem rota por estrada';
+
+  @override
+  String toClinic(String clinic) {
+    return 'para $clinic';
+  }
+
+  @override
+  String get showRouteOnMapLong => 'Mostrar a rota no mapa';
+
+  @override
+  String get routeBy => 'Rota por';
+
+  @override
+  String get aboutThisSpot => 'Sobre este local';
+
+  @override
+  String allClinicsTitle(String count) {
+    return 'Todas as clínicas ($count)';
+  }
 }

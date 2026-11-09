@@ -45,10 +45,16 @@ class LocationState {
   /// Set by hand in a debug build; never from GPS.
   final bool isTestPosition;
 
+  /// The sample spot from Find care: a real place in the data, not the user.
+  final bool isSample;
+
   /// The user asked for their position on Map or Care.
   final bool wanted;
 
-  const LocationState({this.position, this.isTestPosition = false, this.wanted = false});
+  const LocationState({this.position, this.isTestPosition = false, this.isSample = false, this.wanted = false});
+
+  /// Any position that is not the user's own.
+  bool get isStandIn => isTestPosition || isSample;
 }
 
 /// One position for the whole app. GPS runs only while the user wants it and a
@@ -66,7 +72,7 @@ class LocationController extends StateNotifier<LocationState> {
   Future<LocationIssue?> start() async {
     final issue = await _source.prepare();
     if (issue != null || !mounted) return issue;
-    state = LocationState(position: state.isTestPosition ? null : state.position, wanted: true);
+    state = LocationState(position: state.isStandIn ? null : state.position, wanted: true);
     _sync();
     return null;
   }
@@ -82,6 +88,12 @@ class LocationController extends StateNotifier<LocationState> {
   void setTestPosition(LatLng position) {
     if (!kDebugMode) return;
     state = LocationState(position: position, isTestPosition: true);
+    _sync();
+  }
+
+  /// The sample spot. Works in every build, and stops GPS so it cannot be overwritten.
+  void setSamplePosition(LatLng position) {
+    state = LocationState(position: position, isSample: true);
     _sync();
   }
 

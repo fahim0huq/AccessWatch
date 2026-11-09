@@ -9,13 +9,14 @@ import 'package:accesswatch_mobile/l10n/app_localizations_en.dart';
 import 'package:accesswatch_mobile/screens/care_screen.dart';
 import 'package:accesswatch_mobile/state/care_state.dart';
 import 'package:accesswatch_mobile/state/location.dart';
+import 'package:accesswatch_mobile/widgets/care/care_result.dart';
 import 'package:accesswatch_mobile/widgets/map/care_route_layer.dart';
 import 'package:accesswatch_mobile/widgets/map/feature_layers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:latlong2/latlong.dart' show LatLng;
+import 'package:latlong2/latlong.dart' show Distance, LatLng;
 
 import 'support/app_harness.dart';
 import 'support/needs_boat_fixture.dart';
@@ -70,7 +71,7 @@ void main() {
     testWidgets('shows all 7 clinics with their status from the bundle', (tester) async {
       await pumpApp(tester, bundle);
       await openTab(tester, en.tabFindCare);
-      expect(find.text(en.clinicsTitle('7')), findsOneWidget);
+      expect(find.text(en.allClinicsTitle('7')), findsOneWidget);
       expect(find.text(en.clinicReachable), findsNWidgets(7));
     });
   });
@@ -82,10 +83,13 @@ void main() {
       await standAt(tester, bundle.services.firstWhere((s) => s.name == 'Mercado de soweto').point);
       expect(find.text(en.testPositionBadge), findsOneWidget);
       expect(find.text(en.spotNotInFlood), findsOneWidget);
-      expect(find.textContaining('Nearest clinic by road'), findsOneWidget);
+      expect(find.text(en.nearestClinicLabel), findsOneWidget);
       expect(find.text(en.needsBoatAny), findsNothing);
-      expect(find.text(en.showRouteOnMap), findsNWidgets(3));
-      expect(find.text('• ${en.routeNoWalkingTime}'), findsOneWidget);
+      for (final row in [en.byCar, en.byTruck, en.byFoot]) {
+        expect(find.text(row), findsOneWidget);
+      }
+      expect(find.text(en.canReach), findsNWidgets(3));
+      expect(find.text(en.showRouteOnMapLong), findsOneWidget);
     });
 
     testWidgets('at the depot, which shares a road point with a clinic: "already at the clinic", no route', (tester) async {
@@ -93,9 +97,9 @@ void main() {
       await openTab(tester, en.tabFindCare);
       await standAt(tester, bundle.services.firstWhere((s) => s.type == ServiceType.aidDepot).point);
       expect(find.textContaining("You're already at"), findsWidgets);
-      expect(find.textContaining('Nearest clinic by road'), findsNothing);
+      expect(find.text(en.canReach), findsNothing);
       // No zero-length route is offered for the map.
-      expect(find.text(en.showRouteOnMap), findsNothing);
+      expect(find.text(en.showRouteOnMapLong), findsNothing);
       expect(find.text(en.alreadyHereShort), findsWidgets);
     });
 
@@ -104,7 +108,8 @@ void main() {
       await openTab(tester, en.tabFindCare);
       // Not the depot: it now sits at a clinic, which gives a route of length 0.
       await standAt(tester, bundle.services.firstWhere((s) => s.name == 'Mercado de soweto').point);
-      await tester.tap(find.text(en.showRouteOnMap).first);
+      await scrollTo(tester, find.text(en.showRouteOnMapLong));
+      await tester.tap(find.text(en.showRouteOnMapLong));
       await tester.pumpAndSettle();
       expect(find.byType(FlutterMap), findsOneWidget);
       final layer = tester.widget<PolylineLayer<Object>>(
@@ -124,8 +129,55 @@ void main() {
       await openTab(tester, en.tabFindCare);
       await standAt(tester, const LatLng(-25.9, 32.6));
       expect(find.text(en.spotOutside), findsOneWidget);
-      expect(find.text(en.routesToClinic), findsNothing);
+      expect(find.byType(CareResultCard), findsNothing);
       expect(containerOf(tester).read(careRoutesProvider).valueOrNull, isNull);
+    });
+  });
+
+  group('sample spot', () {
+    testWidgets('is a real market in the data, away from the depot, and gives a full answer', (tester) async {
+      await pumpApp(tester, bundle);
+      await openTab(tester, en.tabFindCare);
+      final sample = containerOf(tester).read(sampleSpotProvider)!;
+      expect(sample.type, ServiceType.market);
+      expect(bundle.services, contains(sample));
+      final depot = bundle.services.firstWhere((s) => s.type == ServiceType.aidDepot);
+      expect(const Distance()(sample.point, depot.point), greaterThan(1000));
+      await tester.tap(find.text(en.trySampleSpot));
+      await tester.pumpAndSettle();
+      final state = containerOf(tester).read(locationControllerProvider);
+      expect((state.isSample, state.isTestPosition), (true, false));
+      expect(find.text(en.sampleNotice), findsOneWidget);
+      expect(find.text(en.testPositionBadge), findsNothing);
+      expect(find.text(en.nearestClinicLabel), findsOneWidget);
+      expect(find.text(en.canReach), findsWidgets);
+    });
+
+    test('works in release builds: nothing about it waits for debug mode', () {
+      final location = File('lib/state/location.dart').readAsStringSync();
+      final body = location.substring(location.indexOf('void setSamplePosition'), location.indexOf('void _sync'));
+      expect(body, isNot(contains('kDebugMode')));
+      final screen = File('lib/screens/care_screen.dart').readAsStringSync();
+      final button = screen.substring(screen.indexOf('if (sample != null)'), screen.indexOf('l.trySampleSpot'));
+      expect(button, isNot(contains('kDebugMode')));
+      // The debug-only long press is still debug-only.
+      expect(location, contains('if (!kDebugMode) return;'));
+    });
+
+    testWidgets('GPS replaces the sample spot', (tester) async {
+      final gps = FakeGps(permitted: true);
+      await pumpApp(tester, bundle, overrides: [locationSourceProvider.overrideWithValue(gps)]);
+      await openTab(tester, en.tabFindCare);
+      await tester.tap(find.text(en.trySampleSpot));
+      await tester.pumpAndSettle();
+      expect(find.text(en.sampleNotice), findsOneWidget);
+      await tester.tap(find.text(en.useMyLocation));
+      await tester.pumpAndSettle();
+      expect(find.text(en.sampleNotice), findsNothing);
+      gps.send(bundle.services.first.point);
+      await tester.pumpAndSettle();
+      expect(containerOf(tester).read(locationControllerProvider).isSample, isFalse);
+      expect(find.text(en.spotNotInFlood), findsOneWidget);
     });
   });
 
@@ -138,10 +190,8 @@ void main() {
       await standAt(tester, fixture.start);
       expect(find.text(en.needsBoatAny), findsWidgets);
       expect(find.text(en.needsBoatShort), findsOneWidget);
-      for (final mode in [en.careModeCar, en.careModeTruck, en.careModeFoot]) {
-        expect(find.text(en.noRouteForMode(mode)), findsOneWidget);
-      }
-      expect(find.text(en.showRouteOnMap), findsNothing);
+      expect(find.text(en.noRoadRoute), findsNWidgets(3));
+      expect(find.text(en.showRouteOnMapLong), findsNothing);
       expect(containerOf(tester).read(careRouteOnMapProvider), isNull);
     });
 
