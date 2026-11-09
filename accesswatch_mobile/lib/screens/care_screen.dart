@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../l10n/app_localizations.dart';
 import '../state/care_state.dart';
 import '../theme/app_theme.dart';
-import '../widgets/beta_badge.dart';
+import '../widgets/ui/kit.dart';
 import '../widgets/care/care_common.dart';
 import '../widgets/care/clinic_list.dart';
 import '../widgets/care/my_spot_card.dart';
@@ -33,11 +33,11 @@ class _CareScreenState extends ConsumerState<CareScreen> with ShowsLocation {
             Row(
               children: [
                 Expanded(child: Text(l.careTitle, style: careSectionStyle.copyWith(fontSize: 12))),
-                const BetaBadge(),
+                const HelpButton(),
               ],
             ),
             const SizedBox(height: 4),
-            Text(l.careSubtitle, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(l.careSubtitle, style: const TextStyle(color: AppColors.ink, fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 14),
             const MySpotCard(),
             if (usable) const RouteCards(),

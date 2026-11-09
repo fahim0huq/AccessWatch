@@ -1,71 +1,136 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
-  // Primary Refined Palette
-  static const Color background = Color(0xFF080D12);
-  static const Color surface = Color(0xFF111A22);
-  static const Color surfaceElevated = Color(0xFF17232D);
-  static const Color border = Color(0xFF22303D);
-  static const Color text = Color(0xFFF2F6F8);
-  static const Color textMuted = Color(0xFF91A4B3);
+import 'tokens.dart';
 
-  // Accent Colors
-  static const Color accent = Color(0xFF35C9D0); // Cyan/Teal-blue
-  static const Color accentSecondary = Color(0xFF4DA3FF); // Blue
+export 'tokens.dart';
 
-  // Flood depth colors: the notebook palette
-  static const Color floodShallow = Color(0xFF9ECAE1);
-  static const Color floodMedium = Color(0xFF3182BD);
-  static const Color floodDeep = Color(0xFF08306B);
-
-  // The threshold map from before the EMS calibration
-  static const Color floodBaseline = Color(0xFF7C3AED);
-
-  // Status & Routes
-  static const Color safestRoute = Color(0xFF14B8A6); // Solid teal on the map
-  static const Color shortestRoute = Color(0xFF8D5A3C); // Dashed brown on the map
-  static const Color highRisk = Color(0xFFEF4444);
-  static const Color warning = Color(0xFFF59E0B);
-  static const Color info = Color(0xFF38BDF8);
-}
-
+/// One light Material 3 theme in Inter: big type, 48 dp targets, 56 dp buttons.
 class AppTheme {
-  static ThemeData get darkTheme {
+  static const _text = TextTheme(
+    headlineMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: AppColors.ink, height: 1.2),
+    headlineSmall: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: AppColors.ink, height: 1.25),
+    titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: AppColors.ink, height: 1.3),
+    titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: AppColors.ink, height: 1.3),
+    titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: AppColors.ink, height: 1.3),
+    bodyLarge: TextStyle(fontSize: 16, color: AppColors.ink, height: 1.45),
+    bodyMedium: TextStyle(fontSize: 16, color: AppColors.ink, height: 1.45),
+    bodySmall: TextStyle(fontSize: 14, color: AppColors.inkSecondary, height: 1.4),
+    labelLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, height: 1.2),
+    labelMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, height: 1.2),
+    labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, height: 1.2),
+  );
+
+  static ThemeData get light {
+    const scheme = ColorScheme.light(
+      primary: AppColors.brand,
+      onPrimary: AppColors.surface,
+      primaryContainer: AppColors.truckTint,
+      onPrimaryContainer: AppColors.truckText,
+      secondary: AppColors.brand,
+      onSecondary: AppColors.surface,
+      secondaryContainer: AppColors.truckTint,
+      onSecondaryContainer: AppColors.truckText,
+      surface: AppColors.surface,
+      onSurface: AppColors.ink,
+      onSurfaceVariant: AppColors.inkSecondary,
+      surfaceContainerHighest: AppColors.surfaceMuted,
+      outline: AppColors.line,
+      outlineVariant: AppColors.line,
+      error: AppColors.danger,
+      onError: AppColors.surface,
+    );
+    final buttonShape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.button / 2));
+    const buttonSize = Size(AppSizes.tap, AppSizes.button);
     return ThemeData(
       useMaterial3: true,
-      brightness: Brightness.dark,
-      scaffoldBackgroundColor: AppColors.background,
-      colorScheme: const ColorScheme.dark(
-        primary: AppColors.accent,
-        surface: AppColors.surface,
-        onSurface: AppColors.text,
-        error: AppColors.highRisk,
-      ),
-      fontFamily: 'Roboto',
+      colorScheme: scheme,
+      fontFamily: AppFonts.family,
+      textTheme: _text,
+      scaffoldBackgroundColor: AppColors.ground,
+      materialTapTargetSize: MaterialTapTargetSize.padded,
       cardTheme: CardThemeData(
         color: AppColors.surface,
         elevation: 0,
+        margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: AppColors.border, width: 1),
+          borderRadius: BorderRadius.circular(AppSizes.cardRadius),
+          side: const BorderSide(color: AppColors.line),
         ),
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.surface,
+        backgroundColor: AppColors.ground,
+        foregroundColor: AppColors.ink,
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
         centerTitle: false,
-        titleTextStyle: TextStyle(
-          color: AppColors.text,
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          minimumSize: buttonSize,
+          shape: buttonShape,
+          textStyle: _text.labelLarge,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
         ),
       ),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          minimumSize: buttonSize,
+          shape: buttonShape,
+          foregroundColor: AppColors.brand,
+          side: const BorderSide(color: AppColors.brand, width: 1.5),
+          textStyle: _text.labelLarge,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          minimumSize: const Size(AppSizes.tap, AppSizes.tap),
+          foregroundColor: AppColors.brand,
+          textStyle: _text.labelLarge,
+        ),
+      ),
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(minimumSize: const Size(AppSizes.tap, AppSizes.tap)),
+      ),
+      chipTheme: ChipThemeData(
         backgroundColor: AppColors.surface,
-        selectedItemColor: AppColors.accent,
-        unselectedItemColor: AppColors.textMuted,
-        type: BottomNavigationBarType.fixed,
-        elevation: 8,
+        selectedColor: AppColors.truckTint,
+        side: const BorderSide(color: AppColors.line),
+        labelStyle: _text.labelMedium!.copyWith(color: AppColors.ink),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.chipRadius)),
+        checkmarkColor: AppColors.truckText,
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: AppColors.surface,
+        indicatorColor: AppColors.truckTint,
+        surfaceTintColor: Colors.transparent,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        labelTextStyle: WidgetStateProperty.resolveWith((states) => _text.labelMedium!.copyWith(
+              color: states.contains(WidgetState.selected) ? AppColors.truckText : AppColors.inkSecondary,
+              fontWeight: states.contains(WidgetState.selected) ? FontWeight.w700 : FontWeight.w500,
+            )),
+        iconTheme: WidgetStateProperty.resolveWith((states) => IconThemeData(
+              color: states.contains(WidgetState.selected) ? AppColors.truckText : AppColors.inkSecondary,
+            )),
+      ),
+      dialogTheme: const DialogThemeData(backgroundColor: AppColors.surface, surfaceTintColor: Colors.transparent),
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: AppColors.surface,
+        surfaceTintColor: Colors.transparent,
+        showDragHandle: true,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(AppSizes.cardRadius))),
+      ),
+      sliderTheme: const SliderThemeData(activeTrackColor: AppColors.brand, thumbColor: AppColors.brand),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith(
+            (s) => s.contains(WidgetState.selected) ? AppColors.surface : AppColors.inkSecondary),
+        trackColor: WidgetStateProperty.resolveWith(
+            (s) => s.contains(WidgetState.selected) ? AppColors.brand : AppColors.surfaceMuted),
+      ),
+      dividerTheme: const DividerThemeData(color: AppColors.line, space: 1),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: AppColors.ink,
+        contentTextStyle: _text.bodyMedium!.copyWith(color: AppColors.surface),
       ),
     );
   }

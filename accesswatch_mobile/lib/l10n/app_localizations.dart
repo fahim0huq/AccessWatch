@@ -110,12 +110,6 @@ abstract class AppLocalizations {
   /// **'ACCESSWATCH'**
   String get accesswatchTitle;
 
-  /// No description provided for @tabHome.
-  ///
-  /// In en, this message translates to:
-  /// **'Home'**
-  String get tabHome;
-
   /// No description provided for @tabMap.
   ///
   /// In en, this message translates to:
@@ -127,12 +121,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Missions'**
   String get tabMissions;
-
-  /// No description provided for @tabInfo.
-  ///
-  /// In en, this message translates to:
-  /// **'Info'**
-  String get tabInfo;
 
   /// No description provided for @loadingData.
   ///
@@ -643,12 +631,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language'**
   String get language;
-
-  /// No description provided for @languageDevice.
-  ///
-  /// In en, this message translates to:
-  /// **'Device'**
-  String get languageDevice;
 
   /// No description provided for @languageEnglish.
   ///
@@ -1943,6 +1925,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You\'re here'**
   String get alreadyHereShort;
+
+  /// No description provided for @tabHelpFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Help first'**
+  String get tabHelpFirst;
+
+  /// No description provided for @tabFindCare.
+  ///
+  /// In en, this message translates to:
+  /// **'Find care'**
+  String get tabFindCare;
+
+  /// No description provided for @aboutThisData.
+  ///
+  /// In en, this message translates to:
+  /// **'About this data'**
+  String get aboutThisData;
 }
 
 class _AppLocalizationsDelegate

@@ -84,7 +84,7 @@ class _Fact extends StatelessWidget {
             Expanded(flex: 2, child: Text(label, style: const TextStyle(color: AppColors.textMuted, fontSize: 12))),
             Expanded(
               flex: 3,
-              child: Text(value, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+              child: Text(value, style: const TextStyle(color: AppColors.ink, fontSize: 12, fontWeight: FontWeight.bold)),
             ),
           ],
         ),
@@ -113,7 +113,7 @@ class _RouteCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(l.routeSheetTitle(route.pocketId, name),
-              style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
+              style: const TextStyle(color: AppColors.ink, fontSize: 15, fontWeight: FontWeight.bold)),
           _Fact(l.routeAccess, l.accessMode(route.accessMode)),
           _Fact(l.distance, l.distanceKm(fmt.km(route.distanceKm))),
           _Fact(l.eta, l.durationMin(fmt.minutes(route.estimatedTimeMin))),
@@ -145,7 +145,7 @@ void showServiceSheet(BuildContext context, WidgetRef ref, ServicePoint service)
             const SizedBox(width: 10),
             Expanded(
               child: Text(l.serviceName(service),
-                  style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                  style: const TextStyle(color: AppColors.ink, fontSize: 18, fontWeight: FontWeight.bold)),
             ),
           ],
         ),

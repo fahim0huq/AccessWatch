@@ -359,7 +359,7 @@ void main() {
 
   testWidgets('View on map from a mission selects the pocket on the map', (tester) async {
     await pumpApp(tester, bundle);
-    await tester.tap(find.text(en.tabMissions).last);
+    await tester.tap(find.text(en.tabHelpFirst).last);
     await tester.pumpAndSettle();
     await tester.tap(find.textContaining('West of Guija').first);
     await tester.pumpAndSettle();

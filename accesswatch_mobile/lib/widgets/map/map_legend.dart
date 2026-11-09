@@ -12,7 +12,7 @@ import '../mission_card_sections.dart' show depthColor;
 import 'feature_layers.dart' show riskColor, serviceIcon;
 
 const _text = TextStyle(color: AppColors.text, fontSize: 11);
-const _title = TextStyle(color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'monospace');
+const _title = TextStyle(color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold);
 
 BoxDecoration _panel() => BoxDecoration(
   color: AppColors.surface.withValues(alpha: 0.96),

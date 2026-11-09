@@ -9,6 +9,7 @@ import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import '../beta_badge.dart';
 import '../data_status.dart';
+import '../ui/kit.dart';
 
 final _osmCopyright = Uri.parse('https://www.openstreetmap.org/copyright');
 
@@ -57,7 +58,7 @@ class MapHeader extends ConsumerWidget {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(l.missionControl,
-                        style: const TextStyle(color: AppColors.accent, fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'monospace')),
+                        style: const TextStyle(color: AppColors.accent, fontSize: 13, fontWeight: FontWeight.bold)),
                     const BetaBadge(),
                   ],
                 ),
@@ -68,6 +69,7 @@ class MapHeader extends ConsumerWidget {
               ],
             ),
           ),
+          const HelpButton(),
           TextButton.icon(
             onPressed: onToggleBanners,
             icon: Icon(bannersOpen ? Icons.expand_less_rounded : Icons.warning_amber_rounded, size: 18, color: AppColors.warning),

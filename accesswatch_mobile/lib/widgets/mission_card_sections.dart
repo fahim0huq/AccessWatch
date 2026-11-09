@@ -9,8 +9,8 @@ import '../state/providers.dart';
 import '../theme/app_theme.dart';
 import '../utils/labels.dart';
 
-const _mono = TextStyle(fontFamily: 'monospace', fontWeight: FontWeight.bold);
-const _section = TextStyle(color: AppColors.textMuted, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'monospace');
+const _mono = TextStyle(fontWeight: FontWeight.bold);
+const _section = TextStyle(color: AppColors.textMuted, fontSize: 11, fontWeight: FontWeight.bold);
 
 Color depthColor(DepthClass depth) => switch (depth) {
       DepthClass.deep => AppColors.floodDeep,
@@ -42,7 +42,7 @@ class MissionCardDepthSection extends ConsumerWidget {
         children: [
           Text(l.estimatedMaxDepth, style: _section.copyWith(fontSize: 10)),
           const SizedBox(height: 8),
-          Text(l.depthClass(depth), style: _mono.copyWith(color: Colors.white, fontSize: 26)),
+          Text(l.depthClass(depth), style: _mono.copyWith(color: AppColors.ink, fontSize: 26)),
           if (range != null) Text(range, style: _mono.copyWith(color: AppColors.textMuted, fontSize: 12)),
           const SizedBox(height: 12),
           Row(
@@ -72,7 +72,7 @@ class MissionCardRouteTable extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(child: Text(label, style: const TextStyle(color: AppColors.textMuted, fontSize: 11))),
-            Expanded(child: Text(shortest, style: _mono.copyWith(color: Colors.white, fontSize: 12))),
+            Expanded(child: Text(shortest, style: _mono.copyWith(color: AppColors.ink, fontSize: 12))),
             Expanded(child: Text(safest, style: _mono.copyWith(color: AppColors.safestRoute, fontSize: 12))),
           ],
         ),

@@ -8,8 +8,29 @@ import '../state/providers.dart';
 import '../theme/app_theme.dart';
 import '../widgets/data_status.dart';
 
-/// Bottom navigation around the tabs. Nothing shows until the data has loaded,
-/// so no screen ever has to handle a missing bundle.
+/// Shows [child] only once the data has loaded, so no screen ever has to
+/// handle a missing bundle.
+class BundleGate extends ConsumerWidget {
+  final Widget child;
+
+  const BundleGate({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
+    return ref.watch(bundleProvider).when(
+          loading: () => _Message(icon: const CircularProgressIndicator(color: AppColors.brand), text: l.loadingData),
+          error: (error, _) => _Message(
+            icon: const Icon(Icons.error_outline_rounded, color: AppColors.danger, size: 40),
+            text: l.loadError,
+            action: FilledButton(onPressed: () => ref.invalidate(bundleProvider), child: Text(l.retry)),
+          ),
+          data: (_) => child,
+        );
+  }
+}
+
+/// The three tabs: Map, Help first, Find care.
 class MainNavigationScreen extends ConsumerWidget {
   final StatefulNavigationShell shell;
 
@@ -18,15 +39,9 @@ class MainNavigationScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context)!;
-    final bundle = ref.watch(bundleProvider);
-    return bundle.when(
-      loading: () => _Message(icon: const CircularProgressIndicator(color: AppColors.accent), text: l.loadingData),
-      error: (error, _) => _Message(
-        icon: const Icon(Icons.error_outline_rounded, color: AppColors.highRisk, size: 40),
-        text: l.loadError,
-        action: FilledButton(onPressed: () => ref.invalidate(bundleProvider), child: Text(l.retry)),
-      ),
-      data: (_) => Scaffold(
+    final offline = ref.watch(onlineProvider).valueOrNull == false;
+    return BundleGate(
+      child: Scaffold(
         body: Column(
           children: [
             const OfflineBanner(),
@@ -34,7 +49,7 @@ class MainNavigationScreen extends ConsumerWidget {
               child: MediaQuery.removePadding(
                 context: context,
                 // The banner already sits below the status bar.
-                removeTop: ref.watch(onlineProvider).valueOrNull == false,
+                removeTop: offline,
                 child: shell,
               ),
             ),
@@ -42,19 +57,20 @@ class MainNavigationScreen extends ConsumerWidget {
         ),
         bottomNavigationBar: ref.watch(presentationModeProvider)
             ? null
-            : BottomNavigationBar(
-                currentIndex: shell.currentIndex,
-                onTap: (index) => shell.goBranch(index, initialLocation: index == shell.currentIndex),
-                selectedItemColor: AppColors.accent,
-                unselectedItemColor: AppColors.textMuted,
-                backgroundColor: AppColors.surface,
-                type: BottomNavigationBarType.fixed,
-                items: [
-                  BottomNavigationBarItem(icon: const Icon(Icons.grid_view_rounded), label: l.tabHome),
-                  BottomNavigationBarItem(icon: const Icon(Icons.map_rounded), label: l.tabMap),
-                  BottomNavigationBarItem(icon: const Icon(Icons.assignment_rounded), label: l.tabMissions),
-                  BottomNavigationBarItem(icon: const Icon(Icons.local_hospital_rounded), label: l.tabCare),
-                  BottomNavigationBarItem(icon: const Icon(Icons.info_outline_rounded), label: l.tabInfo),
+            : NavigationBar(
+                selectedIndex: shell.currentIndex,
+                onDestinationSelected: (index) => shell.goBranch(index, initialLocation: index == shell.currentIndex),
+                destinations: [
+                  NavigationDestination(
+                      icon: const Icon(Icons.map_outlined), selectedIcon: const Icon(Icons.map_rounded), label: l.tabMap),
+                  NavigationDestination(
+                      icon: const Icon(Icons.volunteer_activism_outlined),
+                      selectedIcon: const Icon(Icons.volunteer_activism_rounded),
+                      label: l.tabHelpFirst),
+                  NavigationDestination(
+                      icon: const Icon(Icons.local_hospital_outlined),
+                      selectedIcon: const Icon(Icons.local_hospital_rounded),
+                      label: l.tabFindCare),
                 ],
               ),
       ),
@@ -71,7 +87,6 @@ class _Message extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: AppColors.background,
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
@@ -80,7 +95,7 @@ class _Message extends StatelessWidget {
               children: [
                 icon,
                 const SizedBox(height: 16),
-                Text(text, textAlign: TextAlign.center, style: const TextStyle(color: AppColors.text, fontSize: 14)),
+                Text(text, textAlign: TextAlign.center),
                 if (action != null) ...[const SizedBox(height: 16), action!],
               ],
             ),

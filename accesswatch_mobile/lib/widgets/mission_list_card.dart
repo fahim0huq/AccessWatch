@@ -69,10 +69,10 @@ class MissionListCard extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(l.missionTitle(m),
-                        style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                        style: const TextStyle(color: AppColors.ink, fontSize: 16, fontWeight: FontWeight.bold)),
                   ),
                   Text(m.pocketId,
-                      style: const TextStyle(color: AppColors.textMuted, fontSize: 11, fontFamily: 'monospace')),
+                      style: const TextStyle(color: AppColors.textMuted, fontSize: 11)),
                   const SizedBox(width: 6),
                   Icon(Icons.arrow_forward_ios_rounded, size: 14, color: AppColors.textMuted.withValues(alpha: 0.6)),
                 ],
@@ -84,7 +84,7 @@ class MissionListCard extends StatelessWidget {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   Text(l.populationEstimate(Fmt.of(context).count(m.population)),
-                      style: const TextStyle(color: AppColors.textMuted, fontSize: 12, fontFamily: 'monospace')),
+                      style: const TextStyle(color: AppColors.textMuted, fontSize: 12)),
                   MissionTag(text: l.pocketStatus(m.accessStatus), color: statusColor(m.accessStatus)),
                   MissionTag(text: l.accessMode(m.accessMode), color: AppColors.accent, icon: accessIcon(m.accessMode)),
                 ],

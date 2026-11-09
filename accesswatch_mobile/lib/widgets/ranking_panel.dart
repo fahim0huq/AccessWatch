@@ -50,7 +50,7 @@ class _RankingPanelState extends ConsumerState<RankingPanel> {
             children: [
               Expanded(
                 child: Text(l.rankingTitle,
-                    style: const TextStyle(color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'monospace')),
+                    style: const TextStyle(color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold)),
               ),
               IconButton(
                 tooltip: _open ? l.rankingHide : l.rankingShow,
@@ -122,7 +122,7 @@ class _WeightSlider extends StatelessWidget {
         Row(
           children: [
             Expanded(child: Text(label, style: const TextStyle(color: AppColors.text, fontSize: 12.5))),
-            Text('× $shown', style: const TextStyle(color: AppColors.accent, fontSize: 12, fontFamily: 'monospace')),
+            Text('× $shown', style: const TextStyle(color: AppColors.accent, fontSize: 12)),
           ],
         ),
         Slider(

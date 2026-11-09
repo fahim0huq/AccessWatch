@@ -21,15 +21,14 @@ void main() {
   testWidgets('data age: acquisition date and a snapshot age, from the manifest', (tester) async {
     await pumpApp(tester, bundle);
     // Harness clock: 2026-11-08 12:00 UTC; NISAR after scene: 2026-01-17 03:42 UTC.
-    expect(find.text(en.dataAge('Jan 17, 2026', 295)), findsOneWidget);
-    await tester.tap(find.text(en.tabMap).last);
-    await tester.pumpAndSettle();
     expect(find.text(en.dataAgeShort(295)), findsOneWidget);
+    await openAbout(tester);
+    expect(find.text(en.dataAge('Jan 17, 2026', 295)), findsOneWidget);
   });
 
   testWidgets('offline: a banner on every tab, and every tab still works', (tester) async {
     await pumpApp(tester, bundle, online: false);
-    for (final tab in [en.tabHome, en.tabMap, en.tabMissions, en.tabCare, en.tabInfo]) {
+    for (final tab in [en.tabMap, en.tabHelpFirst, en.tabFindCare]) {
       await tester.tap(find.text(tab).last);
       await tester.pumpAndSettle();
       expect(find.text(en.offlineBanner), findsOneWidget, reason: tab);

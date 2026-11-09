@@ -20,9 +20,9 @@ Future<ProviderContainer> start(Map<String, Object> saved) async {
 }
 
 void main() {
-  test('nothing saved: device language, 100% text, no ticks', () async {
+  test('nothing saved: English, 100% text, no ticks', () async {
     final c = await start({});
-    expect(c.read(localeProvider), isNull);
+    expect(c.read(localeProvider), const Locale('en'));
     expect(c.read(textScaleProvider), 1.0);
     expect(c.read(verifyChecksProvider), isEmpty);
     expect(c.read(priorityWeightsProvider).isPublished, isTrue);
@@ -50,11 +50,11 @@ void main() {
     expect(second.read(safetyAcceptedProvider), isTrue);
   });
 
-  test('going back to the device language removes the saved one', () async {
+  test('switching back to English is saved too', () async {
     final c = await start({SettingsKeys.language: 'pt'});
     expect(c.read(localeProvider), const Locale('pt'));
-    c.read(localeProvider.notifier).state = null;
-    expect(c.read(sharedPreferencesProvider).getString(SettingsKeys.language), isNull);
+    c.read(localeProvider.notifier).state = const Locale('en');
+    expect(c.read(sharedPreferencesProvider).getString(SettingsKeys.language), 'en');
   });
 
   test('bad or unknown saved values are ignored, not fatal', () async {

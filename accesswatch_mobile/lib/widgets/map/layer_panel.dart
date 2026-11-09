@@ -37,7 +37,7 @@ class LayerPanel extends ConsumerWidget {
           padding: const EdgeInsets.all(20),
           children: [
             Text(l.layersControl,
-                style: const TextStyle(color: AppColors.accent, fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'monospace')),
+                style: const TextStyle(color: AppColors.accent, fontSize: 12, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             // Top of the map first, the way people think of a layer list.
             for (final layer in MapLayer.values.reversed) ...[

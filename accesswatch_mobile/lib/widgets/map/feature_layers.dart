@@ -138,7 +138,6 @@ class PocketLabelsLayer extends ConsumerWidget {
                       color: Colors.white,
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'monospace',
                     ),
                   ),
                 ),

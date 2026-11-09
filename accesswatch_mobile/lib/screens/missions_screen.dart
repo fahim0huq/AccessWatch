@@ -8,7 +8,7 @@ import '../router.dart';
 import '../state/mission_state.dart';
 import '../theme/app_theme.dart';
 import '../utils/labels.dart';
-import '../widgets/beta_badge.dart';
+import '../widgets/ui/kit.dart';
 import '../widgets/mission_list_card.dart';
 import '../widgets/quality_banners.dart';
 import '../widgets/ranking_panel.dart';
@@ -52,14 +52,14 @@ class _MissionsScreenState extends ConsumerState<MissionsScreen> {
                                 color: AppColors.accent,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'monospace')),
+                                )),
                         const SizedBox(height: 2),
                         Text(l.rankedPockets(Fmt.of(context).count(shown.length)),
-                            style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                            style: const TextStyle(color: AppColors.ink, fontSize: 18, fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ),
-                  const BetaBadge(),
+                  const HelpButton(),
                 ],
               ),
             ),
@@ -90,7 +90,7 @@ class _MissionsScreenState extends ConsumerState<MissionsScreen> {
                   for (final r in shown)
                     MissionListCard(
                       ranked: r,
-                      onTap: () => context.go('${AppRoutes.missions}/${r.mission.pocketId}'),
+                      onTap: () => context.go(AppRoutes.area(r.mission.pocketId)),
                     ),
                 ],
               ),
@@ -125,7 +125,6 @@ class _FilterChip extends StatelessWidget {
           color: selected ? AppColors.background : AppColors.text,
           fontSize: 11,
           fontWeight: FontWeight.bold,
-          fontFamily: 'monospace',
         ),
         side: const BorderSide(color: AppColors.border),
       ),

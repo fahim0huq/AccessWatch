@@ -2,10 +2,8 @@
   "@@locale": "pt",
   "appName": "AccessWatch",
   "accesswatchTitle": "ACCESSWATCH",
-  "tabHome": "Início",
   "tabMap": "Mapa",
   "tabMissions": "Missões",
-  "tabInfo": "Info",
   "loadingData": "A carregar os dados da cheia…",
   "loadError": "Não foi possível carregar os dados da cheia.",
   "retry": "Tentar novamente",
@@ -91,7 +89,6 @@
   "appSubtitle": "Análise de acesso em cheias por radar de satélite",
   "settingsTitle": "DEFINIÇÕES",
   "language": "Idioma",
-  "languageDevice": "Dispositivo",
   "languageEnglish": "English",
   "languagePortuguese": "Português",
   "textSize": "Tamanho do texto: {pct}%",
@@ -306,5 +303,8 @@
   "pocketMarkerLabel": "Bolsão {pocket}, risco {risk}",
   "mapSemanticsLabel": "Mapa da cheia. Os bolsões, serviços e rotas também estão listados por baixo do mapa e nos separadores Missões e Cuidados.",
   "alreadyAtClinic": "Já está em {clinic}: não precisa de rota.",
-  "alreadyHereShort": "Está aqui"
+  "alreadyHereShort": "Está aqui",
+  "tabHelpFirst": "Ajudar primeiro",
+  "tabFindCare": "Encontrar cuidados",
+  "aboutThisData": "Sobre estes dados"
 }

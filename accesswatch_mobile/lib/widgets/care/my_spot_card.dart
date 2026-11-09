@@ -31,7 +31,7 @@ class MySpotCard extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             color: AppColors.warning,
             child: Text(l.testPositionBadge,
-                style: const TextStyle(color: Colors.black, fontSize: 11, fontWeight: FontWeight.w900, fontFamily: 'monospace')),
+                style: const TextStyle(color: Colors.black, fontSize: 11, fontWeight: FontWeight.w900)),
           ),
         if (spot == null) ...[
           Text(l.mySpotIntro, style: careBodyStyle),

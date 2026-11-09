@@ -114,7 +114,7 @@ class _ModeCard extends ConsumerWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(careModeLabel(l, mode),
-                    style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
+                    style: const TextStyle(color: AppColors.ink, fontSize: 13, fontWeight: FontWeight.bold)),
               ),
             ],
           ),

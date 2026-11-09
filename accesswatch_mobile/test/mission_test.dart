@@ -34,7 +34,7 @@ void main() {
   Future<void> openMissions(WidgetTester tester, {List<Override> overrides = const [], Locale locale = const Locale('en')}) async {
     await pumpApp(tester, bundle, overrides: overrides, locale: locale);
     final l = locale.languageCode == 'en' ? en : pt;
-    await tester.tap(find.text(l.tabMissions).last);
+    await tester.tap(find.text(l.tabHelpFirst).last);
     await tester.pumpAndSettle();
   }
 
@@ -199,7 +199,7 @@ void main() {
     });
 
     testWidgets('an unknown mission link does not crash', (tester) async {
-      tester.binding.platformDispatcher.defaultRouteNameTestValue = '/missions/P99';
+      tester.binding.platformDispatcher.defaultRouteNameTestValue = '/help/P99';
       addTearDown(tester.binding.platformDispatcher.clearDefaultRouteNameTestValue);
       await pumpApp(tester, bundle);
       expect(find.text(en.missionNotFound('P99')), findsOneWidget);
@@ -260,7 +260,7 @@ void main() {
   testWidgets('no overflow at 200% on the list and the page, in both languages', (tester) async {
     for (final (locale, l) in [(const Locale('en'), en), (const Locale('pt'), pt)]) {
       await pumpApp(tester, bundle, locale: locale, textScale: 2.0);
-      await tester.tap(find.text(l.tabMissions).last);
+      await tester.tap(find.text(l.tabHelpFirst).last);
       await tester.pumpAndSettle();
       await tester.tap(find.byType(MissionListCard).first);
       await tester.pumpAndSettle();

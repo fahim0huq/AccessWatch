@@ -50,7 +50,7 @@ class MissionCardHeader extends StatelessWidget {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
                   icon: const Icon(Icons.share_rounded, size: 15),
-                  label: Text(l.shareAlert, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900, fontFamily: 'monospace')),
+                  label: Text(l.shareAlert, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900)),
                 ),
               if (onViewOnMap != null)
                 ElevatedButton.icon(
@@ -61,7 +61,7 @@ class MissionCardHeader extends StatelessWidget {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
                   icon: const Icon(Icons.my_location_rounded, size: 15),
-                  label: Text(l.viewOnMap, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900, fontFamily: 'monospace')),
+                  label: Text(l.viewOnMap, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900)),
                 ),
             ],
           ),

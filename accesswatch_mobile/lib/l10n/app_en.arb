@@ -2,10 +2,8 @@
   "@@locale": "en",
   "appName": "AccessWatch",
   "accesswatchTitle": "ACCESSWATCH",
-  "tabHome": "Home",
   "tabMap": "Map",
   "tabMissions": "Missions",
-  "tabInfo": "Info",
   "loadingData": "Loading flood data…",
   "loadError": "The flood data could not be loaded.",
   "retry": "Try again",
@@ -109,7 +107,6 @@
   "appSubtitle": "Satellite radar flood access analysis",
   "settingsTitle": "SETTINGS",
   "language": "Language",
-  "languageDevice": "Device",
   "languageEnglish": "English",
   "languagePortuguese": "Português",
   "textSize": "Text size: {pct}%",
@@ -383,5 +380,8 @@
   "mapSemanticsLabel": "Flood map. Pockets, services and routes are also listed below the map and on the Missions and Care tabs.",
   "alreadyAtClinic": "You're already at {clinic}: no route needed.",
   "alreadyHereShort": "You're here",
-  "@alreadyAtClinic": {"placeholders": {"clinic": {"type": "String"}}}
+  "@alreadyAtClinic": {"placeholders": {"clinic": {"type": "String"}}},
+  "tabHelpFirst": "Help first",
+  "tabFindCare": "Find care",
+  "aboutThisData": "About this data"
 }

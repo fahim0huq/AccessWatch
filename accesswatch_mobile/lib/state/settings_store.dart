@@ -22,9 +22,12 @@ class SettingsKeys {
   static const priorityWeights = 'priority_weights';
 }
 
-Locale? readLocale(SharedPreferences prefs) {
+/// English unless the user chose another language; never the device's own.
+const defaultLocale = Locale('en');
+
+Locale readLocale(SharedPreferences prefs) {
   final code = prefs.getString(SettingsKeys.language);
-  return code == null ? null : Locale(code);
+  return code == null ? defaultLocale : Locale(code);
 }
 
 double readTextScale(SharedPreferences prefs) =>
@@ -64,9 +67,7 @@ PriorityWeights readPriorityWeights(SharedPreferences prefs) {
 /// Watched by the app: writes every change of a saved setting.
 final settingsPersistenceProvider = Provider<void>((ref) {
   final prefs = ref.watch(sharedPreferencesProvider);
-  ref.listen<Locale?>(localeProvider, (_, locale) {
-    locale == null ? prefs.remove(SettingsKeys.language) : prefs.setString(SettingsKeys.language, locale.languageCode);
-  });
+  ref.listen<Locale>(localeProvider, (_, locale) => prefs.setString(SettingsKeys.language, locale.languageCode));
   ref.listen<double>(textScaleProvider, (_, scale) => prefs.setDouble(SettingsKeys.textScale, scale));
   ref.listen<bool>(safetyAcceptedProvider, (_, accepted) => prefs.setBool(SettingsKeys.safetyAccepted, accepted));
   ref.listen<PriorityWeights>(priorityWeightsProvider, (_, w) {

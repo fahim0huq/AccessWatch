@@ -59,7 +59,7 @@ class _BannerState extends ConsumerState<_Banner> {
       expanded: _open,
       hint: l.warningExpandHint,
       child: Material(
-        color: AppColors.warning.withValues(alpha: 0.12),
+        color: AppColors.boatTint,
         borderRadius: BorderRadius.circular(10),
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
@@ -69,11 +69,11 @@ class _BannerState extends ConsumerState<_Banner> {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: AppColors.warning.withValues(alpha: 0.4)),
+              border: Border.all(color: AppColors.boat),
             ),
             child: Row(
               children: [
-                const Icon(Icons.warning_amber_rounded, color: AppColors.warning, size: 18),
+                const Icon(Icons.warning_amber_rounded, color: AppColors.boatText, size: 18),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Column(
@@ -82,16 +82,16 @@ class _BannerState extends ConsumerState<_Banner> {
                     children: [
                       Text(
                         l.warningShort(widget.flag),
-                        style: const TextStyle(color: AppColors.warning, fontSize: 12, fontWeight: FontWeight.bold),
+                        style: const TextStyle(color: AppColors.boatText, fontSize: 14, fontWeight: FontWeight.bold),
                       ),
                       if (_open) ...[
                         const SizedBox(height: 4),
-                        Text(full, style: const TextStyle(color: AppColors.text, fontSize: 12, height: 1.35)),
+                        Text(full, style: const TextStyle(color: AppColors.ink, fontSize: 14, height: 1.35)),
                       ],
                     ],
                   ),
                 ),
-                Icon(_open ? Icons.expand_less_rounded : Icons.expand_more_rounded, color: AppColors.warning, size: 18),
+                Icon(_open ? Icons.expand_less_rounded : Icons.expand_more_rounded, color: AppColors.boatText, size: 18),
               ],
             ),
           ),

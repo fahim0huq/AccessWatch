@@ -15,16 +15,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get accesswatchTitle => 'ACCESSWATCH';
 
   @override
-  String get tabHome => 'Início';
-
-  @override
   String get tabMap => 'Mapa';
 
   @override
   String get tabMissions => 'Missões';
-
-  @override
-  String get tabInfo => 'Info';
 
   @override
   String get loadingData => 'A carregar os dados da cheia…';
@@ -342,9 +336,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get language => 'Idioma';
-
-  @override
-  String get languageDevice => 'Dispositivo';
 
   @override
   String get languageEnglish => 'English';
@@ -1191,4 +1182,13 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get alreadyHereShort => 'Está aqui';
+
+  @override
+  String get tabHelpFirst => 'Ajudar primeiro';
+
+  @override
+  String get tabFindCare => 'Encontrar cuidados';
+
+  @override
+  String get aboutThisData => 'Sobre estes dados';
 }

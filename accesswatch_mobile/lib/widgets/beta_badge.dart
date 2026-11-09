@@ -17,23 +17,22 @@ class BetaBadge extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: AppColors.warning.withValues(alpha: 0.15),
+        color: AppColors.boatTint,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColors.warning.withValues(alpha: 0.4)),
+        border: Border.all(color: AppColors.boat),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.science_outlined, size: 12, color: AppColors.warning),
+          const Icon(Icons.science_outlined, size: 14, color: AppColors.boatText),
           const SizedBox(width: 4),
           Flexible(
             child: Text(
               AppLocalizations.of(context)!.betaBadge,
               style: const TextStyle(
-                color: AppColors.warning,
-                fontSize: 10,
+                color: AppColors.boatText,
+                fontSize: 12,
                 fontWeight: FontWeight.w900,
-                fontFamily: 'monospace',
                 letterSpacing: 0.5,
               ),
             ),

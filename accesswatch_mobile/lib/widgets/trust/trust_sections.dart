@@ -37,7 +37,7 @@ class TrustCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(title,
-                style: TextStyle(color: accent ?? AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'monospace')),
+                style: TextStyle(color: accent ?? AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             ...children,
           ],
@@ -102,7 +102,7 @@ class ValidationSection extends ConsumerWidget {
           child: Row(
             children: [
               Expanded(child: Text(label, style: trustMuted)),
-              Text(value, style: const TextStyle(color: Colors.white, fontSize: 12.5, fontFamily: 'monospace')),
+              Text(value, style: const TextStyle(color: AppColors.ink, fontSize: 12.5)),
             ],
           ),
         );

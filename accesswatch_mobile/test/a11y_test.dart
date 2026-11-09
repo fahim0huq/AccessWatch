@@ -34,23 +34,25 @@ void main() {
     testWidgets('every tab meets the guidelines ($lang)', (tester) async {
       final semantics = tester.ensureSemantics();
       await pumpApp(tester, bundle, locale: locale, height: 844);
-      for (final tab in [l.tabHome, l.tabMap, l.tabMissions, l.tabCare, l.tabInfo]) {
+      for (final tab in [l.tabMap, l.tabHelpFirst, l.tabFindCare]) {
         await tester.tap(find.text(tab).last);
         await tester.pumpAndSettle();
         await checkGuidelines(tester, '$lang $tab');
       }
+      await openAbout(tester);
+      await checkGuidelines(tester, '$lang about');
       semantics.dispose();
     });
 
     testWidgets('mission page and Care with a position meet the guidelines ($lang)', (tester) async {
       final semantics = tester.ensureSemantics();
       await pumpApp(tester, bundle, locale: locale, height: 844);
-      await tester.tap(find.text(l.tabMissions).last);
+      await tester.tap(find.text(l.tabHelpFirst).last);
       await tester.pumpAndSettle();
-      GoRouter.of(tester.element(find.byType(MissionsScreen))).go('/missions/P01');
+      GoRouter.of(tester.element(find.byType(MissionsScreen))).go('/help/P01');
       await tester.pumpAndSettle();
       await checkGuidelines(tester, '$lang mission page');
-      await tester.tap(find.text(l.tabCare).last);
+      await tester.tap(find.text(l.tabFindCare).last);
       await tester.pumpAndSettle();
       final container = ProviderScope.containerOf(tester.element(find.byType(Navigator).first));
       container.read(locationControllerProvider.notifier).setTestPosition(bundle.services.first.point);
@@ -61,11 +63,13 @@ void main() {
 
     testWidgets('no overflow at 200% on any tab ($lang)', (tester) async {
       await pumpApp(tester, bundle, locale: locale, height: 844, textScale: 2.0);
-      for (final tab in [l.tabHome, l.tabMap, l.tabMissions, l.tabCare, l.tabInfo]) {
+      for (final tab in [l.tabMap, l.tabHelpFirst, l.tabFindCare]) {
         await tester.tap(find.text(tab).last);
         await tester.pumpAndSettle();
         expect(tester.takeException(), isNull, reason: '$lang $tab at 200%');
       }
+      await openAbout(tester);
+      expect(tester.takeException(), isNull, reason: '$lang about at 200%');
     });
   }
 }

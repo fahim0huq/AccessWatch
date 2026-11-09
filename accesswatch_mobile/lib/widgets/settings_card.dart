@@ -12,14 +12,13 @@ class SettingsCard extends ConsumerWidget {
 
   static const _english = 'en';
   static const _portuguese = 'pt';
-  static const _device = 'device';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context)!;
     final locale = ref.watch(localeProvider);
     final scale = ref.watch(textScaleProvider);
-    const label = TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold);
+    const label = TextStyle(color: AppColors.ink, fontSize: 14, fontWeight: FontWeight.bold);
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -31,7 +30,7 @@ class SettingsCard extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(l.settingsTitle,
-              style: const TextStyle(color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'monospace')),
+              style: const TextStyle(color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
           Text(l.language, style: label),
           const SizedBox(height: 8),
@@ -40,14 +39,13 @@ class SettingsCard extends ConsumerWidget {
             runSpacing: 4,
             children: [
               for (final (code, name) in [
-                (_device, l.languageDevice),
                 (_english, l.languageEnglish),
                 (_portuguese, l.languagePortuguese),
               ])
                 ChoiceChip(
                   label: Text(name),
-                  selected: (locale?.languageCode ?? _device) == code,
-                  onSelected: (_) => ref.read(localeProvider.notifier).state = code == _device ? null : Locale(code),
+                  selected: locale.languageCode == code,
+                  onSelected: (_) => ref.read(localeProvider.notifier).state = Locale(code),
                 ),
             ],
           ),

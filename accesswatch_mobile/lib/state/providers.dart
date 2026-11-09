@@ -21,8 +21,8 @@ final loadedBundleProvider = Provider<AppBundle>((ref) => ref.watch(bundleProvid
 /// `pocket_id` of the selected pocket, or null.
 final selectedPocketIdProvider = StateProvider<String?>((ref) => null);
 
-/// null follows the device language.
-final localeProvider = StateProvider<Locale?>((ref) => readLocale(ref.watch(sharedPreferencesProvider)));
+/// English by default; Portuguese when chosen in About.
+final localeProvider = StateProvider<Locale>((ref) => readLocale(ref.watch(sharedPreferencesProvider)));
 
 /// App text size on top of the device setting, 1.0 to [maxTextScale].
 const minTextScale = 1.0;

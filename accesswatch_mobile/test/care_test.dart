@@ -69,7 +69,7 @@ void main() {
   group('clinic list', () {
     testWidgets('shows all 7 clinics with their status from the bundle', (tester) async {
       await pumpApp(tester, bundle);
-      await openTab(tester, en.tabCare);
+      await openTab(tester, en.tabFindCare);
       expect(find.text(en.clinicsTitle('7')), findsOneWidget);
       expect(find.text(en.clinicReachable), findsNWidgets(7));
     });
@@ -78,7 +78,7 @@ void main() {
   group('my spot on real data', () {
     testWidgets('away from clinics: dry, nearest clinic by road, routes for each mode', (tester) async {
       await pumpApp(tester, bundle);
-      await openTab(tester, en.tabCare);
+      await openTab(tester, en.tabFindCare);
       await standAt(tester, bundle.services.firstWhere((s) => s.name == 'Mercado de soweto').point);
       expect(find.text(en.testPositionBadge), findsOneWidget);
       expect(find.text(en.spotNotInFlood), findsOneWidget);
@@ -90,7 +90,7 @@ void main() {
 
     testWidgets('at the depot, which shares a road point with a clinic: "already at the clinic", no route', (tester) async {
       await pumpApp(tester, bundle);
-      await openTab(tester, en.tabCare);
+      await openTab(tester, en.tabFindCare);
       await standAt(tester, bundle.services.firstWhere((s) => s.type == ServiceType.aidDepot).point);
       expect(find.textContaining("You're already at"), findsWidgets);
       expect(find.textContaining('Nearest clinic by road'), findsNothing);
@@ -101,7 +101,7 @@ void main() {
 
     testWidgets('Show on map draws the road route and its panel', (tester) async {
       await pumpApp(tester, bundle);
-      await openTab(tester, en.tabCare);
+      await openTab(tester, en.tabFindCare);
       // Not the depot: it now sits at a clinic, which gives a route of length 0.
       await standAt(tester, bundle.services.firstWhere((s) => s.name == 'Mercado de soweto').point);
       await tester.tap(find.text(en.showRouteOnMap).first);
@@ -121,7 +121,7 @@ void main() {
 
     testWidgets('outside the mapped area: says so and does not route', (tester) async {
       await pumpApp(tester, bundle);
-      await openTab(tester, en.tabCare);
+      await openTab(tester, en.tabFindCare);
       await standAt(tester, const LatLng(-25.9, 32.6));
       expect(find.text(en.spotOutside), findsOneWidget);
       expect(find.text(en.routesToClinic), findsNothing);
@@ -133,7 +133,7 @@ void main() {
     testWidgets('a clinic only deep water reaches says "needs a boat" and draws nothing', (tester) async {
       final fixture = needsBoatFixture(bundle);
       await pumpApp(tester, fixture.bundle);
-      await openTab(tester, en.tabCare);
+      await openTab(tester, en.tabFindCare);
       expect(find.text(en.clinicInsidePocket('P01')), findsOneWidget);
       await standAt(tester, fixture.start);
       expect(find.text(en.needsBoatAny), findsWidgets);
@@ -165,7 +165,7 @@ void main() {
     testWidgets('explains first, then runs only while Map or Care is on screen', (tester) async {
       final gps = FakeGps();
       await pumpApp(tester, bundle, overrides: [locationSourceProvider.overrideWithValue(gps)]);
-      await openTab(tester, en.tabCare);
+      await openTab(tester, en.tabFindCare);
       await tester.tap(find.text(en.useMyLocation));
       await tester.pumpAndSettle();
       expect(find.text(en.locationWhyTitle), findsOneWidget);
@@ -174,13 +174,14 @@ void main() {
       await tester.pumpAndSettle();
       expect(gps.listening, isTrue);
 
-      await openTab(tester, en.tabHome);
+      await openTab(tester, en.tabHelpFirst);
       expect(gps.listening, isFalse);
       await openTab(tester, en.tabMap);
       expect(gps.listening, isTrue);
-      await openTab(tester, en.tabInfo);
+      await openAbout(tester);
       expect(gps.listening, isFalse);
-      await openTab(tester, en.tabCare);
+      await goBack(tester);
+      await openTab(tester, en.tabFindCare);
       expect(gps.listening, isTrue);
 
       gps.send(bundle.services.first.point);
@@ -192,7 +193,7 @@ void main() {
     testWidgets('"Not now" leaves GPS off', (tester) async {
       final gps = FakeGps();
       await pumpApp(tester, bundle, overrides: [locationSourceProvider.overrideWithValue(gps)]);
-      await openTab(tester, en.tabCare);
+      await openTab(tester, en.tabFindCare);
       await tester.tap(find.text(en.useMyLocation));
       await tester.pumpAndSettle();
       await tester.tap(find.text(en.locationNotNow));
@@ -208,7 +209,7 @@ void main() {
       final state = containerOf(tester).read(locationControllerProvider);
       expect(state.isTestPosition, isTrue);
       expect(find.byType(MyLocationLayer), findsOneWidget);
-      await openTab(tester, en.tabCare);
+      await openTab(tester, en.tabFindCare);
       expect(find.text(en.testPositionBadge), findsOneWidget);
       expect(find.byType(CareScreen), findsOneWidget);
     });

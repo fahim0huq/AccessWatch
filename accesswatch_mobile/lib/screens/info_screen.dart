@@ -25,7 +25,7 @@ class InfoScreen extends ConsumerWidget {
     final bundle = ref.watch(loadedBundleProvider);
     final dates = bundle.manifest.dates;
     return Scaffold(
-      backgroundColor: AppColors.background,
+      appBar: AppBar(title: Text(l.aboutThisData)),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(20),
@@ -34,14 +34,14 @@ class InfoScreen extends ConsumerWidget {
               children: [
                 Expanded(
                   child: Text(l.trustTitle,
-                      style: const TextStyle(color: AppColors.accent, fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'monospace')),
+                      style: const TextStyle(color: AppColors.accent, fontSize: 12, fontWeight: FontWeight.bold)),
                 ),
                 const BetaBadge(),
               ],
             ),
             const SizedBox(height: 12),
             Text(l.eventName(bundle.manifest.event),
-                style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w900)),
+                style: const TextStyle(color: AppColors.ink, fontSize: 22, fontWeight: FontWeight.w900)),
             const SizedBox(height: 4),
             Text(l.appSubtitle, style: const TextStyle(color: AppColors.textMuted, fontSize: 13)),
             const SizedBox(height: 16),
@@ -59,7 +59,7 @@ class InfoScreen extends ConsumerWidget {
               ],
             ),
             Text(l.warningsTitle,
-                style: const TextStyle(color: AppColors.warning, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'monospace')),
+                style: const TextStyle(color: AppColors.warning, fontSize: 11, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             const QualityBanners(startExpanded: true),
             const SizedBox(height: 10),

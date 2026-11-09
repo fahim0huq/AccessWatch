@@ -28,8 +28,7 @@ void main() {
 
   Future<void> openInfo(WidgetTester tester, {Locale locale = const Locale('en')}) async {
     await pumpApp(tester, bundle, locale: locale);
-    await tester.tap(find.text((locale.languageCode == 'en' ? en : pt).tabInfo).last);
-    await tester.pumpAndSettle();
+    await openAbout(tester);
   }
 
   group('known issues', () {
@@ -113,26 +112,28 @@ void main() {
     testWidgets('shows as a banner when the flag is true', (tester) async {
       final flagged = withFlags(bundle, {...bundle.manifest.qualityFlags, QualityFlag.depotAssumed});
       await pumpApp(tester, flagged);
+      await openAbout(tester);
       expect(find.text(en.warnShortDepotAssumed), findsOneWidget);
     });
 
-    testWidgets('is true in the current data and shows on Home, Map and Missions', (tester) async {
+    testWidgets('is true in the current data and shows on About, Map and Help first', (tester) async {
       expect(bundle.manifest.qualityFlags, contains(QualityFlag.depotAssumed));
       await pumpApp(tester, bundle);
-      expect(find.text(en.warnShortDepotAssumed), findsOneWidget, reason: 'Home');
-      await tester.tap(find.text(en.tabMap).last);
-      await tester.pumpAndSettle();
+      await openAbout(tester);
+      expect(find.text(en.warnShortDepotAssumed), findsOneWidget, reason: 'About');
+      await goBack(tester);
       // The Map starts with its banners folded into the warnings chip.
       await tester.tap(find.text(en.warningsToggle('${bundle.manifest.qualityFlags.length}')));
       await tester.pumpAndSettle();
       expect(find.text(en.warnShortDepotAssumed), findsOneWidget, reason: 'Map');
-      await tester.tap(find.text(en.tabMissions).last);
+      await tester.tap(find.text(en.tabHelpFirst).last);
       await tester.pumpAndSettle();
       expect(find.text(en.warnShortDepotAssumed), findsOneWidget, reason: 'Missions');
     });
 
     testWidgets('does not show when the flag is false', (tester) async {
       await pumpApp(tester, withFlags(bundle, {...bundle.manifest.qualityFlags}..remove(QualityFlag.depotAssumed)));
+      await openAbout(tester);
       expect(find.text(en.warnShortDepotAssumed), findsNothing);
     });
   });
@@ -154,7 +155,7 @@ void main() {
       await tester.tap(accept);
       await tester.pumpAndSettle();
       expect(find.byType(WelcomeScreen), findsNothing);
-      expect(find.text(en.accesswatchTitle), findsOneWidget);
+      expect(find.text(en.tabHelpFirst), findsOneWidget);
     });
 
     testWidgets('a deep link cannot skip the safety message', (tester) async {
@@ -186,8 +187,7 @@ void main() {
     for (final locale in const [Locale('en'), Locale('pt')]) {
       final l = locale.languageCode == 'en' ? en : pt;
       await pumpApp(tester, bundle, locale: locale, textScale: 2.0);
-      await tester.tap(find.text(l.tabInfo).last);
-      await tester.pumpAndSettle();
+      await openAbout(tester);
       expect(tester.takeException(), isNull);
       await pumpApp(tester, bundle, locale: locale, textScale: 2.0, saved: {SettingsKeys.safetyAccepted: false});
       for (var i = 0; i < 3; i++) {

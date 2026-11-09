@@ -14,7 +14,7 @@ import '../theme/app_theme.dart';
 import '../utils/labels.dart';
 import '../utils/mission_text.dart';
 
-const _section = TextStyle(color: AppColors.textMuted, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'monospace');
+const _section = TextStyle(color: AppColors.textMuted, fontSize: 11, fontWeight: FontWeight.bold);
 
 /// Whether each service can be reached, with an icon as well as a word.
 class ServiceAccessSection extends StatelessWidget {
@@ -96,7 +96,7 @@ class PriorityTermsSection extends StatelessWidget {
           child: Row(
             children: [
               Expanded(child: Text(label, style: const TextStyle(color: AppColors.textMuted, fontSize: 12))),
-              Text(fmt.term(value), style: const TextStyle(color: Colors.white, fontSize: 12, fontFamily: 'monospace')),
+              Text(fmt.term(value), style: const TextStyle(color: AppColors.ink, fontSize: 12)),
             ],
           ),
         );
@@ -164,7 +164,7 @@ void showAlertDialog(BuildContext context, WidgetRef ref, RankedMission ranked) 
     context: context,
     builder: (dialogContext) => AlertDialog(
       backgroundColor: AppColors.surface,
-      title: Text(l.alertTitle, style: const TextStyle(color: Colors.white, fontSize: 16)),
+      title: Text(l.alertTitle, style: const TextStyle(color: AppColors.ink, fontSize: 16)),
       content: SingleChildScrollView(
         child: SelectableText(text, style: const TextStyle(color: AppColors.text, fontSize: 13, height: 1.4)),
       ),

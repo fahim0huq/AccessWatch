@@ -33,7 +33,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
 
   void _finish() {
     ref.read(safetyAcceptedProvider.notifier).state = true;
-    context.canPop() ? context.pop() : context.go(AppRoutes.home);
+    context.canPop() ? context.pop() : context.go(AppRoutes.map);
   }
 
   @override
@@ -130,7 +130,7 @@ class _Page extends StatelessWidget {
           children: [
             Icon(icon, size: 48, color: AppColors.accent),
             const SizedBox(height: 20),
-            Text(title, style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w900, height: 1.2)),
+            Text(title, style: const TextStyle(color: AppColors.ink, fontSize: 24, fontWeight: FontWeight.w900, height: 1.2)),
             const SizedBox(height: 14),
             Text(body, style: const TextStyle(color: AppColors.text, fontSize: 15, height: 1.45)),
             const SizedBox(height: 20),

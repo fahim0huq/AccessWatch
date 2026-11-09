@@ -5,7 +5,7 @@ import '../../data/routing.dart';
 import '../../l10n/app_localizations.dart';
 import '../../theme/app_theme.dart';
 
-const careSectionStyle = TextStyle(color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'monospace');
+const careSectionStyle = TextStyle(color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold);
 const careBodyStyle = TextStyle(color: AppColors.text, fontSize: 12.5, height: 1.35);
 const careMutedStyle = TextStyle(color: AppColors.textMuted, fontSize: 11.5, height: 1.35);
 

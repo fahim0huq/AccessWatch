@@ -45,7 +45,7 @@ class _AccessWatchAppState extends ConsumerState<AccessWatchApp> {
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context)!.appName,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme,
+      theme: AppTheme.light,
       routerConfig: _router,
       locale: ref.watch(localeProvider),
       localizationsDelegates: AppLocalizations.localizationsDelegates,

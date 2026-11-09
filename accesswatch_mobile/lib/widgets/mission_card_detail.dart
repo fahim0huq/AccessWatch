@@ -13,7 +13,7 @@ import 'mission_detail_sections.dart';
 import 'mission_list_card.dart';
 
 const _sectionStyle =
-    TextStyle(color: AppColors.textMuted, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'monospace');
+    TextStyle(color: AppColors.textMuted, fontSize: 11, fontWeight: FontWeight.bold);
 
 /// A mission's full detail: the Missions page and the Map's bottom sheet both
 /// show this. Everything comes from the card's fields.
@@ -63,7 +63,7 @@ class MissionCardDetail extends ConsumerWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(l.missionTitle(m).toUpperCase(),
-                    style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w900, letterSpacing: 0.5)),
+                    style: const TextStyle(color: AppColors.ink, fontSize: 22, fontWeight: FontWeight.w900, letterSpacing: 0.5)),
                 const SizedBox(height: 16),
                 _Panel(
                   child: Column(
@@ -73,7 +73,7 @@ class MissionCardDetail extends ConsumerWidget {
                       const SizedBox(height: 4),
                       Text(fmt.count(m.population),
                           style: const TextStyle(
-                              color: Colors.white, fontSize: 26, fontWeight: FontWeight.w900, fontFamily: 'monospace')),
+                              color: AppColors.ink, fontSize: 26, fontWeight: FontWeight.w900)),
                       const SizedBox(height: 4),
                       Text(l.populationIsModelled, style: const TextStyle(color: AppColors.textMuted, fontSize: 11)),
                     ],
@@ -88,7 +88,7 @@ class MissionCardDetail extends ConsumerWidget {
                 if (m.boatLegKm > 0) ...[
                   const SizedBox(height: 6),
                   Text(l.boatLegKm(fmt.km(m.boatLegKm)),
-                      style: const TextStyle(color: AppColors.accent, fontSize: 12, fontFamily: 'monospace')),
+                      style: const TextStyle(color: AppColors.accent, fontSize: 12)),
                 ],
                 const SizedBox(height: 20),
                 MissionCardDepthSection(depth: m.maxDepthClass),
@@ -107,7 +107,7 @@ class MissionCardDetail extends ConsumerWidget {
                             color: m.confidence == Confidence.high ? AppColors.accent : AppColors.warning,
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'monospace')),
+                            )),
                   ],
                 ),
                 const SizedBox(height: 6),

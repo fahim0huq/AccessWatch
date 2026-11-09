@@ -17,7 +17,7 @@ class MissionDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final matches = ref.watch(loadedBundleProvider).missions.where((m) => m.pocketId == pocketId);
-    void back() => context.canPop() ? context.pop() : context.go(AppRoutes.missions);
+    void back() => context.canPop() ? context.pop() : context.go(AppRoutes.help);
     return Scaffold(
       backgroundColor: AppColors.surface,
       body: SafeArea(

@@ -32,7 +32,7 @@ class MapBottomPanel extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(l.rankedPocketsTitle,
-              style: const TextStyle(color: AppColors.textMuted, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'monospace')),
+              style: const TextStyle(color: AppColors.textMuted, fontSize: 10, fontWeight: FontWeight.bold)),
           const SizedBox(height: 6),
           SizedBox(
             height: 58 * scale,
@@ -67,7 +67,7 @@ class MapBottomPanel extends ConsumerWidget {
   }
 }
 
-const _strong = TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'monospace');
+const _strong = TextStyle(color: AppColors.ink, fontSize: 11, fontWeight: FontWeight.bold);
 
 class _MissionChip extends StatelessWidget {
   final RankedMission ranked;
@@ -85,7 +85,7 @@ class _MissionChip extends StatelessWidget {
         Text('#${ranked.rank.toString().padLeft(2, '0')} ${mission.pocketId}',
             maxLines: 1, overflow: TextOverflow.ellipsis, style: _strong),
         Text(l.missionTitle(mission),
-            maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontSize: 11)),
+            maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: AppColors.ink, fontSize: 11)),
         Text(l.accessMode(mission.accessMode),
             maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: AppColors.warning, fontSize: 9, fontWeight: FontWeight.bold)),
       ],
