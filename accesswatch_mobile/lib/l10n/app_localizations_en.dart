@@ -1409,11 +1409,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alertModeFoot => 'On foot only';
 
   @override
-  String alertDepthClass(String depth) {
-    return 'Deepest water: $depth (estimate).';
-  }
-
-  @override
   String get alertPreliminaryDepotAssumed =>
       'Preliminary data; the aid depot is assumed, not confirmed.';
 
@@ -1423,4 +1418,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get alertPreliminary => 'Preliminary data.';
+
+  @override
+  String get waterDepthTitle => 'Water on the way in';
+
+  @override
+  String depthAverageLine(String mean, String max) {
+    return 'Water about $mean m deep on average (estimate), up to about $max m';
+  }
+
+  @override
+  String get waterDepthUnknown => 'Water depth unknown';
+
+  @override
+  String get depthSourceNote =>
+      'Estimated from a 30 m terrain model. A guide, not a measurement.';
+
+  @override
+  String deepestClassChip(String depth) {
+    return 'Deepest: $depth';
+  }
+
+  @override
+  String alertDepthMetres(String mean, String max) {
+    return 'Water about $mean m deep on average, up to $max m (estimate).';
+  }
+
+  @override
+  String get alertDepthUnknownLine => 'Water depth unknown.';
 }

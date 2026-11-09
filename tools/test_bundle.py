@@ -10,7 +10,8 @@ import numpy as np
 import pandas as pd
 from shapely.geometry import Point, box
 
-from bundle import depth_ranges, ems, graph, quality, services
+from bundle import depth_ranges, ems, graph, quality, services, water_depth
+from bundle.layers import Raster
 from bundle.common import MAX_BUNDLE_BYTES, OUT, GateError, line_to_geojson, polygon_to_geojson
 
 
@@ -20,6 +21,55 @@ def road(a, b, depth=0, flags=None):
         "length_m": 50.0, "depth_class": depth, "risk_cost": 50.0, "travel_time_min": 0.1,
         "access_normal_vehicle": allowed, "access_high_clearance": allowed, "access_foot": allowed,
         "is_bridge": False, "bridge_uncertain": False}}
+
+
+class WaterDepth(unittest.TestCase):
+    """A 10 x 10 grid of 20 m pixels in UTM 36S; a west-east line across its middle row."""
+
+    def setUp(self):
+        from rasterio.transform import from_origin
+        from pyproj import Transformer
+        data = np.full((10, 10), np.nan, dtype="float32")
+        data[5, 2:6] = [0.2, 0.6, 1.0, 1.4]  # flooded stretch, mean 0.8, max 1.4
+        self.raster = Raster(data, from_origin(500000, 7300000, 20, 20), "EPSG:32736", None, 400.0)
+        back = Transformer.from_crs("EPSG:32736", "EPSG:4326", always_xy=True)
+        y = 7300000 - 5 * 20 - 10
+        self.line = [back.transform(500000 + 5, y), back.transform(500000 + 195, y)]
+        self.dry_line = [back.transform(500000 + 5, 7300000 - 10), back.transform(500000 + 195, 7300000 - 10)]
+
+    def test_mean_and_max_over_flooded_samples_rounded(self):
+        mean_m, max_m = water_depth.summarise(water_depth.sample_line(self.line, self.raster))
+        self.assertAlmostEqual(mean_m, 0.8, places=6)
+        self.assertEqual(max_m, 1.4)
+
+    def test_no_flooded_pixel_gives_none(self):
+        self.assertEqual(water_depth.summarise(water_depth.sample_line(self.dry_line, self.raster)), (None, None))
+
+    def test_rounds_to_one_decimal(self):
+        self.assertEqual(water_depth.summarise([0.26, 0.31]), (0.3, 0.3))
+
+    def test_every_card_gets_fields_and_a_missing_route_fails(self):
+        cards = [{"pocket_id": "P01"}]
+        routes = {"features": [{"properties": {"pocket_id": "P01", "route_type": "safest"}, "geometry": {"coordinates": self.line}}]}
+        info = water_depth.add_water_depth(cards, routes, self.raster)
+        self.assertEqual((cards[0]["mean_depth_m"], cards[0]["max_depth_m"]), (0.8, 1.4))
+        self.assertIn("safest route", info["definition"])
+        with self.assertRaises(GateError):
+            water_depth.add_water_depth([{"pocket_id": "P02"}], routes, self.raster)
+
+    def test_bundle_cards_carry_depth_consistent_with_their_class(self):
+        cards = json.loads((OUT / "missions.json").read_text(encoding="utf-8"))["cards"]
+        manifest = json.loads((OUT / "manifest.json").read_text(encoding="utf-8"))
+        self.assertIn("water_depth", manifest)
+        deep_min = manifest["depth_classes"]["deep"]["min_m"]
+        for card in cards:
+            self.assertIn("mean_depth_m", card)
+            self.assertIn("max_depth_m", card)
+            if card["max_depth_m"] is not None:
+                self.assertLessEqual(card["mean_depth_m"], card["max_depth_m"])
+                self.assertEqual(round(card["max_depth_m"], 1), card["max_depth_m"])
+            if card["max_depth_class"] == "deep":
+                self.assertGreaterEqual(card["max_depth_m"], deep_min - 0.05, card["pocket_id"])
 
 
 class ClinicStatus(unittest.TestCase):

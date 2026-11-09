@@ -178,3 +178,47 @@ class SafestRouteCard extends ConsumerWidget {
     );
   }
 }
+
+Tone depthTone(DepthClass depth) => switch (depth) {
+      DepthClass.deep => Tone.danger,
+      DepthClass.medium => Tone.notice,
+      DepthClass.shallow || DepthClass.dry => Tone.reach,
+      DepthClass.unknown => Tone.neutral,
+    };
+
+/// How deep the water is on the way in: average and highest estimate, the
+/// deepest class, and where the numbers come from.
+class WaterDepthCard extends StatelessWidget {
+  final Mission mission;
+
+  const WaterDepthCard({super.key, required this.mission});
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+    final fmt = Fmt.of(context);
+    final text = Theme.of(context).textTheme;
+    final m = mission;
+    final known = m.meanDepthM != null && m.maxDepthM != null;
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CardTitle(l.waterDepthTitle),
+          Text(
+            known ? l.depthAverageLine(fmt.oneDecimal(m.meanDepthM!), fmt.oneDecimal(m.maxDepthM!)) : l.waterDepthUnknown,
+            style: text.titleMedium,
+          ),
+          const SizedBox(height: 10),
+          StatusChip(
+            icon: Icons.water_rounded,
+            label: l.deepestClassChip(l.depthClass(m.maxDepthClass)),
+            tone: depthTone(m.maxDepthClass),
+          ),
+          const SizedBox(height: 10),
+          Text(l.depthSourceNote, style: text.bodySmall),
+        ],
+      ),
+    );
+  }
+}

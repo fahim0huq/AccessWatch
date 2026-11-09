@@ -15,6 +15,12 @@ import 'package:accesswatch_mobile/utils/mission_text.dart';
 import 'package:accesswatch_mobile/widgets/help/area_card.dart';
 import 'package:accesswatch_mobile/widgets/map/feature_layers.dart';
 import 'package:accesswatch_mobile/widgets/quality_banners.dart';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:accesswatch_mobile/data/models/mission.dart';
+import 'package:accesswatch_mobile/widgets/area/area_sections.dart';
+import 'package:accesswatch_mobile/utils/area_groups.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,13 +28,15 @@ import 'package:intl/date_symbol_data_local.dart';
 
 import 'support/app_harness.dart';
 
-/// The field alert for the top area, exactly as the app built it before the
-/// redesign. The redesign changed where the button is, not the words.
+/// The field alert for the top area: exactly as the app built it before the
+/// redesign, plus the water depth line (round 2).
 const _alertEn = 'ACCESSWATCH #1 P01, West of Guija: about 12,853 people (estimate). '
-    'Needs: BOAT (0.56 km by water). Route 5.62 km, risk HIGH, confidence LOW. Data from Jan 17, 2026. '
+    'Needs: BOAT (0.56 km by water). Route 5.62 km, risk HIGH, confidence LOW. '
+    'Water about 0.7 m deep on average, up to 1.6 m (estimate). Data from Jan 17, 2026. '
     'Route starts at an assumed, unconfirmed depot location, so it is illustrative. VERIFY ON THE GROUND.';
 const _alertPt = 'ACCESSWATCH #1 P01, A oeste de Guija: cerca de 12.853 pessoas (estimativa). '
-    'Precisa de: BARCO (0,56 km por água). Rota de 5,62 km, risco ALTO, confiança BAIXA. Dados de 17 de jan. de 2026. '
+    'Precisa de: BARCO (0,56 km por água). Rota de 5,62 km, risco ALTO, confiança BAIXA. '
+    'Água com cerca de 0,7 m de profundidade em média, até 1,6 m (estimativa). Dados de 17 de jan. de 2026. '
     'A rota parte de uma localização de depósito presumida e não confirmada, por isso é ilustrativa. VERIFIQUE NO TERRENO.';
 
 void main() {
@@ -65,7 +73,7 @@ void main() {
   });
 
   group('share alert', () {
-    test('the text is the same as before the redesign', () {
+    test('the text is as before the redesign, plus the depth line', () {
       final top = rankMissions(bundle.missions, const PriorityWeights()).first;
       expect(en.alertText(top, const PriorityWeights(), bundle.manifest, const Fmt('en')), _alertEn);
       expect(pt.alertText(top, const PriorityWeights(), bundle.manifest, const Fmt('pt')), _alertPt);
@@ -156,6 +164,41 @@ void main() {
       expect(timeIsTrustworthy(route(4, 6)), isTrue);
       expect(timeIsTrustworthy(route(130, 3.3)), isFalse);
       expect(timeIsTrustworthy(route(3, 0)), isFalse);
+    });
+  });
+
+  group('water depth', () {
+    testWidgets('the area page gives average and highest depth, the class and the source', (tester) async {
+      await pumpApp(tester, bundle);
+      await tab(tester, en.tabHelpFirst);
+      await tester.tap(find.byType(AreaCard).first);
+      await tester.pumpAndSettle();
+      final m = bundle.missions.first;
+      expect((m.meanDepthM, m.maxDepthM), (0.7, 1.6));
+      expect(find.text(en.depthAverageLine('0.7', '1.6')), findsOneWidget);
+      expect(find.text(en.deepestClassChip(en.depthDeep)), findsOneWidget);
+      expect(find.text(en.depthSourceNote), findsOneWidget);
+    });
+
+    testWidgets('a missing value says "depth unknown", on the page and in the alert', (tester) async {
+      final doc = jsonDecode(File('assets/bundle/missions.json').readAsStringSync()) as Map<String, dynamic>;
+      final card = Map<String, dynamic>.from((doc['cards'] as List).first as Map)..['mean_depth_m'] = null;
+      final m = Mission.fromJson(card);
+      expect(en.alertDepthLine(m, const Fmt('en')), en.alertDepthUnknownLine);
+      await tester.pumpWidget(MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(body: WaterDepthCard(mission: m)),
+      ));
+      await tester.pumpAndSettle();
+      expect(find.text(en.waterDepthUnknown), findsOneWidget);
+    });
+
+    test('every card has depth, mean never above max', () {
+      for (final m in bundle.missions) {
+        expect(m.meanDepthM, isNotNull, reason: m.pocketId);
+        expect(m.meanDepthM!, lessThanOrEqualTo(m.maxDepthM!), reason: m.pocketId);
+      }
     });
   });
 }

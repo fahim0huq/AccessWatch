@@ -76,7 +76,7 @@ void main() {
           expect(lines[i + 1], startsWith('#${ranked[i].rank} ${m.pocketId} '), reason: 'rank order');
           expect(lines[i + 1], contains(fmt.count(m.population)));
           expect(lines[i + 1], contains(l.alertModeWords(m, fmt)));
-          expect(lines[i + 1], contains(l.alertDepthLine(m)));
+          expect(lines[i + 1], contains(l.alertDepthLine(m, fmt)));
         }
         expect(lines[lines.length - 2], l.alertPreliminaryDepotAssumed);
         if (group == AreaGroup.vehicle) {

@@ -32,8 +32,10 @@ extension GroupAlertText on AppLocalizations {
         AccessMode.onFoot => alertModeFoot,
       };
 
-  /// How deep the water is, in one sentence.
-  String alertDepthLine(Mission m) => alertDepthClass(depthClass(m.maxDepthClass).toLowerCase());
+  /// How deep the water is on the way in, in one sentence.
+  String alertDepthLine(Mission m, Fmt fmt) => m.meanDepthM == null || m.maxDepthM == null
+      ? alertDepthUnknownLine
+      : alertDepthMetres(fmt.oneDecimal(m.meanDepthM!), fmt.oneDecimal(m.maxDepthM!));
 
   /// "Preliminary data", plus what the flags say about the depot.
   String alertCaveat(Manifest manifest) {
@@ -56,7 +58,7 @@ extension GroupAlertText on AppLocalizations {
       alertGroupHeadline(name, areas.length, fmt.count(people), fmt.date(manifest.dates.nisarAfter)),
       for (final r in areas)
         alertGroupArea(fmt.count(r.rank), r.mission.pocketId, areaName(r, ranked), fmt.count(r.mission.population),
-            alertModeWords(r.mission, fmt), alertDepthLine(r.mission)),
+            alertModeWords(r.mission, fmt), alertDepthLine(r.mission, fmt)),
       alertCaveat(manifest),
       alertVerify,
     ].join('\n');

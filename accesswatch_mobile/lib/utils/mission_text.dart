@@ -5,6 +5,7 @@ import '../data/models/enums.dart';
 import '../data/models/manifest.dart';
 import '../data/verify_notes.dart';
 import '../l10n/app_localizations.dart';
+import 'area_groups.dart';
 import 'labels.dart';
 
 extension MissionText on AppLocalizations {
@@ -34,6 +35,7 @@ extension MissionText on AppLocalizations {
       alertHeadline(fmt.count(ranked.rank), m.pocketId, missionTitle(m), fmt.count(m.population)),
       alertNeeds(m.boatLegKm > 0 ? alertBoatLeg(mode, fmt.km(m.boatLegKm)) : mode),
       alertRoute(fmt.km(m.safest.distanceKm), riskLevel(m.riskLevel), confidence(m.confidence)),
+      alertDepthLine(m, fmt),
       alertDataDate(fmt.date(manifest.dates.nisarAfter)),
       if (!weights.isPublished) alertCustomWeights,
       if (m.depotAutoSelected || manifest.qualityFlags.contains(QualityFlag.depotAutoSelected))

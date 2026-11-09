@@ -1414,11 +1414,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get alertModeFoot => 'Só a pé';
 
   @override
-  String alertDepthClass(String depth) {
-    return 'Água mais funda: $depth (estimativa).';
-  }
-
-  @override
   String get alertPreliminaryDepotAssumed =>
       'Dados preliminares; o depósito de ajuda é presumido, não confirmado.';
 
@@ -1428,4 +1423,32 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get alertPreliminary => 'Dados preliminares.';
+
+  @override
+  String get waterDepthTitle => 'Água no caminho';
+
+  @override
+  String depthAverageLine(String mean, String max) {
+    return 'Água com cerca de $mean m de profundidade em média (estimativa), até cerca de $max m';
+  }
+
+  @override
+  String get waterDepthUnknown => 'Profundidade da água desconhecida';
+
+  @override
+  String get depthSourceNote =>
+      'Estimado a partir de um modelo de terreno de 30 m. Um guia, não uma medição.';
+
+  @override
+  String deepestClassChip(String depth) {
+    return 'Mais funda: $depth';
+  }
+
+  @override
+  String alertDepthMetres(String mean, String max) {
+    return 'Água com cerca de $mean m de profundidade em média, até $max m (estimativa).';
+  }
+
+  @override
+  String get alertDepthUnknownLine => 'Profundidade da água desconhecida.';
 }

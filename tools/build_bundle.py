@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 
 from bundle import ems as ems_mod
 from bundle import graph as graph_mod
-from bundle import layers, quality, services
+from bundle import layers, quality, services, water_depth
 from bundle.common import MAX_BUNDLE_BYTES, OUT, SRC, GateError, gate, read_json, write_json
 from bundle.depth_ranges import build_depth_classes
 
@@ -54,6 +54,7 @@ def build(out):
     routes = layers.build_routes()
     pocket_ids = [pid for pid, _ in pocket_geoms]
     missions = layers.build_missions(pocket_ids)
+    depth_info = water_depth.add_water_depth(missions["cards"], routes, layers.read_raster("depth.tif"))
 
     ems = ems_mod.load_ems(raster_box)
     compare = ems_mod.build_compare(out / "compare.png", mask, ems, report, bounds)
@@ -100,6 +101,7 @@ def build(out):
                   "ems_hours_after_nisar": gap_hours, "notebook_generated": missions["generated"]},
         "quality_flags": quality_doc["flags"],
         "depth_classes": depth_classes,
+        "water_depth": depth_info,
         "compare": compare,
         "graph": {"nodes": len(graph["lon"]), "edges": len(graph["edges"]),
                   "self_loops_dropped": graph["self_loops_dropped"], "connectivity": links, **replay},

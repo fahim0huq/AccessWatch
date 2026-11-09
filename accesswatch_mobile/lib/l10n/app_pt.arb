@@ -356,8 +356,14 @@
   "alertModeVehicle": "Só veículo de chassis alto, não um carro comum",
   "alertModeCar": "Um carro consegue chegar",
   "alertModeFoot": "Só a pé",
-  "alertDepthClass": "Água mais funda: {depth} (estimativa).",
   "alertPreliminaryDepotAssumed": "Dados preliminares; o depósito de ajuda é presumido, não confirmado.",
   "alertPreliminaryDepotAuto": "Dados preliminares; o depósito de ajuda foi escolhido automaticamente, não confirmado.",
-  "alertPreliminary": "Dados preliminares."
+  "alertPreliminary": "Dados preliminares.",
+  "waterDepthTitle": "Água no caminho",
+  "depthAverageLine": "Água com cerca de {mean} m de profundidade em média (estimativa), até cerca de {max} m",
+  "waterDepthUnknown": "Profundidade da água desconhecida",
+  "depthSourceNote": "Estimado a partir de um modelo de terreno de 30 m. Um guia, não uma medição.",
+  "deepestClassChip": "Mais funda: {depth}",
+  "alertDepthMetres": "Água com cerca de {mean} m de profundidade em média, até {max} m (estimativa).",
+  "alertDepthUnknownLine": "Profundidade da água desconhecida."
 }

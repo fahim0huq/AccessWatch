@@ -76,6 +76,9 @@ class Mission {
   final double stability;
   final AccessMode worstCaseMode;
 
+  /// Estimated water depth along the safest route (see manifest.water_depth); null when unknown.
+  final double? meanDepthM, maxDepthM;
+
   const Mission({
     required this.rank,
     required this.pocketId,
@@ -104,6 +107,8 @@ class Mission {
     required this.priorityTerms,
     required this.stability,
     required this.worstCaseMode,
+    this.meanDepthM,
+    this.maxDepthM,
   });
 
   factory Mission.fromJson(Map<String, dynamic> j) {
@@ -140,6 +145,8 @@ class Mission {
       priorityTerms: PriorityTerms.fromJson(j['priority_terms'] as Map<String, dynamic>),
       stability: _d(j['stability']),
       worstCaseMode: AccessMode.parse(j['worst_case_mode']),
+      meanDepthM: (j['mean_depth_m'] as num?)?.toDouble(),
+      maxDepthM: (j['max_depth_m'] as num?)?.toDouble(),
     );
   }
 

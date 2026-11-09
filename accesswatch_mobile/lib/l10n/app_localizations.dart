@@ -2250,12 +2250,6 @@ abstract class AppLocalizations {
   /// **'On foot only'**
   String get alertModeFoot;
 
-  /// No description provided for @alertDepthClass.
-  ///
-  /// In en, this message translates to:
-  /// **'Deepest water: {depth} (estimate).'**
-  String alertDepthClass(String depth);
-
   /// No description provided for @alertPreliminaryDepotAssumed.
   ///
   /// In en, this message translates to:
@@ -2273,6 +2267,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Preliminary data.'**
   String get alertPreliminary;
+
+  /// No description provided for @waterDepthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Water on the way in'**
+  String get waterDepthTitle;
+
+  /// No description provided for @depthAverageLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Water about {mean} m deep on average (estimate), up to about {max} m'**
+  String depthAverageLine(String mean, String max);
+
+  /// No description provided for @waterDepthUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Water depth unknown'**
+  String get waterDepthUnknown;
+
+  /// No description provided for @depthSourceNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated from a 30 m terrain model. A guide, not a measurement.'**
+  String get depthSourceNote;
+
+  /// No description provided for @deepestClassChip.
+  ///
+  /// In en, this message translates to:
+  /// **'Deepest: {depth}'**
+  String deepestClassChip(String depth);
+
+  /// No description provided for @alertDepthMetres.
+  ///
+  /// In en, this message translates to:
+  /// **'Water about {mean} m deep on average, up to {max} m (estimate).'**
+  String alertDepthMetres(String mean, String max);
+
+  /// No description provided for @alertDepthUnknownLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Water depth unknown.'**
+  String get alertDepthUnknownLine;
 }
 
 class _AppLocalizationsDelegate

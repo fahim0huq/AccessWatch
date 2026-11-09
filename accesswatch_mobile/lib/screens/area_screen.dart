@@ -60,6 +60,7 @@ class AreaScreen extends ConsumerWidget {
                     style: text.bodyLarge!.copyWith(color: AppColors.inkSecondary)),
                 const SizedBox(height: 16),
                 ModeCard(mission: ranked.mission),
+                WaterDepthCard(mission: ranked.mission),
                 LostServicesCard(mission: ranked.mission),
                 SafestRouteCard(mission: ranked.mission),
                 const SizedBox(height: 4),
