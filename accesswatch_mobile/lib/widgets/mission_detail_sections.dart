@@ -14,7 +14,7 @@ import '../theme/app_theme.dart';
 import '../utils/labels.dart';
 import '../utils/mission_text.dart';
 
-const _section = TextStyle(color: AppColors.textMuted, fontSize: 11, fontWeight: FontWeight.bold);
+const _section = TextStyle(color: AppColors.ink, fontSize: 18, fontWeight: FontWeight.w700);
 
 /// Whether each service can be reached, with an icon as well as a word.
 class ServiceAccessSection extends StatelessWidget {
@@ -52,12 +52,12 @@ class ServiceAccessSection extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(
               child: Text.rich(TextSpan(children: [
-                TextSpan(text: '${l.serviceLink(link)}: ', style: const TextStyle(color: AppColors.text, fontSize: 12.5)),
-                TextSpan(text: l.serviceAccess(access), style: TextStyle(color: color, fontSize: 12.5, fontWeight: FontWeight.bold)),
+                TextSpan(text: '${l.serviceLink(link)}: ', style: const TextStyle(color: AppColors.text, fontSize: 16)),
+                TextSpan(text: l.serviceAccess(access), style: TextStyle(color: color, fontSize: 16, fontWeight: FontWeight.bold)),
                 if (before != null)
                   TextSpan(
                     text: ' ${l.accessWasMinutes(fmt.count(before))}',
-                    style: const TextStyle(color: AppColors.textMuted, fontSize: 11.5),
+                    style: const TextStyle(color: AppColors.textMuted, fontSize: 14),
                   ),
               ])),
             ),
@@ -95,8 +95,8 @@ class PriorityTermsSection extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 4),
           child: Row(
             children: [
-              Expanded(child: Text(label, style: const TextStyle(color: AppColors.textMuted, fontSize: 12))),
-              Text(fmt.term(value), style: const TextStyle(color: AppColors.ink, fontSize: 12)),
+              Expanded(child: Text(label, style: const TextStyle(color: AppColors.textMuted, fontSize: 14))),
+              Text(fmt.term(value), style: const TextStyle(color: AppColors.ink, fontSize: 14)),
             ],
           ),
         );
@@ -141,7 +141,7 @@ class VerifyChecklist extends ConsumerWidget {
                   value: checked.contains(note.kind),
                   onChanged: (value) =>
                       ref.read(verifyChecksProvider.notifier).set(mission.pocketId, note.kind, value ?? false),
-                  title: Text(l.verifyNote(note, fmt), style: const TextStyle(color: AppColors.text, fontSize: 12.5, height: 1.35)),
+                  title: Text(l.verifyNote(note, fmt), style: const TextStyle(color: AppColors.text, fontSize: 16, height: 1.35)),
                 ),
             ],
           ),

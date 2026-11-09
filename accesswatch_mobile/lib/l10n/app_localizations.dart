@@ -461,13 +461,13 @@ abstract class AppLocalizations {
   /// No description provided for @estimatedPopulation.
   ///
   /// In en, this message translates to:
-  /// **'ESTIMATED POPULATION'**
+  /// **'Estimated population'**
   String get estimatedPopulation;
 
   /// No description provided for @whyFlagged.
   ///
   /// In en, this message translates to:
-  /// **'WHY FLAGGED'**
+  /// **'Why flagged'**
   String get whyFlagged;
 
   /// No description provided for @whyCutOff.
@@ -485,7 +485,7 @@ abstract class AppLocalizations {
   /// No description provided for @estimatedMaxDepth.
   ///
   /// In en, this message translates to:
-  /// **'DEEPEST WATER ON THE SAFEST ROUTE'**
+  /// **'Deepest water on the safest route'**
   String get estimatedMaxDepth;
 
   /// No description provided for @boatLegKm.
@@ -497,25 +497,25 @@ abstract class AppLocalizations {
   /// No description provided for @routeComparison.
   ///
   /// In en, this message translates to:
-  /// **'ROUTE COMPARISON'**
+  /// **'Route comparison'**
   String get routeComparison;
 
   /// No description provided for @metric.
   ///
   /// In en, this message translates to:
-  /// **'METRIC'**
+  /// **'Metric'**
   String get metric;
 
   /// No description provided for @shortest.
   ///
   /// In en, this message translates to:
-  /// **'SHORTEST'**
+  /// **'Shortest'**
   String get shortest;
 
   /// No description provided for @safestStar.
   ///
   /// In en, this message translates to:
-  /// **'SAFEST ★'**
+  /// **'Safest ★'**
   String get safestStar;
 
   /// No description provided for @distance.
@@ -593,7 +593,7 @@ abstract class AppLocalizations {
   /// No description provided for @analysisConfidence.
   ///
   /// In en, this message translates to:
-  /// **'ANALYSIS CONFIDENCE'**
+  /// **'Analysis confidence'**
   String get analysisConfidence;
 
   /// No description provided for @stabilityLabel.
@@ -1077,7 +1077,7 @@ abstract class AppLocalizations {
   /// No description provided for @viewOnMap.
   ///
   /// In en, this message translates to:
-  /// **'SHOW ON MAP'**
+  /// **'Show on map'**
   String get viewOnMap;
 
   /// No description provided for @layerBaseline.
@@ -1173,7 +1173,7 @@ abstract class AppLocalizations {
   /// No description provided for @serviceAccessTitle.
   ///
   /// In en, this message translates to:
-  /// **'SERVICE ACCESS'**
+  /// **'Service access'**
   String get serviceAccessTitle;
 
   /// No description provided for @accessYes.
@@ -1209,13 +1209,13 @@ abstract class AppLocalizations {
   /// No description provided for @priorityTermsTitle.
   ///
   /// In en, this message translates to:
-  /// **'PRIORITY TERMS (0 TO 1)'**
+  /// **'Priority terms (0 to 1)'**
   String get priorityTermsTitle;
 
   /// No description provided for @verifyTitle.
   ///
   /// In en, this message translates to:
-  /// **'VERIFY ON THE GROUND'**
+  /// **'Verify on the ground'**
   String get verifyTitle;
 
   /// No description provided for @verifyLowConfidence.
@@ -1251,7 +1251,7 @@ abstract class AppLocalizations {
   /// No description provided for @shareAlert.
   ///
   /// In en, this message translates to:
-  /// **'SHARE ALERT'**
+  /// **'Share alert'**
   String get shareAlert;
 
   /// No description provided for @alertTitle.
@@ -2081,6 +2081,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No areas match this filter.'**
   String get noAreasForFilter;
+
+  /// No description provided for @areaXofN.
+  ///
+  /// In en, this message translates to:
+  /// **'Area {rank} of {count}'**
+  String areaXofN(String rank, String count);
+
+  /// No description provided for @modeBoatDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'About {water} km by water, after {road} km by road'**
+  String modeBoatDetail(String water, String road);
+
+  /// No description provided for @modeTruckTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A high-clearance truck can reach it'**
+  String get modeTruckTitle;
+
+  /// No description provided for @modeCarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A normal car can reach it'**
+  String get modeCarTitle;
+
+  /// No description provided for @modeFootTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'It can be reached on foot only'**
+  String get modeFootTitle;
+
+  /// No description provided for @modeTruckDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'No boat needed, but the road has water on it.'**
+  String get modeTruckDetail;
+
+  /// No description provided for @lostTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What they can no longer reach'**
+  String get lostTitle;
+
+  /// No description provided for @harderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What is harder to reach'**
+  String get harderTitle;
+
+  /// No description provided for @lostWasMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'was about {minutes} min'**
+  String lostWasMinutes(String minutes);
+
+  /// No description provided for @serviceDepotLinkPlain.
+  ///
+  /// In en, this message translates to:
+  /// **'Link to the aid depot'**
+  String get serviceDepotLinkPlain;
+
+  /// No description provided for @safestRouteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Safest road route'**
+  String get safestRouteTitle;
+
+  /// No description provided for @routeCheckBridges.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Check 1 bridge first} other{Check {count} bridges first}}'**
+  String routeCheckBridges(int count);
+
+  /// No description provided for @riskChipHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High risk'**
+  String get riskChipHigh;
+
+  /// No description provided for @riskChipMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium risk'**
+  String get riskChipMedium;
+
+  /// No description provided for @riskChipLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low risk'**
+  String get riskChipLow;
+
+  /// No description provided for @sureHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get sureHigh;
+
+  /// No description provided for @sureMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get sureMedium;
+
+  /// No description provided for @sureLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get sureLow;
+
+  /// No description provided for @checkOnGround.
+  ///
+  /// In en, this message translates to:
+  /// **'Check on the ground first ({count})'**
+  String checkOnGround(String count);
+
+  /// No description provided for @checkOnGroundTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check on the ground first'**
+  String get checkOnGroundTitle;
+
+  /// No description provided for @checkOnGroundIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Tick each one when a team has checked it. Ticks stay on this phone.'**
+  String get checkOnGroundIntro;
+
+  /// No description provided for @howSure.
+  ///
+  /// In en, this message translates to:
+  /// **'How sure are we? {level}'**
+  String howSure(String level);
+
+  /// No description provided for @howSureTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How sure are we?'**
+  String get howSureTitle;
+
+  /// No description provided for @howSureConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Confidence: {level}'**
+  String howSureConfidence(String level);
+
+  /// No description provided for @areaDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'More detail'**
+  String get areaDetailsTitle;
+
+  /// No description provided for @routesIllustrativeShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Routes start at the aid depot, which is assumed. Use them as a guide.'**
+  String get routesIllustrativeShort;
 }
 
 class _AppLocalizationsDelegate

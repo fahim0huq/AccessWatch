@@ -232,10 +232,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get estimatedPopulation => 'ESTIMATED POPULATION';
+  String get estimatedPopulation => 'Estimated population';
 
   @override
-  String get whyFlagged => 'WHY FLAGGED';
+  String get whyFlagged => 'Why flagged';
 
   @override
   String whyCutOff(String services, String mode, String depth) {
@@ -248,7 +248,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get estimatedMaxDepth => 'DEEPEST WATER ON THE SAFEST ROUTE';
+  String get estimatedMaxDepth => 'Deepest water on the safest route';
 
   @override
   String boatLegKm(String km) {
@@ -256,16 +256,16 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get routeComparison => 'ROUTE COMPARISON';
+  String get routeComparison => 'Route comparison';
 
   @override
-  String get metric => 'METRIC';
+  String get metric => 'Metric';
 
   @override
-  String get shortest => 'SHORTEST';
+  String get shortest => 'Shortest';
 
   @override
-  String get safestStar => 'SAFEST ★';
+  String get safestStar => 'Safest ★';
 
   @override
   String get distance => 'Distance';
@@ -310,7 +310,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get levelLow => 'LOW';
 
   @override
-  String get analysisConfidence => 'ANALYSIS CONFIDENCE';
+  String get analysisConfidence => 'Analysis confidence';
 
   @override
   String stabilityLabel(String pct) {
@@ -605,7 +605,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get locationOutside => 'You are outside the mapped area.';
 
   @override
-  String get viewOnMap => 'SHOW ON MAP';
+  String get viewOnMap => 'Show on map';
 
   @override
   String get layerBaseline => 'Physics-only flood map';
@@ -663,7 +663,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get serviceAccessTitle => 'SERVICE ACCESS';
+  String get serviceAccessTitle => 'Service access';
 
   @override
   String get accessYes => 'reachable';
@@ -683,10 +683,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get priorityTermsTitle => 'PRIORITY TERMS (0 TO 1)';
+  String get priorityTermsTitle => 'Priority terms (0 to 1)';
 
   @override
-  String get verifyTitle => 'VERIFY ON THE GROUND';
+  String get verifyTitle => 'Verify on the ground';
 
   @override
   String get verifyLowConfidence =>
@@ -710,7 +710,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Depth classes come from a surface model and population is modelled: confirm both with local responders.';
 
   @override
-  String get shareAlert => 'SHARE ALERT';
+  String get shareAlert => 'Share alert';
 
   @override
   String get alertTitle => 'Alert for field teams';
@@ -1300,4 +1300,104 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noAreasForFilter => 'No areas match this filter.';
+
+  @override
+  String areaXofN(String rank, String count) {
+    return 'Area $rank of $count';
+  }
+
+  @override
+  String modeBoatDetail(String water, String road) {
+    return 'About $water km by water, after $road km by road';
+  }
+
+  @override
+  String get modeTruckTitle => 'A high-clearance truck can reach it';
+
+  @override
+  String get modeCarTitle => 'A normal car can reach it';
+
+  @override
+  String get modeFootTitle => 'It can be reached on foot only';
+
+  @override
+  String get modeTruckDetail => 'No boat needed, but the road has water on it.';
+
+  @override
+  String get lostTitle => 'What they can no longer reach';
+
+  @override
+  String get harderTitle => 'What is harder to reach';
+
+  @override
+  String lostWasMinutes(String minutes) {
+    return 'was about $minutes min';
+  }
+
+  @override
+  String get serviceDepotLinkPlain => 'Link to the aid depot';
+
+  @override
+  String get safestRouteTitle => 'Safest road route';
+
+  @override
+  String routeCheckBridges(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Check $count bridges first',
+      one: 'Check 1 bridge first',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get riskChipHigh => 'High risk';
+
+  @override
+  String get riskChipMedium => 'Medium risk';
+
+  @override
+  String get riskChipLow => 'Low risk';
+
+  @override
+  String get sureHigh => 'High';
+
+  @override
+  String get sureMedium => 'Medium';
+
+  @override
+  String get sureLow => 'Low';
+
+  @override
+  String checkOnGround(String count) {
+    return 'Check on the ground first ($count)';
+  }
+
+  @override
+  String get checkOnGroundTitle => 'Check on the ground first';
+
+  @override
+  String get checkOnGroundIntro =>
+      'Tick each one when a team has checked it. Ticks stay on this phone.';
+
+  @override
+  String howSure(String level) {
+    return 'How sure are we? $level';
+  }
+
+  @override
+  String get howSureTitle => 'How sure are we?';
+
+  @override
+  String howSureConfidence(String level) {
+    return 'Confidence: $level';
+  }
+
+  @override
+  String get areaDetailsTitle => 'More detail';
+
+  @override
+  String get routesIllustrativeShort =>
+      'Routes start at the aid depot, which is assumed. Use them as a guide.';
 }

@@ -10,7 +10,7 @@ import '../theme/app_theme.dart';
 import '../utils/labels.dart';
 
 const _mono = TextStyle(fontWeight: FontWeight.bold);
-const _section = TextStyle(color: AppColors.textMuted, fontSize: 11, fontWeight: FontWeight.bold);
+const _section = TextStyle(color: AppColors.ink, fontSize: 18, fontWeight: FontWeight.w700);
 
 Color depthColor(DepthClass depth) => switch (depth) {
       DepthClass.deep => AppColors.floodDeep,
@@ -33,17 +33,17 @@ class MissionCardDepthSection extends ConsumerWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.background,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: depthColor(depth), width: 1.5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(l.estimatedMaxDepth, style: _section.copyWith(fontSize: 10)),
+          Text(l.estimatedMaxDepth, style: _section.copyWith(fontSize: 14)),
           const SizedBox(height: 8),
           Text(l.depthClass(depth), style: _mono.copyWith(color: AppColors.ink, fontSize: 26)),
-          if (range != null) Text(range, style: _mono.copyWith(color: AppColors.textMuted, fontSize: 12)),
+          if (range != null) Text(range, style: _mono.copyWith(color: AppColors.textMuted, fontSize: 14)),
           const SizedBox(height: 12),
           Row(
             children: [
@@ -51,7 +51,7 @@ class MissionCardDepthSection extends ConsumerWidget {
               const SizedBox(width: 6),
               Expanded(
                 child: Text(l.depthEstimateWarning,
-                    style: const TextStyle(color: AppColors.warning, fontSize: 11, fontWeight: FontWeight.bold)),
+                    style: const TextStyle(color: AppColors.warning, fontSize: 14, fontWeight: FontWeight.bold)),
               ),
             ],
           ),
@@ -71,9 +71,9 @@ class MissionCardRouteTable extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(child: Text(label, style: const TextStyle(color: AppColors.textMuted, fontSize: 11))),
-            Expanded(child: Text(shortest, style: _mono.copyWith(color: AppColors.ink, fontSize: 12))),
-            Expanded(child: Text(safest, style: _mono.copyWith(color: AppColors.safestRoute, fontSize: 12))),
+            Expanded(child: Text(label, style: const TextStyle(color: AppColors.textMuted, fontSize: 14))),
+            Expanded(child: Text(shortest, style: _mono.copyWith(color: AppColors.ink, fontSize: 14))),
+            Expanded(child: Text(safest, style: _mono.copyWith(color: AppColors.safestRoute, fontSize: 14))),
           ],
         ),
       );
@@ -92,7 +92,7 @@ class MissionCardRouteTable extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: AppColors.background,
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: AppColors.border),
           ),
@@ -100,9 +100,9 @@ class MissionCardRouteTable extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Expanded(child: Text(l.metric, style: _section.copyWith(fontSize: 10))),
-                  Expanded(child: Text(l.shortest, style: _section.copyWith(fontSize: 10, color: AppColors.text))),
-                  Expanded(child: Text(l.safestStar, style: _section.copyWith(fontSize: 10, color: AppColors.safestRoute))),
+                  Expanded(child: Text(l.metric, style: _section.copyWith(fontSize: 14))),
+                  Expanded(child: Text(l.shortest, style: _section.copyWith(fontSize: 14, color: AppColors.text))),
+                  Expanded(child: Text(l.safestStar, style: _section.copyWith(fontSize: 14, color: AppColors.safestRoute))),
                 ],
               ),
               const Divider(color: AppColors.border, height: 12),
@@ -118,7 +118,7 @@ class MissionCardRouteTable extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4),
           child: Text(s.sameAs(f) ? l.routesSame : l.routesDiffer,
-              style: const TextStyle(color: AppColors.textMuted, fontSize: 11, fontStyle: FontStyle.italic)),
+              style: const TextStyle(color: AppColors.textMuted, fontSize: 14, fontStyle: FontStyle.italic)),
         ),
       ],
     );

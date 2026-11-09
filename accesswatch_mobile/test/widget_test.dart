@@ -69,9 +69,11 @@ void main() {
     await openTab(tester, en.tabHelpFirst);
     await tester.tap(find.byType(AreaCard).first);
     await tester.pumpAndSettle();
-    expect(find.text('12,853'), findsOneWidget);
+    expect(find.text(en.populationEstimate('12,853')), findsOneWidget);
+    await tester.tap(find.text(en.howSure(en.sureLow)));
+    await tester.pumpAndSettle();
     expect(find.text(en.estimatedMaxDepth), findsOneWidget);
-    expect(find.text(en.boatLegKm('0.56')), findsOneWidget);
+    expect(find.text(en.depthDeep), findsWidgets);
   });
 
   testWidgets('Info reads dates and sources from the bundle', (tester) async {
@@ -98,8 +100,13 @@ void main() {
         await openTab(tester, l.tabHelpFirst);
         await tester.tap(find.byType(AreaCard).first);
         await tester.pumpAndSettle();
-        await tester.tap(find.text(l.back));
-        await tester.pumpAndSettle();
+        for (final row in [l.checkOnGround('4'), l.howSure(l.sureLow)]) {
+          await tester.tap(find.text(row));
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull, reason: row);
+          await goBack(tester);
+        }
+        await goBack(tester);
         await openAbout(tester);
         expect(tester.takeException(), isNull);
       });

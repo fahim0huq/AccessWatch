@@ -25,6 +25,9 @@ class _HelpFirstScreenState extends ConsumerState<HelpFirstScreen> {
   /// null shows every access mode.
   AccessMode? _filter;
 
+  /// Boat first: it is the harder case.
+  static const _chipOrder = [AccessMode.boat, AccessMode.highClearanceTruck, AccessMode.normalVehicle, AccessMode.onFoot];
+
   String _chipLabel(AppLocalizations l, AccessMode mode, String count) => switch (mode) {
         AccessMode.boat => l.filterBoatCount(count),
         AccessMode.highClearanceTruck => l.filterTruckCount(count),
@@ -71,7 +74,7 @@ class _HelpFirstScreenState extends ConsumerState<HelpFirstScreen> {
                 children: [
                   chip(l.filterAllCount(fmt.count(ranked.length)), null),
                   // Only modes that exist in the data get a chip.
-                  for (final mode in AccessMode.values)
+                  for (final mode in _chipOrder)
                     if (counts[mode] != null) chip(_chipLabel(l, mode, fmt.count(counts[mode]!)), mode, icon: modeIcon(mode)),
                 ],
               ),

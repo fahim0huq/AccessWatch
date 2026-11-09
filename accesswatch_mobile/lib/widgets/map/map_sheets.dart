@@ -9,47 +9,18 @@ import '../../l10n/app_localizations.dart';
 import '../../state/providers.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
-import '../mission_card_detail.dart';
-import '../mission_card_header.dart';
 import 'feature_layers.dart' show serviceIcon;
 
 void _show(BuildContext context, Widget Function(ScrollController) body) {
   showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.transparent,
     builder: (_) => DraggableScrollableSheet(
       initialChildSize: 0.6,
       maxChildSize: 0.95,
       minChildSize: 0.3,
-      builder: (_, controller) => Container(
-        decoration: const BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-        ),
-        child: Column(
-          children: [
-            const MissionCardHeader(),
-            const Divider(color: AppColors.border, height: 1),
-            Expanded(child: body(controller)),
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
-void showPocketSheet(BuildContext context, WidgetRef ref, String pocketId) {
-  final mission = ref.read(loadedBundleProvider).missions.firstWhere((m) => m.pocketId == pocketId);
-  showModalBottomSheet<void>(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    builder: (_) => DraggableScrollableSheet(
-      initialChildSize: 0.75,
-      maxChildSize: 0.95,
-      minChildSize: 0.3,
-      builder: (_, controller) => MissionCardDetail(mission: mission, scrollController: controller),
+      expand: false,
+      builder: (_, controller) => body(controller),
     ),
   );
 }

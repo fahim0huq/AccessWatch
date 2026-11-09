@@ -133,12 +133,19 @@ void main() {
       await openFirstMission(tester);
       final mission = bundle.missions.first;
       final notes = verifyNotesFor(mission);
+      final row = find.text(en.checkOnGround('${notes.length}'));
+      await scrollTo(tester, row);
+      await tester.tap(row);
+      await tester.pumpAndSettle();
       expect(find.byType(CheckboxListTile), findsNWidgets(notes.length));
       await tester.tap(find.byType(CheckboxListTile).first);
       await tester.pumpAndSettle();
-      await tester.tap(find.text(en.back));
-      await tester.pumpAndSettle();
+      await goBack(tester);
+      await goBack(tester);
       await openFirstMission(tester);
+      await scrollTo(tester, row);
+      await tester.tap(row);
+      await tester.pumpAndSettle();
       final first = tester.widget<CheckboxListTile>(find.byType(CheckboxListTile).first);
       expect(first.value, isTrue);
     });
@@ -193,18 +200,49 @@ void main() {
   });
 
   group('detail page', () {
-    testWidgets('shows service access, routes and the priority terms', (tester) async {
+    testWidgets('says how to reach it, what it lost and the safest route, in plain words', (tester) async {
       await openMissions(tester);
       await openFirstMission(tester);
+      final m = bundle.missions.first;
+      expect(find.text(en.areaXofN('1', '${bundle.missions.length}')), findsOneWidget);
+      expect(find.text(en.populationEstimate('12,853')), findsOneWidget);
+      expect(find.text(en.modeNeedsBoat), findsOneWidget);
+      // The water leg is part of the safest route's distance.
+      expect(find.text(en.modeBoatDetail('0.56', '5.06')), findsOneWidget);
+      expect(find.text(en.lostTitle), findsOneWidget);
+      expect(find.text(en.lostWasMinutes('${m.lostServices.first.previousMinutes}')), findsWidgets);
+      expect(find.text(en.serviceDepotLinkPlain), findsOneWidget);
+      expect(find.text(en.safestRouteTitle), findsOneWidget);
+      expect(find.text(en.routeCheckBridges(m.safest.uncertainBridges)), findsOneWidget);
+      expect(find.text(en.riskChipHigh), findsOneWidget);
+      // The technical detail is one tap deeper.
+      expect(find.text(en.routeComparison), findsNothing);
+      final sure = find.text(en.howSure(en.sureLow));
+      await scrollTo(tester, sure);
+      await tester.tap(sure);
+      await tester.pumpAndSettle();
       expect(find.text(en.serviceAccessTitle), findsOneWidget);
       expect(find.textContaining(en.accessNo), findsWidgets);
       expect(find.text(en.routeComparison), findsOneWidget);
       expect(find.text(en.priorityTermsTitle), findsOneWidget);
+      expect(find.text(en.stabilityLabel('100')), findsOneWidget);
+    });
+
+    testWidgets('a truck area says a high-clearance truck can reach it', (tester) async {
+      await openMissions(tester);
+      final truck = find.text(en.pocketTitle('south', 'Chókwè')).first;
+      await scrollTo(tester, truck);
+      await tester.tap(truck);
+      await tester.pumpAndSettle();
+      expect(find.text(en.modeTruckTitle), findsOneWidget);
+      expect(find.text(en.harderTitle), findsOneWidget);
+      expect(find.text(en.modeNeedsBoat), findsNothing);
     });
 
     testWidgets('Show on map goes to that pocket', (tester) async {
       await openMissions(tester);
       await openFirstMission(tester);
+      await scrollTo(tester, find.text(en.viewOnMap));
       await tester.tap(find.text(en.viewOnMap));
       await tester.pumpAndSettle();
       expect(find.byType(FlutterMap), findsOneWidget);
@@ -225,9 +263,11 @@ void main() {
         alertSharerProvider.overrideWithValue((text) async => sent.add(text)),
       ]);
       await openFirstMission(tester);
+      await scrollTo(tester, find.text(l.shareAlert));
       await tester.tap(find.text(l.shareAlert));
       await tester.pumpAndSettle();
-      await tester.tap(find.widgetWithText(FilledButton, l.shareAlert));
+      // The dialog's own Share button, above the page's.
+      await tester.tap(find.widgetWithText(FilledButton, l.shareAlert).last);
       await tester.pumpAndSettle();
       return sent;
     }

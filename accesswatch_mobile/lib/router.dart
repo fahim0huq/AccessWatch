@@ -4,7 +4,8 @@ import 'screens/care_screen.dart';
 import 'screens/info_screen.dart';
 import 'screens/main_navigation_screen.dart';
 import 'screens/map_screen.dart';
-import 'screens/mission_detail_screen.dart';
+import 'screens/area_details_screen.dart';
+import 'screens/area_screen.dart';
 import 'screens/help_first_screen.dart';
 import 'screens/welcome_screen.dart';
 
@@ -16,6 +17,8 @@ class AppRoutes {
   static const welcome = '/welcome';
 
   static String area(String pocketId) => '$help/$pocketId';
+  static String areaChecks(String pocketId) => '$help/$pocketId/checks';
+  static String areaSure(String pocketId) => '$help/$pocketId/sure';
 }
 
 /// [safetyAccepted] is read on every navigation, so accepting opens the app at once.
@@ -39,7 +42,17 @@ GoRouter createRouter({required bool Function() safetyAccepted}) => GoRouter(
                 routes: [
                   GoRoute(
                     path: ':id',
-                    builder: (context, state) => MissionDetailScreen(pocketId: state.pathParameters['id']!),
+                    builder: (context, state) => AreaScreen(pocketId: state.pathParameters['id']!),
+                    routes: [
+                      GoRoute(
+                        path: 'checks',
+                        builder: (context, state) => AreaChecksScreen(pocketId: state.pathParameters['id']!),
+                      ),
+                      GoRoute(
+                        path: 'sure',
+                        builder: (context, state) => AreaSureScreen(pocketId: state.pathParameters['id']!),
+                      ),
+                    ],
                   ),
                 ],
               ),
