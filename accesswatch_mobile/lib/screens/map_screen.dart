@@ -24,19 +24,16 @@ import '../widgets/map/map_chrome.dart';
 import '../widgets/map/map_overlay.dart';
 import '../widgets/map/map_sheets.dart';
 import '../widgets/map/routes_panel.dart';
-import '../widgets/ui/kit.dart';
 
 const _tileUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 const _userAgentPackage = 'com.accesswatch.app';
+
 /// Room for the pill and chips above (they grow with the text size) and the
 /// buttons on the right, so nothing fitted sits under them.
 double _overlayHeight(BuildContext context) =>
     64 + 56 * MediaQuery.textScalerOf(context).scale(1).clamp(1.0, mapOverlayMaxTextScale);
 EdgeInsets _fitPadding(BuildContext context) => EdgeInsets.fromLTRB(16, _overlayHeight(context), 72, 16);
 EdgeInsets _focusPadding(BuildContext context) => EdgeInsets.fromLTRB(48, _overlayHeight(context), 80, 48);
-
-/// Text-size cap for the name pill and legend chips on top of the map.
-const mapOverlayMaxTextScale = 1.5;
 
 LatLngBounds _latLngBounds(GeoBounds b) => LatLngBounds(LatLng(b.south, b.west), LatLng(b.north, b.east));
 
@@ -88,8 +85,9 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
     if (await requestLocation(context, ref)) _centreOnMe();
   }
 
-  void _fitPoints(List<LatLng> points, double maxZoom) =>
-      _map.fitCamera(CameraFit.bounds(bounds: LatLngBounds.fromPoints(points), padding: _focusPadding(context), maxZoom: maxZoom));
+  void _fitPoints(List<LatLng> points, double maxZoom) => _map.fitCamera(
+    CameraFit.bounds(bounds: LatLngBounds.fromPoints(points), padding: _focusPadding(context), maxZoom: maxZoom),
+  );
 
   void _showCareRoute(CareRouteOnMap? route) {
     if (route == null || !_ready || route.points.length < 2) return;
@@ -164,7 +162,8 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
     final layers = ref.watch(mapLayersProvider);
     final compare = layers.contains(MapLayer.compare);
     // An area chosen from Help first shows its own routes even with the routes layer off.
-    final showRoutes = layers.contains(MapLayer.routes) ||
+    final showRoutes =
+        layers.contains(MapLayer.routes) ||
         ref.watch(selectedPocketIdProvider) != null ||
         ref.watch(selectedRouteProvider) != null;
     return Scaffold(
@@ -182,11 +181,16 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                       // are for this area and not the library's default centre.
                       initialCenter: _latLngBounds(bundle.manifest.bounds).center,
                       initialZoom: 12,
-                      initialCameraFit: CameraFit.bounds(bounds: _latLngBounds(bundle.manifest.bounds), padding: _fitPadding(context)),
+                      initialCameraFit: CameraFit.bounds(
+                        bounds: _latLngBounds(bundle.manifest.bounds),
+                        padding: _fitPadding(context),
+                      ),
                       minZoom: 9,
                       maxZoom: 18,
                       backgroundColor: AppColors.mapBackground,
-                      interactionOptions: const InteractionOptions(flags: InteractiveFlag.all & ~InteractiveFlag.rotate),
+                      interactionOptions: const InteractionOptions(
+                        flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+                      ),
                       // Debug builds only: a long press sets a test position, for trying Find care on a desktop.
                       onLongPress: kDebugMode
                           ? (_, point) => ref.read(locationControllerProvider.notifier).setTestPosition(point)
@@ -216,18 +220,28 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                       if (layers.contains(MapLayer.floodedRoads)) const FloodedRoadsLayer(),
                       if (layers.contains(MapLayer.pockets)) PocketAreasLayer(onTap: (p) => _openPocket(p.id)),
                       if (showRoutes)
-                        RoutesLayer(onTap: (hits) {
-                          ref.read(highlightedRouteProvider.notifier).state = hits.first;
-                          showRoutesSheet(context, hits);
-                        }),
+                        RoutesLayer(
+                          onTap: (hits) {
+                            ref.read(highlightedRouteProvider.notifier).state = hits.first;
+                            showRoutesSheet(context, hits);
+                          },
+                        ),
                       if (layers.contains(MapLayer.pockets)) PocketLabelsLayer(onTap: (p) => _openPocket(p.id)),
                       if (placeLayers.keys.any(layers.contains))
                         ServicesLayer(
-                          types: {for (final e in placeLayers.entries) if (layers.contains(e.key)) e.value},
+                          types: {
+                            for (final e in placeLayers.entries)
+                              if (layers.contains(e.key)) e.value,
+                          },
                           onTap: (s) => showServiceSheet(context, ref, s),
                         ),
                       const CareRouteLayer(),
-                      if (me.position != null) MyLocationLayer(position: me.position!, isTest: me.isStandIn, label: me.isSample ? l.sampleNotice : null),
+                      if (me.position != null)
+                        MyLocationLayer(
+                          position: me.position!,
+                          isTest: me.isStandIn,
+                          label: me.isSample ? l.sampleNotice : null,
+                        ),
                       const Scalebar(alignment: Alignment.bottomLeft, padding: EdgeInsets.fromLTRB(12, 0, 0, 8)),
                       const OsmAttribution(),
                     ],
@@ -247,25 +261,7 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                           bottom: 24,
                           child: Align(
                             alignment: Alignment.topLeft,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  // The name and legend repeat words shown full size elsewhere;
-                                  // capped so that at very large text the map stays visible.
-                                  MediaQuery.withClampedTextScaling(
-                                    maxScaleFactor: mapOverlayMaxTextScale,
-                                    child: const Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [MapBrandPill(), SizedBox(height: 8), MapLegendChips()],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  const CareRoutePanel(),
-                                ],
-                              ),
-                            ),
+                            child: const SingleChildScrollView(child: MapTopLeft()),
                           ),
                         ),
                         Positioned(
@@ -275,32 +271,15 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                           child: Align(
                             alignment: Alignment.topRight,
                             child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const HelpButton(),
-                                  MapRoundButton(
-                                    icon: Icons.layers_rounded,
-                                    tooltip: l.layersButton,
-                                    onPressed: () => showLayersSheet(context, onRoutes: () {
-                                      Navigator.pop(context);
-                                      showRoutesPanel(context);
-                                    }),
-                                  ),
-                                  MapRoundButton(icon: Icons.my_location_rounded, tooltip: l.tooltipLocate, onPressed: _locate),
-                                  MapRoundButton(icon: Icons.add_rounded, tooltip: l.tooltipZoomIn, onPressed: () => _zoom(1)),
-                                  MapRoundButton(icon: Icons.remove_rounded, tooltip: l.tooltipZoomOut, onPressed: () => _zoom(-1)),
-                                  MapRoundButton(
-                                    icon: Icons.fit_screen_rounded,
-                                    tooltip: l.tooltipFit,
-                                    onPressed: () {
-                                      ref.read(selectedPocketIdProvider.notifier).state = null;
-                                      ref.read(selectedRouteProvider.notifier).state = null;
-                                      ref.read(highlightedRouteProvider.notifier).state = null;
-                                      _fitAll();
-                                    },
-                                  ),
-                                ],
+                              child: MapSideButtons(
+                                onLocate: _locate,
+                                onZoom: _zoom,
+                                onFit: () {
+                                  ref.read(selectedPocketIdProvider.notifier).state = null;
+                                  ref.read(selectedRouteProvider.notifier).state = null;
+                                  ref.read(highlightedRouteProvider.notifier).state = null;
+                                  _fitAll();
+                                },
                               ),
                             ),
                           ),

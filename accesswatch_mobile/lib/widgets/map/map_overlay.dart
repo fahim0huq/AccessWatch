@@ -13,30 +13,35 @@ import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import '../ui/kit.dart';
 import '../ui/mode_look.dart';
+import 'care_route_layer.dart';
+import 'layers_sheet.dart';
+import 'routes_panel.dart';
 
 class MapBrandPill extends StatelessWidget {
   const MapBrandPill({super.key});
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(AppSizes.button / 2),
-          border: Border.all(color: AppColors.line),
+    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+    decoration: BoxDecoration(
+      color: AppColors.surface,
+      borderRadius: BorderRadius.circular(AppSizes.button / 2),
+      border: Border.all(color: AppColors.line),
+    ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Icon(Icons.water_rounded, color: AppColors.brand, size: 20),
+        const SizedBox(width: 8),
+        Flexible(
+          child: Text(
+            AppLocalizations.of(context)!.appName,
+            style: Theme.of(context).textTheme.titleSmall!.copyWith(color: AppColors.brand),
+          ),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.water_rounded, color: AppColors.brand, size: 20),
-            const SizedBox(width: 8),
-            Flexible(
-              child: Text(AppLocalizations.of(context)!.appName,
-                  style: Theme.of(context).textTheme.titleSmall!.copyWith(color: AppColors.brand)),
-            ),
-          ],
-        ),
-      );
+      ],
+    ),
+  );
 }
 
 /// Flooded, Needs a boat, Truck can reach: the three things the map draws by default.
@@ -68,19 +73,80 @@ class MapRoundButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 8),
-        child: IconButton.filled(
-          tooltip: tooltip,
-          onPressed: onPressed,
-          style: IconButton.styleFrom(
-            backgroundColor: AppColors.surface,
-            foregroundColor: AppColors.ink,
-            side: const BorderSide(color: AppColors.line),
-            minimumSize: const Size(AppSizes.tap, AppSizes.tap),
-          ),
-          icon: Icon(icon),
+    padding: const EdgeInsets.only(top: 8),
+    child: IconButton.filled(
+      tooltip: tooltip,
+      onPressed: onPressed,
+      style: IconButton.styleFrom(
+        backgroundColor: AppColors.surface,
+        foregroundColor: AppColors.ink,
+        side: const BorderSide(color: AppColors.line),
+        minimumSize: const Size(AppSizes.tap, AppSizes.tap),
+      ),
+      icon: Icon(icon),
+    ),
+  );
+}
+
+/// Text-size cap for the name pill and legend chips on top of the map.
+const mapOverlayMaxTextScale = 1.5;
+
+/// Top left: the name, the legend and the care route sent from Find care.
+class MapTopLeft extends StatelessWidget {
+  const MapTopLeft({super.key});
+
+  @override
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      // The name and legend repeat words shown full size elsewhere;
+      // capped so that at very large text the map stays visible.
+      MediaQuery.withClampedTextScaling(
+        maxScaleFactor: mapOverlayMaxTextScale,
+        child: const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [MapBrandPill(), SizedBox(height: 8), MapLegendChips()],
         ),
-      );
+      ),
+      const SizedBox(height: 8),
+      const CareRoutePanel(),
+    ],
+  );
+}
+
+/// The column on the right: ?, Layers, My location, zoom and Fit.
+class MapSideButtons extends StatelessWidget {
+  final VoidCallback onLocate, onFit;
+  final ValueChanged<double> onZoom;
+
+  const MapSideButtons({super.key, required this.onLocate, required this.onZoom, required this.onFit});
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const HelpButton(),
+        MapRoundButton(
+          icon: Icons.layers_rounded,
+          tooltip: l.layersButton,
+          onPressed: () => showLayersSheet(
+            context,
+            onRoutes: () {
+              Navigator.pop(context);
+              showRoutesPanel(context);
+            },
+          ),
+        ),
+        MapRoundButton(icon: Icons.my_location_rounded, tooltip: l.tooltipLocate, onPressed: onLocate),
+        MapRoundButton(icon: Icons.add_rounded, tooltip: l.tooltipZoomIn, onPressed: () => onZoom(1)),
+        MapRoundButton(icon: Icons.remove_rounded, tooltip: l.tooltipZoomOut, onPressed: () => onZoom(-1)),
+        MapRoundButton(icon: Icons.fit_screen_rounded, tooltip: l.tooltipFit, onPressed: onFit),
+      ],
+    );
+  }
 }
 
 /// The one-glance answer under the map: how many areas, how many people, and
@@ -113,8 +179,10 @@ class MapSummaryCard extends ConsumerWidget {
           children: [
             Text(l.mapAreasCutOff(stats.pockets), style: text.headlineSmall),
             const SizedBox(height: 4),
-            Text(l.mapPeopleNear(fmt.count(roundForDisplay(stats.populationEstimate)), l.placeList(places)),
-                style: text.bodyLarge!.copyWith(color: AppColors.inkSecondary)),
+            Text(
+              l.mapPeopleNear(fmt.count(roundForDisplay(stats.populationEstimate)), l.placeList(places)),
+              style: text.bodyLarge!.copyWith(color: AppColors.inkSecondary),
+            ),
             const SizedBox(height: 14),
             BigButton(
               icon: Icons.volunteer_activism_rounded,
