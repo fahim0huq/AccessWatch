@@ -11,6 +11,7 @@ import '../../l10n/app_localizations.dart';
 import '../../state/map_state.dart';
 import '../../state/mission_state.dart';
 import '../../state/providers.dart';
+import '../../state/route_view.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import '../ui/mode_look.dart';
@@ -171,7 +172,25 @@ class _RoutesLayerState extends ConsumerState<RoutesLayer> {
   Widget build(BuildContext context) {
     final opacity = ref.watch(mapOpacityProvider)[MapLayer.routes]!;
     final selected = ref.watch(selectedPocketIdProvider);
-    final routes = ref.watch(loadedBundleProvider).routes.where((r) => selected == null || r.pocketId == selected);
+    final only = ref.watch(selectedRouteProvider);
+    final highlight = ref.watch(highlightedRouteProvider);
+    // One chosen route alone; else one area's routes; else all of them.
+    final routes = only != null
+        ? [only]
+        : ref.watch(loadedBundleProvider).routes.where((r) => selected == null || r.pocketId == selected).toList();
+    Polyline<RouteLine> line(RouteLine route, {bool emphasis = false}) {
+      final safest = route.routeType == RouteType.safest;
+      return Polyline<RouteLine>(
+        points: route.points,
+        hitValue: route,
+        strokeWidth: (safest ? 5 : 2.5) + (emphasis ? 4 : 0),
+        color: (safest ? AppColors.safestRoute : AppColors.shortestRoute).withValues(alpha: opacity),
+        borderStrokeWidth: emphasis ? 2 : 0,
+        borderColor: AppColors.ink,
+        pattern: safest ? const StrokePattern.solid() : StrokePattern.dashed(segments: const [9, 6]),
+      );
+    }
+
     return GestureDetector(
       excludeFromSemantics: true,
       onTap: () {
@@ -183,18 +202,9 @@ class _RoutesLayerState extends ConsumerState<RoutesLayer> {
         hitNotifier: _hit,
         polylines: [
           for (final type in const [RouteType.safest, RouteType.shortest])
-            for (final route in routes.where((r) => r.routeType == type))
-              Polyline<RouteLine>(
-                points: route.points,
-                hitValue: route,
-                strokeWidth: type == RouteType.safest ? 5 : 2.5,
-                color: (type == RouteType.safest ? AppColors.safestRoute : AppColors.shortestRoute).withValues(
-                  alpha: opacity,
-                ),
-                pattern: type == RouteType.safest
-                    ? const StrokePattern.solid()
-                    : StrokePattern.dashed(segments: const [9, 6]),
-              ),
+            for (final route in routes.where((r) => r.routeType == type && !sameRoute(r, highlight))) line(route),
+          // The highlighted one on top, wider, with an outline.
+          for (final route in routes.where((r) => sameRoute(r, highlight))) line(route, emphasis: true),
         ],
       ),
     );

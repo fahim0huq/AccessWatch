@@ -6,12 +6,14 @@ import 'package:latlong2/latlong.dart' show LatLng;
 
 import '../data/bundle_repository.dart';
 import '../data/models/manifest.dart';
+import '../data/models/route_line.dart';
 import '../l10n/app_localizations.dart';
 import '../state/care_state.dart';
 import '../state/connectivity.dart';
 import '../state/location.dart';
 import '../state/map_state.dart';
 import '../state/providers.dart';
+import '../state/route_view.dart';
 import '../theme/app_theme.dart';
 import '../widgets/location_prompt.dart';
 import '../widgets/map/care_route_layer.dart';
@@ -21,6 +23,7 @@ import '../widgets/map/layers_sheet.dart';
 import '../widgets/map/map_chrome.dart';
 import '../widgets/map/map_overlay.dart';
 import '../widgets/map/map_sheets.dart';
+import '../widgets/map/routes_panel.dart';
 import '../widgets/ui/kit.dart';
 
 const _tileUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -140,6 +143,18 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
   Widget build(BuildContext context) {
     ref.listen<String?>(selectedPocketIdProvider, (_, id) => _focus(id));
     ref.listen<CareRouteOnMap?>(careRouteOnMapProvider, (_, route) => _showCareRoute(route));
+    ref.listen<RouteLine?>(selectedRouteProvider, (_, route) {
+      if (route != null && _ready && route.points.length > 1) _fitPoints(route.points, 16);
+    });
+    ref.listen<String?>(routesPanelRequestProvider, (_, pocketId) {
+      if (pocketId == null) return;
+      // After the tab switch, so the panel opens over the Map.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        ref.read(routesPanelRequestProvider.notifier).state = null;
+        showRoutesPanel(context, focusPocketId: pocketId);
+      });
+    });
     ref.listen<LocationState>(locationControllerProvider, (before, now) {
       if (before?.position == null && now.position != null) _centreOnMe();
     });
@@ -149,7 +164,9 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
     final layers = ref.watch(mapLayersProvider);
     final compare = layers.contains(MapLayer.compare);
     // An area chosen from Help first shows its own routes even with the routes layer off.
-    final showRoutes = layers.contains(MapLayer.routes) || ref.watch(selectedPocketIdProvider) != null;
+    final showRoutes = layers.contains(MapLayer.routes) ||
+        ref.watch(selectedPocketIdProvider) != null ||
+        ref.watch(selectedRouteProvider) != null;
     return Scaffold(
       body: Column(
         children: [
@@ -198,7 +215,11 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                       if (layers.contains(MapLayer.allRoads)) const AllRoadsLayer(),
                       if (layers.contains(MapLayer.floodedRoads)) const FloodedRoadsLayer(),
                       if (layers.contains(MapLayer.pockets)) PocketAreasLayer(onTap: (p) => _openPocket(p.id)),
-                      if (showRoutes) RoutesLayer(onTap: (r) => showRoutesSheet(context, r)),
+                      if (showRoutes)
+                        RoutesLayer(onTap: (hits) {
+                          ref.read(highlightedRouteProvider.notifier).state = hits.first;
+                          showRoutesSheet(context, hits);
+                        }),
                       if (layers.contains(MapLayer.pockets)) PocketLabelsLayer(onTap: (p) => _openPocket(p.id)),
                       if (placeLayers.keys.any(layers.contains))
                         ServicesLayer(
@@ -261,7 +282,10 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                                   MapRoundButton(
                                     icon: Icons.layers_rounded,
                                     tooltip: l.layersButton,
-                                    onPressed: () => showLayersSheet(context),
+                                    onPressed: () => showLayersSheet(context, onRoutes: () {
+                                      Navigator.pop(context);
+                                      showRoutesPanel(context);
+                                    }),
                                   ),
                                   MapRoundButton(icon: Icons.my_location_rounded, tooltip: l.tooltipLocate, onPressed: _locate),
                                   MapRoundButton(icon: Icons.add_rounded, tooltip: l.tooltipZoomIn, onPressed: () => _zoom(1)),
@@ -271,6 +295,8 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                                     tooltip: l.tooltipFit,
                                     onPressed: () {
                                       ref.read(selectedPocketIdProvider.notifier).state = null;
+                                      ref.read(selectedRouteProvider.notifier).state = null;
+                                      ref.read(highlightedRouteProvider.notifier).state = null;
                                       _fitAll();
                                     },
                                   ),

@@ -1518,4 +1518,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get routesPanelOpen => 'See every route';
+
+  @override
+  String get routesPanelTitle => 'Every route';
+
+  @override
+  String get routesPanelIntro =>
+      'Routes from the aid depot to each area. Tap a route to show only that one; tap it again to clear.';
+
+  @override
+  String get routesShowAll => 'Show all routes';
+
+  @override
+  String get routesHideAll => 'Hide all routes';
+
+  @override
+  String get routeRowSafest => 'Safest route';
+
+  @override
+  String get routeRowShortest => 'Shortest route';
+
+  @override
+  String get routeSameRoad => 'Same road as the safest route';
+
+  @override
+  String routeDeepWater(String km) {
+    return '$km km of deep water';
+  }
+
+  @override
+  String routeUncertainBridges(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count bridges to check',
+      one: '1 bridge to check',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get routeShownOnly => 'Shown alone on the map';
+
+  @override
+  String get routeLineSolid => 'solid line';
+
+  @override
+  String get routeLineDashed => 'dashed line';
+
+  @override
+  String get routeModeOnlyNote =>
+      'The data has one way in per area: the routes are for that way only.';
 }

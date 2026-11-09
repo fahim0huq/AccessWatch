@@ -482,5 +482,20 @@
   "layerDepotAuto": "Aid depot (auto-selected)",
   "layerRoutesNote": "The safest and shortest route to each area from the aid depot.",
   "resetView": "Reset to default view",
-  "routesPanelOpen": "See every route"
+  "routesPanelOpen": "See every route",
+  "routesPanelTitle": "Every route",
+  "routesPanelIntro": "Routes from the aid depot to each area. Tap a route to show only that one; tap it again to clear.",
+  "routesShowAll": "Show all routes",
+  "routesHideAll": "Hide all routes",
+  "routeRowSafest": "Safest route",
+  "routeRowShortest": "Shortest route",
+  "routeSameRoad": "Same road as the safest route",
+  "routeDeepWater": "{km} km of deep water",
+  "@routeDeepWater": {"placeholders": {"km": {"type": "String"}}},
+  "routeUncertainBridges": "{count, plural, =1{1 bridge to check} other{{count} bridges to check}}",
+  "@routeUncertainBridges": {"placeholders": {"count": {"type": "int"}}},
+  "routeShownOnly": "Shown alone on the map",
+  "routeLineSolid": "solid line",
+  "routeLineDashed": "dashed line",
+  "routeModeOnlyNote": "The data has one way in per area: the routes are for that way only."
 }

@@ -1523,4 +1523,55 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get routesPanelOpen => 'Ver cada rota';
+
+  @override
+  String get routesPanelTitle => 'Todas as rotas';
+
+  @override
+  String get routesPanelIntro =>
+      'Rotas do depósito de ajuda até cada área. Toque numa rota para mostrar só essa; toque de novo para limpar.';
+
+  @override
+  String get routesShowAll => 'Mostrar todas as rotas';
+
+  @override
+  String get routesHideAll => 'Esconder todas as rotas';
+
+  @override
+  String get routeRowSafest => 'Rota mais segura';
+
+  @override
+  String get routeRowShortest => 'Rota mais curta';
+
+  @override
+  String get routeSameRoad => 'A mesma estrada que a rota mais segura';
+
+  @override
+  String routeDeepWater(String km) {
+    return '$km km de água funda';
+  }
+
+  @override
+  String routeUncertainBridges(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pontes a verificar',
+      one: '1 ponte a verificar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get routeShownOnly => 'Mostrada sozinha no mapa';
+
+  @override
+  String get routeLineSolid => 'linha contínua';
+
+  @override
+  String get routeLineDashed => 'linha tracejada';
+
+  @override
+  String get routeModeOnlyNote =>
+      'Os dados têm um único modo de acesso por área: as rotas são só para esse modo.';
 }

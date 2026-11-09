@@ -2447,6 +2447,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'See every route'**
   String get routesPanelOpen;
+
+  /// No description provided for @routesPanelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Every route'**
+  String get routesPanelTitle;
+
+  /// No description provided for @routesPanelIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Routes from the aid depot to each area. Tap a route to show only that one; tap it again to clear.'**
+  String get routesPanelIntro;
+
+  /// No description provided for @routesShowAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all routes'**
+  String get routesShowAll;
+
+  /// No description provided for @routesHideAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide all routes'**
+  String get routesHideAll;
+
+  /// No description provided for @routeRowSafest.
+  ///
+  /// In en, this message translates to:
+  /// **'Safest route'**
+  String get routeRowSafest;
+
+  /// No description provided for @routeRowShortest.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortest route'**
+  String get routeRowShortest;
+
+  /// No description provided for @routeSameRoad.
+  ///
+  /// In en, this message translates to:
+  /// **'Same road as the safest route'**
+  String get routeSameRoad;
+
+  /// No description provided for @routeDeepWater.
+  ///
+  /// In en, this message translates to:
+  /// **'{km} km of deep water'**
+  String routeDeepWater(String km);
+
+  /// No description provided for @routeUncertainBridges.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 bridge to check} other{{count} bridges to check}}'**
+  String routeUncertainBridges(int count);
+
+  /// No description provided for @routeShownOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown alone on the map'**
+  String get routeShownOnly;
+
+  /// No description provided for @routeLineSolid.
+  ///
+  /// In en, this message translates to:
+  /// **'solid line'**
+  String get routeLineSolid;
+
+  /// No description provided for @routeLineDashed.
+  ///
+  /// In en, this message translates to:
+  /// **'dashed line'**
+  String get routeLineDashed;
+
+  /// No description provided for @routeModeOnlyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The data has one way in per area: the routes are for that way only.'**
+  String get routeModeOnlyNote;
 }
 
 class _AppLocalizationsDelegate

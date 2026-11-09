@@ -388,5 +388,18 @@
   "layerDepotAuto": "Depósito de ajuda (escolhido automaticamente)",
   "layerRoutesNote": "A rota mais segura e a mais curta para cada área, a partir do depósito de ajuda.",
   "resetView": "Repor a vista padrão",
-  "routesPanelOpen": "Ver cada rota"
+  "routesPanelOpen": "Ver cada rota",
+  "routesPanelTitle": "Todas as rotas",
+  "routesPanelIntro": "Rotas do depósito de ajuda até cada área. Toque numa rota para mostrar só essa; toque de novo para limpar.",
+  "routesShowAll": "Mostrar todas as rotas",
+  "routesHideAll": "Esconder todas as rotas",
+  "routeRowSafest": "Rota mais segura",
+  "routeRowShortest": "Rota mais curta",
+  "routeSameRoad": "A mesma estrada que a rota mais segura",
+  "routeDeepWater": "{km} km de água funda",
+  "routeUncertainBridges": "{count, plural, =1{1 ponte a verificar} other{{count} pontes a verificar}}",
+  "routeShownOnly": "Mostrada sozinha no mapa",
+  "routeLineSolid": "linha contínua",
+  "routeLineDashed": "linha tracejada",
+  "routeModeOnlyNote": "Os dados têm um único modo de acesso por área: as rotas são só para esse modo."
 }

@@ -9,6 +9,7 @@ import '../l10n/app_localizations.dart';
 import '../router.dart';
 import '../state/mission_state.dart';
 import '../state/providers.dart';
+import '../state/route_view.dart';
 import '../theme/app_theme.dart';
 import '../utils/labels.dart';
 import '../widgets/area/area_sections.dart';
@@ -74,8 +75,10 @@ class AreaScreen extends ConsumerWidget {
                   icon: Icons.map_rounded,
                   label: l.viewOnMap,
                   onPressed: () {
+                    ref.read(selectedRouteProvider.notifier).state = null;
                     ref.read(selectedPocketIdProvider.notifier).state = pocketId;
                     context.go(AppRoutes.map);
+                    ref.read(routesPanelRequestProvider.notifier).state = pocketId;
                   },
                 ),
                 const SizedBox(height: 16),
