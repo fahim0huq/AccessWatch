@@ -1,5 +1,6 @@
 import 'package:accesswatch_mobile/data/bundle_repository.dart';
 import 'package:accesswatch_mobile/main.dart';
+import 'package:accesswatch_mobile/data/mission_ranking.dart';
 import 'package:accesswatch_mobile/data/routing.dart';
 import 'package:accesswatch_mobile/state/care_state.dart';
 import 'package:accesswatch_mobile/state/connectivity.dart';
@@ -70,3 +71,6 @@ Future<void> goBack(WidgetTester tester) async {
   await tester.tap(find.byType(BackButton).hitTestable().first);
   await tester.pumpAndSettle();
 }
+
+/// The published ranking, as Help first shows it with default weights.
+List<RankedMission> rankMissionsForTest(AppBundle bundle) => rankMissions(bundle.missions, const PriorityWeights());

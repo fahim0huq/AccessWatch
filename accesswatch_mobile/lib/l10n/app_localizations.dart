@@ -1716,18 +1716,6 @@ abstract class AppLocalizations {
   /// **'Boat {count}'**
   String filterBoatCount(String count);
 
-  /// No description provided for @filterTruckCount.
-  ///
-  /// In en, this message translates to:
-  /// **'Truck {count}'**
-  String filterTruckCount(String count);
-
-  /// No description provided for @filterCarCount.
-  ///
-  /// In en, this message translates to:
-  /// **'Car {count}'**
-  String filterCarCount(String count);
-
   /// No description provided for @filterFootCount.
   ///
   /// In en, this message translates to:
@@ -2159,6 +2147,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'LOW'**
   String get confLow;
+
+  /// No description provided for @filterVehicleCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle (high-clearance) {count}'**
+  String filterVehicleCount(String count);
+
+  /// No description provided for @shareGroupButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Share an alert for a team'**
+  String get shareGroupButton;
+
+  /// No description provided for @shareGroupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which teams is the alert for?'**
+  String get shareGroupTitle;
+
+  /// No description provided for @groupAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All areas ({count})'**
+  String groupAll(String count);
+
+  /// No description provided for @groupBoat.
+  ///
+  /// In en, this message translates to:
+  /// **'Boat teams ({count})'**
+  String groupBoat(String count);
+
+  /// No description provided for @groupVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle teams, high-clearance ({count})'**
+  String groupVehicle(String count);
+
+  /// No description provided for @alertGroupNameAll.
+  ///
+  /// In en, this message translates to:
+  /// **'all areas'**
+  String get alertGroupNameAll;
+
+  /// No description provided for @alertGroupNameBoat.
+  ///
+  /// In en, this message translates to:
+  /// **'areas that need a boat'**
+  String get alertGroupNameBoat;
+
+  /// No description provided for @alertGroupNameVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'areas a high-clearance vehicle can reach'**
+  String get alertGroupNameVehicle;
+
+  /// No description provided for @alertGroupHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'ACCESSWATCH, {group}: {count, plural, =1{1 area} other{{count} areas}}, about {people} people (estimate). Data from {date}.'**
+  String alertGroupHeadline(
+    String group,
+    int count,
+    String people,
+    String date,
+  );
+
+  /// No description provided for @alertGroupArea.
+  ///
+  /// In en, this message translates to:
+  /// **'#{rank} {pocket} {name}: about {people} people (estimate). {mode}. {depth}'**
+  String alertGroupArea(
+    String rank,
+    String pocket,
+    String name,
+    String people,
+    String mode,
+    String depth,
+  );
+
+  /// No description provided for @alertModeBoat.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs a boat ({km} km by water)'**
+  String alertModeBoat(String km);
+
+  /// No description provided for @alertModeVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'High-clearance vehicle only, not an ordinary car'**
+  String get alertModeVehicle;
+
+  /// No description provided for @alertModeCar.
+  ///
+  /// In en, this message translates to:
+  /// **'A car can reach it'**
+  String get alertModeCar;
+
+  /// No description provided for @alertModeFoot.
+  ///
+  /// In en, this message translates to:
+  /// **'On foot only'**
+  String get alertModeFoot;
+
+  /// No description provided for @alertDepthClass.
+  ///
+  /// In en, this message translates to:
+  /// **'Deepest water: {depth} (estimate).'**
+  String alertDepthClass(String depth);
+
+  /// No description provided for @alertPreliminaryDepotAssumed.
+  ///
+  /// In en, this message translates to:
+  /// **'Preliminary data; the aid depot is assumed, not confirmed.'**
+  String get alertPreliminaryDepotAssumed;
+
+  /// No description provided for @alertPreliminaryDepotAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Preliminary data; the aid depot was chosen automatically, not confirmed.'**
+  String get alertPreliminaryDepotAuto;
+
+  /// No description provided for @alertPreliminary.
+  ///
+  /// In en, this message translates to:
+  /// **'Preliminary data.'**
+  String get alertPreliminary;
 }
 
 class _AppLocalizationsDelegate

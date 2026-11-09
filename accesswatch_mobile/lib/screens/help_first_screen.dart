@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../data/models/enums.dart';
 import '../l10n/app_localizations.dart';
 import '../router.dart';
 import '../state/mission_state.dart';
+import '../state/providers.dart';
 import '../theme/app_theme.dart';
+import '../utils/area_groups.dart';
 import '../utils/labels.dart';
 import '../widgets/help/area_card.dart';
+import '../widgets/mission_detail_sections.dart' show showAlertPreview;
 import '../widgets/ui/kit.dart';
-import '../widgets/ui/mode_look.dart';
 
 /// Help first: every area, most urgent first, in the order the app ranks them
 /// (the published ranking, or the user's weights from About > Advanced).
@@ -21,19 +22,48 @@ class HelpFirstScreen extends ConsumerStatefulWidget {
   ConsumerState<HelpFirstScreen> createState() => _HelpFirstScreenState();
 }
 
+/// Asks which teams the alert is for, then shows the alert before it is sent.
+Future<void> showGroupAlertChooser(BuildContext context, WidgetRef ref) async {
+  final ranked = ref.read(rankedMissionsProvider);
+  final group = await showModalBottomSheet<AreaGroup>(
+    context: context,
+    isScrollControlled: true,
+    builder: (sheetContext) {
+      final l = AppLocalizations.of(sheetContext)!;
+      final fmt = Fmt.of(sheetContext);
+      Widget option(AreaGroup g, IconData icon, String label) => Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: BigButton.secondary(icon: icon, label: label, onPressed: () => Navigator.pop(sheetContext, g)),
+          );
+      return SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(AppSizes.gutter, 0, AppSizes.gutter, AppSizes.gutter),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(l.shareGroupTitle, style: Theme.of(sheetContext).textTheme.titleLarge),
+              const SizedBox(height: 16),
+              option(AreaGroup.all, Icons.groups_rounded, l.groupAll(fmt.count(AreaGroup.all.of(ranked).length))),
+              if (AreaGroup.boat.of(ranked).isNotEmpty)
+                option(AreaGroup.boat, Icons.directions_boat_rounded, l.groupBoat(fmt.count(AreaGroup.boat.of(ranked).length))),
+              if (AreaGroup.vehicle.of(ranked).isNotEmpty)
+                option(AreaGroup.vehicle, Icons.local_shipping_rounded,
+                    l.groupVehicle(fmt.count(AreaGroup.vehicle.of(ranked).length))),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+  if (group == null || !context.mounted) return;
+  final l = AppLocalizations.of(context)!;
+  showAlertPreview(
+      context, ref, l.groupAlertText(group, ranked, ref.read(loadedBundleProvider).manifest, Fmt.of(context)));
+}
+
 class _HelpFirstScreenState extends ConsumerState<HelpFirstScreen> {
-  /// null shows every access mode.
-  AccessMode? _filter;
-
-  /// Boat first: it is the harder case.
-  static const _chipOrder = [AccessMode.boat, AccessMode.highClearanceTruck, AccessMode.normalVehicle, AccessMode.onFoot];
-
-  String _chipLabel(AppLocalizations l, AccessMode mode, String count) => switch (mode) {
-        AccessMode.boat => l.filterBoatCount(count),
-        AccessMode.highClearanceTruck => l.filterTruckCount(count),
-        AccessMode.normalVehicle => l.filterCarCount(count),
-        AccessMode.onFoot => l.filterFootCount(count),
-      };
+  AreaGroup _filter = AreaGroup.all;
 
   @override
   Widget build(BuildContext context) {
@@ -41,25 +71,23 @@ class _HelpFirstScreenState extends ConsumerState<HelpFirstScreen> {
     final fmt = Fmt.of(context);
     final ranked = ref.watch(rankedMissionsProvider);
     final custom = !ref.watch(priorityWeightsProvider).isPublished;
-    final counts = <AccessMode, int>{};
-    for (final r in ranked) {
-      counts[r.mission.accessMode] = (counts[r.mission.accessMode] ?? 0) + 1;
-    }
-    final shown = [
-      for (final r in ranked)
-        if (_filter == null || r.mission.accessMode == _filter) r,
-    ];
+    final shown = _filter.of(ranked);
 
-    Widget chip(String label, AccessMode? mode, {IconData? icon}) => Padding(
-          padding: const EdgeInsets.only(right: 8),
-          child: FilterChip(
-            label: Text(label),
-            avatar: icon == null ? null : Icon(icon, size: 18, color: AppColors.ink),
-            selected: _filter == mode,
-            showCheckmark: icon == null,
-            onSelected: (_) => setState(() => _filter = mode),
-          ),
-        );
+    Widget chip(AreaGroup group, String Function(String) label, {IconData? icon}) {
+      final count = group.of(ranked).length;
+      // Only groups that exist in the data get a chip.
+      if (count == 0 && group != AreaGroup.all) return const SizedBox.shrink();
+      return Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: FilterChip(
+          label: Text(label(fmt.count(count))),
+          avatar: icon == null ? null : Icon(icon, size: 18, color: AppColors.ink),
+          selected: _filter == group,
+          showCheckmark: icon == null,
+          onSelected: (_) => setState(() => _filter = group),
+        ),
+      );
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -67,16 +95,25 @@ class _HelpFirstScreenState extends ConsumerState<HelpFirstScreen> {
           padding: const EdgeInsets.only(bottom: 24),
           children: [
             ScreenTitle(title: l.helpTitle, subtitle: l.helpSubtitle(ranked.length)),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
+            // Wrapped, not scrolled sideways, so every chip is in view.
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSizes.gutter, vertical: 4),
-              child: Row(
+              child: Wrap(
+                runSpacing: 8,
                 children: [
-                  chip(l.filterAllCount(fmt.count(ranked.length)), null),
-                  // Only modes that exist in the data get a chip.
-                  for (final mode in _chipOrder)
-                    if (counts[mode] != null) chip(_chipLabel(l, mode, fmt.count(counts[mode]!)), mode, icon: modeIcon(mode)),
+                  chip(AreaGroup.all, l.filterAllCount),
+                  chip(AreaGroup.boat, l.filterBoatCount, icon: Icons.directions_boat_rounded),
+                  chip(AreaGroup.vehicle, l.filterVehicleCount, icon: Icons.local_shipping_rounded),
+                  chip(AreaGroup.foot, l.filterFootCount, icon: Icons.directions_walk_rounded),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(AppSizes.gutter, 8, AppSizes.gutter, 0),
+              child: BigButton.secondary(
+                icon: Icons.campaign_rounded,
+                label: l.shareGroupButton,
+                onPressed: () => showGroupAlertChooser(context, ref),
               ),
             ),
             if (custom)

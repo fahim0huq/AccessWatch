@@ -1066,16 +1066,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String filterTruckCount(String count) {
-    return 'Truck $count';
-  }
-
-  @override
-  String filterCarCount(String count) {
-    return 'Car $count';
-  }
-
-  @override
   String filterFootCount(String count) {
     return 'On foot $count';
   }
@@ -1338,4 +1328,99 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get confLow => 'LOW';
+
+  @override
+  String filterVehicleCount(String count) {
+    return 'Vehicle (high-clearance) $count';
+  }
+
+  @override
+  String get shareGroupButton => 'Share an alert for a team';
+
+  @override
+  String get shareGroupTitle => 'Which teams is the alert for?';
+
+  @override
+  String groupAll(String count) {
+    return 'All areas ($count)';
+  }
+
+  @override
+  String groupBoat(String count) {
+    return 'Boat teams ($count)';
+  }
+
+  @override
+  String groupVehicle(String count) {
+    return 'Vehicle teams, high-clearance ($count)';
+  }
+
+  @override
+  String get alertGroupNameAll => 'all areas';
+
+  @override
+  String get alertGroupNameBoat => 'areas that need a boat';
+
+  @override
+  String get alertGroupNameVehicle =>
+      'areas a high-clearance vehicle can reach';
+
+  @override
+  String alertGroupHeadline(
+    String group,
+    int count,
+    String people,
+    String date,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count areas',
+      one: '1 area',
+    );
+    return 'ACCESSWATCH, $group: $_temp0, about $people people (estimate). Data from $date.';
+  }
+
+  @override
+  String alertGroupArea(
+    String rank,
+    String pocket,
+    String name,
+    String people,
+    String mode,
+    String depth,
+  ) {
+    return '#$rank $pocket $name: about $people people (estimate). $mode. $depth';
+  }
+
+  @override
+  String alertModeBoat(String km) {
+    return 'Needs a boat ($km km by water)';
+  }
+
+  @override
+  String get alertModeVehicle =>
+      'High-clearance vehicle only, not an ordinary car';
+
+  @override
+  String get alertModeCar => 'A car can reach it';
+
+  @override
+  String get alertModeFoot => 'On foot only';
+
+  @override
+  String alertDepthClass(String depth) {
+    return 'Deepest water: $depth (estimate).';
+  }
+
+  @override
+  String get alertPreliminaryDepotAssumed =>
+      'Preliminary data; the aid depot is assumed, not confirmed.';
+
+  @override
+  String get alertPreliminaryDepotAuto =>
+      'Preliminary data; the aid depot was chosen automatically, not confirmed.';
+
+  @override
+  String get alertPreliminary => 'Preliminary data.';
 }

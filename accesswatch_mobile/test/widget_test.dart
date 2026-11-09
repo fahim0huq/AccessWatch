@@ -50,7 +50,7 @@ void main() {
     final trucks = bundle.missions.where((m) => m.accessMode == AccessMode.highClearanceTruck).length;
     // Counts on the chips come from the data.
     expect(find.text(en.filterAllCount('${bundle.missions.length}')), findsOneWidget);
-    expect(find.text(en.filterTruckCount('$trucks')), findsOneWidget);
+    expect(find.text(en.filterVehicleCount('$trucks')), findsOneWidget);
     final chip = find.widgetWithText(FilterChip, en.filterBoatCount('$boats'));
     await tester.ensureVisible(chip);
     await tester.pumpAndSettle();

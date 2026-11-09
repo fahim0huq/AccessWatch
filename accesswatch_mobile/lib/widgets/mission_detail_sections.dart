@@ -160,6 +160,12 @@ void showAlertDialog(BuildContext context, WidgetRef ref, RankedMission ranked) 
     ref.read(loadedBundleProvider).manifest,
     Fmt.of(context),
   );
+  showAlertPreview(context, ref, text);
+}
+
+/// The alert text before it is sent, with Copy and Share.
+void showAlertPreview(BuildContext context, WidgetRef ref, String text) {
+  final l = AppLocalizations.of(context)!;
   showDialog<void>(
     context: context,
     builder: (dialogContext) => AlertDialog(

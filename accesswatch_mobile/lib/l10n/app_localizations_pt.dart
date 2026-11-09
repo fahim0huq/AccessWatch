@@ -1069,16 +1069,6 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String filterTruckCount(String count) {
-    return 'Camião $count';
-  }
-
-  @override
-  String filterCarCount(String count) {
-    return 'Carro $count';
-  }
-
-  @override
   String filterFootCount(String count) {
     return 'A pé $count';
   }
@@ -1343,4 +1333,99 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get confLow => 'BAIXA';
+
+  @override
+  String filterVehicleCount(String count) {
+    return 'Veículo (chassis alto) $count';
+  }
+
+  @override
+  String get shareGroupButton => 'Partilhar um alerta para uma equipa';
+
+  @override
+  String get shareGroupTitle => 'Para que equipas é o alerta?';
+
+  @override
+  String groupAll(String count) {
+    return 'Todas as áreas ($count)';
+  }
+
+  @override
+  String groupBoat(String count) {
+    return 'Equipas de barco ($count)';
+  }
+
+  @override
+  String groupVehicle(String count) {
+    return 'Equipas de veículo, chassis alto ($count)';
+  }
+
+  @override
+  String get alertGroupNameAll => 'todas as áreas';
+
+  @override
+  String get alertGroupNameBoat => 'áreas que precisam de barco';
+
+  @override
+  String get alertGroupNameVehicle =>
+      'áreas a que chega um veículo de chassis alto';
+
+  @override
+  String alertGroupHeadline(
+    String group,
+    int count,
+    String people,
+    String date,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count áreas',
+      one: '1 área',
+    );
+    return 'ACCESSWATCH, $group: $_temp0, cerca de $people pessoas (estimativa). Dados de $date.';
+  }
+
+  @override
+  String alertGroupArea(
+    String rank,
+    String pocket,
+    String name,
+    String people,
+    String mode,
+    String depth,
+  ) {
+    return '#$rank $pocket $name: cerca de $people pessoas (estimativa). $mode. $depth';
+  }
+
+  @override
+  String alertModeBoat(String km) {
+    return 'Precisa de barco ($km km por água)';
+  }
+
+  @override
+  String get alertModeVehicle =>
+      'Só veículo de chassis alto, não um carro comum';
+
+  @override
+  String get alertModeCar => 'Um carro consegue chegar';
+
+  @override
+  String get alertModeFoot => 'Só a pé';
+
+  @override
+  String alertDepthClass(String depth) {
+    return 'Água mais funda: $depth (estimativa).';
+  }
+
+  @override
+  String get alertPreliminaryDepotAssumed =>
+      'Dados preliminares; o depósito de ajuda é presumido, não confirmado.';
+
+  @override
+  String get alertPreliminaryDepotAuto =>
+      'Dados preliminares; o depósito de ajuda foi escolhido automaticamente, não confirmado.';
+
+  @override
+  String get alertPreliminary => 'Dados preliminares.';
 }
