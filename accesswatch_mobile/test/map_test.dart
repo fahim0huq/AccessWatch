@@ -11,10 +11,14 @@ import 'package:accesswatch_mobile/data/models/layers.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations_en.dart';
 import 'package:accesswatch_mobile/state/map_state.dart';
+import 'package:accesswatch_mobile/state/providers.dart';
+import 'package:accesswatch_mobile/utils/labels.dart';
+import 'package:accesswatch_mobile/widgets/quality_banners.dart';
 import 'package:accesswatch_mobile/widgets/map/feature_layers.dart';
 import 'package:accesswatch_mobile/widgets/map/flood_layers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:latlong2/latlong.dart' show LatLng;
 
@@ -89,6 +93,14 @@ void main() {
 
   MapCamera cameraOf(WidgetTester tester) => MapCamera.of(tester.element(find.byType(PocketLabelsLayer)));
 
+  ProviderContainer containerOf(WidgetTester tester) => ProviderScope.containerOf(tester.element(find.byType(FlutterMap)));
+
+  /// Layers beyond the defaults are switched in About > Advanced; here directly.
+  Future<void> showLayer(WidgetTester tester, MapLayer layer) async {
+    containerOf(tester).read(mapLayersProvider.notifier).setVisible(layer, true);
+    await tester.pumpAndSettle();
+  }
+
   group('camera and alignment', () {
     testWidgets('opens fitted to manifest.bounds', (tester) async {
       await openMap(tester);
@@ -103,8 +115,8 @@ void main() {
       }
       // Fitted: the box fills one dimension (less the padding), so it is not just somewhere on screen.
       final boxWidth = points[1].dx - points[0].dx, boxHeight = points[0].dy - points[2].dy;
-      // The fit leaves room on the right for the buttons and at the bottom for the attribution.
-      expect(math.max(boxWidth / (size.width - 80), boxHeight / (size.height - 36)), closeTo(1, 0.02));
+      // The fit leaves room for the pill and chips on top and the buttons on the right.
+      expect(math.max(boxWidth / (size.width - 88), boxHeight / (size.height - 136)), closeTo(1, 0.02));
     });
 
     testWidgets('pockets draw where the bundle coordinates say (prints a table)', (tester) async {
@@ -119,10 +131,11 @@ void main() {
       // ignore: avoid_print
       print('pocket  lat        lon        | Mercator formula x,y | map library x,y | drawn label x,y');
       var checked = 0;
-      for (final id in const ['P01', 'P02', 'P04']) {
-        final pocket = bundle.pockets.firstWhere((p) => p.id == id);
-        final label = find.textContaining('$id ·');
-        expect(label, findsOneWidget, reason: '$id label is on screen at the fitted zoom');
+      // Pills that would cover a higher-ranked one wait for zoom, so check every one drawn.
+      for (final pocket in bundle.pockets) {
+        final id = pocket.id;
+        final label = find.byKey(ValueKey('area-pill-$id'));
+        if (label.evaluate().isEmpty) continue;
         final fromFormula = mercatorPixel(pocket.point, camera.zoom) - centre + size.center(Offset.zero);
         final fromLibrary = camera.latLngToScreenOffset(pocket.point);
         final drawn = tester.getCenter(label) - mapTopLeft;
@@ -135,7 +148,8 @@ void main() {
         expect((drawn - fromLibrary).distance, lessThan(1.5));
         checked++;
       }
-      expect(checked, 3);
+      expect(checked, greaterThanOrEqualTo(3));
+      expect(find.byKey(const ValueKey('area-pill-P01')), findsOneWidget, reason: 'the top area is always drawn');
     });
 
     testWidgets('tiles load for the fitted area, and never for anywhere else', (tester) async {
@@ -239,17 +253,27 @@ void main() {
   });
 
   group('layers', () {
-    testWidgets('default layers are on, EMS and Compare are off, attribution shows', (tester) async {
+    testWidgets('flood and areas only to start; depth waits for zoom; attribution shows', (tester) async {
       await openMap(tester);
-      expect(find.byType(DepthZonesLayer), findsOneWidget);
       expect(find.byType(FloodLayer), findsOneWidget);
-      expect(find.byType(EmsFloodLayer), findsNothing);
-      expect(find.byType(OverlayImageLayer), findsNothing);
+      expect(find.byType(PocketAreasLayer), findsOneWidget);
+      for (final type in [RoutesLayer, ServicesLayer, FloodedRoadsLayer, EmsFloodLayer, BaselineFloodLayer, OverlayImageLayer]) {
+        expect(find.byType(type), findsNothing, reason: '$type');
+      }
+      // Depth classes are on but draw nothing at the fitted zoom.
+      expect(cameraOf(tester).zoom, lessThan(depthZonesMinZoom));
+      final depthPolygons = find.descendant(of: find.byType(DepthZonesLayer), matching: find.byType(PolygonLayer<Object>));
+      expect(depthPolygons, findsNothing);
+      containerOf(tester).read(selectedPocketIdProvider.notifier).state = 'P04';
+      await tester.pumpAndSettle();
+      expect(cameraOf(tester).zoom, greaterThanOrEqualTo(depthZonesMinZoom));
+      expect(depthPolygons, findsOneWidget);
       expect(find.text(en.osmAttribution), findsOneWidget);
     });
 
     testWidgets('flooded roads draw only the flooded graph edges', (tester) async {
       await openMap(tester);
+      await showLayer(tester, MapLayer.floodedRoads);
       final layer = tester.widget<PolylineLayer<Object>>(find.descendant(
         of: find.byType(FloodedRoadsLayer),
         matching: find.byType(PolylineLayer<Object>),
@@ -258,27 +282,18 @@ void main() {
       expect(layer.polylines, hasLength(stats.floodedShallow + stats.floodedMedium + stats.floodedDeep));
     });
 
-    testWidgets('Compare mode shows the image, its legend and the warning', (tester) async {
+    testWidgets('Compare replaces the flood layers with the image', (tester) async {
       await openMap(tester);
-      await tester.tap(find.byTooltip(en.tooltipCompare));
-      await tester.pumpAndSettle();
+      await showLayer(tester, MapLayer.compare);
       expect(find.byType(OverlayImageLayer), findsOneWidget);
       expect(find.byType(DepthZonesLayer), findsNothing);
-      // Plain words, with the three scores read from the data.
-      expect(find.text(en.compareNotIndependent('0.80', '0.82', '0.68')), findsOneWidget);
-      expect(find.text(en.compareEmsDate('Jan 18, 2026', '35.2')), findsOneWidget);
-      expect(find.text(en.compareBoth('23.4')), findsOneWidget);
       expect(find.text(en.osmAttribution), findsOneWidget);
     });
 
-    testWidgets('the physics-only layer starts off, has its note, and switches on', (tester) async {
+    testWidgets('the physics-only layer starts off and can be shown', (tester) async {
       await openMap(tester);
       expect(find.byType(BaselineFloodLayer), findsNothing);
-      await tester.tap(find.byTooltip(en.tooltipLayers));
-      await tester.pumpAndSettle();
-      expect(find.text(en.layerBaselineNote), findsOneWidget);
-      await tester.tap(find.widgetWithText(SwitchListTile, en.layerBaseline));
-      await tester.pumpAndSettle();
+      await showLayer(tester, MapLayer.floodBaseline);
       expect(find.byType(BaselineFloodLayer), findsOneWidget);
     });
 
@@ -286,38 +301,57 @@ void main() {
       double hectares(List<FloodArea> areas) => areas.fold(0, (sum, a) => sum + a.areaHa);
       expect(hectares(bundle.floodBaseline), lessThan(hectares(bundle.flood)));
     });
+  });
 
-    testWidgets('layer panel switches a layer off', (tester) async {
+  group('summary card', () {
+    testWidgets('areas and people from the bundle, no warning banners, one preliminary line', (tester) async {
       await openMap(tester);
-      await tester.tap(find.byTooltip(en.tooltipLayers));
-      await tester.pumpAndSettle();
-      await tester.tap(find.widgetWithText(SwitchListTile, en.layerFlood));
-      await tester.pumpAndSettle();
-      expect(find.byType(FloodLayer), findsNothing);
-      expect(MapLayer.values, contains(MapLayer.floodEms));
+      final stats = bundle.manifest.stats;
+      expect(find.text(en.mapAreasCutOff(stats.pockets)), findsOneWidget);
+      expect(find.text(en.mapPeopleNear('13,100', 'Chókwè and Guija')), findsOneWidget);
+      expect(find.byType(QualityBanners), findsNothing);
+      expect(find.text(en.warnShortNisarBeta), findsNothing);
+      expect(find.text(en.mapPreliminary('Jan 17, 2026')), findsOneWidget);
+      expect(find.text(en.legendFlooded), findsOneWidget);
+      expect(find.text(en.modeNeedsBoat), findsOneWidget);
+      expect(find.text(en.modeTruckCanReach), findsOneWidget);
     });
 
-    testWidgets('legend shows depth limits from the manifest', (tester) async {
+    testWidgets('the big button opens Help first; the line opens About', (tester) async {
       await openMap(tester);
-      await tester.tap(find.text(en.tooltipLegend));
+      await tester.tap(find.text(en.seeWhoNeedsHelp));
       await tester.pumpAndSettle();
-      final limits = bundle.manifest.depthClasses;
-      expect(find.text('${en.depthShallow} ${en.depthBelow(limits.shallowMaxM.toString())}'), findsOneWidget);
-      expect(find.text('${en.depthDeep} ${en.depthAbove(limits.deepMinM.toString())}'), findsOneWidget);
+      expect(find.byType(FlutterMap), findsNothing);
+      await tester.tap(find.text(en.tabMap).last);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(en.mapPreliminary('Jan 17, 2026')));
+      await tester.pumpAndSettle();
+      expect(find.text(en.aboutThisData), findsWidgets);
+    });
+
+    test('people are rounded for display, never more exact than the model', () {
+      expect(roundForDisplay(13072), 13100);
+      expect(roundForDisplay(152), 150);
+      expect(roundForDisplay(29), 29);
     });
   });
 
   group('taps', () {
-    testWidgets('the pocket label opens that pocket', (tester) async {
+    testWidgets('an area pill opens a short sheet, and Open goes to the area', (tester) async {
       await openMap(tester);
-      await tester.tap(find.textContaining('P04 ·'));
+      await tester.tap(find.byKey(const ValueKey('area-pill-P02')));
       await tester.pumpAndSettle();
-      expect(find.text(en.whyFlagged), findsOneWidget);
-      expect(find.text(en.estimatedPopulation), findsOneWidget);
+      final p02 = bundle.missions.firstWhere((m) => m.pocketId == 'P02');
+      expect(find.text(en.populationEstimate('${p02.population}')), findsOneWidget);
+      expect(find.text(en.modeTruckCanReach), findsWidgets);
+      await tester.tap(find.text(en.openArea));
+      await tester.pumpAndSettle();
+      expect(find.byType(FlutterMap), findsNothing);
     });
 
     testWidgets('a tap on the screen position of a route opens the route sheet', (tester) async {
       await openMap(tester);
+      await showLayer(tester, MapLayer.routes);
       final camera = cameraOf(tester);
       // A point on any route clear of service markers, pocket labels and the buttons, which sit on top.
       final width = tester.getSize(find.byType(FlutterMap)).width;
@@ -336,6 +370,7 @@ void main() {
 
     testWidgets('a tap on a service opens its sheet, and clinics show their status', (tester) async {
       await openMap(tester);
+      await showLayer(tester, MapLayer.services);
       // Called directly: at the fitted zoom neighbouring markers overlap this one.
       tester.widget<ServicesLayer>(find.byType(ServicesLayer)).onTap(bundle.clinics.first);
       await tester.pumpAndSettle();
@@ -346,7 +381,7 @@ void main() {
     testWidgets('choosing a pocket shows only its routes and zooms to it', (tester) async {
       await openMap(tester);
       final before = cameraOf(tester).zoom;
-      await tester.tap(find.text('#02 P05'));
+      containerOf(tester).read(selectedPocketIdProvider.notifier).state = 'P05';
       await tester.pumpAndSettle();
       expect(cameraOf(tester).zoom, greaterThan(before));
       final routes = tester.widget<PolylineLayer<Object>>(find.descendant(
@@ -366,7 +401,7 @@ void main() {
     await tester.tap(find.text(en.viewOnMap));
     await tester.pumpAndSettle();
     expect(find.byType(FlutterMap), findsOneWidget);
-    expect(find.textContaining('P01 ·'), findsOneWidget);
+    expect(find.byKey(const ValueKey('area-pill-P01')), findsOneWidget);
     final routes = tester.widget<PolylineLayer<Object>>(find.descendant(
       of: find.byType(RoutesLayer),
       matching: find.byWidgetPredicate((w) => w is PolylineLayer),
@@ -377,7 +412,7 @@ void main() {
   testWidgets('no overflow on the map at 200% text', (tester) async {
     await openMap(tester, textScale: 2.0);
     expect(tester.takeException(), isNull);
-    await tester.tap(find.byTooltip(en.tooltipCompare));
+    await tester.tap(find.byKey(const ValueKey('area-pill-P01')));
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
   });

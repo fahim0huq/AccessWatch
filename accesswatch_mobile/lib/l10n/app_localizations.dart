@@ -1911,7 +1911,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapSemanticsLabel.
   ///
   /// In en, this message translates to:
-  /// **'Flood map. Pockets, services and routes are also listed below the map and on the Missions and Care tabs.'**
+  /// **'Flood map. The same areas are listed on the Help first tab.'**
   String get mapSemanticsLabel;
 
   /// No description provided for @alreadyAtClinic.
@@ -1943,6 +1943,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'About this data'**
   String get aboutThisData;
+
+  /// No description provided for @mapAreasCutOff.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 area cut off} other{{count} areas cut off}}'**
+  String mapAreasCutOff(int count);
+
+  /// No description provided for @mapPeopleNear.
+  ///
+  /// In en, this message translates to:
+  /// **'About {people} people near {places}'**
+  String mapPeopleNear(String people, String places);
+
+  /// No description provided for @placesAnd.
+  ///
+  /// In en, this message translates to:
+  /// **'{first} and {last}'**
+  String placesAnd(String first, String last);
+
+  /// No description provided for @seeWhoNeedsHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'See who needs help first'**
+  String get seeWhoNeedsHelp;
+
+  /// No description provided for @mapPreliminary.
+  ///
+  /// In en, this message translates to:
+  /// **'Preliminary data · snapshot of {date} · tap for details'**
+  String mapPreliminary(String date);
+
+  /// No description provided for @mapSnapshot.
+  ///
+  /// In en, this message translates to:
+  /// **'Snapshot of {date} · tap for details'**
+  String mapSnapshot(String date);
+
+  /// No description provided for @legendFlooded.
+  ///
+  /// In en, this message translates to:
+  /// **'Flooded'**
+  String get legendFlooded;
+
+  /// No description provided for @modeNeedsBoat.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs a boat'**
+  String get modeNeedsBoat;
+
+  /// No description provided for @modeTruckCanReach.
+  ///
+  /// In en, this message translates to:
+  /// **'Truck can reach'**
+  String get modeTruckCanReach;
+
+  /// No description provided for @modeCarCanReach.
+  ///
+  /// In en, this message translates to:
+  /// **'A car can reach'**
+  String get modeCarCanReach;
+
+  /// No description provided for @modeFootCanReach.
+  ///
+  /// In en, this message translates to:
+  /// **'Reachable on foot'**
+  String get modeFootCanReach;
+
+  /// No description provided for @openArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get openArea;
+
+  /// No description provided for @areaMarkerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Area {rank}: {name}, {mode}'**
+  String areaMarkerLabel(String rank, String name, String mode);
 }
 
 class _AppLocalizationsDelegate

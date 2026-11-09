@@ -253,7 +253,7 @@ class LegendChip extends StatelessWidget {
           children: [
             Container(width: 14, height: 14, decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(4))),
             const SizedBox(width: 6),
-            Text(label, style: Theme.of(context).textTheme.labelMedium!.copyWith(color: AppColors.ink)),
+            Flexible(child: Text(label, style: Theme.of(context).textTheme.labelMedium!.copyWith(color: AppColors.ink))),
           ],
         ),
       );

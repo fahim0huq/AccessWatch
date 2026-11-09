@@ -1173,7 +1173,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get mapSemanticsLabel =>
-      'Mapa da cheia. Os bolsões, serviços e rotas também estão listados por baixo do mapa e nos separadores Missões e Cuidados.';
+      'Mapa da inundação. As mesmas áreas estão listadas no separador Ajudar primeiro.';
 
   @override
   String alreadyAtClinic(String clinic) {
@@ -1191,4 +1191,65 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get aboutThisData => 'Sobre estes dados';
+
+  @override
+  String mapAreasCutOff(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString áreas isoladas',
+      one: '1 área isolada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mapPeopleNear(String people, String places) {
+    return 'Cerca de $people pessoas perto de $places';
+  }
+
+  @override
+  String placesAnd(String first, String last) {
+    return '$first e $last';
+  }
+
+  @override
+  String get seeWhoNeedsHelp => 'Ver quem precisa de ajuda primeiro';
+
+  @override
+  String mapPreliminary(String date) {
+    return 'Dados preliminares · imagem de $date · toque para detalhes';
+  }
+
+  @override
+  String mapSnapshot(String date) {
+    return 'Imagem de $date · toque para detalhes';
+  }
+
+  @override
+  String get legendFlooded => 'Inundado';
+
+  @override
+  String get modeNeedsBoat => 'Precisa de barco';
+
+  @override
+  String get modeTruckCanReach => 'Camião consegue chegar';
+
+  @override
+  String get modeCarCanReach => 'Um carro consegue chegar';
+
+  @override
+  String get modeFootCanReach => 'Acessível a pé';
+
+  @override
+  String get openArea => 'Abrir';
+
+  @override
+  String areaMarkerLabel(String rank, String name, String mode) {
+    return 'Área $rank: $name, $mode';
+  }
 }

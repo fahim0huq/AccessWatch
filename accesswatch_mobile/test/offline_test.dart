@@ -21,7 +21,6 @@ void main() {
   testWidgets('data age: acquisition date and a snapshot age, from the manifest', (tester) async {
     await pumpApp(tester, bundle);
     // Harness clock: 2026-11-08 12:00 UTC; NISAR after scene: 2026-01-17 03:42 UTC.
-    expect(find.text(en.dataAgeShort(295)), findsOneWidget);
     await openAbout(tester);
     expect(find.text(en.dataAge('Jan 17, 2026', 295)), findsOneWidget);
   });

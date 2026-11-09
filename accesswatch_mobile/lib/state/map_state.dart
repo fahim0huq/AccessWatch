@@ -5,15 +5,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// compare.png overlay, which stands in for the flood layers while on.
 enum MapLayer { depthZones, flood, floodBaseline, floodEms, floodedRoads, pockets, routes, services, compare }
 
-const _startOff = {MapLayer.floodBaseline, MapLayer.floodEms, MapLayer.compare};
+/// Flood and areas only, to start. Depth classes also start on, but draw only
+/// when zoomed in ([depthZonesMinZoom]); the rest is in About > Advanced.
+const _startOff = {
+  MapLayer.floodBaseline,
+  MapLayer.floodEms,
+  MapLayer.compare,
+  MapLayer.floodedRoads,
+  MapLayer.routes,
+  MapLayer.services,
+};
+
+/// Below this zoom the depth classes would only be noise over the flood.
+const depthZonesMinZoom = 13.5;
 
 const _startOpacity = {
   MapLayer.depthZones: 0.7,
-  MapLayer.flood: 0.25,
+  MapLayer.flood: 0.55,
   MapLayer.floodBaseline: 0.45,
   MapLayer.floodEms: 0.45,
   MapLayer.floodedRoads: 1.0,
-  MapLayer.pockets: 0.35,
+  MapLayer.pockets: 0.4,
   MapLayer.routes: 1.0,
   MapLayer.compare: 0.85,
 };

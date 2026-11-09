@@ -44,8 +44,10 @@ class _DepthZonesLayerState extends ConsumerState<DepthZonesLayer> {
       _cache.clear();
       _cachedOpacity = opacity;
     }
+    final zoom = MapCamera.of(context).zoom;
+    if (zoom < depthZonesMinZoom) return const SizedBox.shrink();
     final lod = ref.watch(loadedBundleProvider).depthLod;
-    final level = DepthLod.levelIndexForZoom(MapCamera.of(context).zoom);
+    final level = DepthLod.levelIndexForZoom(zoom);
     return _cache.putIfAbsent(
       level,
       () => PolygonLayer<Object>(polygons: [
@@ -67,8 +69,8 @@ class FloodLayer extends ConsumerWidget {
     return PolygonLayer<Object>(polygons: [
       for (final area in flood)
         for (final polygon in area.polygons)
-          mapPolygon<Object>(polygon, AppColors.floodMedium.withValues(alpha: opacity),
-              border: AppColors.floodDeep.withValues(alpha: 0.8), width: 1),
+          mapPolygon<Object>(polygon, AppColors.floodFill.withValues(alpha: opacity),
+              border: AppColors.flood, width: 1),
     ]);
   }
 }
@@ -132,7 +134,7 @@ class _FloodedRoadsLayerState extends ConsumerState<FloodedRoadsLayer> {
               strokeWidth: 3,
               color: depthColor(DepthClass.fromCode(g.depthClass[e])).withValues(alpha: opacity),
               borderStrokeWidth: 1,
-              borderColor: Colors.white.withValues(alpha: opacity),
+              borderColor: AppColors.surface.withValues(alpha: opacity),
             ),
       ];
     }

@@ -116,16 +116,14 @@ void main() {
       expect(find.text(en.warnShortDepotAssumed), findsOneWidget);
     });
 
-    testWidgets('is true in the current data and shows on About, Map and Help first', (tester) async {
+    testWidgets('is true in the current data and shows on About and Help first, not on the Map', (tester) async {
       expect(bundle.manifest.qualityFlags, contains(QualityFlag.depotAssumed));
       await pumpApp(tester, bundle);
       await openAbout(tester);
       expect(find.text(en.warnShortDepotAssumed), findsOneWidget, reason: 'About');
       await goBack(tester);
-      // The Map starts with its banners folded into the warnings chip.
-      await tester.tap(find.text(en.warningsToggle('${bundle.manifest.qualityFlags.length}')));
-      await tester.pumpAndSettle();
-      expect(find.text(en.warnShortDepotAssumed), findsOneWidget, reason: 'Map');
+      // The Map keeps one short line and leaves the warnings to About.
+      expect(find.text(en.warnShortDepotAssumed), findsNothing, reason: 'Map');
       await tester.tap(find.text(en.tabHelpFirst).last);
       await tester.pumpAndSettle();
       expect(find.text(en.warnShortDepotAssumed), findsOneWidget, reason: 'Missions');

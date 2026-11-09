@@ -108,8 +108,21 @@ extension BundleLabels on AppLocalizations {
         QualityFlag.depotAssumed => warnDepotAssumed,
       };
 
+  /// "A", "A and B", "A, B and C".
+  String placeList(Iterable<String> places) {
+    final list = places.toList();
+    if (list.length < 2) return list.join();
+    return placesAnd(list.sublist(0, list.length - 1).join(', '), list.last);
+  }
+
   /// Known events get a translated name; any other shows its id from the data.
   String eventName(String event) => event == 'mozambique_flood_2026' ? eventMozambique2026 : event;
+}
+
+/// A modelled count shown as "about": to the nearest 100 from a thousand, else the nearest 10.
+int roundForDisplay(int count) {
+  final step = count >= 1000 ? 100 : (count >= 100 ? 10 : 1);
+  return (count / step).round() * step;
 }
 
 /// Numbers and dates in the current language (0,56 in Portuguese, 0.56 in English).

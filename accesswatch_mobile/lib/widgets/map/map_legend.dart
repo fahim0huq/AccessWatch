@@ -9,7 +9,8 @@ import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import '../../utils/trust_text.dart';
 import '../mission_card_sections.dart' show depthColor;
-import 'feature_layers.dart' show riskColor, serviceIcon;
+import '../ui/mode_look.dart';
+import 'feature_layers.dart' show serviceIcon;
 
 const _text = TextStyle(color: AppColors.text, fontSize: 11);
 const _title = TextStyle(color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.bold);
@@ -44,7 +45,7 @@ Widget _swatch(Color color) => Container(
   height: 13,
   decoration: BoxDecoration(
     color: color,
-    border: Border.all(color: Colors.white54),
+    border: Border.all(color: AppColors.line),
     borderRadius: BorderRadius.circular(2),
   ),
 );
@@ -103,12 +104,12 @@ class MapLegend extends ConsumerWidget {
             _Row(_swatch(AppColors.floodBaseline.withValues(alpha: 0.6)), l.layerBaseline),
             _Row(_swatch(AppColors.warning.withValues(alpha: 0.6)), l.legendEms),
             _Row(_line(AppColors.floodMedium), l.legendRoad),
-            for (final level in RiskLevel.values.reversed)
-              _Row(_swatch(riskColor(level).withValues(alpha: 0.6)), l.legendPocketRisk(l.riskLevel(level))),
+            for (final mode in const [AccessMode.boat, AccessMode.highClearanceTruck])
+              _Row(_swatch(modeMapColor(mode).withValues(alpha: 0.6)), modeWords(l, mode)),
             _Row(_line(AppColors.safestRoute), l.legendSafest),
             _Row(_line(AppColors.shortestRoute, dashed: true), l.legendShortest),
             for (final type in ServiceType.values)
-              _Row(Icon(serviceIcon(type), size: 15, color: Colors.white), l.serviceType(type)),
+              _Row(Icon(serviceIcon(type), size: 15, color: AppColors.brand), l.serviceType(type)),
             _Row(const Icon(Icons.navigation_rounded, size: 15, color: AppColors.accentSecondary), l.legendMe),
             const SizedBox(height: 6),
             Text(l.depthEstimateWarning, style: const TextStyle(color: AppColors.warning, fontSize: 10.5)),

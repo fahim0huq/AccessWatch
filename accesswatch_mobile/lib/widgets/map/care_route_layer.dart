@@ -9,7 +9,7 @@ import '../../utils/labels.dart';
 import '../care/care_common.dart';
 import '../care/route_cards.dart';
 
-const _careRouteColor = Color(0xFFC026D3);
+const _careRouteColor = AppColors.careRoute;
 
 /// The route sent from Care, drawn along the roads only.
 class CareRouteLayer extends ConsumerWidget {
@@ -47,7 +47,7 @@ class CareRoutePanel extends ConsumerWidget {
       padding: const EdgeInsets.fromLTRB(12, 8, 4, 8),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppSizes.cardRadius),
         border: Border.all(color: _careRouteColor),
       ),
       child: Row(

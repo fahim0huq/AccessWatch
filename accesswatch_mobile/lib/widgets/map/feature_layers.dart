@@ -10,9 +10,11 @@ import '../../data/models/route_line.dart';
 import '../../data/models/service_point.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/map_state.dart';
+import '../../state/mission_state.dart';
 import '../../state/providers.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
+import '../ui/mode_look.dart';
 import 'flood_layers.dart' show mapPolygon;
 
 /// Smallest tap area for anything on the map (Material and Android guidance).
@@ -20,12 +22,6 @@ const minTapTarget = 48.0;
 
 /// Service names appear from this zoom; below it they would pile on top of each other.
 const serviceLabelMinZoom = 15.0;
-
-Color riskColor(RiskLevel level) => switch (level) {
-  RiskLevel.high => AppColors.highRisk,
-  RiskLevel.medium => AppColors.warning,
-  RiskLevel.low => const Color(0xFFFDE047),
-};
 
 IconData serviceIcon(ServiceType type) => switch (type) {
   ServiceType.clinic => Icons.local_hospital_rounded,
@@ -70,9 +66,9 @@ class _PocketAreasLayerState extends ConsumerState<PocketAreasLayer> {
             for (final polygon in pocket.polygons)
               mapPolygon<Pocket>(
                 polygon,
-                riskColor(pocket.riskLevel).withValues(alpha: opacity),
-                border: pocket.id == selected ? AppColors.accent : riskColor(pocket.riskLevel),
-                width: pocket.id == selected ? 3 : 1.5,
+                modeMapColor(pocket.accessMode).withValues(alpha: opacity),
+                border: pocket.id == selected ? AppColors.ink : modeMapColor(pocket.accessMode),
+                width: pocket.id == selected ? 3 : 2,
                 hit: pocket,
               ),
         ],
@@ -81,8 +77,9 @@ class _PocketAreasLayerState extends ConsumerState<PocketAreasLayer> {
   }
 }
 
-/// "P01 · HIGH" labels. Text carries the risk, so colour is not the only signal.
-/// Labels that would cover a higher-ranked one wait until the map is zoomed in.
+/// Area pills: the mode icon and the area's place in Help first. The words are
+/// in the screen-reader label; the icon and the colour say boat or truck.
+/// Pills that would cover a higher-ranked one wait until the map is zoomed in.
 class PocketLabelsLayer extends ConsumerWidget {
   final ValueChanged<Pocket> onTap;
 
@@ -94,9 +91,10 @@ class PocketLabelsLayer extends ConsumerWidget {
     final camera = MapCamera.of(context);
     final selected = ref.watch(selectedPocketIdProvider);
     final scale = MediaQuery.textScalerOf(context).scale(1);
-    final width = 92.0 * scale, height = 26.0 * scale;
+    final rankOf = {for (final r in ref.watch(rankedMissionsProvider)) r.mission.pocketId: r};
+    final width = 64.0 * scale, height = (minTapTarget * scale).clamp(minTapTarget, 80.0);
     final ordered = [...ref.watch(loadedBundleProvider).pockets]
-      ..sort((a, b) => (a.id == selected ? -1 : a.rank).compareTo(b.id == selected ? -1 : b.rank));
+      ..sort((a, b) => (a.id == selected ? -1 : rankOf[a.id]!.rank).compareTo(b.id == selected ? -1 : rankOf[b.id]!.rank));
 
     final placed = <Rect>[];
     final markers = <Marker>[];
@@ -104,41 +102,38 @@ class PocketLabelsLayer extends ConsumerWidget {
       final box = Rect.fromCenter(center: camera.latLngToScreenOffset(pocket.point), width: width, height: height);
       if (placed.any(box.overlaps)) continue;
       placed.add(box);
+      final ranked = rankOf[pocket.id]!;
+      final tone = modeTone(pocket.accessMode);
+      final isSelected = pocket.id == selected;
       markers.add(
         Marker(
+          key: ValueKey('area-pill-${pocket.id}'),
           point: pocket.point,
           width: width,
-          // The label stays small; the tap area around it is the 48 dp minimum.
-          height: height < minTapTarget ? minTapTarget : height,
+          height: height,
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () => onTap(pocket),
             child: Semantics(
               button: true,
-              label: l.pocketMarkerLabel(pocket.id, l.riskLevel(pocket.riskLevel)),
+              label: l.areaMarkerLabel('${ranked.rank}', l.missionTitle(ranked.mission), modeWords(l, pocket.accessMode)),
               excludeSemantics: true,
               child: Center(
                 child: Container(
-                  height: height,
-                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.surface.withValues(alpha: 0.92),
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                      color: pocket.id == selected ? AppColors.accent : riskColor(pocket.riskLevel),
-                      width: pocket.id == selected ? 2 : 1,
-                    ),
+                    color: tone.tint,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: isSelected ? AppColors.ink : tone.strong, width: isSelected ? 3 : 2),
                   ),
-                  child: Text(
-                    '${pocket.id} · ${l.riskLevel(pocket.riskLevel)}',
-                    maxLines: 1,
-                    overflow: TextOverflow.fade,
-                    softWrap: false,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(modeIcon(pocket.accessMode), size: 16, color: tone.text),
+                      const SizedBox(width: 4),
+                      Text('${ranked.rank}',
+                          style: TextStyle(color: tone.text, fontSize: 14, fontWeight: FontWeight.w700)),
+                    ],
                   ),
                 ),
               ),
@@ -247,7 +242,7 @@ class ServicesLayer extends ConsumerWidget {
                             l.serviceName(service),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600),
+                            style: const TextStyle(color: AppColors.ink, fontSize: 12, fontWeight: FontWeight.w500),
                           ),
                         ),
                       ),
@@ -271,11 +266,11 @@ class _ServiceIcon extends StatelessWidget {
     width: 28,
     height: 28,
     decoration: BoxDecoration(
-      color: AppColors.surface,
+      color: AppColors.brand,
       shape: BoxShape.circle,
-      border: Border.all(color: Colors.white, width: 1.5),
+      border: Border.all(color: AppColors.surface, width: 1.5),
     ),
-    child: Icon(serviceIcon(service.type), size: 16, color: Colors.white),
+    child: Icon(serviceIcon(service.type), size: 16, color: AppColors.surface),
   );
 }
 
@@ -296,11 +291,11 @@ class MyLocationLayer extends StatelessWidget {
           label: isTest ? AppLocalizations.of(context)!.testPositionBadge : AppLocalizations.of(context)!.legendMe,
           child: Container(
             decoration: BoxDecoration(
-              color: isTest ? AppColors.warning : AppColors.accentSecondary,
+              color: isTest ? AppColors.boat : AppColors.me,
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 3),
+              border: Border.all(color: AppColors.surface, width: 3),
             ),
-            child: const Icon(Icons.navigation_rounded, size: 12, color: Colors.white),
+            child: const Icon(Icons.navigation_rounded, size: 12, color: AppColors.surface),
           ),
         ),
       ),

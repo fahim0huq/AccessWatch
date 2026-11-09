@@ -1166,7 +1166,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapSemanticsLabel =>
-      'Flood map. Pockets, services and routes are also listed below the map and on the Missions and Care tabs.';
+      'Flood map. The same areas are listed on the Help first tab.';
 
   @override
   String alreadyAtClinic(String clinic) {
@@ -1184,4 +1184,65 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutThisData => 'About this data';
+
+  @override
+  String mapAreasCutOff(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString areas cut off',
+      one: '1 area cut off',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mapPeopleNear(String people, String places) {
+    return 'About $people people near $places';
+  }
+
+  @override
+  String placesAnd(String first, String last) {
+    return '$first and $last';
+  }
+
+  @override
+  String get seeWhoNeedsHelp => 'See who needs help first';
+
+  @override
+  String mapPreliminary(String date) {
+    return 'Preliminary data · snapshot of $date · tap for details';
+  }
+
+  @override
+  String mapSnapshot(String date) {
+    return 'Snapshot of $date · tap for details';
+  }
+
+  @override
+  String get legendFlooded => 'Flooded';
+
+  @override
+  String get modeNeedsBoat => 'Needs a boat';
+
+  @override
+  String get modeTruckCanReach => 'Truck can reach';
+
+  @override
+  String get modeCarCanReach => 'A car can reach';
+
+  @override
+  String get modeFootCanReach => 'Reachable on foot';
+
+  @override
+  String get openArea => 'Open';
+
+  @override
+  String areaMarkerLabel(String rank, String name, String mode) {
+    return 'Area $rank: $name, $mode';
+  }
 }
