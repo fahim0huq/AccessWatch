@@ -9,6 +9,7 @@ import 'package:accesswatch_mobile/l10n/app_localizations_en.dart';
 import 'package:accesswatch_mobile/screens/care_screen.dart';
 import 'package:accesswatch_mobile/state/care_state.dart';
 import 'package:accesswatch_mobile/state/location.dart';
+import 'package:accesswatch_mobile/theme/app_theme.dart';
 import 'package:accesswatch_mobile/widgets/care/care_result.dart';
 import 'package:accesswatch_mobile/widgets/map/care_route_layer.dart';
 import 'package:accesswatch_mobile/widgets/map/feature_layers.dart';
@@ -121,7 +122,7 @@ void main() {
       expect(find.textContaining('To '), findsWidgets);
       await tester.tap(find.byTooltip(en.clearRoute));
       await tester.pumpAndSettle();
-      expect(find.byType(PolylineLayer<Object>).evaluate().where((e) => e.widget is PolylineLayer && (e.widget as PolylineLayer).polylines.any((p) => p.color.toARGB32() == 0xFFC026D3)), isEmpty);
+      expect(find.byType(PolylineLayer<Object>).evaluate().where((e) => e.widget is PolylineLayer && (e.widget as PolylineLayer).polylines.any((p) => p.color == AppColors.careRoute)), isEmpty);
     });
 
     testWidgets('outside the mapped area: says so and does not route', (tester) async {

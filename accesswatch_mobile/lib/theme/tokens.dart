@@ -41,19 +41,7 @@ class AppColors {
   static const careRoute = Color(0xFFC026D3);
   static const me = Color(0xFF1D5FA8);
   static const mapBackground = Color(0xFFE3ECEB);
-  static const scrim = Color(0xFF000000);
-
-  // Older names, kept while the screens move to the new ones.
-  static const background = ground;
-  static const surfaceElevated = surfaceMuted;
-  static const border = line;
-  static const text = ink;
-  static const textMuted = inkSecondary;
-  static const accent = brand;
-  static const accentSecondary = flood;
-  static const highRisk = danger;
-  static const warning = boat;
-  static const info = flood;
+  static const shadow = Color(0x22000000);
 }
 
 /// A status look: tint behind, dark text and icon in front. Never colour alone.

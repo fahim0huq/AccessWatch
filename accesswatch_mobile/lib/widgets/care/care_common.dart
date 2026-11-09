@@ -7,7 +7,6 @@ import '../../theme/app_theme.dart';
 import '../area/area_sections.dart' show CardTitle;
 import '../ui/kit.dart';
 
-const careSectionStyle = TextStyle(color: AppColors.ink, fontSize: 18, fontWeight: FontWeight.w700);
 const careBodyStyle = TextStyle(color: AppColors.ink, fontSize: 16, height: 1.4);
 const careMutedStyle = TextStyle(color: AppColors.inkSecondary, fontSize: 14, height: 1.4);
 

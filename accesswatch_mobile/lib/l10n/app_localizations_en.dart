@@ -12,13 +12,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appName => 'AccessWatch';
 
   @override
-  String get accesswatchTitle => 'ACCESSWATCH';
-
-  @override
   String get tabMap => 'Map';
-
-  @override
-  String get tabMissions => 'Missions';
 
   @override
   String get loadingData => 'Loading flood data…';
@@ -30,67 +24,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get retry => 'Try again';
 
   @override
-  String get betaBadge => 'Beta data';
-
-  @override
-  String get heroTitle => 'Find who is cut off.\nReach them safely.';
-
-  @override
-  String get heroSubtitle =>
-      'Turn flood observations into clear humanitarian access decisions.';
-
-  @override
-  String get missionControl => 'MISSION CONTROL';
-
-  @override
-  String get missionControlSubtitle => 'Explore the flood and access situation';
-
-  @override
-  String get missionCards => 'MISSION CARDS';
-
-  @override
-  String missionCardsSubtitle(String count) {
-    return 'Response briefs for $count ranked pockets';
-  }
-
-  @override
-  String get tapToOpenMap => 'Tap to open the map';
-
-  @override
-  String get floodPreviewLabel =>
-      'Outline of the mapped flood and cut-off pockets. Tap to open the map.';
-
-  @override
   String get eventMozambique2026 => 'Mozambique flood, January 2026';
-
-  @override
-  String kpiPockets(String count) {
-    return '$count pockets';
-  }
-
-  @override
-  String get kpiPocketsSub => 'Cut off or difficult to reach';
-
-  @override
-  String get kpiPeopleSub => 'People in pockets (modelled estimate)';
 
   @override
   String floodAreaKm2(String area) {
     return '$area km²';
-  }
-
-  @override
-  String get kpiFloodSub => 'New flood mapped';
-
-  @override
-  String get waterDepth => 'WATER DEPTH';
-
-  @override
-  String get kpiDepthSub => 'Flooded road pieces, by estimated depth';
-
-  @override
-  String depthCount(String count, String label) {
-    return '$count $label';
   }
 
   @override
@@ -160,17 +98,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Population is a modelled estimate, not a census.';
 
   @override
-  String get responseMissions => 'RESPONSE MISSIONS';
-
-  @override
-  String rankedPockets(String count) {
-    return '$count ranked pockets';
-  }
-
-  @override
-  String get filterAll => 'ALL';
-
-  @override
   String get accessNormalVehicle => 'VEHICLE';
 
   @override
@@ -232,9 +159,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get estimatedPopulation => 'Estimated population';
-
-  @override
   String get whyFlagged => 'Why flagged';
 
   @override
@@ -284,11 +208,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get routesSame =>
-      'For this pocket the safest route is the same as the shortest.';
+      'For this area the safest route is the same as the shortest.';
 
   @override
   String get routesDiffer =>
-      'For this pocket the safest route differs from the shortest.';
+      'For this area the safest route differs from the shortest.';
 
   @override
   String distanceKm(String km) {
@@ -310,9 +234,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get levelLow => 'LOW';
 
   @override
-  String get analysisConfidence => 'Analysis confidence';
-
-  @override
   String stabilityLabel(String pct) {
     return 'Holds in $pct% of test scenarios';
   }
@@ -321,12 +242,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String worstCaseMode(String mode) {
     return 'Worst case, prepare: $mode';
   }
-
-  @override
-  String get back => 'Back';
-
-  @override
-  String get appSubtitle => 'Satellite radar flood access analysis';
 
   @override
   String get settingsTitle => 'Settings';
@@ -339,11 +254,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languagePortuguese => 'Português';
-
-  @override
-  String textSize(String pct) {
-    return 'Text size: $pct%';
-  }
 
   @override
   String get presentationMode => 'Presentation mode';
@@ -396,25 +306,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get osmAttribution => '© OpenStreetMap contributors';
 
   @override
-  String mapDates(String before, String after, String ems) {
-    return 'NISAR $before – $after · EMS $ems';
-  }
-
-  @override
-  String warningsToggle(String count) {
-    return '$count warnings';
-  }
-
-  @override
-  String get tooltipLayers => 'Layers';
-
-  @override
-  String get tooltipLegend => 'Legend';
-
-  @override
-  String get tooltipCompare => 'Compare with EMS';
-
-  @override
   String get tooltipLocate => 'Show my location';
 
   @override
@@ -464,11 +355,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get legendTitle => 'Legend';
-
-  @override
-  String legendPocketRisk(String level) {
-    return 'Pocket, $level risk';
-  }
 
   @override
   String get legendSafest => 'Safest route';
@@ -539,12 +425,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Clear areas are dry in both maps, or outside the area EMS mapped.';
 
   @override
-  String get rankedPocketsTitle => 'RANKED POCKETS';
-
-  @override
-  String get allPockets => 'ALL';
-
-  @override
   String routeSheetTitle(String pocket, String route) {
     return '$pocket: $route';
   }
@@ -584,7 +464,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String clinicInsidePocket(String pocket) {
-    return 'Inside pocket $pocket';
+    return 'Inside cut-off area $pocket';
   }
 
   @override
@@ -653,11 +533,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'The aid depot is auto-selected, so this ranking is illustrative.';
 
   @override
-  String publishedRank(String rank) {
-    return 'Published rank: #$rank';
-  }
-
-  @override
   String missionNotFound(String id) {
     return 'No mission $id. Back to the list.';
   }
@@ -698,7 +573,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get verifyUnstable =>
-      'This pocket disappears or changes when the flood extent or depth is slightly off: verify it first.';
+      'This area disappears or changes when the flood extent or depth is slightly off: check it first.';
 
   @override
   String verifyShortestDeep(String km) {
@@ -775,18 +650,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get tabCare => 'Care';
-
-  @override
-  String get careTitle => 'CARE';
-
-  @override
-  String get careSubtitle => 'Clinics and how to reach them';
-
-  @override
-  String get mySpotTitle => 'MY SPOT';
-
-  @override
   String get mySpotIntro =>
       'Check your position against the flood map: in the flood or not, the estimated depth, and the nearest clinic you can reach by road.';
 
@@ -829,11 +692,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String spotNearestClinic(String clinic, String mode, String km) {
-    return 'Nearest clinic by road: $clinic ($mode, $km km)';
-  }
-
-  @override
   String get routingFailed => 'Routes could not be worked out.';
 
   @override
@@ -849,22 +707,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get needsBoatShort => 'Needs a boat from your spot';
 
   @override
-  String get routesToClinic => 'ROUTE TO A CLINIC';
-
-  @override
   String get criterionFastest => 'Fastest';
 
   @override
   String get criterionSafest => 'Safest';
-
-  @override
-  String get targetNearest =>
-      'To the nearest clinic each way of travel can reach.';
-
-  @override
-  String targetChosen(String clinic) {
-    return 'To $clinic';
-  }
 
   @override
   String get targetUseNearest => 'Use nearest';
@@ -877,11 +723,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get careModeFoot => 'On foot';
-
-  @override
-  String noRouteForMode(String mode) {
-    return 'No route by $mode: water or blocked roads are in the way.';
-  }
 
   @override
   String routeDistanceTime(String km, String minutes) {
@@ -914,20 +755,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'Time is a vehicle estimate from rounded data: allow a few minutes either way.';
 
   @override
-  String get showRouteOnMap => 'Show on map';
-
-  @override
   String careRouteTo(String clinic, String mode) {
     return 'To $clinic by $mode';
   }
 
   @override
   String get clearRoute => 'Clear the route';
-
-  @override
-  String clinicsTitle(String count) {
-    return 'CLINICS ($count)';
-  }
 
   @override
   String get locationWhyTitle => 'Why your location?';
@@ -948,9 +781,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get warnDepotAssumed =>
       'The aid depot location is assumed, not confirmed. Routes and priority depend on it: confirm the real depot before acting.';
-
-  @override
-  String get trustTitle => 'DATA & TRUST';
 
   @override
   String dateEmsGap(String hours) {
@@ -1080,26 +910,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'AccessWatch shows where floodwater cuts people off from clinics, markets and shelters, and how to reach them. It is built from satellite radar: depth and population are estimates.';
 
   @override
-  String get introTitle2 => 'Built from satellite radar';
-
-  @override
   String get introBody2 =>
       'The flood map comes from NISAR radar, checked against the Copernicus EMS map. Depth and population are estimates, and the radar data is still in beta.';
-
-  @override
-  String get introTitle3 => 'How to use it';
-
-  @override
-  String get introBody3 =>
-      'Map shows the flood and the cut-off pockets. Missions ranks the pockets with a brief for each. Care finds clinics and a road route from where you are. Info explains the data and its limits.';
-
-  @override
-  String get introNext => 'Next';
-
-  @override
-  String introProgress(String page, String count) {
-    return 'Page $page of $count';
-  }
 
   @override
   String get safetyTitle => 'Before you start';
@@ -1111,10 +923,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get safetyEmergency =>
       'If you are in danger, call your local emergency number.';
-
-  @override
-  String get safetyCheckbox =>
-      'I understand that this app is not an emergency service.';
 
   @override
   String get safetyAccept => 'I understand';
@@ -1140,29 +948,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String dataAgeShort(int days) {
-    String _temp0 = intl.Intl.pluralLogic(
-      days,
-      locale: localeName,
-      other: '$days days old',
-      one: '1 day old',
-      zero: 'from today',
-    );
-    return 'Snapshot, $_temp0';
-  }
-
-  @override
   String get offlineBanner =>
       'No network connection. Everything works from the data inside the app, except the map background and web links.';
 
   @override
   String get offlineWorks =>
       'All analysis data is inside the app, so it works offline. Only the map background and web links need a network.';
-
-  @override
-  String pocketMarkerLabel(String pocket, String risk) {
-    return 'Pocket $pocket, $risk risk';
-  }
 
   @override
   String get mapSemanticsLabel =>
@@ -1395,9 +1186,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get areaDetailsTitle => 'More detail';
-
-  @override
   String get routesIllustrativeShort =>
       'Routes start at the aid depot, which is assumed. Use them as a guide.';
 
@@ -1532,7 +1320,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get advancedMapNote => 'Layer changes show on the Map tab.';
-
-  @override
-  String get advancedRankingTitle => 'Priority weights';
 }

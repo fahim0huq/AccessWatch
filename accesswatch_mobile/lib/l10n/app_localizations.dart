@@ -104,23 +104,11 @@ abstract class AppLocalizations {
   /// **'AccessWatch'**
   String get appName;
 
-  /// No description provided for @accesswatchTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'ACCESSWATCH'**
-  String get accesswatchTitle;
-
   /// No description provided for @tabMap.
   ///
   /// In en, this message translates to:
   /// **'Map'**
   String get tabMap;
-
-  /// No description provided for @tabMissions.
-  ///
-  /// In en, this message translates to:
-  /// **'Missions'**
-  String get tabMissions;
 
   /// No description provided for @loadingData.
   ///
@@ -140,113 +128,17 @@ abstract class AppLocalizations {
   /// **'Try again'**
   String get retry;
 
-  /// No description provided for @betaBadge.
-  ///
-  /// In en, this message translates to:
-  /// **'Beta data'**
-  String get betaBadge;
-
-  /// No description provided for @heroTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Find who is cut off.\nReach them safely.'**
-  String get heroTitle;
-
-  /// No description provided for @heroSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Turn flood observations into clear humanitarian access decisions.'**
-  String get heroSubtitle;
-
-  /// No description provided for @missionControl.
-  ///
-  /// In en, this message translates to:
-  /// **'MISSION CONTROL'**
-  String get missionControl;
-
-  /// No description provided for @missionControlSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Explore the flood and access situation'**
-  String get missionControlSubtitle;
-
-  /// No description provided for @missionCards.
-  ///
-  /// In en, this message translates to:
-  /// **'MISSION CARDS'**
-  String get missionCards;
-
-  /// No description provided for @missionCardsSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Response briefs for {count} ranked pockets'**
-  String missionCardsSubtitle(String count);
-
-  /// No description provided for @tapToOpenMap.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap to open the map'**
-  String get tapToOpenMap;
-
-  /// No description provided for @floodPreviewLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Outline of the mapped flood and cut-off pockets. Tap to open the map.'**
-  String get floodPreviewLabel;
-
   /// No description provided for @eventMozambique2026.
   ///
   /// In en, this message translates to:
   /// **'Mozambique flood, January 2026'**
   String get eventMozambique2026;
 
-  /// No description provided for @kpiPockets.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} pockets'**
-  String kpiPockets(String count);
-
-  /// No description provided for @kpiPocketsSub.
-  ///
-  /// In en, this message translates to:
-  /// **'Cut off or difficult to reach'**
-  String get kpiPocketsSub;
-
-  /// No description provided for @kpiPeopleSub.
-  ///
-  /// In en, this message translates to:
-  /// **'People in pockets (modelled estimate)'**
-  String get kpiPeopleSub;
-
   /// No description provided for @floodAreaKm2.
   ///
   /// In en, this message translates to:
   /// **'{area} km²'**
   String floodAreaKm2(String area);
-
-  /// No description provided for @kpiFloodSub.
-  ///
-  /// In en, this message translates to:
-  /// **'New flood mapped'**
-  String get kpiFloodSub;
-
-  /// No description provided for @waterDepth.
-  ///
-  /// In en, this message translates to:
-  /// **'WATER DEPTH'**
-  String get waterDepth;
-
-  /// No description provided for @kpiDepthSub.
-  ///
-  /// In en, this message translates to:
-  /// **'Flooded road pieces, by estimated depth'**
-  String get kpiDepthSub;
-
-  /// No description provided for @depthCount.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} {label}'**
-  String depthCount(String count, String label);
 
   /// No description provided for @depthDry.
   ///
@@ -356,24 +248,6 @@ abstract class AppLocalizations {
   /// **'Population is a modelled estimate, not a census.'**
   String get populationIsModelled;
 
-  /// No description provided for @responseMissions.
-  ///
-  /// In en, this message translates to:
-  /// **'RESPONSE MISSIONS'**
-  String get responseMissions;
-
-  /// No description provided for @rankedPockets.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} ranked pockets'**
-  String rankedPockets(String count);
-
-  /// No description provided for @filterAll.
-  ///
-  /// In en, this message translates to:
-  /// **'ALL'**
-  String get filterAll;
-
   /// No description provided for @accessNormalVehicle.
   ///
   /// In en, this message translates to:
@@ -457,12 +331,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{direction, select, north{North of {place}} northeast{North-east of {place}} east{East of {place}} southeast{South-east of {place}} south{South of {place}} southwest{South-west of {place}} west{West of {place}} northwest{North-west of {place}} other{Near {place}}}'**
   String pocketTitle(String direction, String place);
-
-  /// No description provided for @estimatedPopulation.
-  ///
-  /// In en, this message translates to:
-  /// **'Estimated population'**
-  String get estimatedPopulation;
 
   /// No description provided for @whyFlagged.
   ///
@@ -551,13 +419,13 @@ abstract class AppLocalizations {
   /// No description provided for @routesSame.
   ///
   /// In en, this message translates to:
-  /// **'For this pocket the safest route is the same as the shortest.'**
+  /// **'For this area the safest route is the same as the shortest.'**
   String get routesSame;
 
   /// No description provided for @routesDiffer.
   ///
   /// In en, this message translates to:
-  /// **'For this pocket the safest route differs from the shortest.'**
+  /// **'For this area the safest route differs from the shortest.'**
   String get routesDiffer;
 
   /// No description provided for @distanceKm.
@@ -590,12 +458,6 @@ abstract class AppLocalizations {
   /// **'LOW'**
   String get levelLow;
 
-  /// No description provided for @analysisConfidence.
-  ///
-  /// In en, this message translates to:
-  /// **'Analysis confidence'**
-  String get analysisConfidence;
-
   /// No description provided for @stabilityLabel.
   ///
   /// In en, this message translates to:
@@ -607,18 +469,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Worst case, prepare: {mode}'**
   String worstCaseMode(String mode);
-
-  /// No description provided for @back.
-  ///
-  /// In en, this message translates to:
-  /// **'Back'**
-  String get back;
-
-  /// No description provided for @appSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Satellite radar flood access analysis'**
-  String get appSubtitle;
 
   /// No description provided for @settingsTitle.
   ///
@@ -643,12 +493,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Português'**
   String get languagePortuguese;
-
-  /// No description provided for @textSize.
-  ///
-  /// In en, this message translates to:
-  /// **'Text size: {pct}%'**
-  String textSize(String pct);
 
   /// No description provided for @presentationMode.
   ///
@@ -721,36 +565,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'© OpenStreetMap contributors'**
   String get osmAttribution;
-
-  /// No description provided for @mapDates.
-  ///
-  /// In en, this message translates to:
-  /// **'NISAR {before} – {after} · EMS {ems}'**
-  String mapDates(String before, String after, String ems);
-
-  /// No description provided for @warningsToggle.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} warnings'**
-  String warningsToggle(String count);
-
-  /// No description provided for @tooltipLayers.
-  ///
-  /// In en, this message translates to:
-  /// **'Layers'**
-  String get tooltipLayers;
-
-  /// No description provided for @tooltipLegend.
-  ///
-  /// In en, this message translates to:
-  /// **'Legend'**
-  String get tooltipLegend;
-
-  /// No description provided for @tooltipCompare.
-  ///
-  /// In en, this message translates to:
-  /// **'Compare with EMS'**
-  String get tooltipCompare;
 
   /// No description provided for @tooltipLocate.
   ///
@@ -847,12 +661,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Legend'**
   String get legendTitle;
-
-  /// No description provided for @legendPocketRisk.
-  ///
-  /// In en, this message translates to:
-  /// **'Pocket, {level} risk'**
-  String legendPocketRisk(String level);
 
   /// No description provided for @legendSafest.
   ///
@@ -960,18 +768,6 @@ abstract class AppLocalizations {
   /// **'Clear areas are dry in both maps, or outside the area EMS mapped.'**
   String get compareTransparent;
 
-  /// No description provided for @rankedPocketsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'RANKED POCKETS'**
-  String get rankedPocketsTitle;
-
-  /// No description provided for @allPockets.
-  ///
-  /// In en, this message translates to:
-  /// **'ALL'**
-  String get allPockets;
-
   /// No description provided for @routeSheetTitle.
   ///
   /// In en, this message translates to:
@@ -1041,7 +837,7 @@ abstract class AppLocalizations {
   /// No description provided for @clinicInsidePocket.
   ///
   /// In en, this message translates to:
-  /// **'Inside pocket {pocket}'**
+  /// **'Inside cut-off area {pocket}'**
   String clinicInsidePocket(String pocket);
 
   /// No description provided for @clinicStatusNote.
@@ -1158,12 +954,6 @@ abstract class AppLocalizations {
   /// **'The aid depot is auto-selected, so this ranking is illustrative.'**
   String get rankingDepotNote;
 
-  /// No description provided for @publishedRank.
-  ///
-  /// In en, this message translates to:
-  /// **'Published rank: #{rank}'**
-  String publishedRank(String rank);
-
   /// No description provided for @missionNotFound.
   ///
   /// In en, this message translates to:
@@ -1233,7 +1023,7 @@ abstract class AppLocalizations {
   /// No description provided for @verifyUnstable.
   ///
   /// In en, this message translates to:
-  /// **'This pocket disappears or changes when the flood extent or depth is slightly off: verify it first.'**
+  /// **'This area disappears or changes when the flood extent or depth is slightly off: check it first.'**
   String get verifyUnstable;
 
   /// No description provided for @verifyShortestDeep.
@@ -1326,30 +1116,6 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{Verify 1 bridge on the route on the ground first: radar cannot see its condition.} other{Verify {count} bridges on the route on the ground first: radar cannot see their condition.}}'**
   String verifyBridges(int count);
 
-  /// No description provided for @tabCare.
-  ///
-  /// In en, this message translates to:
-  /// **'Care'**
-  String get tabCare;
-
-  /// No description provided for @careTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'CARE'**
-  String get careTitle;
-
-  /// No description provided for @careSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Clinics and how to reach them'**
-  String get careSubtitle;
-
-  /// No description provided for @mySpotTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'MY SPOT'**
-  String get mySpotTitle;
-
   /// No description provided for @mySpotIntro.
   ///
   /// In en, this message translates to:
@@ -1416,12 +1182,6 @@ abstract class AppLocalizations {
   /// **'Routes start at the nearest road point, {metres} m away'**
   String spotSnapped(String metres);
 
-  /// No description provided for @spotNearestClinic.
-  ///
-  /// In en, this message translates to:
-  /// **'Nearest clinic by road: {clinic} ({mode}, {km} km)'**
-  String spotNearestClinic(String clinic, String mode, String km);
-
   /// No description provided for @routingFailed.
   ///
   /// In en, this message translates to:
@@ -1446,12 +1206,6 @@ abstract class AppLocalizations {
   /// **'Needs a boat from your spot'**
   String get needsBoatShort;
 
-  /// No description provided for @routesToClinic.
-  ///
-  /// In en, this message translates to:
-  /// **'ROUTE TO A CLINIC'**
-  String get routesToClinic;
-
   /// No description provided for @criterionFastest.
   ///
   /// In en, this message translates to:
@@ -1463,18 +1217,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Safest'**
   String get criterionSafest;
-
-  /// No description provided for @targetNearest.
-  ///
-  /// In en, this message translates to:
-  /// **'To the nearest clinic each way of travel can reach.'**
-  String get targetNearest;
-
-  /// No description provided for @targetChosen.
-  ///
-  /// In en, this message translates to:
-  /// **'To {clinic}'**
-  String targetChosen(String clinic);
 
   /// No description provided for @targetUseNearest.
   ///
@@ -1499,12 +1241,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'On foot'**
   String get careModeFoot;
-
-  /// No description provided for @noRouteForMode.
-  ///
-  /// In en, this message translates to:
-  /// **'No route by {mode}: water or blocked roads are in the way.'**
-  String noRouteForMode(String mode);
 
   /// No description provided for @routeDistanceTime.
   ///
@@ -1536,12 +1272,6 @@ abstract class AppLocalizations {
   /// **'Time is a vehicle estimate from rounded data: allow a few minutes either way.'**
   String get routeTimeRounded;
 
-  /// No description provided for @showRouteOnMap.
-  ///
-  /// In en, this message translates to:
-  /// **'Show on map'**
-  String get showRouteOnMap;
-
   /// No description provided for @careRouteTo.
   ///
   /// In en, this message translates to:
@@ -1553,12 +1283,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Clear the route'**
   String get clearRoute;
-
-  /// No description provided for @clinicsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'CLINICS ({count})'**
-  String clinicsTitle(String count);
 
   /// No description provided for @locationWhyTitle.
   ///
@@ -1595,12 +1319,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The aid depot location is assumed, not confirmed. Routes and priority depend on it: confirm the real depot before acting.'**
   String get warnDepotAssumed;
-
-  /// No description provided for @trustTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'DATA & TRUST'**
-  String get trustTitle;
 
   /// No description provided for @dateEmsGap.
   ///
@@ -1800,41 +1518,11 @@ abstract class AppLocalizations {
   /// **'AccessWatch shows where floodwater cuts people off from clinics, markets and shelters, and how to reach them. It is built from satellite radar: depth and population are estimates.'**
   String get introBody1;
 
-  /// No description provided for @introTitle2.
-  ///
-  /// In en, this message translates to:
-  /// **'Built from satellite radar'**
-  String get introTitle2;
-
   /// No description provided for @introBody2.
   ///
   /// In en, this message translates to:
   /// **'The flood map comes from NISAR radar, checked against the Copernicus EMS map. Depth and population are estimates, and the radar data is still in beta.'**
   String get introBody2;
-
-  /// No description provided for @introTitle3.
-  ///
-  /// In en, this message translates to:
-  /// **'How to use it'**
-  String get introTitle3;
-
-  /// No description provided for @introBody3.
-  ///
-  /// In en, this message translates to:
-  /// **'Map shows the flood and the cut-off pockets. Missions ranks the pockets with a brief for each. Care finds clinics and a road route from where you are. Info explains the data and its limits.'**
-  String get introBody3;
-
-  /// No description provided for @introNext.
-  ///
-  /// In en, this message translates to:
-  /// **'Next'**
-  String get introNext;
-
-  /// No description provided for @introProgress.
-  ///
-  /// In en, this message translates to:
-  /// **'Page {page} of {count}'**
-  String introProgress(String page, String count);
 
   /// No description provided for @safetyTitle.
   ///
@@ -1853,12 +1541,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'If you are in danger, call your local emergency number.'**
   String get safetyEmergency;
-
-  /// No description provided for @safetyCheckbox.
-  ///
-  /// In en, this message translates to:
-  /// **'I understand that this app is not an emergency service.'**
-  String get safetyCheckbox;
 
   /// No description provided for @safetyAccept.
   ///
@@ -1884,12 +1566,6 @@ abstract class AppLocalizations {
   /// **'Data acquired {date} (NISAR radar). This is a snapshot from {days, plural, =0{today} =1{1 day ago} other{{days} days ago}}: the water has changed since.'**
   String dataAge(String date, int days);
 
-  /// No description provided for @dataAgeShort.
-  ///
-  /// In en, this message translates to:
-  /// **'Snapshot, {days, plural, =0{from today} =1{1 day old} other{{days} days old}}'**
-  String dataAgeShort(int days);
-
   /// No description provided for @offlineBanner.
   ///
   /// In en, this message translates to:
@@ -1901,12 +1577,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All analysis data is inside the app, so it works offline. Only the map background and web links need a network.'**
   String get offlineWorks;
-
-  /// No description provided for @pocketMarkerLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Pocket {pocket}, {risk} risk'**
-  String pocketMarkerLabel(String pocket, String risk);
 
   /// No description provided for @mapSemanticsLabel.
   ///
@@ -2226,12 +1896,6 @@ abstract class AppLocalizations {
   /// **'Confidence: {level}'**
   String howSureConfidence(String level);
 
-  /// No description provided for @areaDetailsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'More detail'**
-  String get areaDetailsTitle;
-
   /// No description provided for @routesIllustrativeShort.
   ///
   /// In en, this message translates to:
@@ -2465,12 +2129,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Layer changes show on the Map tab.'**
   String get advancedMapNote;
-
-  /// No description provided for @advancedRankingTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Priority weights'**
-  String get advancedRankingTitle;
 }
 
 class _AppLocalizationsDelegate

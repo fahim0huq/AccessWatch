@@ -33,7 +33,7 @@ void showRoutesSheet(BuildContext context, List<RouteLine> routes) {
       controller: controller,
       padding: const EdgeInsets.all(20),
       children: [
-        Text(l.routesIllustrative, style: const TextStyle(color: AppColors.warning, fontSize: 11.5)),
+        Text(l.routesIllustrative, style: const TextStyle(color: AppColors.boat, fontSize: 11.5)),
         const SizedBox(height: 12),
         for (final route in routes) _RouteCard(route: route),
       ],
@@ -52,7 +52,7 @@ class _Fact extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(flex: 2, child: Text(label, style: const TextStyle(color: AppColors.textMuted, fontSize: 12))),
+            Expanded(flex: 2, child: Text(label, style: const TextStyle(color: AppColors.inkSecondary, fontSize: 12))),
             Expanded(
               flex: 3,
               child: Text(value, style: const TextStyle(color: AppColors.ink, fontSize: 12, fontWeight: FontWeight.bold)),
@@ -76,9 +76,9 @@ class _RouteCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.background,
+        color: AppColors.ground,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.line),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,14 +105,14 @@ void showServiceSheet(BuildContext context, WidgetRef ref, ServicePoint service)
   final repeatsPossible = bundle.quality.notes.clinicRecordPairsWithin100m > 0;
   _show(context, (controller) {
     final l = AppLocalizations.of(context)!;
-    const note = TextStyle(color: AppColors.textMuted, fontSize: 12, height: 1.35);
+    const note = TextStyle(color: AppColors.inkSecondary, fontSize: 12, height: 1.35);
     return ListView(
       controller: controller,
       padding: const EdgeInsets.all(20),
       children: [
         Row(
           children: [
-            Icon(serviceIcon(service.type), color: AppColors.accent),
+            Icon(serviceIcon(service.type), color: AppColors.brand),
             const SizedBox(width: 10),
             Expanded(
               child: Text(l.serviceName(service),
@@ -130,7 +130,7 @@ void showServiceSheet(BuildContext context, WidgetRef ref, ServicePoint service)
         ],
         if (service.type == ServiceType.aidDepot && flags.contains(QualityFlag.depotAutoSelected)) ...[
           const SizedBox(height: 10),
-          Text(l.warnDepotAutoSelected, style: note.copyWith(color: AppColors.warning)),
+          Text(l.warnDepotAutoSelected, style: note.copyWith(color: AppColors.boat)),
         ],
       ],
     );

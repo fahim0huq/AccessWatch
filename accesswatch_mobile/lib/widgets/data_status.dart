@@ -9,18 +9,14 @@ import '../utils/labels.dart';
 
 /// When the data was acquired and how old it is: a snapshot, not live.
 class DataAgeNote extends ConsumerWidget {
-  final bool compact;
-
-  const DataAgeNote({super.key, this.compact = false});
+  const DataAgeNote({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context)!;
     final acquired = ref.watch(loadedBundleProvider).manifest.dates.nisarAfter;
     final days = ref.watch(clockProvider)().toUtc().difference(acquired).inDays;
-    final text = compact
-        ? l.dataAgeShort(days < 0 ? 0 : days)
-        : l.dataAge(Fmt.of(context).date(acquired), days < 0 ? 0 : days);
+    final text = l.dataAge(Fmt.of(context).date(acquired), days < 0 ? 0 : days);
     return Semantics(
       container: true,
       child: Row(
@@ -30,7 +26,7 @@ class DataAgeNote extends ConsumerWidget {
           const SizedBox(width: 6),
           Expanded(
             child: Text(text,
-                style: TextStyle(color: AppColors.boatText, fontSize: compact ? 14 : 16, height: 1.4)),
+                style: TextStyle(color: AppColors.boatText, fontSize: 16, height: 1.4)),
           ),
         ],
       ),

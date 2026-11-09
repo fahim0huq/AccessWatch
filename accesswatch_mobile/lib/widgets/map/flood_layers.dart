@@ -16,7 +16,7 @@ Polygon<R> mapPolygon<R extends Object>(GeoPolygon p, Color fill, {Color? border
       points: p.outer,
       holePointsList: p.holes.isEmpty ? null : p.holes,
       color: fill,
-      borderColor: border ?? const Color(0x00000000),
+      borderColor: border ?? Colors.transparent,
       borderStrokeWidth: width,
       hitValue: hit,
     );
@@ -101,8 +101,8 @@ class EmsFloodLayer extends ConsumerWidget {
     final ems = ref.watch(loadedBundleProvider).ems;
     return PolygonLayer<Object>(polygons: [
       for (final polygon in ems.flood)
-        mapPolygon<Object>(polygon, AppColors.warning.withValues(alpha: opacity),
-            border: AppColors.warning, width: 1.5),
+        mapPolygon<Object>(polygon, AppColors.boat.withValues(alpha: opacity),
+            border: AppColors.boat, width: 1.5),
     ]);
   }
 }

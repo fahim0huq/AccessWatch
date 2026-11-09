@@ -18,7 +18,7 @@ const _title = TextStyle(color: AppColors.ink, fontSize: 16, fontWeight: FontWei
 BoxDecoration _panel() => BoxDecoration(
   color: AppColors.surface.withValues(alpha: 0.96),
   borderRadius: BorderRadius.circular(12),
-  border: Border.all(color: AppColors.border),
+  border: Border.all(color: AppColors.line),
 );
 
 class _Row extends StatelessWidget {
@@ -102,7 +102,7 @@ class MapLegend extends ConsumerWidget {
               _Row(_swatch(depthColor(depth)), '${l.depthClass(depth)} ${l.depthRange(depth, limits, fmt)}'),
             _Row(_swatch(AppColors.floodMedium.withValues(alpha: 0.35)), l.layerFlood),
             _Row(_swatch(AppColors.floodBaseline.withValues(alpha: 0.6)), l.layerBaseline),
-            _Row(_swatch(AppColors.warning.withValues(alpha: 0.6)), l.legendEms),
+            _Row(_swatch(AppColors.boat.withValues(alpha: 0.6)), l.legendEms),
             _Row(_line(AppColors.floodMedium), l.legendRoad),
             for (final mode in const [AccessMode.boat, AccessMode.highClearanceTruck])
               _Row(_swatch(modeMapColor(mode).withValues(alpha: 0.6)), modeWords(l, mode)),
@@ -110,7 +110,7 @@ class MapLegend extends ConsumerWidget {
             _Row(_line(AppColors.shortestRoute, dashed: true), l.legendShortest),
             for (final type in ServiceType.values)
               _Row(Icon(serviceIcon(type), size: 15, color: AppColors.brand), l.serviceType(type)),
-            _Row(const Icon(Icons.navigation_rounded, size: 15, color: AppColors.accentSecondary), l.legendMe),
+            _Row(const Icon(Icons.navigation_rounded, size: 15, color: AppColors.flood), l.legendMe),
             const SizedBox(height: 6),
             Text(l.depthEstimateWarning, style: const TextStyle(color: AppColors.boatText, fontSize: 14)),
           ],

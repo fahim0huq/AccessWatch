@@ -16,7 +16,7 @@ Color depthColor(DepthClass depth) => switch (depth) {
       DepthClass.deep => AppColors.floodDeep,
       DepthClass.medium => AppColors.floodMedium,
       DepthClass.shallow => AppColors.floodShallow,
-      DepthClass.dry || DepthClass.unknown => AppColors.textMuted,
+      DepthClass.dry || DepthClass.unknown => AppColors.inkSecondary,
     };
 
 /// Depth is shown as a class with its definition, never as exact metres.
@@ -43,15 +43,15 @@ class MissionCardDepthSection extends ConsumerWidget {
           Text(l.estimatedMaxDepth, style: _section.copyWith(fontSize: 14)),
           const SizedBox(height: 8),
           Text(l.depthClass(depth), style: _mono.copyWith(color: AppColors.ink, fontSize: 26)),
-          if (range != null) Text(range, style: _mono.copyWith(color: AppColors.textMuted, fontSize: 14)),
+          if (range != null) Text(range, style: _mono.copyWith(color: AppColors.inkSecondary, fontSize: 14)),
           const SizedBox(height: 12),
           Row(
             children: [
-              const Icon(Icons.warning_amber_rounded, size: 16, color: AppColors.warning),
+              const Icon(Icons.warning_amber_rounded, size: 16, color: AppColors.boat),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(l.depthEstimateWarning,
-                    style: const TextStyle(color: AppColors.warning, fontSize: 14, fontWeight: FontWeight.bold)),
+                    style: const TextStyle(color: AppColors.boat, fontSize: 14, fontWeight: FontWeight.bold)),
               ),
             ],
           ),
@@ -71,7 +71,7 @@ class MissionCardRouteTable extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(child: Text(label, style: const TextStyle(color: AppColors.textMuted, fontSize: 14))),
+            Expanded(child: Text(label, style: const TextStyle(color: AppColors.inkSecondary, fontSize: 14))),
             Expanded(child: Text(shortest, style: _mono.copyWith(color: AppColors.ink, fontSize: 14))),
             Expanded(child: Text(safest, style: _mono.copyWith(color: AppColors.safestRoute, fontSize: 14))),
           ],
@@ -94,18 +94,18 @@ class MissionCardRouteTable extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: AppColors.line),
           ),
           child: Column(
             children: [
               Row(
                 children: [
                   Expanded(child: Text(l.metric, style: _section.copyWith(fontSize: 14))),
-                  Expanded(child: Text(l.shortest, style: _section.copyWith(fontSize: 14, color: AppColors.text))),
+                  Expanded(child: Text(l.shortest, style: _section.copyWith(fontSize: 14, color: AppColors.ink))),
                   Expanded(child: Text(l.safestStar, style: _section.copyWith(fontSize: 14, color: AppColors.safestRoute))),
                 ],
               ),
-              const Divider(color: AppColors.border, height: 12),
+              const Divider(color: AppColors.line, height: 12),
               _row(l.distance, l.distanceKm(fmt.km(s.distanceKm)), l.distanceKm(fmt.km(f.distanceKm))),
               _row(l.eta, l.durationMin(fmt.minutes(s.timeMin)), l.durationMin(fmt.minutes(f.timeMin))),
               _row(l.depthLevel, l.depthClass(s.maxDepthClass), l.depthClass(f.maxDepthClass)),
@@ -118,7 +118,7 @@ class MissionCardRouteTable extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4),
           child: Text(s.sameAs(f) ? l.routesSame : l.routesDiffer,
-              style: const TextStyle(color: AppColors.textMuted, fontSize: 14, fontStyle: FontStyle.italic)),
+              style: const TextStyle(color: AppColors.inkSecondary, fontSize: 14, fontStyle: FontStyle.italic)),
         ),
       ],
     );

@@ -24,9 +24,12 @@ import '../widgets/ui/kit.dart';
 
 const _tileUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 const _userAgentPackage = 'com.accesswatch.app';
-// Room for the pill and chips above and the buttons on the right.
-const _fitPadding = EdgeInsets.fromLTRB(16, 120, 72, 16);
-const _focusPadding = EdgeInsets.fromLTRB(48, 120, 80, 48);
+/// Room for the pill and chips above (they grow with the text size) and the
+/// buttons on the right, so nothing fitted sits under them.
+EdgeInsets _fitPadding(BuildContext context) =>
+    EdgeInsets.fromLTRB(16, 64 + 56 * MediaQuery.textScalerOf(context).scale(1), 72, 16);
+EdgeInsets _focusPadding(BuildContext context) =>
+    EdgeInsets.fromLTRB(48, 64 + 56 * MediaQuery.textScalerOf(context).scale(1), 80, 48);
 
 LatLngBounds _latLngBounds(GeoBounds b) => LatLngBounds(LatLng(b.south, b.west), LatLng(b.north, b.east));
 
@@ -79,7 +82,7 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
   }
 
   void _fitPoints(List<LatLng> points, double maxZoom) =>
-      _map.fitCamera(CameraFit.bounds(bounds: LatLngBounds.fromPoints(points), padding: _focusPadding, maxZoom: maxZoom));
+      _map.fitCamera(CameraFit.bounds(bounds: LatLngBounds.fromPoints(points), padding: _focusPadding(context), maxZoom: maxZoom));
 
   void _showCareRoute(CareRouteOnMap? route) {
     if (route == null || !_ready || route.points.length < 2) return;
@@ -87,7 +90,7 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
   }
 
   void _fitAll() =>
-      _map.fitCamera(CameraFit.bounds(bounds: _latLngBounds(_bundle.manifest.bounds), padding: _fitPadding));
+      _map.fitCamera(CameraFit.bounds(bounds: _latLngBounds(_bundle.manifest.bounds), padding: _fitPadding(context)));
 
   void _focus(String? pocketId) {
     if (!_ready) return;
@@ -158,7 +161,7 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                       // are for this area and not the library's default centre.
                       initialCenter: _latLngBounds(bundle.manifest.bounds).center,
                       initialZoom: 12,
-                      initialCameraFit: CameraFit.bounds(bounds: _latLngBounds(bundle.manifest.bounds), padding: _fitPadding),
+                      initialCameraFit: CameraFit.bounds(bounds: _latLngBounds(bundle.manifest.bounds), padding: _fitPadding(context)),
                       minZoom: 9,
                       maxZoom: 18,
                       backgroundColor: AppColors.mapBackground,

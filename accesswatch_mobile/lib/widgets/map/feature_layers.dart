@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latlong2/latlong.dart' show LatLng;
 
 import '../../data/models/enums.dart';
 import '../../data/models/pocket.dart';
@@ -16,6 +15,8 @@ import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import '../ui/mode_look.dart';
 import 'flood_layers.dart' show mapPolygon;
+
+export 'my_location_layer.dart';
 
 /// Smallest tap area for anything on the map (Material and Android guidance).
 const minTapTarget = 48.0;
@@ -271,37 +272,5 @@ class _ServiceIcon extends StatelessWidget {
       border: Border.all(color: AppColors.surface, width: 1.5),
     ),
     child: Icon(serviceIcon(service.type), size: 16, color: AppColors.surface),
-  );
-}
-
-class MyLocationLayer extends StatelessWidget {
-  final LatLng position;
-  final bool isTest;
-
-  /// Read out instead of the default, e.g. for the sample spot.
-  final String? label;
-
-  const MyLocationLayer({super.key, required this.position, this.isTest = false, this.label});
-
-  @override
-  Widget build(BuildContext context) => MarkerLayer(
-    markers: [
-      Marker(
-        point: position,
-        width: 28,
-        height: 28,
-        child: Semantics(
-          label: label ?? (isTest ? AppLocalizations.of(context)!.testPositionBadge : AppLocalizations.of(context)!.legendMe),
-          child: Container(
-            decoration: BoxDecoration(
-              color: isTest ? AppColors.boat : AppColors.me,
-              shape: BoxShape.circle,
-              border: Border.all(color: AppColors.surface, width: 3),
-            ),
-            child: const Icon(Icons.navigation_rounded, size: 12, color: AppColors.surface),
-          ),
-        ),
-      ),
-    ],
   );
 }

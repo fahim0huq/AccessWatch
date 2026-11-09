@@ -16,9 +16,9 @@ Future<bool> requestLocation(BuildContext context, WidgetRef ref) async {
       context: context,
       builder: (dialogContext) => AlertDialog(
         backgroundColor: AppColors.surface,
-        icon: const Icon(Icons.my_location_rounded, color: AppColors.accent),
+        icon: const Icon(Icons.my_location_rounded, color: AppColors.brand),
         title: Text(l.locationWhyTitle, style: const TextStyle(color: AppColors.ink, fontSize: 16)),
-        content: Text(l.locationWhyBody, style: const TextStyle(color: AppColors.text, fontSize: 13, height: 1.4)),
+        content: Text(l.locationWhyBody, style: const TextStyle(color: AppColors.ink, fontSize: 13, height: 1.4)),
         actions: [
           TextButton(onPressed: () => Navigator.pop(dialogContext, false), child: Text(l.locationNotNow)),
           FilledButton(onPressed: () => Navigator.pop(dialogContext, true), child: Text(l.locationContinue)),

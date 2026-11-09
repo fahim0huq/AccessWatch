@@ -40,7 +40,7 @@ class Bullet extends StatelessWidget {
   final IconData icon;
   final Color color;
 
-  const Bullet(this.text, {super.key, this.icon = Icons.circle, this.color = AppColors.textMuted});
+  const Bullet(this.text, {super.key, this.icon = Icons.circle, this.color = AppColors.inkSecondary});
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -101,7 +101,7 @@ class ValidationSection extends ConsumerWidget {
       children: [
         Bullet(l.calibrationNote(bundle.manifest, q, fmt), icon: Icons.warning_amber_rounded, color: AppColors.boatText),
         Bullet(l.compareEmsDate(fmt.date(dates.emsImage), fmt.oneDecimal(dates.emsHoursAfterNisar)),
-            icon: Icons.schedule_rounded, color: AppColors.textMuted),
+            icon: Icons.schedule_rounded, color: AppColors.inkSecondary),
         const SizedBox(height: 4),
         row(l.scoreIou, fmt.score(v.iou)),
         row(l.scoreF1, fmt.score(v.f1)),

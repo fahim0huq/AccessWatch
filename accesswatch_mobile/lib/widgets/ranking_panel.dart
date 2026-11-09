@@ -55,7 +55,7 @@ class _RankingPanelState extends ConsumerState<RankingPanel> {
               IconButton(
                 tooltip: _open ? l.rankingHide : l.rankingShow,
                 onPressed: () => setState(() => _open = !_open),
-                icon: Icon(_open ? Icons.expand_less_rounded : Icons.tune_rounded, color: AppColors.accent),
+                icon: Icon(_open ? Icons.expand_less_rounded : Icons.tune_rounded, color: AppColors.brand),
               ),
             ],
           ),
@@ -132,7 +132,7 @@ class _WeightSlider extends StatelessWidget {
           divisions: 8,
           label: shown,
           semanticFormatterCallback: (_) => '$label: $shown',
-          activeColor: AppColors.accent,
+          activeColor: AppColors.brand,
           onChanged: onChanged,
         ),
       ],

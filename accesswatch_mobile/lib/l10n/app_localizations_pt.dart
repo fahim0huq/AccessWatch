@@ -12,13 +12,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get appName => 'AccessWatch';
 
   @override
-  String get accesswatchTitle => 'ACCESSWATCH';
-
-  @override
   String get tabMap => 'Mapa';
-
-  @override
-  String get tabMissions => 'Missões';
 
   @override
   String get loadingData => 'A carregar os dados da cheia…';
@@ -30,70 +24,11 @@ class AppLocalizationsPt extends AppLocalizations {
   String get retry => 'Tentar novamente';
 
   @override
-  String get betaBadge => 'Dados beta';
-
-  @override
-  String get heroTitle =>
-      'Identifique quem está isolado.\nChegue até eles com segurança.';
-
-  @override
-  String get heroSubtitle =>
-      'Transforme observações de cheias em decisões claras de acesso humanitário.';
-
-  @override
-  String get missionControl => 'CONTROLO DE MISSÃO';
-
-  @override
-  String get missionControlSubtitle =>
-      'Explorar a situação da cheia e do acesso';
-
-  @override
-  String get missionCards => 'FICHAS DE MISSÃO';
-
-  @override
-  String missionCardsSubtitle(String count) {
-    return 'Fichas de resposta para $count bolsões classificados';
-  }
-
-  @override
-  String get tapToOpenMap => 'Toque para abrir o mapa';
-
-  @override
-  String get floodPreviewLabel =>
-      'Contorno da cheia mapeada e dos bolsões isolados. Toque para abrir o mapa.';
-
-  @override
   String get eventMozambique2026 => 'Cheia em Moçambique, janeiro de 2026';
-
-  @override
-  String kpiPockets(String count) {
-    return '$count bolsões';
-  }
-
-  @override
-  String get kpiPocketsSub => 'Isolados ou de acesso difícil';
-
-  @override
-  String get kpiPeopleSub => 'Pessoas nos bolsões (estimativa modelada)';
 
   @override
   String floodAreaKm2(String area) {
     return '$area km²';
-  }
-
-  @override
-  String get kpiFloodSub => 'Nova cheia mapeada';
-
-  @override
-  String get waterDepth => 'PROFUNDIDADE DA ÁGUA';
-
-  @override
-  String get kpiDepthSub =>
-      'Troços de estrada inundados, por profundidade estimada';
-
-  @override
-  String depthCount(String count, String label) {
-    return '$count $label';
   }
 
   @override
@@ -163,17 +98,6 @@ class AppLocalizationsPt extends AppLocalizations {
       'A população é uma estimativa modelada, não um censo.';
 
   @override
-  String get responseMissions => 'MISSÕES DE RESPOSTA';
-
-  @override
-  String rankedPockets(String count) {
-    return '$count bolsões classificados';
-  }
-
-  @override
-  String get filterAll => 'TODOS';
-
-  @override
   String get accessNormalVehicle => 'VEÍCULO';
 
   @override
@@ -235,9 +159,6 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get estimatedPopulation => 'População estimada';
-
-  @override
   String get whyFlagged => 'Motivo da sinalização';
 
   @override
@@ -287,11 +208,11 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get routesSame =>
-      'Neste bolsão a rota mais segura é igual à mais curta.';
+      'Nesta área a rota mais segura é igual à mais curta.';
 
   @override
   String get routesDiffer =>
-      'Neste bolsão a rota mais segura é diferente da mais curta.';
+      'Nesta área a rota mais segura é diferente da mais curta.';
 
   @override
   String distanceKm(String km) {
@@ -313,9 +234,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get levelLow => 'BAIXO';
 
   @override
-  String get analysisConfidence => 'Confiança da análise';
-
-  @override
   String stabilityLabel(String pct) {
     return 'Mantém-se em $pct% dos cenários de teste';
   }
@@ -324,12 +242,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String worstCaseMode(String mode) {
     return 'No pior caso, prepare: $mode';
   }
-
-  @override
-  String get back => 'Voltar';
-
-  @override
-  String get appSubtitle => 'Análise de acesso em cheias por radar de satélite';
 
   @override
   String get settingsTitle => 'Definições';
@@ -342,11 +254,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get languagePortuguese => 'Português';
-
-  @override
-  String textSize(String pct) {
-    return 'Tamanho do texto: $pct%';
-  }
 
   @override
   String get presentationMode => 'Modo de apresentação';
@@ -399,25 +306,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get osmAttribution => '© contribuidores do OpenStreetMap';
 
   @override
-  String mapDates(String before, String after, String ems) {
-    return 'NISAR $before – $after · EMS $ems';
-  }
-
-  @override
-  String warningsToggle(String count) {
-    return '$count avisos';
-  }
-
-  @override
-  String get tooltipLayers => 'Camadas';
-
-  @override
-  String get tooltipLegend => 'Legenda';
-
-  @override
-  String get tooltipCompare => 'Comparar com o EMS';
-
-  @override
   String get tooltipLocate => 'Mostrar a minha localização';
 
   @override
@@ -467,11 +355,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get legendTitle => 'Legenda';
-
-  @override
-  String legendPocketRisk(String level) {
-    return 'Bolsão, risco $level';
-  }
 
   @override
   String get legendSafest => 'Rota mais segura';
@@ -542,12 +425,6 @@ class AppLocalizationsPt extends AppLocalizations {
       'As áreas transparentes estão secas em ambos os mapas ou fora da área mapeada pelo EMS.';
 
   @override
-  String get rankedPocketsTitle => 'BOLSÕES CLASSIFICADOS';
-
-  @override
-  String get allPockets => 'TODOS';
-
-  @override
   String routeSheetTitle(String pocket, String route) {
     return '$pocket: $route';
   }
@@ -587,7 +464,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String clinicInsidePocket(String pocket) {
-    return 'Dentro do bolsão $pocket';
+    return 'Dentro da área isolada $pocket';
   }
 
   @override
@@ -656,11 +533,6 @@ class AppLocalizationsPt extends AppLocalizations {
       'O depósito de ajuda foi selecionado automaticamente, por isso esta classificação é ilustrativa.';
 
   @override
-  String publishedRank(String rank) {
-    return 'Classificação publicada: #$rank';
-  }
-
-  @override
   String missionNotFound(String id) {
     return 'Não existe a missão $id. Voltar à lista.';
   }
@@ -701,7 +573,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get verifyUnstable =>
-      'Este bolsão desaparece ou muda quando a extensão ou a profundidade da cheia variam ligeiramente: verifique-o primeiro.';
+      'Esta área desaparece ou muda quando a extensão ou a profundidade da cheia variam ligeiramente: verifique-a primeiro.';
 
   @override
   String verifyShortestDeep(String km) {
@@ -778,18 +650,6 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get tabCare => 'Cuidados';
-
-  @override
-  String get careTitle => 'CUIDADOS';
-
-  @override
-  String get careSubtitle => 'Clínicas e como chegar até elas';
-
-  @override
-  String get mySpotTitle => 'O MEU LOCAL';
-
-  @override
   String get mySpotIntro =>
       'Compare a sua posição com o mapa da cheia: dentro da cheia ou não, a profundidade estimada e a clínica mais próxima a que pode chegar por estrada.';
 
@@ -832,11 +692,6 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String spotNearestClinic(String clinic, String mode, String km) {
-    return 'Clínica mais próxima por estrada: $clinic ($mode, $km km)';
-  }
-
-  @override
   String get routingFailed => 'Não foi possível calcular as rotas.';
 
   @override
@@ -852,22 +707,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get needsBoatShort => 'Precisa de barco a partir do seu local';
 
   @override
-  String get routesToClinic => 'ROTA PARA UMA CLÍNICA';
-
-  @override
   String get criterionFastest => 'Mais rápida';
 
   @override
   String get criterionSafest => 'Mais segura';
-
-  @override
-  String get targetNearest =>
-      'Para a clínica mais próxima que cada meio de transporte alcança.';
-
-  @override
-  String targetChosen(String clinic) {
-    return 'Para $clinic';
-  }
 
   @override
   String get targetUseNearest => 'Usar a mais próxima';
@@ -880,11 +723,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get careModeFoot => 'A pé';
-
-  @override
-  String noRouteForMode(String mode) {
-    return 'Sem rota de $mode: há água ou estradas bloqueadas no caminho.';
-  }
 
   @override
   String routeDistanceTime(String km, String minutes) {
@@ -918,20 +756,12 @@ class AppLocalizationsPt extends AppLocalizations {
       'O tempo é uma estimativa para veículo com dados arredondados: conte com alguns minutos a mais ou a menos.';
 
   @override
-  String get showRouteOnMap => 'Mostrar no mapa';
-
-  @override
   String careRouteTo(String clinic, String mode) {
     return 'Para $clinic de $mode';
   }
 
   @override
   String get clearRoute => 'Limpar a rota';
-
-  @override
-  String clinicsTitle(String count) {
-    return 'CLÍNICAS ($count)';
-  }
 
   @override
   String get locationWhyTitle => 'Porquê a sua localização?';
@@ -953,9 +783,6 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get warnDepotAssumed =>
       'A localização do depósito de ajuda é presumida, não confirmada. As rotas e as prioridades dependem dela: confirme o depósito real antes de agir.';
-
-  @override
-  String get trustTitle => 'DADOS E CONFIANÇA';
 
   @override
   String dateEmsGap(String hours) {
@@ -1086,26 +913,8 @@ class AppLocalizationsPt extends AppLocalizations {
       'O AccessWatch mostra onde a água isola pessoas de clínicas, mercados e abrigos, e como chegar até elas. É feito a partir de radar de satélite: a profundidade e a população são estimativas.';
 
   @override
-  String get introTitle2 => 'Feito com radar de satélite';
-
-  @override
   String get introBody2 =>
       'O mapa da cheia vem do radar NISAR, comparado com o mapa Copernicus EMS. A profundidade e a população são estimativas, e os dados do radar ainda estão em fase beta.';
-
-  @override
-  String get introTitle3 => 'Como usar';
-
-  @override
-  String get introBody3 =>
-      'O Mapa mostra a cheia e os bolsões isolados. As Missões classificam os bolsões, com uma ficha para cada um. Os Cuidados encontram clínicas e uma rota por estrada a partir de onde está. A Info explica os dados e as suas limitações.';
-
-  @override
-  String get introNext => 'Seguinte';
-
-  @override
-  String introProgress(String page, String count) {
-    return 'Página $page de $count';
-  }
 
   @override
   String get safetyTitle => 'Antes de começar';
@@ -1117,10 +926,6 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get safetyEmergency =>
       'Se estiver em perigo, ligue para o número de emergência local.';
-
-  @override
-  String get safetyCheckbox =>
-      'Compreendo que esta aplicação não é um serviço de emergência.';
 
   @override
   String get safetyAccept => 'Compreendo';
@@ -1146,29 +951,12 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String dataAgeShort(int days) {
-    String _temp0 = intl.Intl.pluralLogic(
-      days,
-      locale: localeName,
-      other: 'com $days dias',
-      one: 'com 1 dia',
-      zero: 'de hoje',
-    );
-    return 'Retrato $_temp0';
-  }
-
-  @override
   String get offlineBanner =>
       'Sem ligação à rede. Tudo funciona com os dados dentro da aplicação, exceto o fundo do mapa e as ligações web.';
 
   @override
   String get offlineWorks =>
       'Todos os dados da análise estão dentro da aplicação, por isso funciona sem rede. Só o fundo do mapa e as ligações web precisam de rede.';
-
-  @override
-  String pocketMarkerLabel(String pocket, String risk) {
-    return 'Bolsão $pocket, risco $risk';
-  }
 
   @override
   String get mapSemanticsLabel =>
@@ -1401,9 +1189,6 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get areaDetailsTitle => 'Mais detalhe';
-
-  @override
   String get routesIllustrativeShort =>
       'As rotas começam no depósito de ajuda, que é presumido. Use-as como guia.';
 
@@ -1540,7 +1325,4 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get advancedMapNote =>
       'As alterações de camadas aparecem no separador Mapa.';
-
-  @override
-  String get advancedRankingTitle => 'Pesos de prioridade';
 }

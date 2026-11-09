@@ -25,7 +25,7 @@ class CareRouteLayer extends ConsumerWidget {
         strokeWidth: 6,
         color: _careRouteColor,
         borderStrokeWidth: 2,
-        borderColor: Colors.white,
+        borderColor: AppColors.surface,
       ),
     ]);
   }
@@ -69,7 +69,7 @@ class CareRoutePanel extends ConsumerWidget {
           IconButton(
             tooltip: l.clearRoute,
             onPressed: () => ref.read(careRouteOnMapProvider.notifier).state = null,
-            icon: const Icon(Icons.close_rounded, color: AppColors.textMuted),
+            icon: const Icon(Icons.close_rounded, color: AppColors.inkSecondary),
           ),
         ],
       ),

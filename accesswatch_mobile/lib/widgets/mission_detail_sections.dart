@@ -24,9 +24,9 @@ class ServiceAccessSection extends StatelessWidget {
 
   (IconData, Color) _look(ServiceAccess access) => switch (access) {
         ServiceAccess.yes => (Icons.check_circle_rounded, AppColors.safestRoute),
-        ServiceAccess.difficult => (Icons.warning_amber_rounded, AppColors.warning),
-        ServiceAccess.no => (Icons.cancel_rounded, AppColors.highRisk),
-        ServiceAccess.notApplicable => (Icons.remove_circle_outline_rounded, AppColors.textMuted),
+        ServiceAccess.difficult => (Icons.warning_amber_rounded, AppColors.boat),
+        ServiceAccess.no => (Icons.cancel_rounded, AppColors.danger),
+        ServiceAccess.notApplicable => (Icons.remove_circle_outline_rounded, AppColors.inkSecondary),
       };
 
   @override
@@ -52,12 +52,12 @@ class ServiceAccessSection extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(
               child: Text.rich(TextSpan(children: [
-                TextSpan(text: '${l.serviceLink(link)}: ', style: const TextStyle(color: AppColors.text, fontSize: 16)),
+                TextSpan(text: '${l.serviceLink(link)}: ', style: const TextStyle(color: AppColors.ink, fontSize: 16)),
                 TextSpan(text: l.serviceAccess(access), style: TextStyle(color: color, fontSize: 16, fontWeight: FontWeight.bold)),
                 if (before != null)
                   TextSpan(
                     text: ' ${l.accessWasMinutes(fmt.count(before))}',
-                    style: const TextStyle(color: AppColors.textMuted, fontSize: 14),
+                    style: const TextStyle(color: AppColors.inkSecondary, fontSize: 14),
                   ),
               ])),
             ),
@@ -95,7 +95,7 @@ class PriorityTermsSection extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 4),
           child: Row(
             children: [
-              Expanded(child: Text(label, style: const TextStyle(color: AppColors.textMuted, fontSize: 14))),
+              Expanded(child: Text(label, style: const TextStyle(color: AppColors.inkSecondary, fontSize: 14))),
               Text(fmt.term(value), style: const TextStyle(color: AppColors.ink, fontSize: 14)),
             ],
           ),
@@ -137,11 +137,11 @@ class VerifyChecklist extends ConsumerWidget {
                 CheckboxListTile(
                   contentPadding: EdgeInsets.zero,
                   controlAffinity: ListTileControlAffinity.leading,
-                  activeColor: AppColors.accent,
+                  activeColor: AppColors.brand,
                   value: checked.contains(note.kind),
                   onChanged: (value) =>
                       ref.read(verifyChecksProvider.notifier).set(mission.pocketId, note.kind, value ?? false),
-                  title: Text(l.verifyNote(note, fmt), style: const TextStyle(color: AppColors.text, fontSize: 16, height: 1.35)),
+                  title: Text(l.verifyNote(note, fmt), style: const TextStyle(color: AppColors.ink, fontSize: 16, height: 1.35)),
                 ),
             ],
           ),
@@ -166,7 +166,7 @@ void showAlertDialog(BuildContext context, WidgetRef ref, RankedMission ranked) 
       backgroundColor: AppColors.surface,
       title: Text(l.alertTitle, style: const TextStyle(color: AppColors.ink, fontSize: 16)),
       content: SingleChildScrollView(
-        child: SelectableText(text, style: const TextStyle(color: AppColors.text, fontSize: 13, height: 1.4)),
+        child: SelectableText(text, style: const TextStyle(color: AppColors.ink, fontSize: 13, height: 1.4)),
       ),
       actions: [
         TextButton(onPressed: () => Navigator.pop(dialogContext), child: Text(l.close)),
