@@ -32,6 +32,7 @@ class AboutScreen extends ConsumerWidget {
     Widget row(IconData icon, String title, String route, {String? subtitle}) =>
         NavRow(icon: icon, title: title, subtitle: subtitle, onTap: () => context.push(route));
     return Scaffold(
+      backgroundColor: Colors.transparent,
       // A tab of its own: nothing to go back to.
       appBar: AppBar(automaticallyImplyLeading: false, title: Text(l.aboutThisData)),
       body: ListView(

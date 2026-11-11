@@ -26,6 +26,7 @@ class _DetailPage extends ConsumerWidget {
     final ranked = rankedArea(ref, pocketId);
     final l = AppLocalizations.of(context)!;
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(title: Text(title)),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(AppSizes.gutter, 4, AppSizes.gutter, 32),

@@ -7,6 +7,7 @@ import '../../state/mission_state.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import '../ui/kit.dart';
+import '../ui/look.dart';
 import '../ui/mode_look.dart';
 
 /// One area in Help first. The most urgent one is [emphasised]: a coloured
@@ -46,25 +47,48 @@ class AreaCard extends ConsumerWidget {
         if (!emphasised) const Icon(Icons.chevron_right_rounded, color: AppColors.inkSecondary),
       ],
     );
-    return Semantics(
-      button: true,
-      label: l.areaCardLabel('${ranked.rank}', name, people, modeWords(l, m.accessMode)),
-      excludeSemantics: !emphasised,
-      child: AppCard(
-        onTap: onOpen,
-        borderColor: emphasised ? tone.strong : null,
-        borderWidth: emphasised ? 2.5 : 1,
-        child: emphasised
-            ? Column(
+    final label = l.areaCardLabel('${ranked.rank}', name, people, modeWords(l, m.accessMode));
+    if (emphasised) {
+      // White words on the violet gradient; the mode chip keeps its pastel tint and dark words.
+      return Semantics(
+        button: true,
+        label: label,
+        child: HeroCard(
+          onTap: onOpen,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  header,
-                  const SizedBox(height: 16),
-                  BigButton(icon: Icons.arrow_forward_rounded, label: l.openArea, onPressed: onOpen),
+                  HeroRank(rank: ranked.rank),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(name, style: text.titleLarge!.copyWith(color: onHero)),
+                        const SizedBox(height: 2),
+                        Text(people, style: text.bodyMedium!.copyWith(color: onHero)),
+                      ],
+                    ),
+                  ),
                 ],
-              )
-            : header,
-      ),
+              ),
+              const SizedBox(height: 12),
+              ModeChip(mode: m.accessMode),
+              const SizedBox(height: 16),
+              BigButton.light(icon: Icons.arrow_forward_rounded, label: l.openArea, onPressed: onOpen),
+            ],
+          ),
+        ),
+      );
+    }
+    return Semantics(
+      button: true,
+      label: label,
+      excludeSemantics: true,
+      child: AppCard(onTap: onOpen, child: header),
     );
   }
 }

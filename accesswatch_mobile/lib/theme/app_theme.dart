@@ -58,7 +58,9 @@ class AppTheme {
         ),
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.ground,
+        // The page gradient shows through.
+        backgroundColor: Colors.transparent,
+        scrolledUnderElevation: 0,
         foregroundColor: AppColors.ink,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
@@ -97,7 +99,7 @@ class AppTheme {
         selectedColor: AppColors.brandTint,
         side: const BorderSide(color: AppColors.line),
         labelStyle: _text.labelMedium!.copyWith(color: AppColors.ink),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.chipRadius)),
+        shape: const StadiumBorder(side: BorderSide(color: AppColors.line)),
         checkmarkColor: AppColors.brandText,
       ),
       navigationBarTheme: NavigationBarThemeData(

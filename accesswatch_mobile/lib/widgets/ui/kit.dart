@@ -1,6 +1,7 @@
 // Shared building blocks: cards, chips, big buttons and rows.
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
+import 'look.dart';
 
 /// White rounded card. [tone] colours the border and, with [tinted], the fill.
 class AppCard extends StatelessWidget {
@@ -80,11 +81,19 @@ class BigButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
   final bool primary;
+  final bool light;
 
-  const BigButton({super.key, required this.icon, required this.label, required this.onPressed, this.primary = true});
+  const BigButton({super.key, required this.icon, required this.label, required this.onPressed, this.primary = true})
+      : light = false;
 
   const BigButton.secondary({super.key, required this.icon, required this.label, required this.onPressed})
-      : primary = false;
+      : primary = false,
+        light = false;
+
+  /// White with violet words, for a hero card.
+  const BigButton.light({super.key, required this.icon, required this.label, required this.onPressed})
+      : primary = true,
+        light = true;
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +108,19 @@ class BigButton extends StatelessWidget {
     final style = ButtonStyle(
       padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 20, vertical: 12)),
     );
+    if (light) {
+      return SizedBox(
+        width: double.infinity,
+        child: FilledButton(
+          onPressed: onPressed,
+          style: style.copyWith(
+            backgroundColor: WidgetStateProperty.all(AppColors.surface),
+            foregroundColor: WidgetStateProperty.all(AppColors.brandText),
+          ),
+          child: child,
+        ),
+      );
+    }
     if (!primary) {
       return SizedBox(width: double.infinity, child: OutlinedButton(onPressed: onPressed, style: style, child: child));
     }
@@ -178,7 +200,7 @@ class NavRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
           child: Row(
             children: [
-              Icon(icon, color: AppColors.brand),
+              IconTile(icon: icon, tone: Tone.brand, size: 52),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(

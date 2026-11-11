@@ -12,22 +12,7 @@ import '../../state/watch_state.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import '../ui/kit.dart';
-
-/// A 54 dp tile with a soft gradient behind a dark icon.
-class IconTile extends StatelessWidget {
-  final IconData icon;
-  final Tone tone;
-
-  const IconTile({super.key, required this.icon, required this.tone});
-
-  @override
-  Widget build(BuildContext context) => Container(
-    width: AppSizes.iconTile,
-    height: AppSizes.iconTile,
-    decoration: BoxDecoration(gradient: tone.tile, borderRadius: BorderRadius.circular(18)),
-    child: Icon(icon, color: tone.text, size: 28),
-  );
-}
+import '../ui/look.dart';
 
 String eventKindWords(AppLocalizations l, EventKind kind) => switch (kind) {
   EventKind.flood => l.watchKindFlood,

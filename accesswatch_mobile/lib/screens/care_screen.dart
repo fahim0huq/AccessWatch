@@ -10,6 +10,7 @@ import '../widgets/care/care_result.dart';
 import '../widgets/care/clinic_list.dart';
 import '../widgets/location_prompt.dart';
 import '../widgets/ui/kit.dart';
+import '../widgets/ui/look.dart';
 
 /// Find care: where is the nearest clinic, and can a car, a truck or someone
 /// on foot get there from here.
@@ -29,6 +30,7 @@ class _CareScreenState extends ConsumerState<CareScreen> with ShowsLocation {
     final spot = ref.watch(mySpotProvider);
     final sample = ref.watch(sampleSpotProvider);
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.only(bottom: 24),
@@ -39,10 +41,17 @@ class _CareScreenState extends ConsumerState<CareScreen> with ShowsLocation {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  if (spot == null) ...[
-                    Text(l.mySpotIntro, style: text.bodyMedium),
-                    const SizedBox(height: 16),
-                  ],
+                  if (spot == null)
+                    AppCard(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const IconTile(icon: Icons.local_hospital_rounded, tone: Tone.brand),
+                          const SizedBox(width: 14),
+                          Expanded(child: Text(l.mySpotIntro, style: text.bodyMedium)),
+                        ],
+                      ),
+                    ),
                   BigButton(
                     icon: Icons.my_location_rounded,
                     label: location.wanted && location.position == null ? l.mySpotWaiting : l.useMyLocation,

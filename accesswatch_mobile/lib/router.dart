@@ -10,6 +10,7 @@ import 'screens/area_screen.dart';
 import 'screens/help_first_screen.dart';
 import 'screens/watch_screen.dart';
 import 'screens/welcome_screen.dart';
+import 'widgets/ui/look.dart';
 
 class AppRoutes {
   static const map = '/map';
@@ -36,7 +37,10 @@ GoRouter createRouter({required bool Function() safetyAccepted}) => GoRouter(
   redirect: (context, state) =>
       !safetyAccepted() && state.matchedLocation != AppRoutes.welcome ? AppRoutes.welcome : null,
   routes: [
-    GoRoute(path: AppRoutes.welcome, builder: (context, state) => const WelcomeScreen()),
+    GoRoute(
+      path: AppRoutes.welcome,
+      builder: (context, state) => const GradientPage(child: WelcomeScreen()),
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, shell) => MainNavigationScreen(shell: shell),
       branches: [
@@ -47,19 +51,21 @@ GoRouter createRouter({required bool Function() safetyAccepted}) => GoRouter(
           routes: [
             GoRoute(
               path: AppRoutes.help,
-              builder: (context, state) => const HelpFirstScreen(),
+              builder: (context, state) => const GradientPage(child: HelpFirstScreen()),
               routes: [
                 GoRoute(
                   path: ':id',
-                  builder: (context, state) => AreaScreen(pocketId: state.pathParameters['id']!),
+                  builder: (context, state) => GradientPage(child: AreaScreen(pocketId: state.pathParameters['id']!)),
                   routes: [
                     GoRoute(
                       path: 'checks',
-                      builder: (context, state) => AreaChecksScreen(pocketId: state.pathParameters['id']!),
+                      builder: (context, state) =>
+                          GradientPage(child: AreaChecksScreen(pocketId: state.pathParameters['id']!)),
                     ),
                     GoRoute(
                       path: 'sure',
-                      builder: (context, state) => AreaSureScreen(pocketId: state.pathParameters['id']!),
+                      builder: (context, state) =>
+                          GradientPage(child: AreaSureScreen(pocketId: state.pathParameters['id']!)),
                     ),
                   ],
                 ),
@@ -68,23 +74,51 @@ GoRouter createRouter({required bool Function() safetyAccepted}) => GoRouter(
           ],
         ),
         StatefulShellBranch(
-          routes: [GoRoute(path: AppRoutes.watch, builder: (context, state) => const WatchScreen())],
+          routes: [
+            GoRoute(
+              path: AppRoutes.watch,
+              builder: (context, state) => const GradientPage(child: WatchScreen()),
+            ),
+          ],
         ),
         StatefulShellBranch(
-          routes: [GoRoute(path: AppRoutes.care, builder: (context, state) => const CareScreen())],
+          routes: [
+            GoRoute(
+              path: AppRoutes.care,
+              builder: (context, state) => const GradientPage(child: CareScreen()),
+            ),
+          ],
         ),
         StatefulShellBranch(
           routes: [
             GoRoute(
               path: AppRoutes.about,
-              builder: (context, state) => const AboutScreen(),
+              builder: (context, state) => const GradientPage(child: AboutScreen()),
               routes: [
-                GoRoute(path: 'flood-map', builder: (context, state) => const AboutFloodMapPage()),
-                GoRoute(path: 'match', builder: (context, state) => const AboutMatchPage()),
-                GoRoute(path: 'limits', builder: (context, state) => const AboutLimitsPage()),
-                GoRoute(path: 'sources', builder: (context, state) => const AboutSourcesPage()),
-                GoRoute(path: 'age', builder: (context, state) => const AboutAgePage()),
-                GoRoute(path: 'advanced', builder: (context, state) => const AboutAdvancedPage()),
+                GoRoute(
+                  path: 'flood-map',
+                  builder: (context, state) => const GradientPage(child: AboutFloodMapPage()),
+                ),
+                GoRoute(
+                  path: 'match',
+                  builder: (context, state) => const GradientPage(child: AboutMatchPage()),
+                ),
+                GoRoute(
+                  path: 'limits',
+                  builder: (context, state) => const GradientPage(child: AboutLimitsPage()),
+                ),
+                GoRoute(
+                  path: 'sources',
+                  builder: (context, state) => const GradientPage(child: AboutSourcesPage()),
+                ),
+                GoRoute(
+                  path: 'age',
+                  builder: (context, state) => const GradientPage(child: AboutAgePage()),
+                ),
+                GoRoute(
+                  path: 'advanced',
+                  builder: (context, state) => const GradientPage(child: AboutAdvancedPage()),
+                ),
               ],
             ),
           ],

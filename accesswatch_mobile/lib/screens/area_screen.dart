@@ -15,6 +15,7 @@ import '../utils/labels.dart';
 import '../widgets/area/area_sections.dart';
 import '../widgets/mission_detail_sections.dart' show showAlertDialog;
 import '../widgets/ui/kit.dart';
+import '../widgets/ui/look.dart';
 
 /// The ranked area for [pocketId], or null when the link names no area.
 RankedMission? rankedArea(WidgetRef ref, String pocketId) {
@@ -45,6 +46,7 @@ class AreaScreen extends ConsumerWidget {
     void back() => context.canPop() ? context.pop() : context.go(AppRoutes.help);
     final total = ref.watch(rankedMissionsProvider).length;
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         leading: BackButton(onPressed: back),
         title: Text(ranked == null ? '' : l.areaXofN(fmt.count(ranked.rank), fmt.count(total))),
@@ -54,11 +56,21 @@ class AreaScreen extends ConsumerWidget {
           : ListView(
               padding: const EdgeInsets.fromLTRB(AppSizes.gutter, 4, AppSizes.gutter, 32),
               children: [
-                Semantics(header: true, child: Text(l.areaName(ranked, ref.watch(rankedMissionsProvider)), style: text.headlineMedium)),
-                const SizedBox(height: 4),
-                Text(l.populationEstimate(fmt.count(ranked.mission.population)),
-                    style: text.bodyLarge!.copyWith(color: AppColors.inkSecondary)),
-                const SizedBox(height: 16),
+                HeroCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Semantics(
+                        header: true,
+                        child: Text(l.areaName(ranked, ref.watch(rankedMissionsProvider)),
+                            style: text.headlineSmall!.copyWith(color: onHero)),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(l.populationEstimate(fmt.count(ranked.mission.population)),
+                          style: text.bodyLarge!.copyWith(color: onHero)),
+                    ],
+                  ),
+                ),
                 ModeCard(mission: ranked.mission),
                 WaterDepthCard(mission: ranked.mission),
                 LostServicesCard(mission: ranked.mission),

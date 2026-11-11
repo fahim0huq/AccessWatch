@@ -90,6 +90,7 @@ class _HelpFirstScreenState extends ConsumerState<HelpFirstScreen> {
     }
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.only(bottom: 24),

@@ -24,6 +24,7 @@ class _AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+      backgroundColor: Colors.transparent,
         appBar: AppBar(title: Text(title)),
         body: ListView(padding: const EdgeInsets.fromLTRB(AppSizes.gutter, 4, AppSizes.gutter, 32), children: children),
       );

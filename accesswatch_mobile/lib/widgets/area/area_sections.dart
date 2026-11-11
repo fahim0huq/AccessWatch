@@ -9,6 +9,7 @@ import '../../state/providers.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import '../ui/kit.dart';
+import '../ui/look.dart';
 import '../ui/mode_look.dart';
 
 /// The big coloured card: boat or truck, in plain words.
@@ -31,24 +32,22 @@ class ModeCard extends StatelessWidget {
       AccessMode.normalVehicle => (l.modeCarTitle, null),
       AccessMode.onFoot => (l.modeFootTitle, null),
     };
-    return AppCard(
-      color: tone.tint,
-      borderColor: tone.strong,
-      borderWidth: 2,
-      padding: const EdgeInsets.all(20),
+    // White words on the solid orange or teal, never on a pastel.
+    return HeroCard(
+      gradient: LinearGradient(colors: [tone.strong, tone.strong]),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(modeIcon(m.accessMode), size: 36, color: tone.text),
+          HeroIconTile(icon: modeIcon(m.accessMode)),
           const SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: text.titleLarge!.copyWith(color: tone.text)),
+                Text(title, style: text.titleLarge!.copyWith(color: onHero)),
                 if (detail != null) ...[
                   const SizedBox(height: 4),
-                  Text(detail, style: text.bodyLarge!.copyWith(color: tone.text)),
+                  Text(detail, style: text.bodyLarge!.copyWith(color: onHero)),
                 ],
               ],
             ),
@@ -83,40 +82,31 @@ class LostServicesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     final fmt = Fmt.of(context);
-    final text = Theme.of(context).textTheme;
     final m = mission;
     final cutOff = m.lostServices.isNotEmpty;
     if (!cutOff && m.limitedServices.isEmpty) return const SizedBox.shrink();
     String name(ServiceLink link) => link == ServiceLink.aidDepotLink ? l.serviceDepotLinkPlain : l.serviceLink(link);
-    Widget row(ServiceLink link, int? minutes) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(cutOff ? Icons.block_rounded : Icons.warning_amber_rounded,
-                  color: cutOff ? AppColors.danger : AppColors.notice),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(name(link), style: text.titleSmall),
-                    if (minutes != null) Text(l.lostWasMinutes(fmt.count(minutes)), style: text.bodySmall),
-                  ],
-                ),
-              ),
-            ],
-          ),
+    Widget pill(ServiceLink link, int? minutes) => InfoPill(
+          icon: cutOff ? Icons.block_rounded : Icons.warning_amber_rounded,
+          label: name(link),
+          detail: minutes == null ? null : l.lostWasMinutes(fmt.count(minutes)),
+          tone: cutOff ? Tone.danger : Tone.notice,
         );
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CardTitle(cutOff ? l.lostTitle : l.harderTitle),
-          if (cutOff)
-            for (final lost in m.lostServices) row(lost.service, lost.previousMinutes)
-          else
-            for (final link in m.limitedServices) row(link, null),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              if (cutOff)
+                for (final lost in m.lostServices) pill(lost.service, lost.previousMinutes)
+              else
+                for (final link in m.limitedServices) pill(link, null),
+            ],
+          ),
         ],
       ),
     );
