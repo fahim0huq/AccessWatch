@@ -1587,4 +1587,19 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get watchTitle => 'Vigiar uma área';
+
+  @override
+  String get fullScreen => 'Ecrã inteiro';
+
+  @override
+  String get exitFullScreen => 'Sair do ecrã inteiro';
+
+  @override
+  String get routesButton => 'Rotas';
+
+  @override
+  String get legendBoat => 'Barco';
+
+  @override
+  String get legendVehicle => 'Veículo';
 }

@@ -145,7 +145,12 @@ class RoutesPanel extends ConsumerWidget {
                   ModeChip(mode: r.mission.accessMode),
                   for (final type in const [RouteType.safest, RouteType.shortest])
                     for (final route in routes.where((x) => x.pocketId == r.mission.pocketId && x.routeType == type))
-                      RouteRow(route: route, safest: routes.firstWhere((x) => x.pocketId == route.pocketId && x.routeType == RouteType.safest)),
+                      RouteRow(
+                        route: route,
+                        safest: routes.firstWhere(
+                          (x) => x.pocketId == route.pocketId && x.routeType == RouteType.safest,
+                        ),
+                      ),
                 ],
               ),
             ),
@@ -196,17 +201,24 @@ class RouteRow extends ConsumerWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(padding: const EdgeInsets.only(top: 6), child: RouteSwatch(type: route.routeType)),
+                Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: RouteSwatch(type: route.routeType),
+                ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('${isSafest ? l.routeRowSafest : l.routeRowShortest} · ${isSafest ? l.routeLineSolid : l.routeLineDashed}',
-                          style: text.titleSmall),
+                      Text(
+                        '${isSafest ? l.routeRowSafest : l.routeRowShortest} · ${isSafest ? l.routeLineSolid : l.routeLineDashed}',
+                        style: text.titleSmall,
+                      ),
                       // Published route times come from the notebook, not from summed rounded pieces.
-                      Text(l.routeDistanceTime(fmt.km(route.distanceKm), fmt.minutes(route.estimatedTimeMin)),
-                          style: text.bodyMedium),
+                      Text(
+                        l.routeDistanceTime(fmt.km(route.distanceKm), fmt.minutes(route.estimatedTimeMin)),
+                        style: text.bodyMedium,
+                      ),
                       if (same) Text(l.routeSameRoad, style: text.bodySmall),
                       for (final w in warnings) Text('• $w', style: text.bodySmall),
                       if (selected)

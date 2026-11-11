@@ -31,9 +31,15 @@ class LayerControls extends ConsumerWidget {
             onChanged: (on) => ref.read(mapLayersProvider.notifier).setVisible(layer, on),
           ),
           if (layer == MapLayer.floodBaseline)
-            Padding(padding: const EdgeInsets.only(bottom: 4), child: Text(l.layerBaselineNote, style: text.bodySmall)),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Text(l.layerBaselineNote, style: text.bodySmall),
+            ),
           if (layer == MapLayer.depthZones)
-            Padding(padding: const EdgeInsets.only(bottom: 4), child: Text(l.depthDetailNote, style: text.bodySmall)),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Text(l.depthDetailNote, style: text.bodySmall),
+            ),
           if (visible.contains(layer) && opacity.containsKey(layer))
             Row(
               children: [
@@ -43,7 +49,8 @@ class LayerControls extends ConsumerWidget {
                     value: opacity[layer]!,
                     min: 0.1,
                     divisions: 18,
-                    semanticFormatterCallback: (_) => '${layerName(l, layer, flags)}: ${l.opacityLabel(fmt.percent(opacity[layer]!))}',
+                    semanticFormatterCallback: (_) =>
+                        '${layerName(l, layer, flags)}: ${l.opacityLabel(fmt.percent(opacity[layer]!))}',
                     onChanged: (value) => ref.read(mapOpacityProvider.notifier).set(layer, value),
                   ),
                 ),

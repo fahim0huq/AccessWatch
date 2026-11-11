@@ -1582,4 +1582,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get watchTitle => 'Watch an area';
+
+  @override
+  String get fullScreen => 'Full screen';
+
+  @override
+  String get exitFullScreen => 'Exit full screen';
+
+  @override
+  String get routesButton => 'Routes';
+
+  @override
+  String get legendBoat => 'Boat';
+
+  @override
+  String get legendVehicle => 'Vehicle';
 }

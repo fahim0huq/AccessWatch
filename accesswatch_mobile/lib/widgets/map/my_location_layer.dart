@@ -23,7 +23,9 @@ class MyLocationLayer extends StatelessWidget {
         width: 28,
         height: 28,
         child: Semantics(
-          label: label ?? (isTest ? AppLocalizations.of(context)!.testPositionBadge : AppLocalizations.of(context)!.legendMe),
+          label:
+              label ??
+              (isTest ? AppLocalizations.of(context)!.testPositionBadge : AppLocalizations.of(context)!.legendMe),
           child: Container(
             decoration: BoxDecoration(
               color: isTest ? AppColors.boat : AppColors.me,

@@ -13,15 +13,17 @@ class OsmAttribution extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Align(
-        alignment: Alignment.bottomRight,
-        child: GestureDetector(
-          onTap: () => launchUrl(_osmCopyright),
-          child: Container(
-            color: AppColors.surface.withValues(alpha: 0.9),
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-            child: Text(AppLocalizations.of(context)!.osmAttribution,
-                style: const TextStyle(color: AppColors.ink, fontSize: 12)),
-          ),
+    alignment: Alignment.bottomRight,
+    child: GestureDetector(
+      onTap: () => launchUrl(_osmCopyright),
+      child: Container(
+        color: AppColors.surface.withValues(alpha: 0.9),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+        child: Text(
+          AppLocalizations.of(context)!.osmAttribution,
+          style: const TextStyle(color: AppColors.ink, fontSize: 12),
         ),
-      );
+      ),
+    ),
+  );
 }

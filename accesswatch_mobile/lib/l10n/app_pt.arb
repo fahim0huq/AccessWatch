@@ -405,5 +405,10 @@
   "limitRouteTimes": "Os tempos das rotas das áreas vêm da análise. Quando a app soma um tempo a partir de troços de estrada, só o mostra se o arredondamento dos dados não o puder distorcer; caso contrário, mostra só a distância.",
   "tabWatch": "Vigiar",
   "tabAbout": "Sobre",
-  "watchTitle": "Vigiar uma área"
+  "watchTitle": "Vigiar uma área",
+  "fullScreen": "Ecrã inteiro",
+  "exitFullScreen": "Sair do ecrã inteiro",
+  "routesButton": "Rotas",
+  "legendBoat": "Barco",
+  "legendVehicle": "Veículo"
 }

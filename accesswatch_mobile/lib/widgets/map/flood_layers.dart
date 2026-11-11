@@ -12,7 +12,8 @@ import '../../state/providers.dart';
 import '../../theme/app_theme.dart';
 import '../mission_card_sections.dart' show depthColor;
 
-Polygon<R> mapPolygon<R extends Object>(GeoPolygon p, Color fill, {Color? border, double width = 0, R? hit}) => Polygon<R>(
+Polygon<R> mapPolygon<R extends Object>(GeoPolygon p, Color fill, {Color? border, double width = 0, R? hit}) =>
+    Polygon<R>(
       points: p.outer,
       holePointsList: p.holes.isEmpty ? null : p.holes,
       color: fill,
@@ -50,10 +51,12 @@ class _DepthZonesLayerState extends ConsumerState<DepthZonesLayer> {
     final level = DepthLod.levelIndexForZoom(zoom);
     return _cache.putIfAbsent(
       level,
-      () => PolygonLayer<Object>(polygons: [
-        for (final patch in lod.levels[level])
-          mapPolygon<Object>(patch.polygon, depthColor(patch.depthClass).withValues(alpha: opacity)),
-      ]),
+      () => PolygonLayer<Object>(
+        polygons: [
+          for (final patch in lod.levels[level])
+            mapPolygon<Object>(patch.polygon, depthColor(patch.depthClass).withValues(alpha: opacity)),
+        ],
+      ),
     );
   }
 }
@@ -66,12 +69,18 @@ class FloodLayer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final opacity = ref.watch(mapOpacityProvider)[MapLayer.flood]!;
     final flood = ref.watch(loadedBundleProvider).flood;
-    return PolygonLayer<Object>(polygons: [
-      for (final area in flood)
-        for (final polygon in area.polygons)
-          mapPolygon<Object>(polygon, AppColors.floodFill.withValues(alpha: opacity),
-              border: AppColors.flood, width: 1),
-    ]);
+    return PolygonLayer<Object>(
+      polygons: [
+        for (final area in flood)
+          for (final polygon in area.polygons)
+            mapPolygon<Object>(
+              polygon,
+              AppColors.floodFill.withValues(alpha: opacity),
+              border: AppColors.flood,
+              width: 1,
+            ),
+      ],
+    );
   }
 }
 
@@ -83,12 +92,18 @@ class BaselineFloodLayer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final opacity = ref.watch(mapOpacityProvider)[MapLayer.floodBaseline]!;
     final baseline = ref.watch(loadedBundleProvider).floodBaseline;
-    return PolygonLayer<Object>(polygons: [
-      for (final area in baseline)
-        for (final polygon in area.polygons)
-          mapPolygon<Object>(polygon, AppColors.floodBaseline.withValues(alpha: opacity),
-              border: AppColors.floodBaseline, width: 1.5),
-    ]);
+    return PolygonLayer<Object>(
+      polygons: [
+        for (final area in baseline)
+          for (final polygon in area.polygons)
+            mapPolygon<Object>(
+              polygon,
+              AppColors.floodBaseline.withValues(alpha: opacity),
+              border: AppColors.floodBaseline,
+              width: 1.5,
+            ),
+      ],
+    );
   }
 }
 
@@ -99,11 +114,12 @@ class EmsFloodLayer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final opacity = ref.watch(mapOpacityProvider)[MapLayer.floodEms]!;
     final ems = ref.watch(loadedBundleProvider).ems;
-    return PolygonLayer<Object>(polygons: [
-      for (final polygon in ems.flood)
-        mapPolygon<Object>(polygon, AppColors.boat.withValues(alpha: opacity),
-            border: AppColors.boat, width: 1.5),
-    ]);
+    return PolygonLayer<Object>(
+      polygons: [
+        for (final polygon in ems.flood)
+          mapPolygon<Object>(polygon, AppColors.boat.withValues(alpha: opacity), border: AppColors.boat, width: 1.5),
+      ],
+    );
   }
 }
 
@@ -112,10 +128,10 @@ class EmsFloodLayer extends ConsumerWidget {
 Color roadStatusColor(int flags) => (flags & 1) != 0
     ? AppColors.roadAnyCar
     : (flags & 2) != 0
-        ? AppColors.roadHighClearance
-        : (flags & 4) != 0
-            ? AppColors.roadFootOnly
-            : AppColors.roadImpassable;
+    ? AppColors.roadHighClearance
+    : (flags & 4) != 0
+    ? AppColors.roadFootOnly
+    : AppColors.roadImpassable;
 
 class AllRoadsLayer extends ConsumerStatefulWidget {
   const AllRoadsLayer({super.key});
@@ -134,14 +150,16 @@ class _AllRoadsLayerState extends ConsumerState<AllRoadsLayer> {
     if (_layer == null || opacity != _opacity) {
       _opacity = opacity;
       final g = ref.read(loadedBundleProvider).graph;
-      _layer = PolylineLayer<Object>(polylines: [
-        for (var e = 0; e < g.edgeCount; e++)
-          Polyline<Object>(
-            points: [LatLng(g.lat[g.u[e]], g.lon[g.u[e]]), LatLng(g.lat[g.v[e]], g.lon[g.v[e]])],
-            strokeWidth: 2.5,
-            color: roadStatusColor(g.flags[e]).withValues(alpha: opacity),
-          ),
-      ]);
+      _layer = PolylineLayer<Object>(
+        polylines: [
+          for (var e = 0; e < g.edgeCount; e++)
+            Polyline<Object>(
+              points: [LatLng(g.lat[g.u[e]], g.lon[g.u[e]]), LatLng(g.lat[g.v[e]], g.lon[g.v[e]])],
+              strokeWidth: 2.5,
+              color: roadStatusColor(g.flags[e]).withValues(alpha: opacity),
+            ),
+        ],
+      );
     }
     return _layer!;
   }

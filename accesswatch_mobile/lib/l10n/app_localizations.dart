@@ -2549,6 +2549,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Watch an area'**
   String get watchTitle;
+
+  /// No description provided for @fullScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Full screen'**
+  String get fullScreen;
+
+  /// No description provided for @exitFullScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit full screen'**
+  String get exitFullScreen;
+
+  /// No description provided for @routesButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Routes'**
+  String get routesButton;
+
+  /// No description provided for @legendBoat.
+  ///
+  /// In en, this message translates to:
+  /// **'Boat'**
+  String get legendBoat;
+
+  /// No description provided for @legendVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle'**
+  String get legendVehicle;
 }
 
 class _AppLocalizationsDelegate

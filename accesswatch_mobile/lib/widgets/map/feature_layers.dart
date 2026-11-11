@@ -96,7 +96,9 @@ class PocketLabelsLayer extends ConsumerWidget {
     final rankOf = {for (final r in ref.watch(rankedMissionsProvider)) r.mission.pocketId: r};
     final width = 64.0 * scale, height = (minTapTarget * scale).clamp(minTapTarget, 80.0);
     final ordered = [...ref.watch(loadedBundleProvider).pockets]
-      ..sort((a, b) => (a.id == selected ? -1 : rankOf[a.id]!.rank).compareTo(b.id == selected ? -1 : rankOf[b.id]!.rank));
+      ..sort(
+        (a, b) => (a.id == selected ? -1 : rankOf[a.id]!.rank).compareTo(b.id == selected ? -1 : rankOf[b.id]!.rank),
+      );
 
     final placed = <Rect>[];
     final markers = <Marker>[];
@@ -118,7 +120,11 @@ class PocketLabelsLayer extends ConsumerWidget {
             onTap: () => onTap(pocket),
             child: Semantics(
               button: true,
-              label: l.areaMarkerLabel('${ranked.rank}', l.areaName(ranked, rankOf.values.toList()), modeWords(l, pocket.accessMode)),
+              label: l.areaMarkerLabel(
+                '${ranked.rank}',
+                l.areaName(ranked, rankOf.values.toList()),
+                modeWords(l, pocket.accessMode),
+              ),
               excludeSemantics: true,
               child: Center(
                 child: Container(
@@ -133,8 +139,10 @@ class PocketLabelsLayer extends ConsumerWidget {
                     children: [
                       Icon(modeIcon(pocket.accessMode), size: 16, color: tone.text),
                       const SizedBox(width: 4),
-                      Text('${ranked.rank}',
-                          style: TextStyle(color: tone.text, fontSize: 14, fontWeight: FontWeight.w700)),
+                      Text(
+                        '${ranked.rank}',
+                        style: TextStyle(color: tone.text, fontSize: 14, fontWeight: FontWeight.w700),
+                      ),
                     ],
                   ),
                 ),
@@ -228,44 +236,44 @@ class ServicesLayer extends ConsumerWidget {
       markers: [
         for (final service in ref.watch(loadedBundleProvider).services)
           if (types.contains(service.type))
-          Marker(
-            point: service.point,
-            width: labelled ? 120 * scale : minTapTarget,
-            height: labelled ? minTapTarget + 26 * scale : minTapTarget,
-            // The icon sits on the point, with its name below it.
-            alignment: labelled ? const Alignment(0, 0.2) : Alignment.center,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => onTap(service),
-              child: Semantics(
-                button: true,
-                label: '${l.serviceType(service.type)}: ${l.serviceName(service)}',
-                excludeSemantics: true,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _ServiceIcon(service: service),
-                    if (labelled)
-                      Flexible(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                          decoration: BoxDecoration(
-                            color: AppColors.surface.withValues(alpha: 0.9),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            l.serviceName(service),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: AppColors.ink, fontSize: 12, fontWeight: FontWeight.w500),
+            Marker(
+              point: service.point,
+              width: labelled ? 120 * scale : minTapTarget,
+              height: labelled ? minTapTarget + 26 * scale : minTapTarget,
+              // The icon sits on the point, with its name below it.
+              alignment: labelled ? const Alignment(0, 0.2) : Alignment.center,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => onTap(service),
+                child: Semantics(
+                  button: true,
+                  label: '${l.serviceType(service.type)}: ${l.serviceName(service)}',
+                  excludeSemantics: true,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _ServiceIcon(service: service),
+                      if (labelled)
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                            decoration: BoxDecoration(
+                              color: AppColors.surface.withValues(alpha: 0.9),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              l.serviceName(service),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(color: AppColors.ink, fontSize: 12, fontWeight: FontWeight.w500),
+                            ),
                           ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
       ],
     );
   }

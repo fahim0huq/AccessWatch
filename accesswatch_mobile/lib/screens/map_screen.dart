@@ -9,20 +9,15 @@ import '../data/models/manifest.dart';
 import '../data/models/route_line.dart';
 import '../l10n/app_localizations.dart';
 import '../state/care_state.dart';
-import '../state/connectivity.dart';
 import '../state/location.dart';
 import '../state/map_state.dart';
 import '../state/providers.dart';
 import '../state/route_view.dart';
 import '../theme/app_theme.dart';
 import '../widgets/location_prompt.dart';
-import '../widgets/map/care_route_layer.dart';
-import '../widgets/map/feature_layers.dart';
-import '../widgets/map/flood_layers.dart';
-import '../widgets/map/layers_sheet.dart';
-import '../widgets/map/map_chrome.dart';
+import '../widgets/map/full_screen_map.dart';
+import '../widgets/map/map_layer_list.dart';
 import '../widgets/map/map_overlay.dart';
-import '../widgets/map/map_sheets.dart';
 import '../widgets/map/routes_panel.dart';
 
 const _tileUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -122,7 +117,20 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
     _map.move(camera.center, camera.zoom + by);
   }
 
-  void _openPocket(String id) => showAreaSheet(context, ref, id);
+  void _openPocket(String id) {
+    if (ref.read(mapFullScreenProvider)) {
+      ref.read(fullScreenAreaProvider.notifier).state = id;
+    } else {
+      showAreaSheet(context, ref, id);
+    }
+  }
+
+  void _fitFlood() {
+    ref.read(selectedPocketIdProvider.notifier).state = null;
+    ref.read(selectedRouteProvider.notifier).state = null;
+    ref.read(highlightedRouteProvider.notifier).state = null;
+    _fitAll();
+  }
 
   void _onMapReady() {
     _ready = true;
@@ -156,143 +164,96 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
     ref.listen<LocationState>(locationControllerProvider, (before, now) {
       if (before?.position == null && now.position != null) _centreOnMe();
     });
-    final me = ref.watch(locationControllerProvider);
     final l = AppLocalizations.of(context)!;
     final bundle = ref.watch(loadedBundleProvider);
-    final layers = ref.watch(mapLayersProvider);
-    final compare = layers.contains(MapLayer.compare);
-    // An area chosen from Help first shows its own routes even with the routes layer off.
-    final showRoutes =
-        layers.contains(MapLayer.routes) ||
-        ref.watch(selectedPocketIdProvider) != null ||
-        ref.watch(selectedRouteProvider) != null;
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: Stack(
-              children: [
-                Semantics(
-                  label: l.mapSemanticsLabel,
-                  child: FlutterMap(
-                    mapController: _map,
-                    options: MapOptions(
-                      // Set as well as the fit, so even the very first tile requests
-                      // are for this area and not the library's default centre.
-                      initialCenter: _latLngBounds(bundle.manifest.bounds).center,
-                      initialZoom: 12,
-                      initialCameraFit: CameraFit.bounds(
-                        bounds: _latLngBounds(bundle.manifest.bounds),
-                        padding: _fitPadding(context),
+    final full = ref.watch(mapFullScreenProvider);
+    // In full screen, Back leaves full screen first.
+    return PopScope(
+      canPop: !full,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) setMapFullScreen(ref, false);
+      },
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  Semantics(
+                    label: l.mapSemanticsLabel,
+                    child: FlutterMap(
+                      mapController: _map,
+                      options: MapOptions(
+                        // Set as well as the fit, so even the very first tile requests
+                        // are for this area and not the library's default centre.
+                        initialCenter: _latLngBounds(bundle.manifest.bounds).center,
+                        initialZoom: 12,
+                        initialCameraFit: CameraFit.bounds(
+                          bounds: _latLngBounds(bundle.manifest.bounds),
+                          padding: _fitPadding(context),
+                        ),
+                        minZoom: 9,
+                        maxZoom: 18,
+                        backgroundColor: AppColors.mapBackground,
+                        interactionOptions: const InteractionOptions(
+                          flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+                        ),
+                        // Debug builds only: a long press sets a test position, for trying Find care on a desktop.
+                        onLongPress: kDebugMode
+                            ? (_, point) => ref.read(locationControllerProvider.notifier).setTestPosition(point)
+                            : null,
+                        onMapReady: _onMapReady,
                       ),
-                      minZoom: 9,
-                      maxZoom: 18,
-                      backgroundColor: AppColors.mapBackground,
-                      interactionOptions: const InteractionOptions(
-                        flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
-                      ),
-                      // Debug builds only: a long press sets a test position, for trying Find care on a desktop.
-                      onLongPress: kDebugMode
-                          ? (_, point) => ref.read(locationControllerProvider.notifier).setTestPosition(point)
-                          : null,
-                      onMapReady: _onMapReady,
-                    ),
-                    children: [
-                      if (ref.watch(showBaseTilesProvider) && ref.watch(onlineProvider).valueOrNull != false) _tiles,
-                      if (compare)
-                        OverlayImageLayer(
-                          overlayImages: [
-                            OverlayImage(
-                              bounds: _latLngBounds(bundle.manifest.bounds),
-                              imageProvider: const AssetImage(BundleRepository.compareImageAsset),
-                              opacity: ref.watch(mapOpacityProvider)[MapLayer.compare]!,
-                              filterQuality: FilterQuality.none,
-                            ),
-                          ],
-                        )
-                      else ...[
-                        if (layers.contains(MapLayer.depthZones)) const DepthZonesLayer(),
-                        if (layers.contains(MapLayer.flood)) const FloodLayer(),
-                        if (layers.contains(MapLayer.floodBaseline)) const BaselineFloodLayer(),
-                        if (layers.contains(MapLayer.floodEms)) const EmsFloodLayer(),
-                      ],
-                      if (layers.contains(MapLayer.allRoads)) const AllRoadsLayer(),
-                      if (layers.contains(MapLayer.floodedRoads)) const FloodedRoadsLayer(),
-                      if (layers.contains(MapLayer.pockets)) PocketAreasLayer(onTap: (p) => _openPocket(p.id)),
-                      if (showRoutes)
-                        RoutesLayer(
-                          onTap: (hits) {
-                            ref.read(highlightedRouteProvider.notifier).state = hits.first;
-                            showRoutesSheet(context, hits);
-                          },
-                        ),
-                      if (layers.contains(MapLayer.pockets)) PocketLabelsLayer(onTap: (p) => _openPocket(p.id)),
-                      if (placeLayers.keys.any(layers.contains))
-                        ServicesLayer(
-                          types: {
-                            for (final e in placeLayers.entries)
-                              if (layers.contains(e.key)) e.value,
-                          },
-                          onTap: (s) => showServiceSheet(context, ref, s),
-                        ),
-                      const CareRouteLayer(),
-                      if (me.position != null)
-                        MyLocationLayer(
-                          position: me.position!,
-                          isTest: me.isStandIn,
-                          label: me.isSample ? l.sampleNotice : null,
-                        ),
-                      const Scalebar(alignment: Alignment.bottomLeft, padding: EdgeInsets.fromLTRB(12, 0, 0, 8)),
-                      const OsmAttribution(),
-                    ],
-                  ),
-                ),
-                // Each overlay is only as big as what it shows, so the map
-                // around them still takes every pan and tap.
-                Positioned.fill(
-                  child: SafeArea(
-                    bottom: false,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          top: 8,
-                          left: 12,
-                          right: 72,
-                          bottom: 24,
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: const SingleChildScrollView(child: MapTopLeft()),
-                          ),
-                        ),
-                        Positioned(
-                          top: 8,
-                          right: 12,
-                          bottom: 24,
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: SingleChildScrollView(
-                              child: MapSideButtons(
-                                onLocate: _locate,
-                                onZoom: _zoom,
-                                onFit: () {
-                                  ref.read(selectedPocketIdProvider.notifier).state = null;
-                                  ref.read(selectedRouteProvider.notifier).state = null;
-                                  ref.read(highlightedRouteProvider.notifier).state = null;
-                                  _fitAll();
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                      children: mapLayerList(context, ref, tiles: _tiles, onPocket: _openPocket),
                     ),
                   ),
-                ),
-              ],
+                  // Each overlay is only as big as what it shows, so the map
+                  // around them still takes every pan and tap.
+                  Positioned.fill(
+                    child: SafeArea(
+                      bottom: false,
+                      child: full
+                          ? FullScreenControls(onLocate: _locate, onFit: _fitFlood, onZoom: _zoom)
+                          : Stack(
+                              children: [
+                                const Positioned(
+                                  top: 8,
+                                  left: 12,
+                                  right: 72,
+                                  bottom: 24,
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: SingleChildScrollView(child: MapTopLeft()),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 8,
+                                  right: 12,
+                                  bottom: 24,
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: SingleChildScrollView(
+                                      child: MapSideButtons(
+                                        onLocate: _locate,
+                                        onZoom: _zoom,
+                                        onFit: _fitFlood,
+                                        onFullScreen: () => setMapFullScreen(ref, true),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ),
+                  ),
+                  if (full)
+                    const Positioned(left: 0, right: 0, bottom: 0, child: SafeArea(child: FullScreenAreaCard())),
+                ],
+              ),
             ),
-          ),
-          const MapSummaryCard(),
-        ],
+            if (!full) const MapSummaryCard(),
+          ],
+        ),
       ),
     );
   }

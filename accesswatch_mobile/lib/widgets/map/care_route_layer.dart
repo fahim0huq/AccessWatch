@@ -19,15 +19,17 @@ class CareRouteLayer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final route = ref.watch(careRouteOnMapProvider);
     if (route == null || route.points.length < 2) return const SizedBox.shrink();
-    return PolylineLayer<Object>(polylines: [
-      Polyline<Object>(
-        points: route.points,
-        strokeWidth: 6,
-        color: _careRouteColor,
-        borderStrokeWidth: 2,
-        borderColor: AppColors.surface,
-      ),
-    ]);
+    return PolylineLayer<Object>(
+      polylines: [
+        Polyline<Object>(
+          points: route.points,
+          strokeWidth: 6,
+          color: _careRouteColor,
+          borderStrokeWidth: 2,
+          borderColor: AppColors.surface,
+        ),
+      ],
+    );
   }
 }
 
@@ -59,8 +61,10 @@ class CareRoutePanel extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(l.careRouteTo(l.serviceName(route.clinicRoute.clinic), careModeLabel(l, route.mode)),
-                    style: careBodyStyle.copyWith(fontWeight: FontWeight.bold)),
+                Text(
+                  l.careRouteTo(l.serviceName(route.clinicRoute.clinic), careModeLabel(l, route.mode)),
+                  style: careBodyStyle.copyWith(fontWeight: FontWeight.bold),
+                ),
                 Text(routeSummary(l, fmt, route.mode, r), style: careBodyStyle),
                 for (final warning in routeWarnings(l, fmt, route.mode, r)) Text('• $warning', style: careMutedStyle),
               ],

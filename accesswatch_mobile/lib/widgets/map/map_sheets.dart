@@ -48,18 +48,24 @@ class _Fact extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 6),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(flex: 2, child: Text(label, style: const TextStyle(color: AppColors.inkSecondary, fontSize: 12))),
-            Expanded(
-              flex: 3,
-              child: Text(value, style: const TextStyle(color: AppColors.ink, fontSize: 12, fontWeight: FontWeight.bold)),
-            ),
-          ],
+    padding: const EdgeInsets.only(top: 6),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 2,
+          child: Text(label, style: const TextStyle(color: AppColors.inkSecondary, fontSize: 12)),
         ),
-      );
+        Expanded(
+          flex: 3,
+          child: Text(
+            value,
+            style: const TextStyle(color: AppColors.ink, fontSize: 12, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 class _RouteCard extends StatelessWidget {
@@ -83,13 +89,18 @@ class _RouteCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(l.routeSheetTitle(route.pocketId, name),
-              style: const TextStyle(color: AppColors.ink, fontSize: 15, fontWeight: FontWeight.bold)),
+          Text(
+            l.routeSheetTitle(route.pocketId, name),
+            style: const TextStyle(color: AppColors.ink, fontSize: 15, fontWeight: FontWeight.bold),
+          ),
           _Fact(l.routeAccess, l.accessMode(route.accessMode)),
           _Fact(l.distance, l.distanceKm(fmt.km(route.distanceKm))),
           _Fact(l.eta, l.durationMin(fmt.minutes(route.estimatedTimeMin))),
           _Fact(l.depthLevel, l.depthClass(route.maxDepthClass)),
-          _Fact(l.routeWaterKm, l.routeWaterValue(fmt.km(route.kmShallow), fmt.km(route.kmMedium), fmt.km(route.kmDeep))),
+          _Fact(
+            l.routeWaterKm,
+            l.routeWaterValue(fmt.km(route.kmShallow), fmt.km(route.kmMedium), fmt.km(route.kmDeep)),
+          ),
           if (route.boatLegKm > 0) _Fact(l.routeAccess, l.boatLegKm(fmt.km(route.boatLegKm))),
           _Fact(l.uncertainBridges, fmt.count(route.uncertainBridges)),
           _Fact(l.accessRisk, l.riskLevel(route.riskLevel)),
@@ -115,8 +126,10 @@ void showServiceSheet(BuildContext context, WidgetRef ref, ServicePoint service)
             Icon(serviceIcon(service.type), color: AppColors.brand),
             const SizedBox(width: 10),
             Expanded(
-              child: Text(l.serviceName(service),
-                  style: const TextStyle(color: AppColors.ink, fontSize: 18, fontWeight: FontWeight.bold)),
+              child: Text(
+                l.serviceName(service),
+                style: const TextStyle(color: AppColors.ink, fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),
