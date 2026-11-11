@@ -99,7 +99,10 @@ class AppTheme {
         selectedColor: AppColors.brandTint,
         side: const BorderSide(color: AppColors.line),
         labelStyle: _text.labelMedium!.copyWith(color: AppColors.ink),
-        shape: const StadiumBorder(side: BorderSide(color: AppColors.line)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSizes.chipRadius),
+          side: const BorderSide(color: AppColors.line),
+        ),
         checkmarkColor: AppColors.brandText,
       ),
       navigationBarTheme: NavigationBarThemeData(

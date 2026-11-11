@@ -19,6 +19,59 @@ String eventKindWords(AppLocalizations l, EventKind kind) => switch (kind) {
   EventKind.cycloneFlooding => l.watchKindCyclone,
 };
 
+/// Flood / Cyclone flooding: two pills side by side that grow with the text.
+class KindSwitch extends StatelessWidget {
+  final EventKind selected;
+  final ValueChanged<EventKind> onSelect;
+
+  const KindSwitch({super.key, required this.selected, required this.onSelect});
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+    final text = Theme.of(context).textTheme;
+    final radius = BorderRadius.circular(AppSizes.button / 2);
+    return Container(
+      key: const ValueKey('watch-kind'),
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(color: AppColors.surface, borderRadius: radius, boxShadow: AppShadows.card),
+      // Both pills as tall as the taller one.
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (final k in EventKind.values)
+              Expanded(
+                child: Semantics(
+                  button: true,
+                  selected: k == selected,
+                  child: Material(
+                    color: k == selected ? AppColors.brandTint : Colors.transparent,
+                    borderRadius: radius,
+                    child: InkWell(
+                      borderRadius: radius,
+                      onTap: () => onSelect(k),
+                      child: Container(
+                        constraints: const BoxConstraints(minHeight: AppSizes.tap),
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                        child: Text(
+                          eventKindWords(l, k),
+                          textAlign: TextAlign.center,
+                          style: text.labelLarge!.copyWith(color: k == selected ? AppColors.brandText : AppColors.ink),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 /// Watch [event] and show it on the Map.
 void goWatch(BuildContext context, WidgetRef ref, WatchEvent event) {
   watchEvent(ref, event);

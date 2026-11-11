@@ -4,6 +4,7 @@ import 'package:accesswatch_mobile/l10n/app_localizations.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations_en.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations_pt.dart';
 import 'package:accesswatch_mobile/widgets/help/area_card.dart';
+import 'package:accesswatch_mobile/widgets/ui/look.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -51,7 +52,7 @@ void main() {
     // Counts on the chips come from the data.
     expect(find.text(en.filterAllCount('${bundle.missions.length}')), findsOneWidget);
     expect(find.text(en.filterVehicleCount('$trucks')), findsOneWidget);
-    final chip = find.widgetWithText(FilterChip, en.filterBoatCount('$boats'));
+    final chip = find.widgetWithText(FilterPill, en.filterBoatCount('$boats'));
     await tester.ensureVisible(chip);
     await tester.pumpAndSettle();
     await tester.tap(chip);

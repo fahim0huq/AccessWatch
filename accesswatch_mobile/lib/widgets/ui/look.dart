@@ -151,3 +151,51 @@ class InfoPill extends StatelessWidget {
     );
   }
 }
+
+/// A filter pill: white, violet tint when chosen. Its words wrap at large text.
+class FilterPill extends StatelessWidget {
+  final String label;
+  final IconData? icon;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const FilterPill({super.key, required this.label, this.icon, required this.selected, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final color = selected ? AppColors.brandText : AppColors.ink;
+    final radius = BorderRadius.circular(AppSizes.chipRadius);
+    return Semantics(
+      button: true,
+      selected: selected,
+      child: Material(
+        color: selected ? AppColors.brandTint : AppColors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: radius,
+          side: BorderSide(color: selected ? AppColors.brand : AppColors.line),
+        ),
+        child: InkWell(
+          borderRadius: radius,
+          onTap: onTap,
+          child: Container(
+            constraints: const BoxConstraints(minHeight: AppSizes.tap),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (icon != null || selected) ...[
+                  Icon(icon ?? Icons.check_rounded, size: 18, color: color),
+                  const SizedBox(width: 6),
+                ],
+                Flexible(
+                  child: Text(label,
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: color, fontWeight: FontWeight.w600)),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

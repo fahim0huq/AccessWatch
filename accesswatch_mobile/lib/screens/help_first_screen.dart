@@ -12,6 +12,7 @@ import '../utils/labels.dart';
 import '../widgets/help/area_card.dart';
 import '../widgets/mission_detail_sections.dart' show showAlertPreview;
 import '../widgets/ui/kit.dart';
+import '../widgets/ui/look.dart';
 
 /// Help first: every area, most urgent first, in the order the app ranks them
 /// (the published ranking, or the user's weights from About > Advanced).
@@ -79,12 +80,11 @@ class _HelpFirstScreenState extends ConsumerState<HelpFirstScreen> {
       if (count == 0 && group != AreaGroup.all) return const SizedBox.shrink();
       return Padding(
         padding: const EdgeInsets.only(right: 8),
-        child: FilterChip(
-          label: Text(label(fmt.count(count))),
-          avatar: icon == null ? null : Icon(icon, size: 18, color: AppColors.ink),
+        child: FilterPill(
+          label: label(fmt.count(count)),
+          icon: icon,
           selected: _filter == group,
-          showCheckmark: icon == null,
-          onSelected: (_) => setState(() => _filter = group),
+          onTap: () => setState(() => _filter = group),
         ),
       );
     }

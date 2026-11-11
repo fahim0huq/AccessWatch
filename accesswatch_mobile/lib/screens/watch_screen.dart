@@ -54,26 +54,7 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 4),
-                  SegmentedButton<EventKind>(
-                    key: const ValueKey('watch-kind'),
-                    showSelectedIcon: false,
-                    style: SegmentedButton.styleFrom(
-                      minimumSize: const Size(AppSizes.tap, AppSizes.tap),
-                      backgroundColor: AppColors.surface,
-                      selectedBackgroundColor: AppColors.brandTint,
-                      selectedForegroundColor: AppColors.brandText,
-                      foregroundColor: AppColors.ink,
-                    ),
-                    segments: [
-                      for (final k in EventKind.values)
-                        ButtonSegment(
-                          value: k,
-                          label: Text(eventKindWords(l, k), textAlign: TextAlign.center),
-                        ),
-                    ],
-                    selected: {kind},
-                    onSelectionChanged: (s) => ref.read(watchKindProvider.notifier).state = s.single,
-                  ),
+                  KindSwitch(selected: kind, onSelect: (k) => ref.read(watchKindProvider.notifier).state = k),
                   const SizedBox(height: 8),
                   Text(l.watchKindNote, style: text.bodySmall),
                   const SizedBox(height: 14),
