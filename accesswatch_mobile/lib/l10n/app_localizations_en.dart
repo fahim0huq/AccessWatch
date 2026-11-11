@@ -1597,4 +1597,91 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get legendVehicle => 'Vehicle';
+
+  @override
+  String get watchSubtitle =>
+      'Follow a flood that has satellite data, or pick an area on the map.';
+
+  @override
+  String get watchKindFlood => 'Flood';
+
+  @override
+  String get watchKindCyclone => 'Cyclone flooding';
+
+  @override
+  String get watchKindNote =>
+      'Satellite radar shows water, not wind or storm tracks. Both views list flooding only.';
+
+  @override
+  String get watchSearchHint => 'Search a place';
+
+  @override
+  String watchSearchNone(String query) {
+    return 'No event with data matches “$query”.';
+  }
+
+  @override
+  String get watchNoneOfKind => 'No event of this kind has satellite data yet.';
+
+  @override
+  String get watchSelectOnMap => 'Select an area on the map';
+
+  @override
+  String get watchAvailableTitle => 'Available now';
+
+  @override
+  String eventScenes(String before, String after) {
+    return 'Radar scenes of $before and $after';
+  }
+
+  @override
+  String get dataAvailable => 'Data available';
+
+  @override
+  String get watchThisArea => 'Watch this area';
+
+  @override
+  String get watchingNow => 'Watching now';
+
+  @override
+  String get liveEventsTitle => 'Live events';
+
+  @override
+  String get liveEventsEmpty =>
+      'No live events connected yet. When live satellite data is connected, current floods and flooding from cyclones will appear here. For now only the January 2026 Mozambique flood has data.';
+
+  @override
+  String get selectHint => 'Tap to place a box, or drag to draw one.';
+
+  @override
+  String get selectCancel => 'Cancel';
+
+  @override
+  String get selectionTitle => 'Your selected area';
+
+  @override
+  String selectionHasData(String event) {
+    return 'This area has satellite data: $event.';
+  }
+
+  @override
+  String selectionNoData(String event) {
+    return 'No satellite data for this area yet. Available now: $event';
+  }
+
+  @override
+  String goToEvent(String event) {
+    return 'Go to $event';
+  }
+
+  @override
+  String watchingPill(String event, String date) {
+    return 'Watching: $event · $date';
+  }
+
+  @override
+  String get watchingPillHint => 'Opens Watch an area';
+
+  @override
+  String get selectDone => 'Done';
 }

@@ -6,6 +6,7 @@ import 'package:accesswatch_mobile/l10n/app_localizations_pt.dart';
 import 'package:accesswatch_mobile/widgets/map/feature_layers.dart';
 import 'package:accesswatch_mobile/widgets/map/full_screen_map.dart';
 import 'package:accesswatch_mobile/widgets/map/layers_sheet.dart';
+import 'package:accesswatch_mobile/widgets/map/legend_pill.dart';
 import 'package:accesswatch_mobile/widgets/map/map_overlay.dart';
 import 'package:accesswatch_mobile/widgets/map/routes_panel.dart';
 import 'package:accesswatch_mobile/widgets/ui/floating_nav_bar.dart';
@@ -40,7 +41,6 @@ void main() {
     await enter(tester);
     expect(find.byType(FloatingNavBar), findsNothing);
     expect(find.byType(MapSummaryCard), findsNothing);
-    expect(find.byType(MapLegendChips), findsNothing);
     expect(find.byKey(const ValueKey('enter-full-screen')), findsNothing);
     await tester.tap(find.byTooltip(en.exitFullScreen));
     await tester.pumpAndSettle();

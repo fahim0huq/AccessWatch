@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../data/models/enums.dart';
 import '../../l10n/app_localizations.dart';
 import '../../router.dart';
 import '../../state/mission_state.dart';
@@ -15,53 +14,9 @@ import '../ui/kit.dart';
 import '../ui/mode_look.dart';
 import 'care_route_layer.dart';
 import 'layers_sheet.dart';
+import 'legend_pill.dart';
 import 'routes_panel.dart';
-
-class MapBrandPill extends StatelessWidget {
-  const MapBrandPill({super.key});
-
-  @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-    decoration: BoxDecoration(
-      color: AppColors.surface,
-      borderRadius: BorderRadius.circular(AppSizes.button / 2),
-      border: Border.all(color: AppColors.line),
-    ),
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Icon(Icons.water_rounded, color: AppColors.brand, size: 20),
-        const SizedBox(width: 8),
-        Flexible(
-          child: Text(
-            AppLocalizations.of(context)!.appName,
-            style: Theme.of(context).textTheme.titleSmall!.copyWith(color: AppColors.brand),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-/// Flooded, Needs a boat, Truck can reach: the three things the map draws by default.
-class MapLegendChips extends StatelessWidget {
-  const MapLegendChips({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context)!;
-    return Wrap(
-      spacing: 6,
-      runSpacing: 6,
-      children: [
-        LegendChip(color: mapFloodColor, label: l.legendFlooded),
-        LegendChip(color: modeMapColor(AccessMode.boat), label: l.modeNeedsBoat),
-        LegendChip(color: modeMapColor(AccessMode.highClearanceTruck), label: l.modeTruckCanReach),
-      ],
-    );
-  }
-}
+import 'watching_pill.dart';
 
 /// A round 48 dp map button with a tooltip that names it.
 class MapRoundButton extends StatelessWidget {
@@ -106,7 +61,7 @@ class MapTopLeft extends StatelessWidget {
         maxScaleFactor: mapOverlayMaxTextScale,
         child: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [MapBrandPill(), SizedBox(height: 8), MapLegendChips()],
+          children: [WatchingPill(), SizedBox(height: 8), MapLegendPill()],
         ),
       ),
       const SizedBox(height: 8),

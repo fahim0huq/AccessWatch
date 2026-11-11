@@ -15,6 +15,8 @@ import '../state/providers.dart';
 import '../state/route_view.dart';
 import '../theme/app_theme.dart';
 import '../widgets/location_prompt.dart';
+import '../state/watch_state.dart';
+import '../widgets/map/area_select.dart';
 import '../widgets/map/full_screen_map.dart';
 import '../widgets/map/map_layer_list.dart';
 import '../widgets/map/map_overlay.dart';
@@ -161,17 +163,21 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
         showRoutesPanel(context, focusPocketId: pocketId);
       });
     });
+    ref.listen<int>(mapFitRequestProvider, (_, _) => _fitFlood());
     ref.listen<LocationState>(locationControllerProvider, (before, now) {
       if (before?.position == null && now.position != null) _centreOnMe();
     });
     final l = AppLocalizations.of(context)!;
     final bundle = ref.watch(loadedBundleProvider);
     final full = ref.watch(mapFullScreenProvider);
+    final selecting = ref.watch(mapSelectingProvider);
     // In full screen, Back leaves full screen first.
     return PopScope(
-      canPop: !full,
+      canPop: !full && !selecting,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop) setMapFullScreen(ref, false);
+        if (didPop) return;
+        setMapFullScreen(ref, false);
+        ref.read(mapSelectingProvider.notifier).state = false;
       },
       child: Scaffold(
         body: Column(
@@ -207,51 +213,56 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                       children: mapLayerList(context, ref, tiles: _tiles, onPocket: _openPocket),
                     ),
                   ),
+                  if (selecting)
+                    Positioned.fill(
+                      child: AreaSelectOverlay(map: _map, onZoom: _zoom),
+                    ),
                   // Each overlay is only as big as what it shows, so the map
                   // around them still takes every pan and tap.
-                  Positioned.fill(
-                    child: SafeArea(
-                      bottom: false,
-                      child: full
-                          ? FullScreenControls(onLocate: _locate, onFit: _fitFlood, onZoom: _zoom)
-                          : Stack(
-                              children: [
-                                const Positioned(
-                                  top: 8,
-                                  left: 12,
-                                  right: 72,
-                                  bottom: 24,
-                                  child: Align(
-                                    alignment: Alignment.topLeft,
-                                    child: SingleChildScrollView(child: MapTopLeft()),
+                  if (!selecting)
+                    Positioned.fill(
+                      child: SafeArea(
+                        bottom: false,
+                        child: full
+                            ? FullScreenControls(onLocate: _locate, onFit: _fitFlood, onZoom: _zoom)
+                            : Stack(
+                                children: [
+                                  const Positioned(
+                                    top: 8,
+                                    left: 12,
+                                    right: 72,
+                                    bottom: 24,
+                                    child: Align(
+                                      alignment: Alignment.topLeft,
+                                      child: SingleChildScrollView(child: MapTopLeft()),
+                                    ),
                                   ),
-                                ),
-                                Positioned(
-                                  top: 8,
-                                  right: 12,
-                                  bottom: 24,
-                                  child: Align(
-                                    alignment: Alignment.topRight,
-                                    child: SingleChildScrollView(
-                                      child: MapSideButtons(
-                                        onLocate: _locate,
-                                        onZoom: _zoom,
-                                        onFit: _fitFlood,
-                                        onFullScreen: () => setMapFullScreen(ref, true),
+                                  Positioned(
+                                    top: 8,
+                                    right: 12,
+                                    bottom: 24,
+                                    child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: SingleChildScrollView(
+                                        child: MapSideButtons(
+                                          onLocate: _locate,
+                                          onZoom: _zoom,
+                                          onFit: _fitFlood,
+                                          onFullScreen: () => setMapFullScreen(ref, true),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
+                                ],
+                              ),
+                      ),
                     ),
-                  ),
                   if (full)
                     const Positioned(left: 0, right: 0, bottom: 0, child: SafeArea(child: FullScreenAreaCard())),
                 ],
               ),
             ),
-            if (!full) const MapSummaryCard(),
+            if (!full && !selecting) const MapSummaryCard(),
           ],
         ),
       ),

@@ -11,6 +11,7 @@ import '../../state/location.dart';
 import '../../state/map_state.dart';
 import '../../state/providers.dart';
 import '../../state/route_view.dart';
+import 'area_select.dart';
 import 'care_route_layer.dart';
 import 'feature_layers.dart';
 import 'flood_layers.dart';
@@ -77,6 +78,7 @@ List<Widget> mapLayerList(
     if (me.position != null)
       MyLocationLayer(position: me.position!, isTest: me.isStandIn, label: me.isSample ? l.sampleNotice : null),
     const Scalebar(alignment: Alignment.bottomLeft, padding: EdgeInsets.fromLTRB(12, 0, 0, 8)),
+    const SelectionBoxLayer(),
     const OsmAttribution(),
   ];
 }

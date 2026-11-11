@@ -1,0 +1,11 @@
+{
+  "note": "Local list of events the app can show. Not part of the data bundle. An event with \"data\": \"bundle\" takes its dates and area from assets/bundle/manifest.json.",
+  "events": [
+    {
+      "id": "mozambique-2026-01",
+      "kind": "flood",
+      "data": "bundle",
+      "name": {"en": "Chókwè and Guija, Mozambique", "pt": "Chókwè e Guija, Moçambique"}
+    }
+  ]
+}

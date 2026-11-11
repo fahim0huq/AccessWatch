@@ -66,6 +66,7 @@ flutter:
 
   assets:
     - assets/bundle/
+    - assets/events/
 
   # Bundled, so the app looks the same offline. Licence: assets/fonts/OFL.txt.
   fonts:

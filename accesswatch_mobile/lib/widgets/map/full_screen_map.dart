@@ -4,16 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../data/models/enums.dart';
 import '../../l10n/app_localizations.dart';
 import '../../router.dart';
 import '../../state/map_state.dart';
 import '../../state/mission_state.dart';
-import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import '../ui/kit.dart';
 import '../ui/mode_look.dart';
 import 'layers_sheet.dart';
+import 'legend_pill.dart';
 import 'map_overlay.dart';
 import 'routes_panel.dart';
 
@@ -23,47 +22,6 @@ final fullScreenAreaProvider = StateProvider<String?>((ref) => null);
 void setMapFullScreen(WidgetRef ref, bool on) {
   ref.read(fullScreenAreaProvider.notifier).state = null;
   ref.read(mapFullScreenProvider.notifier).state = on;
-}
-
-/// Flooded, Boat, Vehicle in one small pill.
-class MapLegendPill extends StatelessWidget {
-  const MapLegendPill({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context)!;
-    final style = Theme.of(context).textTheme.labelMedium!.copyWith(color: AppColors.ink);
-    Widget item(Color color, String word) => Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 12,
-          height: 12,
-          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-        ),
-        const SizedBox(width: 5),
-        Text(word, style: style),
-      ],
-    );
-    return Container(
-      key: const ValueKey('legend-pill'),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(AppSizes.button / 2),
-        boxShadow: AppShadows.card,
-      ),
-      child: Wrap(
-        spacing: 12,
-        runSpacing: 4,
-        children: [
-          item(mapFloodColor, l.legendFlooded),
-          item(modeMapColor(AccessMode.boat), l.legendBoat),
-          item(modeMapColor(AccessMode.highClearanceTruck), l.legendVehicle),
-        ],
-      ),
-    );
-  }
 }
 
 /// Exit and the legend on the left; Layers, Routes, My location, Fit and zoom on the right.

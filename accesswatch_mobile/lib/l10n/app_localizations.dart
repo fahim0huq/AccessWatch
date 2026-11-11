@@ -2579,6 +2579,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Vehicle'**
   String get legendVehicle;
+
+  /// No description provided for @watchSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow a flood that has satellite data, or pick an area on the map.'**
+  String get watchSubtitle;
+
+  /// No description provided for @watchKindFlood.
+  ///
+  /// In en, this message translates to:
+  /// **'Flood'**
+  String get watchKindFlood;
+
+  /// No description provided for @watchKindCyclone.
+  ///
+  /// In en, this message translates to:
+  /// **'Cyclone flooding'**
+  String get watchKindCyclone;
+
+  /// No description provided for @watchKindNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Satellite radar shows water, not wind or storm tracks. Both views list flooding only.'**
+  String get watchKindNote;
+
+  /// No description provided for @watchSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search a place'**
+  String get watchSearchHint;
+
+  /// No description provided for @watchSearchNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No event with data matches “{query}”.'**
+  String watchSearchNone(String query);
+
+  /// No description provided for @watchNoneOfKind.
+  ///
+  /// In en, this message translates to:
+  /// **'No event of this kind has satellite data yet.'**
+  String get watchNoneOfKind;
+
+  /// No description provided for @watchSelectOnMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Select an area on the map'**
+  String get watchSelectOnMap;
+
+  /// No description provided for @watchAvailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Available now'**
+  String get watchAvailableTitle;
+
+  /// No description provided for @eventScenes.
+  ///
+  /// In en, this message translates to:
+  /// **'Radar scenes of {before} and {after}'**
+  String eventScenes(String before, String after);
+
+  /// No description provided for @dataAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Data available'**
+  String get dataAvailable;
+
+  /// No description provided for @watchThisArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch this area'**
+  String get watchThisArea;
+
+  /// No description provided for @watchingNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Watching now'**
+  String get watchingNow;
+
+  /// No description provided for @liveEventsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Live events'**
+  String get liveEventsTitle;
+
+  /// No description provided for @liveEventsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No live events connected yet. When live satellite data is connected, current floods and flooding from cyclones will appear here. For now only the January 2026 Mozambique flood has data.'**
+  String get liveEventsEmpty;
+
+  /// No description provided for @selectHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to place a box, or drag to draw one.'**
+  String get selectHint;
+
+  /// No description provided for @selectCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get selectCancel;
+
+  /// No description provided for @selectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your selected area'**
+  String get selectionTitle;
+
+  /// No description provided for @selectionHasData.
+  ///
+  /// In en, this message translates to:
+  /// **'This area has satellite data: {event}.'**
+  String selectionHasData(String event);
+
+  /// No description provided for @selectionNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'No satellite data for this area yet. Available now: {event}'**
+  String selectionNoData(String event);
+
+  /// No description provided for @goToEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to {event}'**
+  String goToEvent(String event);
+
+  /// No description provided for @watchingPill.
+  ///
+  /// In en, this message translates to:
+  /// **'Watching: {event} · {date}'**
+  String watchingPill(String event, String date);
+
+  /// No description provided for @watchingPillHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens Watch an area'**
+  String get watchingPillHint;
+
+  /// No description provided for @selectDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get selectDone;
 }
 
 class _AppLocalizationsDelegate

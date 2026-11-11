@@ -1,4 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:accesswatch_mobile/data/bundle_repository.dart';
+import 'package:accesswatch_mobile/data/models/watch_event.dart';
+import 'package:accesswatch_mobile/state/watch_state.dart';
 import 'package:accesswatch_mobile/main.dart';
 import 'package:accesswatch_mobile/data/mission_ranking.dart';
 import 'package:accesswatch_mobile/data/routing.dart';
@@ -20,6 +25,10 @@ Future<void> scrollTo(WidgetTester tester, Finder finder) async {
   await tester.scrollUntilVisible(finder, 400, scrollable: find.byType(Scrollable).first);
   await tester.pumpAndSettle();
 }
+
+final _watchEvents = parseWatchEvents(
+  jsonDecode(File(watchEventsAsset).readAsStringSync()) as Map<String, dynamic>,
+);
 
 Future<void> pumpApp(
   WidgetTester tester,
@@ -52,6 +61,8 @@ Future<void> pumpApp(
       mapTileProvider.overrideWithValue(tiles),
       localeProvider.overrideWith((ref) => locale),
       textScaleProvider.overrideWith((ref) => textScale),
+      // The real local list, read from disk: asset loading does not finish under the test clock.
+      watchEventsProvider.overrideWith((ref) async => _watchEvents),
       ...overrides,
     ],
     child: const AccessWatchApp(),

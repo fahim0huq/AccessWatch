@@ -16,6 +16,7 @@ import 'package:accesswatch_mobile/utils/labels.dart';
 import 'package:accesswatch_mobile/widgets/quality_banners.dart';
 import 'package:accesswatch_mobile/widgets/map/feature_layers.dart';
 import 'package:accesswatch_mobile/widgets/map/flood_layers.dart';
+import 'package:accesswatch_mobile/widgets/map/legend_pill.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -312,9 +313,9 @@ void main() {
       expect(find.byType(QualityBanners), findsNothing);
       expect(find.text(en.warnShortNisarBeta), findsNothing);
       expect(find.text(en.mapPreliminary('Jan 17, 2026')), findsOneWidget);
-      expect(find.text(en.legendFlooded), findsOneWidget);
-      expect(find.text(en.modeNeedsBoat), findsOneWidget);
-      expect(find.text(en.modeTruckCanReach), findsOneWidget);
+      for (final word in [en.legendFlooded, en.legendBoat, en.legendVehicle]) {
+        expect(find.descendant(of: find.byType(MapLegendPill), matching: find.text(word)), findsOneWidget);
+      }
     });
 
     testWidgets('the big button opens Help first; the line opens About', (tester) async {

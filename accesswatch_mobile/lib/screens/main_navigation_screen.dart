@@ -7,6 +7,7 @@ import '../state/connectivity.dart';
 import '../state/providers.dart';
 import '../theme/app_theme.dart';
 import '../state/map_state.dart';
+import '../state/watch_state.dart';
 import '../widgets/data_status.dart';
 import '../widgets/ui/floating_nav_bar.dart';
 
@@ -20,8 +21,13 @@ class BundleGate extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context)!;
-    return ref.watch(bundleProvider).when(
-          loading: () => _Message(icon: const CircularProgressIndicator(color: AppColors.brand), text: l.loadingData),
+    return ref
+        .watch(bundleProvider)
+        .when(
+          loading: () => _Message(
+            icon: const CircularProgressIndicator(color: AppColors.brand),
+            text: l.loadingData,
+          ),
           error: (error, _) => _Message(
             icon: const Icon(Icons.error_outline_rounded, color: AppColors.danger, size: 40),
             text: l.loadError,
@@ -41,7 +47,8 @@ class MainNavigationScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final offline = ref.watch(onlineProvider).valueOrNull == false;
-    final hideBar = ref.watch(presentationModeProvider) || ref.watch(mapFullScreenProvider);
+    final hideBar =
+        ref.watch(presentationModeProvider) || ref.watch(mapFullScreenProvider) || ref.watch(mapSelectingProvider);
     return BundleGate(
       child: DecoratedBox(
         decoration: const BoxDecoration(gradient: AppGradients.page),
@@ -81,19 +88,19 @@ class _Message extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                icon,
-                const SizedBox(height: 16),
-                Text(text, textAlign: TextAlign.center),
-                if (action != null) ...[const SizedBox(height: 16), action!],
-              ],
-            ),
-          ),
+    body: Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            icon,
+            const SizedBox(height: 16),
+            Text(text, textAlign: TextAlign.center),
+            if (action != null) ...[const SizedBox(height: 16), action!],
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }

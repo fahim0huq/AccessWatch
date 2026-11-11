@@ -1602,4 +1602,93 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get legendVehicle => 'Veículo';
+
+  @override
+  String get watchSubtitle =>
+      'Acompanhe uma cheia com dados de satélite, ou escolha uma área no mapa.';
+
+  @override
+  String get watchKindFlood => 'Cheia';
+
+  @override
+  String get watchKindCyclone => 'Cheias de ciclone';
+
+  @override
+  String get watchKindNote =>
+      'O radar de satélite mostra água, não vento nem trajetórias de tempestades. As duas vistas mostram só inundações.';
+
+  @override
+  String get watchSearchHint => 'Procurar um lugar';
+
+  @override
+  String watchSearchNone(String query) {
+    return 'Nenhum evento com dados corresponde a “$query”.';
+  }
+
+  @override
+  String get watchNoneOfKind =>
+      'Ainda nenhum evento deste tipo tem dados de satélite.';
+
+  @override
+  String get watchSelectOnMap => 'Selecionar uma área no mapa';
+
+  @override
+  String get watchAvailableTitle => 'Disponível agora';
+
+  @override
+  String eventScenes(String before, String after) {
+    return 'Cenas de radar de $before e $after';
+  }
+
+  @override
+  String get dataAvailable => 'Dados disponíveis';
+
+  @override
+  String get watchThisArea => 'Vigiar esta área';
+
+  @override
+  String get watchingNow => 'A vigiar agora';
+
+  @override
+  String get liveEventsTitle => 'Eventos em direto';
+
+  @override
+  String get liveEventsEmpty =>
+      'Ainda não há eventos em direto ligados. Quando houver dados de satélite em direto, as cheias atuais e as inundações causadas por ciclones aparecerão aqui. Por agora só a cheia de janeiro de 2026 em Moçambique tem dados.';
+
+  @override
+  String get selectHint =>
+      'Toque para colocar uma caixa, ou arraste para desenhar uma.';
+
+  @override
+  String get selectCancel => 'Cancelar';
+
+  @override
+  String get selectionTitle => 'A área que selecionou';
+
+  @override
+  String selectionHasData(String event) {
+    return 'Esta área tem dados de satélite: $event.';
+  }
+
+  @override
+  String selectionNoData(String event) {
+    return 'Ainda não há dados de satélite para esta área. Disponível agora: $event';
+  }
+
+  @override
+  String goToEvent(String event) {
+    return 'Ir para $event';
+  }
+
+  @override
+  String watchingPill(String event, String date) {
+    return 'A vigiar: $event · $date';
+  }
+
+  @override
+  String get watchingPillHint => 'Abre Vigiar uma área';
+
+  @override
+  String get selectDone => 'Concluído';
 }
