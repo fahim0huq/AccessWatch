@@ -29,19 +29,23 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final radius = BorderRadius.circular(AppSizes.cardRadius);
     final shape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(AppSizes.cardRadius),
-      side: BorderSide(color: borderColor ?? AppColors.line, width: borderWidth),
+      borderRadius: radius,
+      side: borderColor == null ? BorderSide.none : BorderSide(color: borderColor!, width: borderWidth),
     );
     return Padding(
       padding: margin,
-      child: Material(
-        color: color ?? AppColors.surface,
-        shape: shape,
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          child: Padding(padding: padding, child: SizedBox(width: double.infinity, child: child)),
+      child: DecoratedBox(
+        decoration: BoxDecoration(borderRadius: radius, boxShadow: AppShadows.card),
+        child: Material(
+          color: color ?? AppColors.surface,
+          shape: shape,
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(padding: padding, child: SizedBox(width: double.infinity, child: child)),
+          ),
         ),
       ),
     );
@@ -99,11 +103,28 @@ class BigButton extends StatelessWidget {
     final style = ButtonStyle(
       padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 20, vertical: 12)),
     );
+    if (!primary) {
+      return SizedBox(width: double.infinity, child: OutlinedButton(onPressed: onPressed, style: style, child: child));
+    }
+    // White words on the violet gradient; grey when disabled.
     return SizedBox(
       width: double.infinity,
-      child: primary
-          ? FilledButton(onPressed: onPressed, style: style, child: child)
-          : OutlinedButton(onPressed: onPressed, style: style, child: child),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: onPressed == null ? null : AppGradients.brand,
+          color: onPressed == null ? AppColors.surfaceMuted : null,
+          borderRadius: BorderRadius.circular(AppSizes.button / 2),
+          boxShadow: onPressed == null ? null : AppShadows.card,
+        ),
+        child: FilledButton(
+          onPressed: onPressed,
+          style: style.copyWith(
+            backgroundColor: WidgetStateProperty.all(Colors.transparent),
+            shadowColor: WidgetStateProperty.all(Colors.transparent),
+          ),
+          child: child,
+        ),
+      ),
     );
   }
 }
