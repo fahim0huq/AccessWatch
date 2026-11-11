@@ -83,3 +83,6 @@ final showBaseTilesProvider = Provider<bool>((ref) => true);
 
 /// null uses the map's normal network tiles. Tests supply a recording provider.
 final mapTileProvider = Provider<TileProvider?>((ref) => null);
+
+/// Full-screen map: the bottom bar and the summary card are hidden.
+final mapFullScreenProvider = StateProvider<bool>((ref) => false);

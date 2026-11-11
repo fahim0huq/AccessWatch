@@ -6,7 +6,9 @@ import '../l10n/app_localizations.dart';
 import '../state/connectivity.dart';
 import '../state/providers.dart';
 import '../theme/app_theme.dart';
+import '../state/map_state.dart';
 import '../widgets/data_status.dart';
+import '../widgets/ui/floating_nav_bar.dart';
 
 /// Shows [child] only once the data has loaded, so no screen ever has to
 /// handle a missing bundle.
@@ -30,7 +32,7 @@ class BundleGate extends ConsumerWidget {
   }
 }
 
-/// The three tabs: Map, Help first, Find care.
+/// The five slots of the floating bar: Map, Help first, Watch, Find care, About.
 class MainNavigationScreen extends ConsumerWidget {
   final StatefulNavigationShell shell;
 
@@ -38,41 +40,33 @@ class MainNavigationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l = AppLocalizations.of(context)!;
     final offline = ref.watch(onlineProvider).valueOrNull == false;
+    final hideBar = ref.watch(presentationModeProvider) || ref.watch(mapFullScreenProvider);
     return BundleGate(
-      child: Scaffold(
-        body: Column(
-          children: [
-            const OfflineBanner(),
-            Expanded(
-              child: MediaQuery.removePadding(
-                context: context,
-                // The banner already sits below the status bar.
-                removeTop: offline,
-                child: shell,
+      child: DecoratedBox(
+        decoration: const BoxDecoration(gradient: AppGradients.page),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Column(
+            children: [
+              const OfflineBanner(),
+              Expanded(
+                child: MediaQuery.removePadding(
+                  context: context,
+                  // The banner already sits below the status bar.
+                  removeTop: offline,
+                  child: shell,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
+          bottomNavigationBar: hideBar
+              ? null
+              : FloatingNavBar(
+                  current: NavSlot.values[shell.currentIndex],
+                  onSelect: (slot) => shell.goBranch(slot.index, initialLocation: slot.index == shell.currentIndex),
+                ),
         ),
-        bottomNavigationBar: ref.watch(presentationModeProvider)
-            ? null
-            : NavigationBar(
-                selectedIndex: shell.currentIndex,
-                onDestinationSelected: (index) => shell.goBranch(index, initialLocation: index == shell.currentIndex),
-                destinations: [
-                  NavigationDestination(
-                      icon: const Icon(Icons.map_outlined), selectedIcon: const Icon(Icons.map_rounded), label: l.tabMap),
-                  NavigationDestination(
-                      icon: const Icon(Icons.volunteer_activism_outlined),
-                      selectedIcon: const Icon(Icons.volunteer_activism_rounded),
-                      label: l.tabHelpFirst),
-                  NavigationDestination(
-                      icon: const Icon(Icons.local_hospital_outlined),
-                      selectedIcon: const Icon(Icons.local_hospital_rounded),
-                      label: l.tabFindCare),
-                ],
-              ),
       ),
     );
   }

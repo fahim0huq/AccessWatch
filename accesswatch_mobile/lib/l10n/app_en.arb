@@ -498,5 +498,8 @@
   "routeLineSolid": "solid line",
   "routeLineDashed": "dashed line",
   "routeModeOnlyNote": "The data has one way in per area: the routes are for that way only.",
-  "limitRouteTimes": "Route times for the areas come from the analysis. When the app adds up a time itself from road pieces, it shows it only if the rounding in the data cannot distort it; otherwise it shows the distance only."
+  "limitRouteTimes": "Route times for the areas come from the analysis. When the app adds up a time itself from road pieces, it shows it only if the rounding in the data cannot distort it; otherwise it shows the distance only.",
+  "tabWatch": "Watch",
+  "tabAbout": "About",
+  "watchTitle": "Watch an area"
 }

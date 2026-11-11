@@ -1573,4 +1573,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get limitRouteTimes =>
       'Route times for the areas come from the analysis. When the app adds up a time itself from road pieces, it shows it only if the rounding in the data cannot distort it; otherwise it shows the distance only.';
+
+  @override
+  String get tabWatch => 'Watch';
+
+  @override
+  String get tabAbout => 'About';
+
+  @override
+  String get watchTitle => 'Watch an area';
 }

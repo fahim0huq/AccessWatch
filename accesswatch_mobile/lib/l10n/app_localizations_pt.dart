@@ -1578,4 +1578,13 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get limitRouteTimes =>
       'Os tempos das rotas das áreas vêm da análise. Quando a app soma um tempo a partir de troços de estrada, só o mostra se o arredondamento dos dados não o puder distorcer; caso contrário, mostra só a distância.';
+
+  @override
+  String get tabWatch => 'Vigiar';
+
+  @override
+  String get tabAbout => 'Sobre';
+
+  @override
+  String get watchTitle => 'Vigiar uma área';
 }

@@ -2531,6 +2531,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Route times for the areas come from the analysis. When the app adds up a time itself from road pieces, it shows it only if the rounding in the data cannot distort it; otherwise it shows the distance only.'**
   String get limitRouteTimes;
+
+  /// No description provided for @tabWatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch'**
+  String get tabWatch;
+
+  /// No description provided for @tabAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get tabAbout;
+
+  /// No description provided for @watchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch an area'**
+  String get watchTitle;
 }
 
 class _AppLocalizationsDelegate

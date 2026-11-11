@@ -1,9 +1,5 @@
-// Shared building blocks: cards, chips, big buttons, rows and the "?" button.
+// Shared building blocks: cards, chips, big buttons and rows.
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
-import '../../l10n/app_localizations.dart';
-import '../../router.dart';
 import '../../theme/app_theme.dart';
 
 /// White rounded card. [tone] colours the border and, with [tinted], the fill.
@@ -129,44 +125,11 @@ class BigButton extends StatelessWidget {
   }
 }
 
-/// The round "?" that opens About this data.
-class HelpButton extends StatelessWidget {
-  const HelpButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context)!;
-    return Semantics(
-      button: true,
-      label: l.aboutThisData,
-      excludeSemantics: true,
-      child: Material(
-        color: AppColors.surface,
-        shape: const CircleBorder(side: BorderSide(color: AppColors.line, width: 1.5)),
-        elevation: 1,
-        child: InkWell(
-          customBorder: const CircleBorder(),
-          onTap: () => context.push(AppRoutes.about),
-          child: const SizedBox(
-            width: AppSizes.tap,
-            height: AppSizes.tap,
-            child: Center(
-              child: Text('?', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: AppColors.brand)),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// A screen heading: title, optional subtitle, and the "?" on the right.
+/// A screen heading: title and optional subtitle.
 class ScreenTitle extends StatelessWidget {
   final String title;
   final String? subtitle;
-  final bool help;
-
-  const ScreenTitle({super.key, required this.title, this.subtitle, this.help = true});
+  const ScreenTitle({super.key, required this.title, this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +151,6 @@ class ScreenTitle extends StatelessWidget {
               ],
             ),
           ),
-          if (help) const HelpButton(),
         ],
       ),
     );

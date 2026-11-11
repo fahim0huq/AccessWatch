@@ -57,7 +57,8 @@ void main() {
       expect(bundle.manifest.qualityFlags, contains(QualityFlag.depotAssumed));
       await openInfo(tester);
       expect(find.text(en.plainDepotAssumed), findsOneWidget);
-      await goBack(tester);
+      await tester.tap(find.byKey(const ValueKey('nav-map')));
+      await tester.pumpAndSettle();
       // The Map and Help first leave the warnings to About.
       expect(find.text(en.plainDepotAssumed), findsNothing, reason: 'Map');
       await tester.tap(find.text(en.tabHelpFirst).last);

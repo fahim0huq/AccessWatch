@@ -402,5 +402,8 @@
   "routeLineSolid": "linha contínua",
   "routeLineDashed": "linha tracejada",
   "routeModeOnlyNote": "Os dados têm um único modo de acesso por área: as rotas são só para esse modo.",
-  "limitRouteTimes": "Os tempos das rotas das áreas vêm da análise. Quando a app soma um tempo a partir de troços de estrada, só o mostra se o arredondamento dos dados não o puder distorcer; caso contrário, mostra só a distância."
+  "limitRouteTimes": "Os tempos das rotas das áreas vêm da análise. Quando a app soma um tempo a partir de troços de estrada, só o mostra se o arredondamento dos dados não o puder distorcer; caso contrário, mostra só a distância.",
+  "tabWatch": "Vigiar",
+  "tabAbout": "Sobre",
+  "watchTitle": "Vigiar uma área"
 }

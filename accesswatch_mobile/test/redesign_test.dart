@@ -55,12 +55,34 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('three tabs only: Map, Help first, Find care', (tester) async {
+  testWidgets('five slots in the floating bar: Map, Help first, Watch, Find care, About', (tester) async {
+    final semantics = tester.ensureSemantics();
     await pumpApp(tester, bundle);
-    final destinations = tester.widgetList<NavigationDestination>(find.byType(NavigationDestination)).toList();
-    expect(destinations.map((d) => d.label), [en.tabMap, en.tabHelpFirst, en.tabFindCare]);
+    for (final (key, word) in [
+      ('nav-map', en.tabMap),
+      ('nav-help', en.tabHelpFirst),
+      ('nav-watch', en.tabWatch),
+      ('nav-care', en.tabFindCare),
+      ('nav-about', en.tabAbout),
+    ]) {
+      expect(find.descendant(of: find.byKey(ValueKey(key)), matching: find.text(word)), findsOneWidget, reason: key);
+      expect(tester.getSize(find.byKey(ValueKey(key))).height, greaterThanOrEqualTo(48));
+    }
+    expect(find.byKey(const ValueKey('nav-watch-circle')), findsOneWidget);
+    expect(find.byType(NavigationBar), findsNothing);
     // Map is where the app opens.
     expect(find.text(en.seeWhoNeedsHelp), findsOneWidget);
+    // The circle and the About slot open their tabs.
+    await tester.tap(find.byKey(const ValueKey('nav-watch-circle')));
+    await tester.pumpAndSettle();
+    expect(find.text(en.watchTitle), findsWidgets);
+    await tester.tap(find.byKey(const ValueKey('nav-about')));
+    await tester.pumpAndSettle();
+    expect(find.text(en.aboutThisData), findsWidgets);
+    expect(find.byType(BackButton), findsNothing);
+    await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
+    await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+    semantics.dispose();
   });
 
   testWidgets('the Map has no warning banners, only the one preliminary line', (tester) async {

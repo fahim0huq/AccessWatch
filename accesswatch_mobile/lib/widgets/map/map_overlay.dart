@@ -115,7 +115,7 @@ class MapTopLeft extends StatelessWidget {
   );
 }
 
-/// The column on the right: ?, Layers, My location, zoom and Fit.
+/// The column on the right: Layers, My location, zoom and Fit.
 class MapSideButtons extends StatelessWidget {
   final VoidCallback onLocate, onFit;
   final ValueChanged<double> onZoom;
@@ -128,7 +128,6 @@ class MapSideButtons extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const HelpButton(),
         MapRoundButton(
           icon: Icons.layers_rounded,
           tooltip: l.layersButton,
@@ -191,7 +190,7 @@ class MapSummaryCard extends ConsumerWidget {
             ),
             const SizedBox(height: 4),
             InkWell(
-              onTap: () => context.push(AppRoutes.about),
+              onTap: () => context.go(AppRoutes.about),
               borderRadius: BorderRadius.circular(AppSizes.chipRadius),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minHeight: AppSizes.tap),

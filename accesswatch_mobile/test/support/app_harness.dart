@@ -7,7 +7,6 @@ import 'package:accesswatch_mobile/state/connectivity.dart';
 import 'package:accesswatch_mobile/state/map_state.dart';
 import 'package:accesswatch_mobile/state/providers.dart';
 import 'package:accesswatch_mobile/state/settings_store.dart';
-import 'package:accesswatch_mobile/widgets/ui/kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart' show TileProvider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -60,9 +59,9 @@ Future<void> pumpApp(
   await tester.pumpAndSettle();
 }
 
-/// Opens About this data with the "?" button of the current tab.
+/// Opens About this data with its slot in the bottom bar.
 Future<void> openAbout(WidgetTester tester) async {
-  await tester.tap(find.byType(HelpButton).hitTestable().first);
+  await tester.tap(find.byKey(const ValueKey('nav-about')));
   await tester.pumpAndSettle();
 }
 

@@ -166,7 +166,8 @@ void main() {
       tester.widget<Slider>(sliders.first).onChanged!(PriorityWeights.max);
       await tester.pumpAndSettle();
       await goBack(tester);
-      await goBack(tester);
+      await tester.tap(find.byKey(const ValueKey('nav-help')));
+      await tester.pumpAndSettle();
       final changed = order(tester);
       expect(changed, isNot(published));
       expect(changed.first, 'P01');
@@ -176,7 +177,8 @@ void main() {
       await tester.tap(find.text(en.rankingReset));
       await tester.pumpAndSettle();
       await goBack(tester);
-      await goBack(tester);
+      await tester.tap(find.byKey(const ValueKey('nav-help')));
+      await tester.pumpAndSettle();
       expect(order(tester), published);
       expect(find.text(en.customWeightsNote), findsNothing);
     });

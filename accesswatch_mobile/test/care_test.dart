@@ -231,7 +231,6 @@ void main() {
       expect(gps.listening, isTrue);
       await openAbout(tester);
       expect(gps.listening, isFalse);
-      await goBack(tester);
       await openTab(tester, en.tabFindCare);
       expect(gps.listening, isTrue);
 

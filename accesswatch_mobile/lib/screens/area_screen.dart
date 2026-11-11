@@ -48,7 +48,6 @@ class AreaScreen extends ConsumerWidget {
       appBar: AppBar(
         leading: BackButton(onPressed: back),
         title: Text(ranked == null ? '' : l.areaXofN(fmt.count(ranked.rank), fmt.count(total))),
-        actions: const [HelpButton(), SizedBox(width: 8)],
       ),
       body: ranked == null
           ? Center(child: TextButton(onPressed: back, child: Text(l.missionNotFound(pocketId))))
