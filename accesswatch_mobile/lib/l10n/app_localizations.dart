@@ -2271,7 +2271,7 @@ abstract class AppLocalizations {
   /// No description provided for @depthAverageLine.
   ///
   /// In en, this message translates to:
-  /// **'Water about {mean} m deep on average (estimate), up to about {max} m'**
+  /// **'Along the safest route, water about {mean} m deep on average (estimate), up to about {max} m'**
   String depthAverageLine(String mean, String max);
 
   /// No description provided for @waterDepthUnknown.
@@ -2295,7 +2295,7 @@ abstract class AppLocalizations {
   /// No description provided for @alertDepthMetres.
   ///
   /// In en, this message translates to:
-  /// **'Water about {mean} m deep on average, up to {max} m (estimate).'**
+  /// **'Along the safest route, water about {mean} m deep on average, up to {max} m (estimate).'**
   String alertDepthMetres(String mean, String max);
 
   /// No description provided for @alertDepthUnknownLine.
@@ -2525,6 +2525,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The data has one way in per area: the routes are for that way only.'**
   String get routeModeOnlyNote;
+
+  /// No description provided for @limitRouteTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Route times for the areas come from the analysis. When the app adds up a time itself from road pieces, it shows it only if the rounding in the data cannot distort it; otherwise it shows the distance only.'**
+  String get limitRouteTimes;
 }
 
 class _AppLocalizationsDelegate

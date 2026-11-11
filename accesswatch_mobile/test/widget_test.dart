@@ -87,6 +87,7 @@ void main() {
         await tester.tap(find.byType(AreaCard).first);
         await tester.pumpAndSettle();
         for (final row in [l.checkOnGround('4'), l.howSure(l.sureLow)]) {
+          await scrollTo(tester, find.text(row));
           await tester.tap(find.text(row));
           await tester.pumpAndSettle();
           expect(tester.takeException(), isNull, reason: row);

@@ -450,13 +450,13 @@
   "alertPreliminaryDepotAuto": "Preliminary data; the aid depot was chosen automatically, not confirmed.",
   "alertPreliminary": "Preliminary data.",
   "waterDepthTitle": "Water on the way in",
-  "depthAverageLine": "Water about {mean} m deep on average (estimate), up to about {max} m",
+  "depthAverageLine": "Along the safest route, water about {mean} m deep on average (estimate), up to about {max} m",
   "@depthAverageLine": {"placeholders": {"mean": {"type": "String"}, "max": {"type": "String"}}},
   "waterDepthUnknown": "Water depth unknown",
   "depthSourceNote": "Estimated from a 30 m terrain model. A guide, not a measurement.",
   "deepestClassChip": "Deepest: {depth}",
   "@deepestClassChip": {"placeholders": {"depth": {"type": "String"}}},
-  "alertDepthMetres": "Water about {mean} m deep on average, up to {max} m (estimate).",
+  "alertDepthMetres": "Along the safest route, water about {mean} m deep on average, up to {max} m (estimate).",
   "@alertDepthMetres": {"placeholders": {"mean": {"type": "String"}, "max": {"type": "String"}}},
   "alertDepthUnknownLine": "Water depth unknown.",
   "layersButton": "Layers",
@@ -497,5 +497,6 @@
   "routeShownOnly": "Shown alone on the map",
   "routeLineSolid": "solid line",
   "routeLineDashed": "dashed line",
-  "routeModeOnlyNote": "The data has one way in per area: the routes are for that way only."
+  "routeModeOnlyNote": "The data has one way in per area: the routes are for that way only.",
+  "limitRouteTimes": "Route times for the areas come from the analysis. When the app adds up a time itself from road pieces, it shows it only if the rounding in the data cannot distort it; otherwise it shows the distance only."
 }

@@ -128,6 +128,7 @@ class LimitsSection extends ConsumerWidget {
       title: l.limitsTitle,
       children: [
         for (final limit in limitsOf(quality)) Bullet(l.limitText(limit, quality, Fmt.of(context))),
+        Bullet(l.limitRouteTimes),
         Bullet(l.populationIsModelled),
       ],
     );

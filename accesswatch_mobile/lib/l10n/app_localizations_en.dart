@@ -1421,7 +1421,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String depthAverageLine(String mean, String max) {
-    return 'Water about $mean m deep on average (estimate), up to about $max m';
+    return 'Along the safest route, water about $mean m deep on average (estimate), up to about $max m';
   }
 
   @override
@@ -1438,7 +1438,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String alertDepthMetres(String mean, String max) {
-    return 'Water about $mean m deep on average, up to $max m (estimate).';
+    return 'Along the safest route, water about $mean m deep on average, up to $max m (estimate).';
   }
 
   @override
@@ -1569,4 +1569,8 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get routeModeOnlyNote =>
       'The data has one way in per area: the routes are for that way only.';
+
+  @override
+  String get limitRouteTimes =>
+      'Route times for the areas come from the analysis. When the app adds up a time itself from road pieces, it shows it only if the rounding in the data cannot distort it; otherwise it shows the distance only.';
 }

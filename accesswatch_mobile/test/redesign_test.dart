@@ -32,11 +32,11 @@ import 'support/app_harness.dart';
 /// redesign, plus the water depth line (round 2).
 const _alertEn = 'ACCESSWATCH #1 P01, West of Guija: about 12,853 people (estimate). '
     'Needs: BOAT (0.56 km by water). Route 5.62 km, risk HIGH, confidence LOW. '
-    'Water about 0.7 m deep on average, up to 1.6 m (estimate). Data from Jan 17, 2026. '
+    'Along the safest route, water about 0.7 m deep on average, up to 1.6 m (estimate). Data from Jan 17, 2026. '
     'Route starts at an assumed, unconfirmed depot location, so it is illustrative. VERIFY ON THE GROUND.';
 const _alertPt = 'ACCESSWATCH #1 P01, A oeste de Guija: cerca de 12.853 pessoas (estimativa). '
     'Precisa de: BARCO (0,56 km por água). Rota de 5,62 km, risco ALTO, confiança BAIXA. '
-    'Água com cerca de 0,7 m de profundidade em média, até 1,6 m (estimativa). Dados de 17 de jan. de 2026. '
+    'Ao longo da rota mais segura, água com cerca de 0,7 m de profundidade em média, até 1,6 m (estimativa). Dados de 17 de jan. de 2026. '
     'A rota parte de uma localização de depósito presumida e não confirmada, por isso é ilustrativa. VERIFIQUE NO TERRENO.';
 
 void main() {

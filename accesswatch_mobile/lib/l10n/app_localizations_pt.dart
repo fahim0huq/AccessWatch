@@ -41,7 +41,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get depthMedium => 'Média';
 
   @override
-  String get depthDeep => 'Alta';
+  String get depthDeep => 'Profunda';
 
   @override
   String get depthUnknown => 'Desconhecida';
@@ -440,7 +440,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String routeWaterValue(String shallow, String medium, String deep) {
-    return '$shallow / $medium / $deep km (baixa / média / alta)';
+    return '$shallow / $medium / $deep km (baixa / média / profunda)';
   }
 
   @override
@@ -1426,7 +1426,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String depthAverageLine(String mean, String max) {
-    return 'Água com cerca de $mean m de profundidade em média (estimativa), até cerca de $max m';
+    return 'Ao longo da rota mais segura, água com cerca de $mean m de profundidade em média (estimativa), até cerca de $max m';
   }
 
   @override
@@ -1443,7 +1443,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String alertDepthMetres(String mean, String max) {
-    return 'Água com cerca de $mean m de profundidade em média, até $max m (estimativa).';
+    return 'Ao longo da rota mais segura, água com cerca de $mean m de profundidade em média, até $max m (estimativa).';
   }
 
   @override
@@ -1479,7 +1479,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get layerRoadsNote =>
-      'Troços de estrada debaixo de água, sombreados pela classe de profundidade: claro baixa, médio média, escuro alta.';
+      'Troços de estrada debaixo de água, sombreados pela classe de profundidade: claro baixa, médio média, escuro profunda.';
 
   @override
   String get layerAllRoads => 'Estado de todas as estradas';
@@ -1574,4 +1574,8 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get routeModeOnlyNote =>
       'Os dados têm um único modo de acesso por área: as rotas são só para esse modo.';
+
+  @override
+  String get limitRouteTimes =>
+      'Os tempos das rotas das áreas vêm da análise. Quando a app soma um tempo a partir de troços de estrada, só o mostra se o arredondamento dos dados não o puder distorcer; caso contrário, mostra só a distância.';
 }
