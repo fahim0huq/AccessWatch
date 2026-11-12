@@ -10,7 +10,11 @@ import 'package:accesswatch_mobile/widgets/map/legend_pill.dart';
 import 'package:accesswatch_mobile/widgets/map/map_overlay.dart';
 import 'package:accesswatch_mobile/widgets/map/routes_panel.dart';
 import 'package:accesswatch_mobile/widgets/ui/floating_nav_bar.dart';
+import 'package:accesswatch_mobile/state/map_state.dart';
+import 'package:accesswatch_mobile/widgets/map/layer_chips.dart';
+import 'package:accesswatch_mobile/widgets/map/watching_pill.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -42,10 +46,46 @@ void main() {
     expect(find.byType(FloatingNavBar), findsNothing);
     expect(find.byType(MapSummaryCard), findsNothing);
     expect(find.byKey(const ValueKey('enter-full-screen')), findsNothing);
+    // The Watching pill on top goes too.
+    expect(find.byType(WatchingPill), findsNothing);
     await tester.tap(find.byTooltip(en.exitFullScreen));
     await tester.pumpAndSettle();
     expect(find.byType(FloatingNavBar), findsOneWidget);
     expect(find.byType(MapSummaryCard), findsOneWidget);
+  });
+
+  testWidgets('the normal Map has only Full screen, Layers and My location; no zoom, Fit or scale bar',
+      (tester) async {
+    await pumpApp(tester, bundle, height: 844);
+    for (final tip in [en.fullScreen, en.layersButton, en.tooltipLocate]) {
+      expect(find.byTooltip(tip), findsOneWidget, reason: tip);
+    }
+    for (final tip in [en.tooltipZoomIn, en.tooltipZoomOut, en.tooltipFit, en.routesButton]) {
+      expect(find.byTooltip(tip), findsNothing, reason: tip);
+    }
+    expect(find.byType(Scalebar), findsNothing);
+  });
+
+  testWidgets('exit keeps the same view and layers', (tester) async {
+    await pumpApp(tester, bundle, height: 844);
+    await enter(tester);
+    await tester.tap(find.byTooltip(en.tooltipZoomIn));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.byKey(const ValueKey('layer-chip-markets')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('layer-chip-markets')));
+    await tester.pumpAndSettle();
+    final camera = MapCamera.of(tester.element(find.byType(PocketLabelsLayer)));
+    final container = ProviderScope.containerOf(tester.element(find.byType(FlutterMap)));
+    final layers = container.read(mapLayersProvider);
+    await tester.tap(find.byTooltip(en.exitFullScreen));
+    await tester.pumpAndSettle();
+    final after = MapCamera.of(tester.element(find.byType(PocketLabelsLayer)));
+    expect(after.zoom, closeTo(camera.zoom, 0.001));
+    expect(after.center.latitude, closeTo(camera.center.latitude, 1e-6));
+    expect(after.center.longitude, closeTo(camera.center.longitude, 1e-6));
+    expect(container.read(mapLayersProvider), layers);
+    expect(layers, contains(MapLayer.markets));
   });
 
   testWidgets('full screen keeps every floating control', (tester) async {
@@ -67,6 +107,7 @@ void main() {
       expect(find.descendant(of: find.byType(MapLegendPill), matching: find.text(word)), findsOneWidget);
     }
     expect(find.byType(Scalebar), findsOneWidget);
+    expect(find.byType(LayerChipRow), findsOneWidget);
     // Layers and Routes still open their panels.
     await tester.tap(find.byTooltip(en.layersButton));
     await tester.pumpAndSettle();

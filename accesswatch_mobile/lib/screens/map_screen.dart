@@ -249,8 +249,6 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                                           child: SingleChildScrollView(
                                             child: MapSideButtons(
                                               onLocate: _locate,
-                                              onZoom: _zoom,
-                                              onFit: _fitFlood,
                                               onFullScreen: () => setMapFullScreen(ref, true),
                                             ),
                                           ),

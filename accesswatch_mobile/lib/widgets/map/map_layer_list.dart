@@ -77,7 +77,8 @@ List<Widget> mapLayerList(
     const CareRouteLayer(),
     if (me.position != null)
       MyLocationLayer(position: me.position!, isTest: me.isStandIn, label: me.isSample ? l.sampleNotice : null),
-    const Scalebar(alignment: Alignment.bottomLeft, padding: EdgeInsets.fromLTRB(12, 0, 0, 8)),
+    // The scale bar is a full-screen tool.
+    if (ref.watch(mapFullScreenProvider)) const Scalebar(alignment: Alignment.bottomLeft, padding: EdgeInsets.fromLTRB(12, 0, 0, 8)),
     const SelectionBoxLayer(),
     const OsmAttribution(),
   ];

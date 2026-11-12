@@ -11,6 +11,7 @@ import '../../state/mission_state.dart';
 import '../../utils/labels.dart';
 import '../ui/kit.dart';
 import '../ui/mode_look.dart';
+import 'layer_chips.dart';
 import 'layers_sheet.dart';
 import 'legend_pill.dart';
 import 'map_overlay.dart';
@@ -24,7 +25,7 @@ void setMapFullScreen(WidgetRef ref, bool on) {
   ref.read(mapFullScreenProvider.notifier).state = on;
 }
 
-/// Exit and the legend on the left; Layers, Routes, My location, Fit and zoom on the right.
+/// Exit and the legend, the chip row, then Layers, Routes, My location, Fit and zoom on the right.
 class FullScreenControls extends ConsumerWidget {
   final VoidCallback onLocate, onFit;
   final ValueChanged<double> onZoom;
@@ -34,16 +35,40 @@ class FullScreenControls extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context)!;
+    final buttons = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        MapRoundButton(
+          icon: Icons.layers_rounded,
+          tooltip: l.layersButton,
+          onPressed: () => showLayersSheet(
+            context,
+            onRoutes: () {
+              Navigator.pop(context);
+              showRoutesPanel(context);
+            },
+          ),
+        ),
+        MapRoundButton(
+          icon: Icons.alt_route_rounded,
+          tooltip: l.routesButton,
+          onPressed: () => showRoutesPanel(context),
+        ),
+        MapRoundButton(icon: Icons.my_location_rounded, tooltip: l.tooltipLocate, onPressed: onLocate),
+        MapRoundButton(icon: Icons.fit_screen_rounded, tooltip: l.tooltipFit, onPressed: onFit),
+        MapRoundButton(icon: Icons.add_rounded, tooltip: l.tooltipZoomIn, onPressed: () => onZoom(1)),
+        MapRoundButton(icon: Icons.remove_rounded, tooltip: l.tooltipZoomOut, onPressed: () => onZoom(-1)),
+      ],
+    );
     return MediaQuery.withClampedTextScaling(
       maxScaleFactor: mapOverlayMaxTextScale,
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Positioned(
-            top: 8,
-            left: 12,
-            right: 72,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 MapRoundButton(
                   key: const ValueKey('exit-full-screen'),
@@ -51,43 +76,19 @@ class FullScreenControls extends ConsumerWidget {
                   tooltip: l.exitFullScreen,
                   onPressed: () => setMapFullScreen(ref, false),
                 ),
-                const SizedBox(height: 8),
-                const MapLegendPill(),
+                const SizedBox(width: 8),
+                const Flexible(child: Padding(padding: EdgeInsets.only(top: 8), child: MapLegendPill())),
               ],
             ),
           ),
-          Positioned(
-            top: 0,
-            right: 12,
-            bottom: 24,
+          const SizedBox(height: 4),
+          const LayerChipRow(),
+          Expanded(
             child: Align(
               alignment: Alignment.topRight,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    MapRoundButton(
-                      icon: Icons.layers_rounded,
-                      tooltip: l.layersButton,
-                      onPressed: () => showLayersSheet(
-                        context,
-                        onRoutes: () {
-                          Navigator.pop(context);
-                          showRoutesPanel(context);
-                        },
-                      ),
-                    ),
-                    MapRoundButton(
-                      icon: Icons.alt_route_rounded,
-                      tooltip: l.routesButton,
-                      onPressed: () => showRoutesPanel(context),
-                    ),
-                    MapRoundButton(icon: Icons.my_location_rounded, tooltip: l.tooltipLocate, onPressed: onLocate),
-                    MapRoundButton(icon: Icons.fit_screen_rounded, tooltip: l.tooltipFit, onPressed: onFit),
-                    MapRoundButton(icon: Icons.add_rounded, tooltip: l.tooltipZoomIn, onPressed: () => onZoom(1)),
-                    MapRoundButton(icon: Icons.remove_rounded, tooltip: l.tooltipZoomOut, onPressed: () => onZoom(-1)),
-                  ],
-                ),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 12, bottom: 24),
+                child: SingleChildScrollView(child: buttons),
               ),
             ),
           ),

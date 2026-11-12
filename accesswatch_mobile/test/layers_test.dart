@@ -139,9 +139,9 @@ void main() {
     expect(readMapLayers(await SharedPreferences.getInstance()), {MapLayer.flood});
   });
 
-  testWidgets('the depot says it is assumed; the map has a scale bar', (tester) async {
+  testWidgets('the depot says it is assumed; the scale bar is only in full screen', (tester) async {
     await pumpApp(tester, bundle, height: 844);
-    expect(find.byType(Scalebar), findsOneWidget);
+    expect(find.byType(Scalebar), findsNothing);
     await openSheet(tester);
     expect(find.text(en.layerDepotAssumed), findsOneWidget);
     expect(find.text(en.layerFlood), findsOneWidget);

@@ -67,18 +67,12 @@ class MapTopBar extends StatelessWidget {
   );
 }
 
-/// The column on the right: Full screen, Layers, My location, zoom and Fit.
+/// The column on the right: Full screen, Layers, My location. Zoom, Fit and
+/// the scale bar are in full screen; pinch and double-tap still zoom here.
 class MapSideButtons extends StatelessWidget {
-  final VoidCallback onLocate, onFit, onFullScreen;
-  final ValueChanged<double> onZoom;
+  final VoidCallback onLocate, onFullScreen;
 
-  const MapSideButtons({
-    super.key,
-    required this.onLocate,
-    required this.onZoom,
-    required this.onFit,
-    required this.onFullScreen,
-  });
+  const MapSideButtons({super.key, required this.onLocate, required this.onFullScreen});
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +98,6 @@ class MapSideButtons extends StatelessWidget {
           ),
         ),
         MapRoundButton(icon: Icons.my_location_rounded, tooltip: l.tooltipLocate, onPressed: onLocate),
-        MapRoundButton(icon: Icons.add_rounded, tooltip: l.tooltipZoomIn, onPressed: () => onZoom(1)),
-        MapRoundButton(icon: Icons.remove_rounded, tooltip: l.tooltipZoomOut, onPressed: () => onZoom(-1)),
-        MapRoundButton(icon: Icons.fit_screen_rounded, tooltip: l.tooltipFit, onPressed: onFit),
       ],
     );
   }
