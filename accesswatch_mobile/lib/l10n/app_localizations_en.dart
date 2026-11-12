@@ -1702,4 +1702,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chipShelters => 'Shelters';
+
+  @override
+  String get layersSheetTitle => 'Map layers';
+
+  @override
+  String get layersReset => 'Reset';
+
+  @override
+  String get tileWaterDepth => 'Water depth';
+
+  @override
+  String get tileAllRoads => 'All roads';
+
+  @override
+  String get moreCompareNote => 'Green where both maps agree.';
+
+  @override
+  String get moreBaselineNote => 'More cautious: it finds less flood.';
 }

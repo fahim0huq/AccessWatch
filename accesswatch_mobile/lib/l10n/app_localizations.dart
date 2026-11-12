@@ -2759,6 +2759,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Shelters'**
   String get chipShelters;
+
+  /// No description provided for @layersSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Map layers'**
+  String get layersSheetTitle;
+
+  /// No description provided for @layersReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get layersReset;
+
+  /// No description provided for @tileWaterDepth.
+  ///
+  /// In en, this message translates to:
+  /// **'Water depth'**
+  String get tileWaterDepth;
+
+  /// No description provided for @tileAllRoads.
+  ///
+  /// In en, this message translates to:
+  /// **'All roads'**
+  String get tileAllRoads;
+
+  /// No description provided for @moreCompareNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Green where both maps agree.'**
+  String get moreCompareNote;
+
+  /// No description provided for @moreBaselineNote.
+  ///
+  /// In en, this message translates to:
+  /// **'More cautious: it finds less flood.'**
+  String get moreBaselineNote;
 }
 
 class _AppLocalizationsDelegate

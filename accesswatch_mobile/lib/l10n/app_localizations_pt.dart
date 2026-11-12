@@ -1709,4 +1709,22 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get chipShelters => 'Abrigos';
+
+  @override
+  String get layersSheetTitle => 'Camadas do mapa';
+
+  @override
+  String get layersReset => 'Repor';
+
+  @override
+  String get tileWaterDepth => 'Profundidade da água';
+
+  @override
+  String get tileAllRoads => 'Todas as estradas';
+
+  @override
+  String get moreCompareNote => 'Verde onde os dois mapas concordam.';
+
+  @override
+  String get moreBaselineNote => 'Mais cauteloso: encontra menos cheia.';
 }

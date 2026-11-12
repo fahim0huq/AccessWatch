@@ -29,7 +29,7 @@ void main() {
     final t = l ?? en;
     await tester.tap(find.byTooltip(t.layersButton));
     await tester.pumpAndSettle();
-    final open = find.text(t.routesPanelOpen);
+    final open = find.byKey(const ValueKey('layer-switch-routes'));
     await tester.ensureVisible(open);
     await tester.pumpAndSettle();
     await tester.tap(open);

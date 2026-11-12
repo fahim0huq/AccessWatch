@@ -440,5 +440,11 @@
   "chipRoutes": "Rotas",
   "chipClinics": "Clínicas",
   "chipMarkets": "Mercados",
-  "chipShelters": "Abrigos"
+  "chipShelters": "Abrigos",
+  "layersSheetTitle": "Camadas do mapa",
+  "layersReset": "Repor",
+  "tileWaterDepth": "Profundidade da água",
+  "tileAllRoads": "Todas as estradas",
+  "moreCompareNote": "Verde onde os dois mapas concordam.",
+  "moreBaselineNote": "Mais cauteloso: encontra menos cheia."
 }

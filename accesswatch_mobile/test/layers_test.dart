@@ -8,7 +8,10 @@ import 'package:accesswatch_mobile/state/map_state.dart';
 import 'package:accesswatch_mobile/state/settings_store.dart';
 import 'package:accesswatch_mobile/widgets/map/feature_layers.dart';
 import 'package:accesswatch_mobile/widgets/map/flood_layers.dart';
+import 'package:accesswatch_mobile/widgets/map/layer_chips.dart';
+import 'package:accesswatch_mobile/widgets/map/layer_tile.dart';
 import 'package:accesswatch_mobile/widgets/map/layers_sheet.dart';
+import 'package:accesswatch_mobile/widgets/map/routes_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -52,10 +55,34 @@ void main() {
     MapLayer.pockets: find.byType(PocketAreasLayer),
     MapLayer.floodedRoads: find.byType(FloodedRoadsLayer),
     MapLayer.allRoads: find.byType(AllRoadsLayer),
-    MapLayer.routes: find.byType(RoutesLayer),
     MapLayer.floodBaseline: find.byType(BaselineFloodLayer),
     MapLayer.compare: find.byType(OverlayImageLayer),
   };
+
+  testWidgets('the sheet: title, Reset, close, ten tiles, two More switches; chips agree', (tester) async {
+    await pumpApp(tester, bundle, height: 844);
+    await openSheet(tester);
+    expect(find.text(en.layersSheetTitle), findsOneWidget);
+    expect(find.byType(LayerTile), findsNWidgets(sheetTiles.length));
+    expect(find.byType(SwitchListTile), findsNWidgets(2));
+    expect(find.text(en.layerDepotAssumed), findsOneWidget);
+    // A tile and its chip are the same state.
+    await flip(tester, MapLayer.clinics);
+    expect(tester.widget<LayerTile>(find.byKey(const ValueKey('layer-switch-clinics'))).selected, isTrue);
+    await tester.tap(find.byKey(const ValueKey('layers-close')));
+    await tester.pumpAndSettle();
+    expect(find.byType(LayersSheet), findsNothing);
+    expect(tester.widget<LayerChip>(find.byKey(const ValueKey('layer-chip-clinics'))).selected, isTrue);
+    await tester.ensureVisible(find.byKey(const ValueKey('layer-chip-clinics')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('layer-chip-clinics')));
+    await tester.pumpAndSettle();
+    await openSheet(tester);
+    expect(tester.widget<LayerTile>(find.byKey(const ValueKey('layer-switch-clinics'))).selected, isFalse);
+    // Routes opens the routes panel instead of switching.
+    await flip(tester, MapLayer.routes);
+    expect(find.byType(RoutesPanel), findsOneWidget);
+  });
 
   testWidgets('every switch shows and hides its layer', (tester) async {
     await pumpApp(tester, bundle, height: 844);
@@ -82,8 +109,9 @@ void main() {
     expect(find.byType(FloodLayer), findsNothing);
     await flip(tester, MapLayer.clinics);
     await flip(tester, MapLayer.allRoads);
-    final reset = find.text(en.resetView);
+    final reset = find.byKey(const ValueKey('layers-reset'));
     await tester.ensureVisible(reset);
+    await tester.pumpAndSettle();
     await tester.tap(reset);
     await tester.pumpAndSettle();
     final container = ProviderScope.containerOf(tester.element(find.byType(FlutterMap)));
@@ -131,7 +159,7 @@ void main() {
       semantics.dispose();
       await pumpApp(tester, bundle, locale: locale, height: 844, textScale: 2.0);
       await openSheet(tester, l: l);
-      final reset = find.text(l.resetView);
+      final reset = find.text(l.moreBaselineNote);
       await tester.ensureVisible(reset);
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);

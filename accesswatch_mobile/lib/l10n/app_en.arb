@@ -542,5 +542,11 @@
   "chipRoutes": "Routes",
   "chipClinics": "Clinics",
   "chipMarkets": "Markets",
-  "chipShelters": "Shelters"
+  "chipShelters": "Shelters",
+  "layersSheetTitle": "Map layers",
+  "layersReset": "Reset",
+  "tileWaterDepth": "Water depth",
+  "tileAllRoads": "All roads",
+  "moreCompareNote": "Green where both maps agree.",
+  "moreBaselineNote": "More cautious: it finds less flood."
 }
