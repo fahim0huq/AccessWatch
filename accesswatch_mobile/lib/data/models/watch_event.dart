@@ -1,4 +1,4 @@
-// An event the Watch screen can list, from the local assets/events/events.json.
+// An event the Watch screen can list, from the local assets/events.json.
 // Only events whose data is the bundle have satellite data in this build.
 
 enum EventKind { flood, cycloneFlooding }

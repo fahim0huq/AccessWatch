@@ -162,4 +162,5 @@ class Fmt {
 
   /// Dates in the bundle are UTC and are shown as UTC dates.
   String date(DateTime utc) => DateFormat.yMMMd(_locale).format(utc.toUtc());
+  String monthYear(DateTime utc) => DateFormat.yMMMM(_locale).format(utc.toUtc());
 }

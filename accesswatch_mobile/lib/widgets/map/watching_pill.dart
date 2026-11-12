@@ -1,4 +1,4 @@
-// "Watching: <event> · <date>" on top of the Map. Opens Watch an area.
+// "Watching: <event> · <month year>" across the top of the Map. Opens Watch an area.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +17,7 @@ class WatchingPill extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context)!;
     final event = ref.watch(watchedEventProvider);
-    final date = Fmt.of(context).date(ref.watch(loadedBundleProvider).manifest.dates.nisarAfter);
+    final date = Fmt.of(context).monthYear(ref.watch(loadedBundleProvider).manifest.dates.nisarAfter);
     final words = event == null
         ? l.appName
         : l.watchingPill(event.name(Localizations.localeOf(context).languageCode), date);
@@ -39,16 +39,20 @@ class WatchingPill extends ConsumerWidget {
               constraints: const BoxConstraints(minHeight: AppSizes.tap),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               child: Row(
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.satellite_alt_rounded, color: AppColors.brand, size: 20),
-                  const SizedBox(width: 8),
-                  Flexible(
+                  const Icon(Icons.visibility_rounded, color: AppColors.brand, size: 20),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    // Two lines at most, so the map stays visible at large text;
+                    // screen readers still get the whole text.
                     child: Text(
                       words,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(color: AppColors.brandText),
                     ),
                   ),
+                  const Icon(Icons.keyboard_arrow_down_rounded, color: AppColors.brandText),
                 ],
               ),
             ),

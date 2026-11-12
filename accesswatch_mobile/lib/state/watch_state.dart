@@ -11,7 +11,7 @@ import '../data/models/manifest.dart';
 import '../data/models/watch_event.dart';
 import 'providers.dart';
 
-const watchEventsAsset = 'assets/events/events.json';
+const watchEventsAsset = 'assets/events.json';
 
 final watchEventsProvider = FutureProvider<List<WatchEvent>>((ref) async {
   final text = await rootBundle.loadString(watchEventsAsset);

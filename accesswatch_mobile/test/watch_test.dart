@@ -1,4 +1,7 @@
 // Watch an area: one event with data, an empty live list, and picking a box on the map.
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:accesswatch_mobile/data/bundle_repository.dart';
 import 'package:accesswatch_mobile/data/models/watch_event.dart';
 import 'package:accesswatch_mobile/l10n/app_localizations.dart';
@@ -44,6 +47,15 @@ void main() {
     await tester.tap(find.text(l.watchSelectOnMap));
     await tester.pumpAndSettle();
   }
+
+  test('assets/events.json holds exactly one event, a flood with bundle data', () {
+    final events = parseWatchEvents(jsonDecode(File(watchEventsAsset).readAsStringSync()) as Map<String, dynamic>);
+    expect(watchEventsAsset, 'assets/events.json');
+    expect(events, hasLength(1));
+    expect(events.single.kind, EventKind.flood);
+    expect(events.single.hasBundleData, isTrue);
+    expect(events.single.name('en'), nameEn);
+  });
 
   test('the local list holds one event, a flood, with data from the bundle', () {
     final events = parseWatchEvents({
@@ -96,9 +108,16 @@ void main() {
     expect(find.text(en.watchSearchNone('Beira')), findsOneWidget);
   });
 
-  testWidgets('the Map pill names the watched event and date, and opens Watch', (tester) async {
+  testWidgets('the Map pill names the watched event, month and year, and opens Watch', (tester) async {
     await pumpApp(tester, bundle, height: 844);
-    expect(find.text(en.watchingPill(nameEn, 'Jan 17, 2026')), findsOneWidget);
+    expect(find.text(en.watchingPill(nameEn, 'January 2026')), findsOneWidget);
+    // Full width, at least 48 dp tall, with the eye and the down chevron.
+    final pill = tester.getRect(find.byKey(const ValueKey('watching-pill')));
+    expect(pill.height, greaterThanOrEqualTo(48));
+    expect(pill.width, greaterThan(390 - 2 * 12 - 1));
+    expect(find.descendant(of: find.byType(WatchingPill), matching: find.byIcon(Icons.visibility_rounded)), findsOneWidget);
+    expect(find.descendant(of: find.byType(WatchingPill), matching: find.byIcon(Icons.keyboard_arrow_down_rounded)),
+        findsOneWidget);
     await tester.tap(find.byType(WatchingPill));
     await tester.pumpAndSettle();
     expect(find.byType(EventCard), findsOneWidget);
@@ -167,7 +186,7 @@ void main() {
     await tester.tap(find.text(en.goToEvent(nameEn)));
     await tester.pumpAndSettle();
     expect(find.byType(AreaSelectOverlay), findsNothing);
-    expect(find.text(en.watchingPill(nameEn, 'Jan 17, 2026')), findsOneWidget);
+    expect(find.text(en.watchingPill(nameEn, 'January 2026')), findsOneWidget);
   });
 
   for (final (locale, l, name) in [
