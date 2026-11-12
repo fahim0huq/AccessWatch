@@ -1727,4 +1727,51 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get moreBaselineNote => 'Mais cauteloso: encontra menos cheia.';
+
+  @override
+  String tourStepOf(String n, String total) {
+    return 'PASSO $n DE $total';
+  }
+
+  @override
+  String get tourMapTitle => 'Comece aqui';
+
+  @override
+  String get tourMapBody =>
+      'Este cartão mostra quantas áreas estão isoladas ou são de difícil acesso. Toque no botão para ver quem precisa de ajuda primeiro.';
+
+  @override
+  String get tourChipsTitle => 'Mostrar e esconder';
+
+  @override
+  String get tourChipsBody =>
+      'Toque num botão para mostrar ou esconder a cheia, as rotas, as clínicas, os mercados e os abrigos. Para mais opções, use o botão de camadas.';
+
+  @override
+  String get tourHelpBody =>
+      'Veja que áreas precisam de ajuda primeiro e partilhe um alerta.';
+
+  @override
+  String get tourWatchTitle => 'A área que está a vigiar';
+
+  @override
+  String get tourWatchBody => 'Mude a área que está a vigiar.';
+
+  @override
+  String get tourCareBody => 'Encontre a clínica mais próxima de onde está.';
+
+  @override
+  String get tourBack => 'Voltar';
+
+  @override
+  String get tourSkip => 'Saltar';
+
+  @override
+  String get tourNext => 'Seguinte';
+
+  @override
+  String get tourDone => 'Concluído';
+
+  @override
+  String get tourAgain => 'Fazer a visita de novo';
 }

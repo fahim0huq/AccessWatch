@@ -7,8 +7,10 @@ import '../state/connectivity.dart';
 import '../state/providers.dart';
 import '../theme/app_theme.dart';
 import '../state/map_state.dart';
+import '../state/tour_state.dart';
 import '../state/watch_state.dart';
 import '../widgets/data_status.dart';
+import '../widgets/tour/tour_overlay.dart';
 import '../widgets/ui/floating_nav_bar.dart';
 
 /// Shows [child] only once the data has loaded, so no screen ever has to
@@ -49,31 +51,40 @@ class MainNavigationScreen extends ConsumerWidget {
     final offline = ref.watch(onlineProvider).valueOrNull == false;
     final hideBar =
         ref.watch(presentationModeProvider) || ref.watch(mapFullScreenProvider) || ref.watch(mapSelectingProvider);
+    // The tour starts once, the first time the Map shows after the safety screen.
+    if (shell.currentIndex == NavSlot.map.index) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => ref.read(tourProvider.notifier).maybeAutoStart());
+    }
     return BundleGate(
-      child: DecoratedBox(
-        decoration: const BoxDecoration(gradient: AppGradients.page),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Column(
-            children: [
-              const OfflineBanner(),
-              Expanded(
-                child: MediaQuery.removePadding(
-                  context: context,
-                  // The banner already sits below the status bar.
-                  removeTop: offline,
-                  child: shell,
-                ),
+      child: Stack(
+        children: [
+          DecoratedBox(
+            decoration: const BoxDecoration(gradient: AppGradients.page),
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Column(
+                children: [
+                  const OfflineBanner(),
+                  Expanded(
+                    child: MediaQuery.removePadding(
+                      context: context,
+                      // The banner already sits below the status bar.
+                      removeTop: offline,
+                      child: shell,
+                    ),
+                  ),
+                ],
               ),
-            ],
+              bottomNavigationBar: hideBar
+                  ? null
+                  : FloatingNavBar(
+                      current: NavSlot.values[shell.currentIndex],
+                      onSelect: (slot) => shell.goBranch(slot.index, initialLocation: slot.index == shell.currentIndex),
+                    ),
+            ),
           ),
-          bottomNavigationBar: hideBar
-              ? null
-              : FloatingNavBar(
-                  current: NavSlot.values[shell.currentIndex],
-                  onSelect: (slot) => shell.goBranch(slot.index, initialLocation: slot.index == shell.currentIndex),
-                ),
-        ),
+          const Positioned.fill(child: TourOverlay()),
+        ],
       ),
     );
   }

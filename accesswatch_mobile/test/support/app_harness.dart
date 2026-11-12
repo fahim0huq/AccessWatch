@@ -44,7 +44,8 @@ Future<void> pumpApp(
 }) async {
   // A fresh tree, so a second pump in one test starts the app anew.
   await tester.pumpWidget(const SizedBox());
-  SharedPreferences.setMockInitialValues({SettingsKeys.safetyAccepted: true, ...saved});
+  // The tour is seen unless a test says otherwise.
+  SharedPreferences.setMockInitialValues({SettingsKeys.safetyAccepted: true, SettingsKeys.tourSeen: true, ...saved});
   final prefs = await SharedPreferences.getInstance();
   tester.view.physicalSize = Size(width, height);
   tester.view.devicePixelRatio = 1.0;

@@ -15,6 +15,7 @@ import '../state/providers.dart';
 import '../state/route_view.dart';
 import '../theme/app_theme.dart';
 import '../widgets/location_prompt.dart';
+import '../state/tour_state.dart';
 import '../state/watch_state.dart';
 import '../widgets/map/area_select.dart';
 import '../widgets/map/care_route_layer.dart';
@@ -265,7 +266,7 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                 ],
               ),
             ),
-            if (!full && !selecting) const MapSummaryCard(),
+            if (!full && !selecting) MapSummaryCard(key: TourTargets.summaryCard),
           ],
         ),
       ),

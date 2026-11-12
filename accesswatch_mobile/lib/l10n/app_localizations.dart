@@ -2795,6 +2795,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'More cautious: it finds less flood.'**
   String get moreBaselineNote;
+
+  /// No description provided for @tourStepOf.
+  ///
+  /// In en, this message translates to:
+  /// **'STEP {n} OF {total}'**
+  String tourStepOf(String n, String total);
+
+  /// No description provided for @tourMapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start here'**
+  String get tourMapTitle;
+
+  /// No description provided for @tourMapBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This card shows how many areas are cut off or hard to reach. Tap its button to see who needs help first.'**
+  String get tourMapBody;
+
+  /// No description provided for @tourChipsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn things on and off'**
+  String get tourChipsTitle;
+
+  /// No description provided for @tourChipsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a chip to show or hide the flood, routes, clinics, markets and shelters. For more options, use the layers button.'**
+  String get tourChipsBody;
+
+  /// No description provided for @tourHelpBody.
+  ///
+  /// In en, this message translates to:
+  /// **'See which areas need help first, and share an alert.'**
+  String get tourHelpBody;
+
+  /// No description provided for @tourWatchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The area you are watching'**
+  String get tourWatchTitle;
+
+  /// No description provided for @tourWatchBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Change the area you are watching.'**
+  String get tourWatchBody;
+
+  /// No description provided for @tourCareBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Find the nearest clinic from where you are.'**
+  String get tourCareBody;
+
+  /// No description provided for @tourBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get tourBack;
+
+  /// No description provided for @tourSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get tourSkip;
+
+  /// No description provided for @tourNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get tourNext;
+
+  /// No description provided for @tourDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get tourDone;
+
+  /// No description provided for @tourAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Take the tour again'**
+  String get tourAgain;
 }
 
 class _AppLocalizationsDelegate

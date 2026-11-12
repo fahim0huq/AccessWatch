@@ -6,6 +6,7 @@ import '../data/models/enums.dart';
 import '../l10n/app_localizations.dart';
 import '../router.dart';
 import '../state/providers.dart';
+import '../state/tour_state.dart';
 import '../theme/app_theme.dart';
 import '../utils/labels.dart';
 import '../widgets/ui/kit.dart';
@@ -89,6 +90,16 @@ class AboutScreen extends ConsumerWidget {
                 row(Icons.history_rounded, l.aboutAgeRow, AppRoutes.aboutAge),
                 const Divider(),
                 row(Icons.tune_rounded, l.aboutAdvancedRow, AppRoutes.aboutAdvanced, subtitle: l.aboutAdvancedSubtitle),
+                const Divider(),
+                NavRow(
+                  key: const ValueKey('tour-again'),
+                  icon: Icons.tour_rounded,
+                  title: l.tourAgain,
+                  onTap: () {
+                    context.go(AppRoutes.map);
+                    ref.read(tourProvider.notifier).start();
+                  },
+                ),
               ],
             ),
           ),

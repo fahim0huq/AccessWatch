@@ -446,5 +446,19 @@
   "tileWaterDepth": "Profundidade da água",
   "tileAllRoads": "Todas as estradas",
   "moreCompareNote": "Verde onde os dois mapas concordam.",
-  "moreBaselineNote": "Mais cauteloso: encontra menos cheia."
+  "moreBaselineNote": "Mais cauteloso: encontra menos cheia.",
+  "tourStepOf": "PASSO {n} DE {total}",
+  "tourMapTitle": "Comece aqui",
+  "tourMapBody": "Este cartão mostra quantas áreas estão isoladas ou são de difícil acesso. Toque no botão para ver quem precisa de ajuda primeiro.",
+  "tourChipsTitle": "Mostrar e esconder",
+  "tourChipsBody": "Toque num botão para mostrar ou esconder a cheia, as rotas, as clínicas, os mercados e os abrigos. Para mais opções, use o botão de camadas.",
+  "tourHelpBody": "Veja que áreas precisam de ajuda primeiro e partilhe um alerta.",
+  "tourWatchTitle": "A área que está a vigiar",
+  "tourWatchBody": "Mude a área que está a vigiar.",
+  "tourCareBody": "Encontre a clínica mais próxima de onde está.",
+  "tourBack": "Voltar",
+  "tourSkip": "Saltar",
+  "tourNext": "Seguinte",
+  "tourDone": "Concluído",
+  "tourAgain": "Fazer a visita de novo"
 }

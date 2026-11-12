@@ -1720,4 +1720,51 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moreBaselineNote => 'More cautious: it finds less flood.';
+
+  @override
+  String tourStepOf(String n, String total) {
+    return 'STEP $n OF $total';
+  }
+
+  @override
+  String get tourMapTitle => 'Start here';
+
+  @override
+  String get tourMapBody =>
+      'This card shows how many areas are cut off or hard to reach. Tap its button to see who needs help first.';
+
+  @override
+  String get tourChipsTitle => 'Turn things on and off';
+
+  @override
+  String get tourChipsBody =>
+      'Tap a chip to show or hide the flood, routes, clinics, markets and shelters. For more options, use the layers button.';
+
+  @override
+  String get tourHelpBody =>
+      'See which areas need help first, and share an alert.';
+
+  @override
+  String get tourWatchTitle => 'The area you are watching';
+
+  @override
+  String get tourWatchBody => 'Change the area you are watching.';
+
+  @override
+  String get tourCareBody => 'Find the nearest clinic from where you are.';
+
+  @override
+  String get tourBack => 'Back';
+
+  @override
+  String get tourSkip => 'Skip';
+
+  @override
+  String get tourNext => 'Next';
+
+  @override
+  String get tourDone => 'Done';
+
+  @override
+  String get tourAgain => 'Take the tour again';
 }

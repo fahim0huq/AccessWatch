@@ -8,6 +8,7 @@ import '../../l10n/app_localizations.dart';
 import '../../router.dart';
 import '../../state/mission_state.dart';
 import '../../state/providers.dart';
+import '../../state/tour_state.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import '../ui/kit.dart';
@@ -55,13 +56,16 @@ class MapTopBar extends StatelessWidget {
     // The pill and chips repeat words shown full size elsewhere;
     // capped so that at very large text the map stays visible.
     maxScaleFactor: mapOverlayMaxTextScale,
-    child: const Column(
+    child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(padding: EdgeInsets.symmetric(horizontal: 12), child: WatchingPill()),
-        SizedBox(height: 4),
-        LayerChipRow(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: WatchingPill(key: TourTargets.watchingPill),
+        ),
+        const SizedBox(height: 4),
+        LayerChipRow(key: TourTargets.chipRow),
       ],
     ),
   );

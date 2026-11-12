@@ -548,5 +548,20 @@
   "tileWaterDepth": "Water depth",
   "tileAllRoads": "All roads",
   "moreCompareNote": "Green where both maps agree.",
-  "moreBaselineNote": "More cautious: it finds less flood."
+  "moreBaselineNote": "More cautious: it finds less flood.",
+  "tourStepOf": "STEP {n} OF {total}",
+  "@tourStepOf": {"placeholders": {"n": {"type": "String"}, "total": {"type": "String"}}},
+  "tourMapTitle": "Start here",
+  "tourMapBody": "This card shows how many areas are cut off or hard to reach. Tap its button to see who needs help first.",
+  "tourChipsTitle": "Turn things on and off",
+  "tourChipsBody": "Tap a chip to show or hide the flood, routes, clinics, markets and shelters. For more options, use the layers button.",
+  "tourHelpBody": "See which areas need help first, and share an alert.",
+  "tourWatchTitle": "The area you are watching",
+  "tourWatchBody": "Change the area you are watching.",
+  "tourCareBody": "Find the nearest clinic from where you are.",
+  "tourBack": "Back",
+  "tourSkip": "Skip",
+  "tourNext": "Next",
+  "tourDone": "Done",
+  "tourAgain": "Take the tour again"
 }

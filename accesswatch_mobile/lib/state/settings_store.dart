@@ -22,6 +22,7 @@ class SettingsKeys {
   static const safetyAccepted = 'safety_accepted_v1';
   static const priorityWeights = 'priority_weights';
   static const mapLayers = 'map_layers';
+  static const tourSeen = 'tour_seen_v1';
 }
 
 /// English unless the user chose another language; never the device's own.

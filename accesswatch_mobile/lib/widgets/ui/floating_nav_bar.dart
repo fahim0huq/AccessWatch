@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../state/tour_state.dart';
 import '../../theme/app_theme.dart';
 
 /// The shell branches, in bar order.
@@ -20,8 +21,12 @@ class FloatingNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
-    Widget slot(NavSlot s, IconData icon, String word) => Expanded(
-      child: _Slot(icon: icon, word: word, selected: current == s, onTap: () => onSelect(s), slot: s),
+    // [target] marks a slot the tour points at.
+    Widget slot(NavSlot s, IconData icon, String word, {GlobalKey? target}) => Expanded(
+      child: KeyedSubtree(
+        key: target,
+        child: _Slot(icon: icon, word: word, selected: current == s, onTap: () => onSelect(s), slot: s),
+      ),
     );
     // The bar's words stay readable but never push the bar over half the screen.
     return MediaQuery.withClampedTextScaling(
@@ -47,7 +52,12 @@ class FloatingNavBar extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         slot(NavSlot.map, Icons.map_rounded, l.tabMap),
-                        slot(NavSlot.help, Icons.volunteer_activism_rounded, l.tabHelpFirst),
+                        slot(
+                          NavSlot.help,
+                          Icons.volunteer_activism_rounded,
+                          l.tabHelpFirst,
+                          target: TourTargets.helpTab,
+                        ),
                         Expanded(
                           child: _Slot(
                             word: l.tabWatch,
@@ -56,7 +66,7 @@ class FloatingNavBar extends StatelessWidget {
                             slot: NavSlot.watch,
                           ),
                         ),
-                        slot(NavSlot.care, Icons.local_hospital_rounded, l.tabFindCare),
+                        slot(NavSlot.care, Icons.local_hospital_rounded, l.tabFindCare, target: TourTargets.careTab),
                         slot(NavSlot.about, Icons.info_rounded, l.tabAbout),
                       ],
                     ),
