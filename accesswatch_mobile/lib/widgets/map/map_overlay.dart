@@ -12,9 +12,8 @@ import '../../theme/app_theme.dart';
 import '../../utils/labels.dart';
 import '../ui/kit.dart';
 import '../ui/mode_look.dart';
-import 'care_route_layer.dart';
 import 'layers_sheet.dart';
-import 'legend_pill.dart';
+import 'layer_chips.dart';
 import 'routes_panel.dart';
 import 'watching_pill.dart';
 
@@ -46,27 +45,25 @@ class MapRoundButton extends StatelessWidget {
 /// Text-size cap for the name pill and legend chips on top of the map.
 const mapOverlayMaxTextScale = 1.5;
 
-/// Top left: the name, the legend and the care route sent from Find care.
-class MapTopLeft extends StatelessWidget {
-  const MapTopLeft({super.key});
+/// Across the top: the Watching pill and the layer chips. The chips replace
+/// the legend: each one shows the colour the map draws for it.
+class MapTopBar extends StatelessWidget {
+  const MapTopBar({super.key});
 
   @override
-  Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      // The name and legend repeat words shown full size elsewhere;
-      // capped so that at very large text the map stays visible.
-      MediaQuery.withClampedTextScaling(
-        maxScaleFactor: mapOverlayMaxTextScale,
-        child: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [WatchingPill(), SizedBox(height: 8), MapLegendPill()],
-        ),
-      ),
-      const SizedBox(height: 8),
-      const CareRoutePanel(),
-    ],
+  Widget build(BuildContext context) => MediaQuery.withClampedTextScaling(
+    // The pill and chips repeat words shown full size elsewhere;
+    // capped so that at very large text the map stays visible.
+    maxScaleFactor: mapOverlayMaxTextScale,
+    child: const Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(padding: EdgeInsets.symmetric(horizontal: 12), child: WatchingPill()),
+        SizedBox(height: 4),
+        LayerChipRow(),
+      ],
+    ),
   );
 }
 

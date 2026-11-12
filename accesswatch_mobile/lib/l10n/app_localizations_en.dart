@@ -1684,4 +1684,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectDone => 'Done';
+
+  @override
+  String get chipFlood => 'Flood';
+
+  @override
+  String get chipAreas => 'Areas';
+
+  @override
+  String get chipRoutes => 'Routes';
+
+  @override
+  String get chipClinics => 'Clinics';
+
+  @override
+  String get chipMarkets => 'Markets';
+
+  @override
+  String get chipShelters => 'Shelters';
 }

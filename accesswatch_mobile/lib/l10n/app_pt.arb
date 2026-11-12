@@ -434,5 +434,11 @@
   "goToEvent": "Ir para {event}",
   "watchingPill": "A vigiar: {event} · {date}",
   "watchingPillHint": "Abre Vigiar uma área",
-  "selectDone": "Concluído"
+  "selectDone": "Concluído",
+  "chipFlood": "Cheia",
+  "chipAreas": "Áreas",
+  "chipRoutes": "Rotas",
+  "chipClinics": "Clínicas",
+  "chipMarkets": "Mercados",
+  "chipShelters": "Abrigos"
 }

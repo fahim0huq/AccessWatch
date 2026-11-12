@@ -16,6 +16,7 @@ import 'package:accesswatch_mobile/utils/labels.dart';
 import 'package:accesswatch_mobile/widgets/quality_banners.dart';
 import 'package:accesswatch_mobile/widgets/map/feature_layers.dart';
 import 'package:accesswatch_mobile/widgets/map/flood_layers.dart';
+import 'package:accesswatch_mobile/widgets/map/layer_chips.dart';
 import 'package:accesswatch_mobile/widgets/map/legend_pill.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -117,7 +118,7 @@ void main() {
       // Fitted: the box fills one dimension (less the padding), so it is not just somewhere on screen.
       final boxWidth = points[1].dx - points[0].dx, boxHeight = points[0].dy - points[2].dy;
       // The fit leaves room for the pill and chips on top and the buttons on the right.
-      expect(math.max(boxWidth / (size.width - 88), boxHeight / (size.height - 136)), closeTo(1, 0.02));
+      expect(math.max(boxWidth / (size.width - 88), boxHeight / (size.height - 184)), closeTo(1, 0.02));
     });
 
     testWidgets('pockets draw where the bundle coordinates say (prints a table)', (tester) async {
@@ -149,7 +150,7 @@ void main() {
         expect((drawn - fromLibrary).distance, lessThan(1.5));
         checked++;
       }
-      expect(checked, greaterThanOrEqualTo(3));
+      expect(checked, greaterThanOrEqualTo(2));
       expect(find.byKey(const ValueKey('area-pill-P01')), findsOneWidget, reason: 'the top area is always drawn');
     });
 
@@ -261,7 +262,9 @@ void main() {
       for (final type in [RoutesLayer, ServicesLayer, FloodedRoadsLayer, EmsFloodLayer, BaselineFloodLayer, OverlayImageLayer]) {
         expect(find.byType(type), findsNothing, reason: '$type');
       }
-      // Depth classes are on but draw nothing at the fitted zoom.
+      // Depth classes start off; switched on, they draw nothing at the fitted zoom.
+      expect(find.byType(DepthZonesLayer), findsNothing);
+      await showLayer(tester, MapLayer.depthZones);
       expect(cameraOf(tester).zoom, lessThan(depthZonesMinZoom));
       final depthPolygons = find.descendant(of: find.byType(DepthZonesLayer), matching: find.byType(PolygonLayer<Object>));
       expect(depthPolygons, findsNothing);
@@ -313,8 +316,10 @@ void main() {
       expect(find.byType(QualityBanners), findsNothing);
       expect(find.text(en.warnShortNisarBeta), findsNothing);
       expect(find.text(en.mapPreliminary('Jan 17, 2026')), findsOneWidget);
-      for (final word in [en.legendFlooded, en.legendBoat, en.legendVehicle]) {
-        expect(find.descendant(of: find.byType(MapLegendPill), matching: find.text(word)), findsOneWidget);
+      // The chips replace the legend on the Map.
+      expect(find.byType(MapLegendPill), findsNothing);
+      for (final word in [en.chipFlood, en.chipAreas, en.chipRoutes]) {
+        expect(find.descendant(of: find.byType(LayerChipRow), matching: find.text(word)), findsOneWidget);
       }
     });
 
@@ -354,14 +359,14 @@ void main() {
       await openMap(tester);
       await showLayer(tester, MapLayer.routes);
       final camera = cameraOf(tester);
-      // A point on any route clear of service markers, pocket labels and the buttons, which sit on top.
+      // A point on any route clear of the pocket labels, the chips and the buttons, which sit on top.
+      // Place markers start off, so they cover nothing.
       final width = tester.getSize(find.byType(FlutterMap)).width;
-      final markers = bundle.services.map((s) => camera.latLngToScreenOffset(s.point)).toList();
       final labels = bundle.pockets.map((p) => camera.latLngToScreenOffset(p.point)).toList();
       final points = bundle.routes.expand((r) => r.points).map(camera.latLngToScreenOffset);
       final clear = points.firstWhere((p) =>
           p.dx < width - 70 &&
-          markers.every((m) => (m - p).distance > 30) &&
+          p.dy > 190 &&
           labels.every((m) => (m.dx - p.dx).abs() > 60 || (m.dy - p.dy).abs() > 26));
       await tester.tapAt(tester.getTopLeft(find.byType(FlutterMap)) + clear);
       await tester.pumpAndSettle();

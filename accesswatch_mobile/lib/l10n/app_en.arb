@@ -536,5 +536,11 @@
   "watchingPill": "Watching: {event} · {date}",
   "@watchingPill": {"placeholders": {"event": {"type": "String"}, "date": {"type": "String"}}},
   "watchingPillHint": "Opens Watch an area",
-  "selectDone": "Done"
+  "selectDone": "Done",
+  "chipFlood": "Flood",
+  "chipAreas": "Areas",
+  "chipRoutes": "Routes",
+  "chipClinics": "Clinics",
+  "chipMarkets": "Markets",
+  "chipShelters": "Shelters"
 }

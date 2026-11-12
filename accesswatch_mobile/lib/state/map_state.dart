@@ -22,9 +22,8 @@ enum MapLayer {
   compare,
 }
 
-/// The default view: flood water and cut-off areas. Depth classes are on as
-/// well, but draw only when zoomed in ([depthZonesMinZoom]).
-final defaultMapLayers = {MapLayer.depthZones, MapLayer.flood, MapLayer.pockets};
+/// The default view: flood water and cut-off areas, everything else off.
+final defaultMapLayers = {MapLayer.flood, MapLayer.pockets};
 
 /// Below this zoom the depth classes would only be noise over the flood.
 const depthZonesMinZoom = 13.5;

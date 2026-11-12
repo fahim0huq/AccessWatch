@@ -1691,4 +1691,22 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get selectDone => 'Concluído';
+
+  @override
+  String get chipFlood => 'Cheia';
+
+  @override
+  String get chipAreas => 'Áreas';
+
+  @override
+  String get chipRoutes => 'Rotas';
+
+  @override
+  String get chipClinics => 'Clínicas';
+
+  @override
+  String get chipMarkets => 'Mercados';
+
+  @override
+  String get chipShelters => 'Abrigos';
 }

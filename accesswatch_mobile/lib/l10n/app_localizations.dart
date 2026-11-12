@@ -2723,6 +2723,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get selectDone;
+
+  /// No description provided for @chipFlood.
+  ///
+  /// In en, this message translates to:
+  /// **'Flood'**
+  String get chipFlood;
+
+  /// No description provided for @chipAreas.
+  ///
+  /// In en, this message translates to:
+  /// **'Areas'**
+  String get chipAreas;
+
+  /// No description provided for @chipRoutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Routes'**
+  String get chipRoutes;
+
+  /// No description provided for @chipClinics.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinics'**
+  String get chipClinics;
+
+  /// No description provided for @chipMarkets.
+  ///
+  /// In en, this message translates to:
+  /// **'Markets'**
+  String get chipMarkets;
+
+  /// No description provided for @chipShelters.
+  ///
+  /// In en, this message translates to:
+  /// **'Shelters'**
+  String get chipShelters;
 }
 
 class _AppLocalizationsDelegate

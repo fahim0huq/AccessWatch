@@ -17,6 +17,7 @@ import '../theme/app_theme.dart';
 import '../widgets/location_prompt.dart';
 import '../state/watch_state.dart';
 import '../widgets/map/area_select.dart';
+import '../widgets/map/care_route_layer.dart';
 import '../widgets/map/full_screen_map.dart';
 import '../widgets/map/map_layer_list.dart';
 import '../widgets/map/map_overlay.dart';
@@ -28,7 +29,7 @@ const _userAgentPackage = 'com.accesswatch.app';
 /// Room for the pill and chips above (they grow with the text size) and the
 /// buttons on the right, so nothing fitted sits under them.
 double _overlayHeight(BuildContext context) =>
-    64 + 56 * MediaQuery.textScalerOf(context).scale(1).clamp(1.0, mapOverlayMaxTextScale);
+    64 + 48 + 56 * MediaQuery.textScalerOf(context).scale(1).clamp(1.0, mapOverlayMaxTextScale);
 EdgeInsets _fitPadding(BuildContext context) => EdgeInsets.fromLTRB(16, _overlayHeight(context), 72, 16);
 EdgeInsets _focusPadding(BuildContext context) => EdgeInsets.fromLTRB(48, _overlayHeight(context), 80, 48);
 
@@ -225,32 +226,36 @@ class _MapScreenState extends ConsumerState<MapScreen> with ShowsLocation {
                         bottom: false,
                         child: full
                             ? FullScreenControls(onLocate: _locate, onFit: _fitFlood, onZoom: _zoom)
-                            : Stack(
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  const Positioned(
-                                    top: 8,
-                                    left: 12,
-                                    right: 72,
-                                    bottom: 24,
-                                    child: Align(
-                                      alignment: Alignment.topLeft,
-                                      child: SingleChildScrollView(child: MapTopLeft()),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 8,
-                                    right: 12,
-                                    bottom: 24,
-                                    child: Align(
-                                      alignment: Alignment.topRight,
-                                      child: SingleChildScrollView(
-                                        child: MapSideButtons(
-                                          onLocate: _locate,
-                                          onZoom: _zoom,
-                                          onFit: _fitFlood,
-                                          onFullScreen: () => setMapFullScreen(ref, true),
+                                  const SizedBox(height: 8),
+                                  const MapTopBar(),
+                                  Expanded(
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const Expanded(
+                                          child: Align(
+                                            alignment: Alignment.topLeft,
+                                            child: SingleChildScrollView(
+                                              padding: EdgeInsets.fromLTRB(12, 8, 8, 24),
+                                              child: CareRoutePanel(),
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 12, bottom: 24),
+                                          child: SingleChildScrollView(
+                                            child: MapSideButtons(
+                                              onLocate: _locate,
+                                              onZoom: _zoom,
+                                              onFit: _fitFlood,
+                                              onFullScreen: () => setMapFullScreen(ref, true),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
