@@ -965,7 +965,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alreadyHereShort => 'You\'re here';
 
   @override
-  String get tabHelpFirst => 'Help first';
+  String get tabHelpFirst => 'Who needs help';
 
   @override
   String get tabFindCare => 'Find care';

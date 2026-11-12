@@ -248,7 +248,7 @@
   "mapSemanticsLabel": "Mapa da inundação. As mesmas áreas estão listadas no separador Ajudar primeiro.",
   "alreadyAtClinic": "Já está em {clinic}: não precisa de rota.",
   "alreadyHereShort": "Está aqui",
-  "tabHelpFirst": "Ajudar primeiro",
+  "tabHelpFirst": "Quem precisa de ajuda",
   "tabFindCare": "Encontrar cuidados",
   "aboutThisData": "Sobre estes dados",
   "mapAreasCutOff": "{count, plural, =1{1 área isolada ou de difícil acesso} other{{count} áreas isoladas ou de difícil acesso}}",

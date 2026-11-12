@@ -63,7 +63,7 @@ void main() {
       expect(find.text(en.plainDepotAssumed), findsNothing, reason: 'Map');
       await tester.tap(find.text(en.tabHelpFirst).last);
       await tester.pumpAndSettle();
-      expect(find.text(en.plainDepotAssumed), findsNothing, reason: 'Help first');
+      expect(find.text(en.plainDepotAssumed), findsNothing, reason: 'Who needs help');
     });
 
     testWidgets('follows the flags: an auto-selected depot is said, a removed flag is not', (tester) async {

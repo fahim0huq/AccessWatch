@@ -2,7 +2,7 @@
 
 AccessWatch shows who the January 2026 flood in Gaza Province, Mozambique, cut off from
 clinics, markets and shelters, and how a team could reach them. It is made for volunteers and
-community helpers: one floating bar (Map, Help first, Watch, Find care, About), plain words, big
+community helpers: one floating bar (Map, Who needs help, Watch, Find care, About), plain words, big
 buttons, and every technical detail one tap deeper. Everything runs on the phone from a data bundle built from the analysis notebook, so it
 also works offline.
 
@@ -37,7 +37,7 @@ not wind, so this is about flooding from cyclones, never tracking the storm." Ta
 on the map", drag a box somewhere away from Chókwè: "No satellite data for this area yet", with a
 button to the event that has data. Draw one over the flood instead: "Watch this area".
 
-**1:20 Help first (40 s).** Tap Help first. "The areas in order, most urgent at the top, the first
+**1:20 Who needs help (40 s).** Tap Who needs help. "The areas in order, most urgent at the top, the first
 one in violet." Tap the "Vehicle (high-clearance) 4" pill: "These need a high-clearance vehicle,
 never an ordinary car." Tap All again, then "Share an alert for a team" and choose Boat teams:
 "One alert for all four boat areas, in rank order, with people, how to get in and how deep the

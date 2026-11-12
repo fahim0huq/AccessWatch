@@ -1593,7 +1593,7 @@ abstract class AppLocalizations {
   /// No description provided for @tabHelpFirst.
   ///
   /// In en, this message translates to:
-  /// **'Help first'**
+  /// **'Who needs help'**
   String get tabHelpFirst;
 
   /// No description provided for @tabFindCare.

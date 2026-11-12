@@ -72,6 +72,9 @@ void main() {
     expect(find.byType(NavigationBar), findsNothing);
     // Map is where the app opens.
     expect(find.text(en.seeWhoNeedsHelp), findsOneWidget);
+    // The second tab is named for who it lists.
+    expect(en.tabHelpFirst, 'Who needs help');
+    expect(pt.tabHelpFirst, 'Quem precisa de ajuda');
     // The circle and the About slot open their tabs.
     await tester.tap(find.byKey(const ValueKey('nav-watch-circle')));
     await tester.pumpAndSettle();

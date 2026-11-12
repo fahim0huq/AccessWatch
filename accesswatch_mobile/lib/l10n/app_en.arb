@@ -309,7 +309,7 @@
   "alreadyAtClinic": "You're already at {clinic}: no route needed.",
   "alreadyHereShort": "You're here",
   "@alreadyAtClinic": {"placeholders": {"clinic": {"type": "String"}}},
-  "tabHelpFirst": "Help first",
+  "tabHelpFirst": "Who needs help",
   "tabFindCare": "Find care",
   "aboutThisData": "About this data",
   "mapAreasCutOff": "{count, plural, =1{1 area cut off or hard to reach} other{{count} areas cut off or hard to reach}}",

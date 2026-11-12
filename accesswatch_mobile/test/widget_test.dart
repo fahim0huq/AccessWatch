@@ -25,7 +25,7 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('Help first lists every area, most urgent first', (tester) async {
+  testWidgets('Who needs help lists every area, most urgent first', (tester) async {
     await pumpApp(tester, bundle);
     await openTab(tester, en.tabHelpFirst);
     expect(find.text(en.helpTitle), findsOneWidget);
@@ -81,7 +81,7 @@ void main() {
 
   group('no overflow at 200% text', () {
     for (final locale in const [Locale('en'), Locale('pt')]) {
-      testWidgets('Help first, an area and About in ${locale.languageCode}', (tester) async {
+      testWidgets('Who needs help, an area and About in ${locale.languageCode}', (tester) async {
         final l = locale.languageCode == 'en' ? en : pt;
         await pumpApp(tester, bundle, locale: locale, textScale: 2.0);
         await openTab(tester, l.tabHelpFirst);
