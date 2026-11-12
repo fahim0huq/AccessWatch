@@ -139,36 +139,49 @@ class _Slot extends StatelessWidget {
   }
 }
 
-/// The slot's word on up to two lines, never broken inside a word: when the
-/// longest word is wider than the slot, the text is scaled down to fit it.
+/// The slot's words on up to two lines, never broken inside a word: when they
+/// do not fit (a word wider than the slot, or more than two lines), the text is
+/// scaled down step by step until they do.
 class _FitWords extends StatelessWidget {
   final String word;
   final TextStyle style;
 
   const _FitWords({required this.word, required this.style});
 
+  bool _fits(BuildContext context, double scale, double width) {
+    final dir = Directionality.of(context);
+    // Measured with the same style the Text will use.
+    final style = DefaultTextStyle.of(context).style.merge(this.style);
+    final scaler = TextScaler.linear(scale);
+    for (final w in word.split(' ')) {
+      final p = TextPainter(
+        text: TextSpan(text: w, style: style),
+        textDirection: dir,
+        textScaler: scaler,
+      )..layout();
+      final wide = p.width > width;
+      p.dispose();
+      if (wide) return false;
+    }
+    final all = TextPainter(
+      text: TextSpan(text: word, style: style),
+      textDirection: dir,
+      textScaler: scaler,
+      maxLines: 2,
+    )..layout(maxWidth: width);
+    final over = all.didExceedMaxLines;
+    all.dispose();
+    return !over;
+  }
+
   @override
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, box) {
-      final scaler = MediaQuery.textScalerOf(context);
-      double widest = 0;
-      for (final w in word.split(' ')) {
-        final p = TextPainter(
-          text: TextSpan(text: w, style: style),
-          textDirection: Directionality.of(context),
-          textScaler: scaler,
-        )..layout();
-        if (p.width > widest) widest = p.width;
-        p.dispose();
+      var scale = MediaQuery.textScalerOf(context).scale(1);
+      while (scale > 0.6 && !_fits(context, scale, box.maxWidth)) {
+        scale -= 0.05;
       }
-      final fit = widest > box.maxWidth ? box.maxWidth / widest : 1.0;
-      return Text(
-        word,
-        style: style,
-        textAlign: TextAlign.center,
-        maxLines: 2,
-        textScaler: TextScaler.linear(scaler.scale(1) * fit * 0.98),
-      );
+      return Text(word, style: style, textAlign: TextAlign.center, maxLines: 2, textScaler: TextScaler.linear(scale));
     },
   );
 }

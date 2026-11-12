@@ -14,7 +14,9 @@ changes with it and these figures should be re-read from the screens.
 
 - Install the APK (`accesswatch_mobile/build/app/outputs/flutter-apk/app-release.apk`), or run
   `flutter run -d chrome` from `accesswatch_mobile/`.
-- Tap "I understand" on the first screen once, so the demo opens straight on the Map.
+- Tap "I understand" on the first screen once. A five-step tour follows (the summary card, the
+  layer chips, Who needs help, the Watching pill, Find care); walk through it or tap Skip. It is
+  shown only once; About > "Take the tour again" replays it, which is a good opening on stage.
 - A network connection is needed only for the map background. Everything else works offline.
 - Find care has a "Try a sample spot in Chókwè" button that works in every build, so you do not
   need GPS on stage. It always says "Sample location, not your position".
@@ -23,11 +25,14 @@ changes with it and these figures should be re-read from the screens.
 
 **0:00 Map (40 s).** "This is the January 2026 flood around Chókwè, seen by NISAR radar. Blue is
 the flood. Orange areas need a boat; teal areas a high-clearance vehicle can reach." Point at the
-pill on top, "Watching: Chókwè and Guija, Mozambique", and at the card: "8 areas cut off or hard to
-reach, about 13,100 people near Chókwè and Guija." Tap the full-screen button (top right): the bar
-and the card go away, only the map and its buttons stay. Tap Layers, turn off "Flood water" to
-show the roads underneath, turn it back on. Tap the area 1 pill: a small card with its name,
-people and "Needs a boat". Tap the exit button (top left) to leave full screen.
+pill on top, "Watching: Chókwè and Guija, Mozambique · January 2026", and at the card: "8 areas cut
+off or hard to reach, about 13,100 people near Chókwè and Guija." Point at the chip row: "Flood and
+Areas are on; tap a chip to add routes, clinics, markets or shelters." Tap Routes, then Clinics.
+Tap the round Layers button: a half-height sheet of big tiles over the map, with the more
+technical layers (water depth, flooded roads, all roads, the EMS comparison, the physics-only map)
+and a Reset. Close it. Tap the full-screen button (top right): the pill, the card and the bar go
+away; zoom, Fit to the flood area and the scale bar appear. Tap the area 1 pill: a small card with
+its name, people and "Needs a boat". Tap the exit button (top left): same view, same layers.
 
 **0:40 Watch an area (40 s).** Tap the round Watch button in the middle of the bar. "Here you pick
 what to follow." Say plainly: "Right now only one event has satellite data: the January 2026

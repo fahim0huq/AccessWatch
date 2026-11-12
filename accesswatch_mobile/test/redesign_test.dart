@@ -30,11 +30,13 @@ import 'support/app_harness.dart';
 
 /// The field alert for the top area: exactly as the app built it before the
 /// redesign, plus the water depth line (round 2).
-const _alertEn = 'ACCESSWATCH #1 P01, West of Guija: about 12,853 people (estimate). '
+const _alertEn =
+    'ACCESSWATCH #1 P01, West of Guija: about 12,853 people (estimate). '
     'Needs: BOAT (0.56 km by water). Route 5.62 km, risk HIGH, confidence LOW. '
     'Along the safest route, water about 0.7 m deep on average, up to 1.6 m (estimate). Data from Jan 17, 2026. '
     'Route starts at an assumed, unconfirmed depot location, so it is illustrative. VERIFY ON THE GROUND.';
-const _alertPt = 'ACCESSWATCH #1 P01, A oeste de Guija: cerca de 12.853 pessoas (estimativa). '
+const _alertPt =
+    'ACCESSWATCH #1 P01, A oeste de Guija: cerca de 12.853 pessoas (estimativa). '
     'Precisa de: BARCO (0,56 km por água). Rota de 5,62 km, risco ALTO, confiança BAIXA. '
     'Ao longo da rota mais segura, água com cerca de 0,7 m de profundidade em média, até 1,6 m (estimativa). Dados de 17 de jan. de 2026. '
     'A rota parte de uma localização de depósito presumida e não confirmada, por isso é ilustrativa. VERIFIQUE NO TERRENO.';
@@ -65,7 +67,11 @@ void main() {
       ('nav-care', en.tabFindCare),
       ('nav-about', en.tabAbout),
     ]) {
-      expect(find.descendant(of: find.byKey(ValueKey(key)), matching: find.text(word)), findsOneWidget, reason: key);
+      expect(
+        find.descendant(of: find.byKey(ValueKey(key)), matching: find.text(word)),
+        findsOneWidget,
+        reason: key,
+      );
       expect(tester.getSize(find.byKey(ValueKey(key))).height, greaterThanOrEqualTo(48));
     }
     expect(find.byKey(const ValueKey('nav-watch-circle')), findsOneWidget);
@@ -107,9 +113,12 @@ void main() {
     for (final (locale, l, expected) in [(const Locale('en'), en, _alertEn), (const Locale('pt'), pt, _alertPt)]) {
       testWidgets('the area page shows and shares that same text (${locale.languageCode})', (tester) async {
         final sent = <String>[];
-        await pumpApp(tester, bundle, locale: locale, overrides: [
-          alertSharerProvider.overrideWithValue((text) async => sent.add(text)),
-        ]);
+        await pumpApp(
+          tester,
+          bundle,
+          locale: locale,
+          overrides: [alertSharerProvider.overrideWithValue((text) async => sent.add(text))],
+        );
         await tab(tester, l.tabHelpFirst);
         await tester.tap(find.byType(AreaCard).first);
         await tester.pumpAndSettle();
@@ -133,7 +142,9 @@ void main() {
         void ok(String where) => expect(tester.takeException(), isNull, reason: '${locale.languageCode} $where');
         ok('map');
         // At 200% the legend chips can sit over this pill, so use the layer's own tap.
-        tester.widget<PocketLabelsLayer>(find.byType(PocketLabelsLayer)).onTap(bundle.pockets.firstWhere((p) => p.id == 'P01'));
+        tester
+            .widget<PocketLabelsLayer>(find.byType(PocketLabelsLayer))
+            .onTap(bundle.pockets.firstWhere((p) => p.id == 'P01'));
         await tester.pumpAndSettle();
         ok('map area sheet');
         await tester.tap(find.text(l.openArea));
@@ -185,7 +196,14 @@ void main() {
 
     test('a few long pieces keep their time; many short ones do not', () {
       GraphRoute route(int pieces, double minutes) => GraphRoute(
-          nodes: List.generate(pieces + 1, (i) => i), lengthM: 1000, timeMin: minutes, riskCost: 0, shallowM: 0, mediumM: 0, uncertainBridges: 0);
+        nodes: List.generate(pieces + 1, (i) => i),
+        lengthM: 1000,
+        timeMin: minutes,
+        riskCost: 0,
+        shallowM: 0,
+        mediumM: 0,
+        uncertainBridges: 0,
+      );
       expect(timeIsTrustworthy(route(4, 6)), isTrue);
       expect(timeIsTrustworthy(route(130, 3.3)), isFalse);
       expect(timeIsTrustworthy(route(3, 0)), isFalse);
@@ -210,11 +228,13 @@ void main() {
       final card = Map<String, dynamic>.from((doc['cards'] as List).first as Map)..['mean_depth_m'] = null;
       final m = Mission.fromJson(card);
       expect(en.alertDepthLine(m, const Fmt('en')), en.alertDepthUnknownLine);
-      await tester.pumpWidget(MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(body: WaterDepthCard(mission: m)),
-      ));
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Scaffold(body: WaterDepthCard(mission: m)),
+        ),
+      );
       await tester.pumpAndSettle();
       expect(find.text(en.waterDepthUnknown), findsOneWidget);
     });
